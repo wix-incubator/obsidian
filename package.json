@@ -1,0 +1,48 @@
+{
+  "name": "react-obsidian",
+  "version": "0.0.1",
+  "description": "Dependency injection framework for React and React Native applications",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "hoist-non-react-statics": "3.x.x",
+    "reflect-metadata": "~0.1.13",
+    "react": "17.0.2"
+  },
+  "devDependencies": {
+    "@types/hoist-non-react-statics": "^3.3.1",
+    "@types/react": "^17.0.34",
+    "@typescript-eslint/eslint-plugin": "^5.3.0",
+    "@typescript-eslint/parser": "^5.3.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.26.1",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "typescript": "^4.4.4"
+  },
+  "scripts": {
+    "lint": "npx eslint",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wix-private/react-obsidian.git"
+  },
+  "keywords": [
+    "react",
+    "react-native",
+    "dependency-injection",
+    "typescript",
+    "ioc"
+  ],
+  "author": "Guy Carmeli",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wix-private/react-obsidian/issues"
+  },
+  "homepage": "https://github.com/wix-private/react-obsidian#readme"
+}

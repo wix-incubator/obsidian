@@ -1,0 +1,46 @@
+{
+    "env": {
+        "es2021": true
+    },
+    "extends": [
+        "airbnb",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:import/typescript"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 2021,
+        "sourceType": "module",
+        "ecmaFeatures": {
+          "jsx": true
+      }
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint"
+    ],
+    "rules": {
+      "max-len": ["error", {"code": 115}],
+      "lines-between-class-members": ["error", "always", {"exceptAfterSingleLine": true}],
+      "import/extensions": "off",
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "no-useless-constructor": "off",
+      "@typescript-eslint/member-delimiter-style": "error",
+      "import/no-unresolved": "off",
+      "class-methods-use-this": "off",
+      "react/jsx-filename-extension": ["error", {"extensions": [".js", ".ts", ".jsx", ".tsx"]}],
+      "react/jsx-props-no-spreading": "off",
+      "no-use-before-define": "off",
+      "@typescript-eslint/no-use-before-define": ["off"],
+      "no-restricted-syntax": "off",
+      "@typescript-eslint/ban-types": ["off"]
+    },
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "extensions": [".js", ".jsx", ".ts", ".tsx"]
+        }
+      }
+    }
+}
