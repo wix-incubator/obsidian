@@ -6,6 +6,12 @@
 /**
  * TODO: document
  */
-export function reactObsidian() {
-    // TODO: implement
-}
+import _Graph from './obsidian/Graph';
+import _injectHook from './obsidian/injectHook';
+import _obsidian from './obsidian/Obsidian';
+
+export const Graph = _Graph;
+export const injectHook = _injectHook;
+export const Obsidian = new _obsidian();
+
+// export const Obsidian =
