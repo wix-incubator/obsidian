@@ -1,15 +1,19 @@
+/* eslint-disable no-console */
+/* eslint-disable max-classes-per-file */
 import React from 'react';
 import TestRenderer from 'react-test-renderer';
-import * as obsidian from './index';
+import {
+  Graph, injectComponent, injectHook, ObjectGraph, Obsidian, Provides,
+} from '.';
 
 describe('Sanity', () => {
   it('Exports the API', () => {
-    expect(obsidian.Graph).toBeDefined();
-    expect(obsidian.ObjectGraph).toBeDefined();
-    expect(obsidian.injectHook).toBeDefined();
-    expect(obsidian.injectComponent).toBeDefined();
-    expect(obsidian.Provides).toBeDefined();
-    expect(obsidian.Obsidian.obtain).toBeDefined();
+    expect(Graph).toBeDefined();
+    expect(ObjectGraph).toBeDefined();
+    expect(injectHook).toBeDefined();
+    expect(injectComponent).toBeDefined();
+    expect(Provides).toBeDefined();
+    expect(Obsidian.obtain).toBeDefined();
   });
 
   it('Injects to component', () => {
@@ -23,14 +27,14 @@ describe('Sanity', () => {
       pageProvider: PageProvider;
     }
 
-    @obsidian.Graph()
-    class LinkGraph extends obsidian.ObjectGraph<LinkProps> {
+    @Graph()
+    class LinkGraph extends ObjectGraph<LinkProps> {
       constructor(props: LinkProps) {
         super();
         console.log(`Created LinkGraph with ${props}`);
       }
 
-      @obsidian.Provides()
+      @Provides()
       get pageProvider(): PageProvider {
         return new PageProvider();
       }
@@ -40,10 +44,8 @@ describe('Sanity', () => {
       return <a href={pageProvider.page}>Click Me</a>;
     }
 
-    obsidian.injectComponent(Link, LinkGraph);
+    const Wrapped = injectComponent(Link, LinkGraph);
 
-    const testRenderer = TestRenderer.create(
-      <Link/>
-    );
+    const testRenderer = TestRenderer.create(Wrapped);
   });
 });
