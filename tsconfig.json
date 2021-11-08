@@ -11,6 +11,8 @@
     "target": "esnext",
     "module": "esnext",
     "lib": [
+      "ES6",
+      "DOM",
       "esnext"
     ],
     "moduleResolution": "node",

@@ -20,6 +20,7 @@
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/jest": "26.x.x",
     "@types/react": "^17.0.34",
+    "@types/react-test-renderer": "17.0.1",
     "@typescript-eslint/eslint-plugin": "^5.3.0",
     "@typescript-eslint/parser": "^5.3.0",
     "eslint": "^7.32.0",
