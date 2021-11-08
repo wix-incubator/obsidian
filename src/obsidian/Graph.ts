@@ -12,7 +12,7 @@ export default function Graph({
   scope,
   subgraphs = [],
 }: Partial<GraphParams> = {}) {
-  return (constructor: Constructable<ObjectGraph>) => {
+  return <T extends ObjectGraph>(constructor: Constructable<T>) => {
     Reflect.defineMetadata('scope', scope, constructor);
     graphRegistry.register(constructor, scope, subgraphs);
     return constructor;
