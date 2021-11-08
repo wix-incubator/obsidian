@@ -1,10 +1,10 @@
 /* eslint-disable no-console */
 /* eslint-disable max-classes-per-file */
 import React from 'react';
-import TestRenderer from 'react-test-renderer';
+import {create, act} from 'react-test-renderer';
 import {
   Graph, injectComponent, injectHook, ObjectGraph, Obsidian, Provides,
-} from '.';
+} from './index';
 
 describe('Sanity', () => {
   it('Exports the API', () => {
@@ -46,6 +46,10 @@ describe('Sanity', () => {
 
     const Wrapped = injectComponent(Link, LinkGraph);
 
-    const testRenderer = TestRenderer.create(Wrapped);
+    let testRenderer;
+    act(() => {
+      testRenderer = create(<Wrapped />);
+      console.log(testRenderer.toJSON());
+    });
   });
 });
