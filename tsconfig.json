@@ -30,7 +30,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "experimentalDecorators": true,
-    "types": ["reflect-metadata"],
+    "types": ["reflect-metadata", "jest"],
     "emitDecoratorMetadata": true,
     "baseUrl": "./",
     "paths": {
