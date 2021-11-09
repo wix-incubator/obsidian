@@ -151,7 +151,7 @@ describe('Sanity', () => {
 
     @Injectable(TestGraph)
     class TestClass extends Component {
-      @Inject private myProp: string | undefined;
+      @Inject private myProp!: string;
 
       override render() {
         return (
