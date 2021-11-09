@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 /* eslint-disable max-classes-per-file */
-import React, { useState, useEffect } from 'react';
+import React, { Component, Fragment, useState, useEffect } from 'react';
 import { create, act } from 'react-test-renderer';
 import {
-  Graph, injectComponent, injectHook, ObjectGraph, Obsidian, Provides,
+  Graph, injectComponent, injectHook, Injectable, Inject, ObjectGraph, Obsidian, Provides,
 } from './index';
 
 describe('Sanity', () => {
@@ -13,6 +13,8 @@ describe('Sanity', () => {
     expect(injectHook).toBeDefined();
     expect(injectComponent).toBeDefined();
     expect(Provides).toBeDefined();
+    expect(Injectable).toBeDefined();
+    expect(Inject).toBeDefined();
     expect(Obsidian.obtain).toBeDefined();
   });
 
@@ -124,5 +126,35 @@ describe('Sanity', () => {
 
     ChatAPI.notifyFriendStatus(mockFriendId, false);
     expect(testRenderer.root.findByType(FriendStatus).children[0]).toEqual('mock_friend_id Offline');
+  });
+
+  it('Injects to class', () => {
+    const mockTestPropValue = 'mock-test-prop';
+
+    interface TestProps {
+      myProp: string;
+    }
+
+    @Graph()
+    class TestGraph extends ObjectGraph<TestProps> {
+      @Provides()
+      get myProp(): string {
+        return mockTestPropValue;
+      }
+    }
+
+    @Injectable(TestGraph)
+    class TestClass extends Component {
+      @Inject private myProp: string;
+
+      override render() {
+        return (
+          <Fragment>{this.myProp}</Fragment>
+        );
+      }
+    }
+
+    const testRenderer = create(<TestClass />);
+    expect(testRenderer.toJSON()).toEqual(mockTestPropValue);
   });
 });
