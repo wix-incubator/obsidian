@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable max-classes-per-file */
-import React, { Component, Fragment, useState, useEffect } from 'react';
-import { create, act } from 'react-test-renderer';
+import React, { Component, useState, useEffect } from 'react';
+import { create, act, ReactTestRenderer } from 'react-test-renderer';
 import {
   Graph, injectComponent, injectHook, Injectable, Inject, ObjectGraph, Obsidian, Provides,
 } from './index';
@@ -76,11 +76,11 @@ describe('Sanity', () => {
         ChatAPI.subscribers.set(friendId, statusChangeHandler);
       }
 
-      static unsubscribeFromFriendStatus(friendId: string, statusChangeHandler: Function) {
+      static unsubscribeFromFriendStatus(friendId: string) {
         ChatAPI.subscribers.delete(friendId);
       }
 
-      static notifyFriendStatus(friendId, status) {
+      static notifyFriendStatus(friendId: string, status: boolean) {
         const handler = ChatAPI.subscribers.get(friendId);
         if (handler) {
           handler({ isOnline: status });
@@ -116,7 +116,7 @@ describe('Sanity', () => {
       return isOnline ? `${friendId} Online` : `${friendId} Offline`;
     }
 
-    let testRenderer;
+    let testRenderer!: ReactTestRenderer;
     act(() => {
       testRenderer = create(<FriendStatus />);
     });
@@ -145,11 +145,11 @@ describe('Sanity', () => {
 
     @Injectable(TestGraph)
     class TestClass extends Component {
-      @Inject private myProp: string;
+      @Inject private myProp!: string;
 
       override render() {
         return (
-          <Fragment>{this.myProp}</Fragment>
+          <>{this.myProp}</>
         );
       }
     }
