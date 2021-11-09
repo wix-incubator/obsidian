@@ -5,8 +5,8 @@ export default class PropertyRetriever {
   constructor(private target: IObjectGraph) { }
 
   retrieve(property: string, receiver?: unknown): unknown | undefined {
-    if (property in this) {
-      return Reflect.get(this, property, receiver);
+    if (property in this.target) {
+      return Reflect.get(this.target, property, receiver);
     }
     const results = this.getFromSubgraphs(property, receiver);
     if (results.length === 1) return results[0];

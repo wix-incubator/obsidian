@@ -6,9 +6,9 @@ class ReferenceCounter {
     this.references.set(object, count + 1);
   }
 
-  release<T extends object>(object: T, onReleased: (object: T) => void) {
+  release<T extends object>(object: T, onReleased: (_object: T) => void) {
     const count = this.references.get(object)!;
-    if (count == 1) {
+    if (count === 1) {
       onReleased(object);
       this.references.delete(object);
     } else {
