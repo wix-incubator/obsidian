@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { Scope } from '@Obsidian';
+import scopedValuesRegistry from './ScopedValuesRegistry';
 import providedPropertiesStore from './ProvidedPropertiesStore';
 
 function Provides(scope?: Scope) {
