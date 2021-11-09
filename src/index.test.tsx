@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable max-classes-per-file */
 import React from 'react';
-import {create, act} from 'react-test-renderer';
+import { create } from 'react-test-renderer';
 import {
   Graph, injectComponent, injectHook, ObjectGraph, Obsidian, Provides,
 } from './index';
@@ -17,9 +17,11 @@ describe('Sanity', () => {
   });
 
   it('Injects to component', () => {
+    const mockLink = 'https://link-to-a-mock-page';
+
     class PageProvider {
       get page(): string {
-        return 'https://link-to-a-mock-page';
+        return mockLink;
       }
     }
 
@@ -29,11 +31,6 @@ describe('Sanity', () => {
 
     @Graph()
     class LinkGraph extends ObjectGraph<LinkProps> {
-      constructor(props: LinkProps) {
-        super();
-        console.log(`Created LinkGraph with ${props}`);
-      }
-
       @Provides()
       get pageProvider(): PageProvider {
         return new PageProvider();
@@ -45,11 +42,8 @@ describe('Sanity', () => {
     }
 
     const Wrapped = injectComponent(Link, LinkGraph);
-
-    let testRenderer;
-    act(() => {
-      testRenderer = create(<Wrapped />);
-      console.log(testRenderer.toJSON());
-    });
+    const testInstance = create(<Wrapped />).root;
+    const { pageProvider } = testInstance.findByType(Link).props;
+    expect(pageProvider.page).toEqual(mockLink);
   });
 });

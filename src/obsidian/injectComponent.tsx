@@ -6,6 +6,7 @@ import graphRegistry from './GraphRegistry';
 import graphResolver from './GraphResolver';
 import ObjectGraph from './ObjectGraph';
 import referenceCounter from './ReferenceCounter';
+import providedPropertiesStore from './ProvidedPropertiesStore';
 
 export default function injectComponent<P>(Target: React.ComponentType<P>, Graph: Constructable<ObjectGraph>) {
   const Wrapped: React.FunctionComponent<Partial<P>> = (args: Partial<P>) => {
@@ -15,8 +16,15 @@ export default function injectComponent<P>(Target: React.ComponentType<P>, Graph
       return () => referenceCounter.release(graph, graphRegistry.clear);
     }, [graph]);
 
-    const injectedProps = (new Proxy(args ?? {}, new Injector(graph)));
-    return <Target {...injectedProps} />;
+    const handler = new Injector(graph);
+    const injectedProps = new Proxy(args ?? {}, handler);
+
+    const props = {};
+    const graphPropertyKeys = providedPropertiesStore.get(graph.constructor.name);
+    graphPropertyKeys.forEach((propKey) => {
+      props[propKey] = injectedProps[propKey];
+    });
+    return React.createElement(Target, props, null);
   };
   hoistNonReactStatics(Wrapped, Target);
   return Wrapped;
