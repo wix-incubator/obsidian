@@ -7,7 +7,7 @@ function Provides(scope?: Scope) {
   return function provide(_clazz: any, propertyKey: string, descriptor: PropertyDescriptor) {
     const originalGet = descriptor.get!;
 
-    providedPropertiesStore.set(_clazz.constructor.name, propertyKey);
+    providedPropertiesStore.set(_clazz, propertyKey);
 
     descriptor.get = function get() {
       if (descriptor.value) return descriptor.value;

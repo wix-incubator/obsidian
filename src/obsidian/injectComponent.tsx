@@ -19,12 +19,10 @@ export default function injectComponent<P>(Target: React.ComponentType<P>, Graph
     const handler = new Injector(graph);
     const injectedProps = new Proxy(args ?? {}, handler);
 
-    const props = {};
-    const graphPropertyKeys = providedPropertiesStore.get(graph.constructor.name);
-    graphPropertyKeys.forEach((propKey) => {
-      props[propKey] = injectedProps[propKey];
-    });
-    return React.createElement(Target, props, null);
+    const props: object = {};
+    const graphPropertyKeys = providedPropertiesStore.get(graph);
+    graphPropertyKeys.forEach((propKey: string) => Reflect.set(props, propKey, injectedProps[propKey]));
+    return <Target {...props as unknown as P} />;
   };
   hoistNonReactStatics(Wrapped, Target);
   return Wrapped;

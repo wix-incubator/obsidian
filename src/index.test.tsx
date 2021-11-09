@@ -1,6 +1,8 @@
 /* eslint-disable no-console */
 /* eslint-disable max-classes-per-file */
-import React, { Component, useState, useEffect } from 'react';
+import React, {
+  Component, useState, useEffect, ReactElement,
+} from 'react';
 import { create, act, ReactTestRenderer } from 'react-test-renderer';
 import {
   Graph, injectComponent, injectHook, Injectable, Inject, ObjectGraph, Obsidian, Provides,
@@ -56,6 +58,10 @@ describe('Sanity', () => {
       friend: Friend;
     }
 
+    interface Status {
+      isOnline: boolean;
+    }
+
     class Friend {
       get id() {
         return mockFriendId;
@@ -88,17 +94,17 @@ describe('Sanity', () => {
       }
     }
 
-    function useFriendStatus({ friend }) {
-      const [isOnline, setIsOnline] = useState(null);
+    function useFriendStatus({ friend }: FriendProps) {
+      const [isOnline, setIsOnline] = useState<boolean>();
 
-      function handleStatusChange(status) {
+      function handleStatusChange(status: Status) {
         setIsOnline(status.isOnline);
       }
 
       useEffect(() => {
         ChatAPI.subscribeToFriendStatus(friend.id, handleStatusChange);
         return () => {
-          ChatAPI.unsubscribeFromFriendStatus(friend.id, handleStatusChange);
+          ChatAPI.unsubscribeFromFriendStatus(friend.id);
         };
       });
 
@@ -107,13 +113,13 @@ describe('Sanity', () => {
 
     const injectedUseFriendStatus = injectHook(useFriendStatus, FriendGraph);
 
-    function FriendStatus() {
+    function FriendStatus(): ReactElement {
       const { isOnline, friendId } = injectedUseFriendStatus();
 
       if (isOnline === null) {
-        return 'Loading...';
+        return <>Loading...</>;
       }
-      return isOnline ? `${friendId} Online` : `${friendId} Offline`;
+      return <>{isOnline ? `${friendId} Online` : `${friendId} Offline`}</>;
     }
 
     let testRenderer!: ReactTestRenderer;
@@ -145,7 +151,7 @@ describe('Sanity', () => {
 
     @Injectable(TestGraph)
     class TestClass extends Component {
-      @Inject private myProp!: string;
+      @Inject private myProp: string | undefined;
 
       override render() {
         return (
