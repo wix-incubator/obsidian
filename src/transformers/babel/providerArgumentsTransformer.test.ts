@@ -3,9 +3,7 @@ import * as babel from '@babel/core';
 import providerArgumentsTransformer from './providerArgumentsTransformer';
 
 const code = `class MainGraph {
-  Provides(clazz, propertyKey, descriptor) {
-
-  }
+  Provides(clazz, propertyKey, descriptor) { }
 
   @Provides()
   someString(stringProvider) {
@@ -17,9 +15,13 @@ describe('Provider Arguments Transformer', () => {
   const uut: PluginObj = providerArgumentsTransformer();
 
   it('Exposes transformer', () => {
-    const output = babel.transformSync(code, {
+    const result = babel.transformSync(code, {
       presets: [
-        ['@babel/preset-env'],
+        [
+          '@babel/preset-env', {
+            targets: { node: 'current' },
+          },
+        ],
       ],
       plugins: [
         ['@babel/plugin-proposal-decorators', { legacy: true }],
@@ -28,6 +30,6 @@ describe('Provider Arguments Transformer', () => {
       ],
       configFile: false,
     });
-    console.log(output);
+    console.log(result?.code);
   });
 });
