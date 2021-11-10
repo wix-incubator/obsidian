@@ -1,4 +1,4 @@
-# react-obsidian
+# react-native-obsidian
 [![License][]](https://opensource.org/licenses/ISC)
 [![Build Status]](https://github.com/wix-private/react-obsidian/actions/workflows/ci.yml)
 [![NPM Package]](https://npmjs.org/package/react-obsidian)
