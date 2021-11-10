@@ -21,7 +21,9 @@ export default function injectComponent<P>(Target: React.ComponentType<P>, Graph
 
     const props: object = {};
     const graphPropertyKeys = providedPropertiesStore.get(graph);
-    graphPropertyKeys.forEach((propKey: string) => Reflect.set(props, propKey, injectedProps[propKey]));
+    graphPropertyKeys.forEach(
+      (propKey: string) => Reflect.set(props, propKey, (injectedProps[propKey] as Function)()),
+    );
     return <Target {...props as unknown as P} />;
   };
   hoistNonReactStatics(Wrapped, Target);
