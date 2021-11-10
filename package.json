@@ -2,14 +2,16 @@
   "name": "react-obsidian",
   "version": "0.0.1",
   "description": "Dependency injection framework for React and React Native applications",
-  "main": "index.js",
+  "main": "src/index.ts",
   "directories": {
     "test": "test"
   },
   "dependencies": {
     "hoist-non-react-statics": "3.x.x",
-    "reflect-metadata": "~0.1.13",
-    "react": "17.0.2"
+    "reflect-metadata": "~0.1.13"
+  },
+  "peerDependencies": {
+    "react": "*"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "7.16.0",
@@ -32,7 +34,8 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "jest": "26.x.x",
     "react-test-renderer": "17.0.2",
-    "typescript": "^4.4.4"
+    "typescript": "^4.4.4",
+    "react": "17.0.2"
   },
   "scripts": {
     "lint": "npx eslint",
