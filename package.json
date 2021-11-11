@@ -7,18 +7,19 @@
     "test": "test"
   },
   "dependencies": {
-    "@babel/types": "^7.16.0",
     "hoist-non-react-statics": "3.x.x",
     "react": "17.0.2",
     "reflect-metadata": "~0.1.13"
   },
   "devDependencies": {
-    "@babel/core": "7.16.0",
-    "@babel/plugin-proposal-class-properties": "7.16.0",
-    "@babel/plugin-proposal-decorators": "7.16.0",
-    "@babel/preset-env": "^7.16.0",
-    "@babel/preset-react": "7.16.0",
-    "@babel/preset-typescript": "7.16.0",
+    "@babel/types": "7.16.x",
+    "@babel/core": "7.16.x",
+    "@babel/generator": "7.16.x",
+    "@babel/plugin-proposal-class-properties": "7.16.x",
+    "@babel/plugin-proposal-decorators": "7.16.x",
+    "@babel/preset-env": "7.16.x",
+    "@babel/preset-react": "7.16.x",
+    "@babel/preset-typescript": "7.16.x",
     "@johanblumenberg/ts-mockito": "1.x.x",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/jest": "26.x.x",

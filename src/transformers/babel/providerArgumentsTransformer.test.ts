@@ -12,21 +12,13 @@ const code = `class MainGraph {
 }`;
 
 describe('Provider Arguments Transformer', () => {
-  const uut: PluginObj = providerArgumentsTransformer();
+  const uut: PluginObj = providerArgumentsTransformer;
 
   it('Exposes transformer', () => {
     const result = babel.transformSync(code, {
-      presets: [
-        [
-          '@babel/preset-env', {
-            targets: { node: 'current' },
-          },
-        ],
-      ],
       plugins: [
         ['@babel/plugin-proposal-decorators', { legacy: true }],
-        ['@babel/plugin-proposal-class-properties', { legacy: true }],
-        [uut, { legacy: true }],
+        uut,
       ],
       configFile: false,
     });

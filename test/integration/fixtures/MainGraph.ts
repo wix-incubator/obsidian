@@ -9,5 +9,3 @@ export default class MainGraph extends ObjectGraph {
     return stringProvider.theString;
   }
 }
-
-// @Reflect.metadata('metadataKey', 'stringProvider')

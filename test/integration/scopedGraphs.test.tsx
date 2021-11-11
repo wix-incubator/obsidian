@@ -25,6 +25,6 @@ describe('Scoped graphs', () => {
     act(() => {
       testRenderer = create(<InjectedComponent />);
     });
-    expect(testRenderer.root.findByType(InjectedComponent).children[0]).toEqual(SOME_STRING);
+    expect(testRenderer.toJSON()).toEqual(SOME_STRING);
   });
 });

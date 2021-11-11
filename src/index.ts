@@ -1,11 +1,3 @@
-/**
- * react-obsidian
- * Dependency injection for React and React Native
- */
-
-/**
- * TODO: document
- */
 import _Graph from './obsidian/Graph';
 import _ObjectGraph from './obsidian/ObjectGraph';
 import _injectHook from './obsidian/injectHook';
