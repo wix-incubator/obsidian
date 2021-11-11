@@ -10,7 +10,7 @@ export default abstract class ObjectGraph<T = unknown> implements IObjectGraph {
   // eslint-disable-next-line no-useless-constructor, no-unused-vars, no-empty-function
   constructor(protected props?: T) {}
 
-  get(property: string, receiver?: unknown): unknown | undefined {
-    return this.propertyRetriever.retrieve(property, receiver);
+  get<Dependency>(property: string, receiver?: unknown): Dependency | undefined {
+    return this.propertyRetriever.retrieve(property, receiver) as Dependency | undefined;
   }
 }

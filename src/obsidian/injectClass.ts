@@ -1,5 +1,5 @@
 import { Constructable } from '@Obsidian';
-import graphResolver from './GraphResolver';
+import graphRegistry from './GraphRegistry';
 import ObjectGraph from './ObjectGraph';
 
 const injectionMetadataKey = 'injectionMetadata';
@@ -11,7 +11,7 @@ export function Injectable<T extends {new(...args: any[]): any}>(Graph: Construc
         const keysToInject: string[] = Reflect.getMetadata(injectionMetadataKey, target) ?? [];
 
         const createdObject = Reflect.construct(target, args, newTarget);
-        const graph = graphResolver.resolve(Graph);
+        const graph = graphRegistry.resolve(Graph);
         for (const key of keysToInject) {
           Reflect.set(createdObject, key, graph.get(key));
         }

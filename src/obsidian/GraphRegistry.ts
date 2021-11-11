@@ -1,7 +1,7 @@
 import { Constructable, Scope } from '@Obsidian';
 import IObjectGraph from './IObjectGraph';
 
-export class GraphRegistry {
+class GraphRegistry {
   private readonly scopedGraphs: Record<Scope, Constructable<IObjectGraph>> = {};
   private readonly constructorToInstance = new Map<Constructable<IObjectGraph>, IObjectGraph>();
   private readonly instanceToConstructor = new Map<IObjectGraph, Constructable<IObjectGraph>>();
@@ -29,10 +29,23 @@ export class GraphRegistry {
     this.instanceToConstructor.set(graph, Graph);
   }
 
+  resolve<T extends IObjectGraph>(Graph: Constructable<T>, props?: any): T {
+    if (this.has(Graph)) {
+      const graph: T = this.get(Graph);
+      const scope = Reflect.getMetadata('scope', Graph);
+      if (scope) return graph;
+
+      this.set(Graph, new Graph(props));
+    }
+    const graph = new Graph(props);
+    this.set(Graph, graph);
+    return graph;
+  }
+
   getSubgraphs(graph: IObjectGraph): IObjectGraph[] {
     const Graph = this.instanceToConstructor.get(graph)!;
     const subgraphs = this.graphToSubgraphs.get(Graph) ?? new Set();
-    return Array.from(subgraphs).map((G) => this.constructorToInstance.get(G)!);
+    return Array.from(subgraphs).map((G) => this.resolve(G));
   }
 
   clear(graph: IObjectGraph) {
