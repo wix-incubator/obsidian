@@ -1,5 +1,8 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-console */
-import { ClassMethod, Decorator, Program } from '@babel/types';
+import {
+  ClassMethod, Decorator, Identifier, Program,
+} from '@babel/types';
 import { get } from 'lodash';
 import { NodePath, PluginObj, types } from '@babel/core';
 
@@ -13,14 +16,18 @@ const providerArgumentsTransformer: PluginObj = {
 
 const internalVisitor = {
   ClassMethod: {
-    enter({ node, parent }: NodePath<ClassMethod>) {
+    enter({ node }: NodePath<ClassMethod>) {
       const decorator = getProviderDecorator(node.decorators);
       if (getDecoratorName(decorator) === 'Provides') {
-        node.params.forEach((param) => {
-          if (types.isIdentifier(param)) {
-            console.log(param.name);
-          }
-        });
+        const objectPattern = types.objectPattern(
+          node.params
+            .filter((p) => types.isIdentifier(p))
+            .map((p) => types.objectProperty(
+              types.identifier((p as Identifier).name),
+              types.identifier((p as Identifier).name),
+            )),
+        );
+        node.params.fill(objectPattern);
       }
     },
   },
