@@ -1,23 +1,28 @@
+import GraphProperties from './GraphProperties';
+import IObjectGraph from './IObjectGraph';
+
 class ProvidedPropertiesStore {
-  private readonly values: Map<string, Set<string>> = new Map();
+  private readonly providedPropertiesForGraph: Map<string, GraphProperties> = new Map();
 
-  get(_class: any): Array<string> {
-    const propertyKeys = this.values.get(_class.constructor.name);
-    return propertyKeys ? Array.from(propertyKeys) : [];
+  getUnmangled(graph: IObjectGraph): string[] {
+    const graphProperties = this.providedPropertiesForGraph.get(graph.constructor.name);
+    return graphProperties?.unmangledProperties ?? [];
   }
 
-  set(_class: any, propertyKey: string) {
-    const className = _class.constructor.name;
-    let propertyKeysSet = this.values.get(className);
-    if (!propertyKeysSet) {
-      propertyKeysSet = new Set();
-    }
-    propertyKeysSet.add(propertyKey);
-    this.values.set(className, propertyKeysSet);
+  getMangledProperty(graph: IObjectGraph, unmangledProp: string): string | undefined {
+    const className = graph.constructor.name;
+    return this.providedPropertiesForGraph.get(className)?.getMangledProperty(unmangledProp);
   }
 
-  clear(_class: any) {
-    this.values.delete(_class.constructor.name);
+  set(graph: IObjectGraph, mangledProperty: string, unmangledProperty: string) {
+    const className = graph.constructor.name;
+    const graphProperties = this.providedPropertiesForGraph.get(className) ?? new GraphProperties();
+    graphProperties.add(mangledProperty, unmangledProperty);
+    this.providedPropertiesForGraph.set(className, graphProperties);
+  }
+
+  clear(graph: IObjectGraph) {
+    this.providedPropertiesForGraph.delete(graph.constructor.name);
   }
 }
 

@@ -18,7 +18,7 @@ export default function injectComponent<P>(Target: React.ComponentType<P>, Graph
     const injectedProps = new Proxy(args ?? {}, new Injector(graph));
 
     const props: object = {};
-    const graphPropertyKeys = providedPropertiesStore.get(graph);
+    const graphPropertyKeys = providedPropertiesStore.getUnmangled(graph);
     graphPropertyKeys.forEach(
       (propKey: string) => Reflect.set(props, propKey, injectedProps[propKey]),
     );

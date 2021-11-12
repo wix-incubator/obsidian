@@ -35,6 +35,7 @@ describe('Sanity', () => {
 
     @Graph()
     class LinkGraph extends ObjectGraph<LinkProps> {
+      // @Provides({ name: 'pageProvider' })
       @Provides()
       pageProvider(): PageProvider {
         return new PageProvider();
@@ -70,6 +71,7 @@ describe('Sanity', () => {
 
     @Graph()
     class FriendGraph extends ObjectGraph<FriendProps> {
+      // @Provides({ name: 'friend' })
       @Provides()
       friend(): Friend {
         return new Friend();
@@ -143,6 +145,7 @@ describe('Sanity', () => {
 
     @Graph()
     class TestGraph extends ObjectGraph<TestProps> {
+      // @Provides({ name: 'myProp' })
       @Provides()
       myProp(): string {
         return mockTestPropValue;

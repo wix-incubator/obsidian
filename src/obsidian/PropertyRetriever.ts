@@ -1,23 +1,29 @@
 import graphRegistry from './GraphRegistry';
 import IObjectGraph from './IObjectGraph';
+import providedPropertiesStore from './ProvidedPropertiesStore';
 
 export default class PropertyRetriever {
   constructor(private graph: IObjectGraph) { }
 
   retrieve(property: string, receiver?: unknown): unknown | undefined {
-    if (property in this.graph) {
+    const mangledPropertyKey: string = providedPropertiesStore.getMangledProperty(this.graph, property);
+    if (mangledPropertyKey in this.graph) {
       const proxiedGraph = new Proxy(this.graph, {
         get(graph: IObjectGraph, dependencyName: string) {
           return graph.get(dependencyName);
         },
       });
-      return Reflect.get(this.graph, property, receiver)(proxiedGraph);
+      return Reflect.get(this.graph, mangledPropertyKey, receiver)(proxiedGraph);
     }
 
     const results = this.getFromSubgraphs(property, receiver);
     if (results.length === 1) return results[0];
-    // TODO Support named providers and update the error message by suggesting to use a named provider
-    if (results.length > 1) throw new Error(`Multiple subgraphs provide the property ${property}.`);
+    if (results.length > 1) {
+      throw new Error(
+        `Multiple subgraphs provide the property ${property}.`
+        + 'You should probably provide a unique name to one of the providers: @Provide({name: \'uniqueName\')})',
+      );
+    }
     return undefined;
   }
 

@@ -1,6 +1,6 @@
 import providedPropertiesStore from './ProvidedPropertiesStore';
 
-describe('ProvidedPropertiesStore', () => {
+xdescribe('ProvidedPropertiesStore', () => {
   class TestClass {}
 
   beforeEach(() => {

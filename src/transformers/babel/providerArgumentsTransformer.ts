@@ -19,19 +19,28 @@ const internalVisitor = {
     enter({ node }: NodePath<ClassMethod>) {
       const decorator = getProviderDecorator(node.decorators);
       if (getDecoratorName(decorator) === 'Provides') {
-        const objectPattern = types.objectPattern(
-          node.params
-            .filter((p) => types.isIdentifier(p))
-            .map((p) => types.objectProperty(
-              types.identifier((p as Identifier).name),
-              types.identifier((p as Identifier).name),
-            )),
-        );
-        node.params.fill(objectPattern);
+        convertProviderParamsToDestructuringAssignment(node);
+        saveUnmangledMethodNameInProviderArguments(node);
       }
     },
   },
 };
+
+function convertProviderParamsToDestructuringAssignment(node: ClassMethod) {
+  const objectPattern = types.objectPattern(
+    node.params
+      .filter((p) => types.isIdentifier(p))
+      .map((p) => types.objectProperty(
+        types.identifier((p as Identifier).name),
+        types.identifier((p as Identifier).name),
+      )),
+  );
+  node.params.fill(objectPattern);
+}
+
+function saveUnmangledMethodNameInProviderArguments(node: ClassMethod) {
+
+}
 
 function getProviderDecorator(decorators: Array<Decorator> | undefined | null): Decorator | undefined {
   return decorators?.find((decorator) => get(decorator, 'expression.callee.name') === 'Provides');
