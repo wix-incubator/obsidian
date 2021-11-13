@@ -2,8 +2,15 @@ import { PluginObj } from '@babel/core';
 import * as babel from '@babel/core';
 import providerArgumentsTransformer from './providerArgumentsTransformer';
 
-const code = `class MainGraph {
+const unnamedProvider = `class MainGraph {
   @Provides()
+  someString(stringProvider) {
+    return stringProvider.theString;
+  }
+}`;
+
+const namedProvider = `class MainGraph {
+  @Provides({name: 'myDependency'})
   someString(stringProvider) {
     return stringProvider.theString;
   }
@@ -12,15 +19,22 @@ const code = `class MainGraph {
 describe('Provider Arguments Transformer', () => {
   const uut: PluginObj = providerArgumentsTransformer;
 
-  it('Exposes transformer', () => {
-    const result = babel.transformSync(code, {
-      plugins: [
-        ['@babel/plugin-proposal-decorators', { legacy: true }],
-        uut,
-      ],
-      ast: true,
-      configFile: false,
-    });
-    console.log(JSON.stringify(result?.ast));
+  it('Adds method name to provider arguments (@Provider() -> @Provider({name: "myProvidedDependency"})', () => {
+    const result = transformSync(unnamedProvider);
+    expect(result?.code).toMatchSnapshot();
+  });
+
+  it('Does not add name if name is provided by the user', () => {
+    const result = transformSync(namedProvider);
+    expect(result?.code).toMatchSnapshot();
+  });
+
+  const transformSync = (snippet: string) => babel.transformSync(snippet, {
+    plugins: [
+      ['@babel/plugin-proposal-decorators', { legacy: true }],
+      uut,
+    ],
+    ast: true,
+    configFile: false,
   });
 });
