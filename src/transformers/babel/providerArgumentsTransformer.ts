@@ -1,10 +1,18 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-console */
 import {
-  ClassMethod, Decorator, Identifier, Program,
+  ClassMethod,
+  Decorator,
+  Identifier,
+  Program,
 } from '@babel/types';
-import { get } from 'lodash';
-import { NodePath, PluginObj, types } from '@babel/core';
+import { NodePath, PluginObj, types as t } from '@babel/core';
+import {
+  addNameToProviderArguments,
+  getDecoratorName,
+  getProviderDecorator,
+  paramsToDestructuringAssignment,
+  providerIsNotNamed,
+} from './helpers';
 
 const providerArgumentsTransformer: PluginObj = {
   visitor: {
@@ -20,34 +28,20 @@ const internalVisitor = {
       const decorator = getProviderDecorator(node.decorators);
       if (getDecoratorName(decorator) === 'Provides') {
         convertProviderParamsToDestructuringAssignment(node);
-        saveUnmangledMethodNameInProviderArguments(node);
+        saveUnmangledMethodNameInProviderArguments(node, decorator!);
       }
     },
   },
 };
 
 function convertProviderParamsToDestructuringAssignment(node: ClassMethod) {
-  const objectPattern = types.objectPattern(
-    node.params
-      .filter((p) => types.isIdentifier(p))
-      .map((p) => types.objectProperty(
-        types.identifier((p as Identifier).name),
-        types.identifier((p as Identifier).name),
-      )),
-  );
-  node.params.fill(objectPattern);
+  node.params.fill(paramsToDestructuringAssignment(node.params));
 }
 
-function saveUnmangledMethodNameInProviderArguments(node: ClassMethod) {
-
-}
-
-function getProviderDecorator(decorators: Array<Decorator> | undefined | null): Decorator | undefined {
-  return decorators?.find((decorator) => get(decorator, 'expression.callee.name') === 'Provides');
-}
-
-function getDecoratorName(decorator?: Decorator): string | undefined {
-  return get(decorator, 'expression.callee.name');
+function saveUnmangledMethodNameInProviderArguments(node: ClassMethod, decorator: Decorator) {
+  if (providerIsNotNamed(decorator)) {
+    addNameToProviderArguments(node, decorator);
+  }
 }
 
 export default providerArgumentsTransformer;
