@@ -1,15 +1,18 @@
 {
   "include": [
     "src/**/*",
+    "transformers/**/*",
     "test/**/*"
   ],
   "exclude": [
     "node_modules",
-    "dist"
+    "test",
+    "dist",
+    "**/*.test.*"
   ],
   "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
+    "target": "es5",
+    "module": "commonjs",
     "lib": [
       "ES6",
       "DOM",
@@ -37,6 +40,6 @@
     "baseUrl": "./",
     "paths": {
       "@Obsidian": ["./src/@types/obsidian.d.ts"]
-    }
+    },
   }
 }

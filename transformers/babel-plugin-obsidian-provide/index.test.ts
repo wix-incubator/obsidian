@@ -1,6 +1,6 @@
 import { PluginObj } from '@babel/core';
 import * as babel from '@babel/core';
-import transformer from './index';
+import providerArgumentsTransformer from './index';
 
 const unnamedProvider = `class MainGraph {
   @Provides()
@@ -17,7 +17,7 @@ const namedProvider = `class MainGraph {
 }`;
 
 describe('Provider Arguments Transformer', () => {
-  const uut: PluginObj = transformer;
+  const uut: PluginObj = providerArgumentsTransformer;
 
   it('Adds method name to provider arguments (@Provider() -> @Provider({name: "myProvidedDependency"})', () => {
     const result = transformSync(unnamedProvider);
