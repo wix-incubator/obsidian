@@ -5,6 +5,7 @@ const config = {
     'node_modules',
     'src',
     'transformers',
+    'test',
   ],
 };
 

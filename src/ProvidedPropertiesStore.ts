@@ -6,7 +6,11 @@ class ProvidedPropertiesStore {
   private readonly providedPropertiesForGraph: Map<string, GraphProperties> = new Map();
 
   keyByUnmangled(graph: IObjectGraph, mapper: (unmangledProperty: string) => string): Record<string, any> {
-    return _.keyBy(this.getUnmangled(graph), mapper);
+    const props = {};
+    this.getUnmangled(graph).forEach((prop) => {
+      Reflect.set(props, prop, mapper(prop));
+    });
+    return props;
   }
 
   getUnmangled(graph: IObjectGraph): string[] {
