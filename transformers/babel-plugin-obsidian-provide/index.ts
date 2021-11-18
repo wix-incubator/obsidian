@@ -39,4 +39,6 @@ function saveUnmangledMethodNameInProviderArguments(node: ClassMethod, decorator
   }
 }
 
-export default function plugin() {return providerArgumentsTransformer};
+export default function plugin() {
+  return providerArgumentsTransformer;
+}
