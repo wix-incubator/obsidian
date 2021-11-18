@@ -4,7 +4,7 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import 'reflect-metadata';
 import ObjectGraph from '../../ObjectGraph';
 import providedPropertiesStore from '../../ProvidedPropertiesStore';
-import { PropsInjector } from './PropsInjector';
+import PropsInjector from './PropsInjector';
 import useGraph from './useGraph';
 
 export default class ComponentInjector {

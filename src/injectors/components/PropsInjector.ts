@@ -1,6 +1,6 @@
 import ObjectGraph from 'src/ObjectGraph';
 
-export class PropsInjector<T extends Record<string, any>> {
+export default class PropsInjector<T extends Record<string, any>> {
   constructor(private graph: ObjectGraph) {}
 
   inject(props: T | undefined): T {
