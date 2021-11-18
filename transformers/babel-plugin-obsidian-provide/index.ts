@@ -1,11 +1,6 @@
 /* eslint-disable no-param-reassign */
-import {
-  ClassMethod,
-  Decorator,
-  Identifier,
-  Program,
-} from '@babel/types';
-import { NodePath, PluginObj, types as t } from '@babel/core';
+import { ClassMethod, Decorator, Program } from '@babel/types';
+import { NodePath, PluginObj } from '@babel/core';
 import {
   addNameToProviderArguments,
   getDecoratorName,
@@ -44,4 +39,6 @@ function saveUnmangledMethodNameInProviderArguments(node: ClassMethod, decorator
   }
 }
 
-export default providerArgumentsTransformer;
+export default function plugin() {
+  return providerArgumentsTransformer;
+}

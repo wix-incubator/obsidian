@@ -1,11 +1,21 @@
 /* eslint-disable no-console */
 /* eslint-disable max-classes-per-file */
 import React, {
-  Component, useState, useEffect, ReactElement,
+  Component,
+  useState,
+  useEffect,
+  ReactElement,
 } from 'react';
 import { create, act, ReactTestRenderer } from 'react-test-renderer';
 import {
-  Graph, injectComponent, injectHook, Injectable, Inject, ObjectGraph, Obsidian, Provides,
+  Graph,
+  injectComponent,
+  injectHook,
+  Injectable,
+  Inject,
+  ObjectGraph,
+  Obsidian,
+  Provides,
 } from './index';
 
 describe('Sanity', () => {
@@ -129,10 +139,14 @@ describe('Sanity', () => {
       testRenderer = create(<FriendStatus />);
     });
 
-    ChatAPI.notifyFriendStatus(mockFriendId, true);
+    act(() => {
+      ChatAPI.notifyFriendStatus(mockFriendId, true);
+    });
     expect(testRenderer.root.findByType(FriendStatus).children[0]).toEqual('mock_friend_id Online');
 
-    ChatAPI.notifyFriendStatus(mockFriendId, false);
+    act(() => {
+      ChatAPI.notifyFriendStatus(mockFriendId, false);
+    });
     expect(testRenderer.root.findByType(FriendStatus).children[0]).toEqual('mock_friend_id Offline');
   });
 

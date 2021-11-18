@@ -6,8 +6,8 @@ export default class PropertyRetriever {
   constructor(private graph: IObjectGraph) { }
 
   retrieve(property: string, receiver?: unknown): unknown | undefined {
-    const mangledPropertyKey: string = providedPropertiesStore.getMangledProperty(this.graph, property);
-    if (mangledPropertyKey in this.graph) {
+    const mangledPropertyKey = providedPropertiesStore.getMangledProperty(this.graph, property);
+    if (mangledPropertyKey && mangledPropertyKey in this.graph) {
       const proxiedGraph = new Proxy(this.graph, {
         get(graph: IObjectGraph, dependencyName: string) {
           return graph.get(dependencyName);

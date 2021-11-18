@@ -4,6 +4,7 @@ const config = {
   roots: [
     'node_modules',
     'src',
+    'transformers',
   ],
 };
 

@@ -12,6 +12,7 @@ package-lock.json
 ############
 
 # Build generated
+dist
 ReactNativeExample/ios/build/
 ReactNativeExample/ios/DerivedData/
 
