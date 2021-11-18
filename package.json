@@ -46,6 +46,7 @@
   "scripts": {
     "prepack": "npm run lint && tsc",
     "lint": "npx eslint",
+    "pretest": "tsc",
     "test": "npx jest"
   },
   "repository": {
