@@ -7,7 +7,7 @@ interface ProvidesParams {
   name: string;
 }
 
-function Provides({ scope, name }: Partial<ProvidesParams> = {}) {
+function Provides({ name }: Partial<ProvidesParams> = {}) {
   return function provide(graph: IObjectGraph, propertyKey: string, descriptor: PropertyDescriptor) {
     providedPropertiesStore.set(graph, propertyKey, name!);
     return descriptor;

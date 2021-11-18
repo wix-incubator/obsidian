@@ -7,7 +7,6 @@ import {
   Identifier,
   ObjectExpression,
   ObjectPattern,
-  ObjectProperty,
 } from '@babel/types';
 import { get } from 'lodash';
 
