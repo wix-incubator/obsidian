@@ -44,7 +44,7 @@
     "typescript": "^4.4.4"
   },
   "scripts": {
-    "prepack": "npm run lint && tsc",
+    "prepack": "npm run lint && tsc --project tsconfig.prod.json",
     "lint": "npx eslint",
     "pretest": "tsc",
     "test": "npx jest"
