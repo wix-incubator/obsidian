@@ -1,5 +1,5 @@
 import providedPropertiesStore from './ProvidedPropertiesStore';
-import { Graph, ObjectGraph, Provides } from '../index';
+import { Graph, ObjectGraph, Provides } from './index';
 
 class MockDataProvider {
   get data(): string {

@@ -1,10 +1,10 @@
-import _Graph from './obsidian/Graph';
-import _ObjectGraph from './obsidian/ObjectGraph';
-import _injectHook from './obsidian/injectHook';
-import _injectComponent from './obsidian/injectComponent';
-import _Provides from './obsidian/Provides';
-import { Inject as _Inject, Injectable as _Injectable } from './obsidian/injectClass';
-import _obsidian from './obsidian/Obsidian';
+import _Graph from './Graph';
+import _ObjectGraph from './ObjectGraph';
+import _injectHook from './injectHook';
+import _injectComponent from './injectComponent';
+import _Provides from './Provides';
+import { Inject as _Inject, Injectable as _Injectable } from './injectClass';
+import _obsidian from './Obsidian';
 
 export const Graph = _Graph;
 export const ObjectGraph = _ObjectGraph;

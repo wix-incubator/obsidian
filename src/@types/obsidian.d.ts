@@ -1,4 +1,4 @@
-import ObjectGraph from '../obsidian/ObjectGraph';
+import ObjectGraph from '../ObjectGraph';
 
 type Constructable<T> = {
   new(...args: any): T;
