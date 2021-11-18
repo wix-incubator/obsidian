@@ -1,20 +1,36 @@
 import providedPropertiesStore from './ProvidedPropertiesStore';
+import { Graph, ObjectGraph, Provides } from '../index';
 
-xdescribe('ProvidedPropertiesStore', () => {
-  class TestClass {}
+class MockDataProvider {
+  get data(): string {
+    return 'mock-data';
+  }
+}
+
+interface TestProps {
+  mockDataProvider: MockDataProvider;
+}
+
+@Graph()
+class TestGraph extends ObjectGraph<TestProps> {
+  @Provides()
+  mockDataProvider(): MockDataProvider {
+    return new MockDataProvider();
+  }
+}
+
+describe('ProvidedPropertiesStore', () => {
+  let testGraph: TestGraph;
 
   beforeEach(() => {
-    providedPropertiesStore.clear(TestClass);
-  });
-
-  it('Gets an empty array if nothing has beed set yet', () => {
-    expect(providedPropertiesStore.get(TestClass)).toEqual([]);
+    testGraph = new TestGraph();
+    providedPropertiesStore.clear(testGraph);
   });
 
   it('Sets properties without duplicates', () => {
-    providedPropertiesStore.set(TestClass, 'p1');
-    providedPropertiesStore.set(TestClass, 'p1');
-    providedPropertiesStore.set(TestClass, 'p2');
-    expect(providedPropertiesStore.get(TestClass)).toEqual(['p1', 'p2']);
+    providedPropertiesStore.set(testGraph, 'mockDataProvider', 'mockDataProvider');
+    providedPropertiesStore.set(testGraph, 'mockDataProvider', 'mockDataProvider');
+    providedPropertiesStore.set(testGraph, 'mockDataProvider', 'mockDataProvider');
+    expect(providedPropertiesStore.getMangledProperty(testGraph, 'mockDataProvider')).toEqual('mockDataProvider');
   });
 });
