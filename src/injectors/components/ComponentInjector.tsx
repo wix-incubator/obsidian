@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Constructable } from '@Obsidian';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import 'reflect-metadata';
@@ -20,10 +20,9 @@ export default class ComponentInjector {
   ): React.FunctionComponent<Partial<P>> {
     return (passedProps: Partial<P>) => {
       const graph = useGraph(Graph, passedProps);
-      const propsProxy = new PropsInjector(graph).inject(passedProps);
-      const injectedProps = providedPropertiesStore.keyByUnmangled(
-        graph,
-        (propKey: string) => propsProxy[propKey],
+      const [propsProxy] = useState(new PropsInjector(graph).inject(passedProps));
+      const [injectedProps] = useState(
+        providedPropertiesStore.keyByUnmangled(graph, (property) => propsProxy[property]),
       );
       return <Target {...injectedProps as unknown as P} />;
     };
