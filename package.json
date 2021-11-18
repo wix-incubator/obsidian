@@ -60,6 +60,14 @@
     "typescript",
     "ioc"
   ],
+  "contributors": [
+    {
+      "name": "Artal Druk"
+    },
+    {
+      "name": "Guy Carmeli"
+    }
+  ],
   "author": "Guy Carmeli",
   "license": "ISC",
   "bugs": {
