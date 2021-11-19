@@ -7,4 +7,9 @@ export default class Subgraph extends ObjectGraph {
   stringProvider(): StringProvider {
     return new StringProvider();
   }
+
+  @Provides()
+  stringFromSubgraph(): string {
+    return 'FromSubgraph';
+  }
 }

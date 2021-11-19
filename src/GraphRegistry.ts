@@ -29,6 +29,12 @@ class GraphRegistry {
     this.instanceToConstructor.set(graph, Graph);
   }
 
+  getSubgraphs(graph: IObjectGraph): IObjectGraph[] {
+    const Graph = this.instanceToConstructor.get(graph)!;
+    const subgraphs = this.graphToSubgraphs.get(Graph) ?? new Set();
+    return Array.from(subgraphs).map((G) => this.resolve(G));
+  }
+
   resolve<T extends IObjectGraph>(Graph: Constructable<T>, props?: any): T {
     if (this.has(Graph)) {
       const graph: T = this.get(Graph);
@@ -40,12 +46,6 @@ class GraphRegistry {
     const graph = new Graph(props);
     this.set(Graph, graph);
     return graph;
-  }
-
-  getSubgraphs(graph: IObjectGraph): IObjectGraph[] {
-    const Graph = this.instanceToConstructor.get(graph)!;
-    const subgraphs = this.graphToSubgraphs.get(Graph) ?? new Set();
-    return Array.from(subgraphs).map((G) => this.resolve(G));
   }
 
   clear(graph: IObjectGraph) {

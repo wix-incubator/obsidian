@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import GraphProperties from './GraphProperties';
+import graphRegistry from './GraphRegistry';
 import IObjectGraph from './IObjectGraph';
 
 class ProvidedPropertiesStore {
@@ -7,9 +8,11 @@ class ProvidedPropertiesStore {
 
   keyByUnmangled(graph: IObjectGraph, mapper: (unmangledProperty: string) => string): Record<string, any> {
     const props = {};
-    this.getUnmangled(graph).forEach((prop) => {
-      Reflect.set(props, prop, mapper(prop));
-    });
+    _.chain([graph, ...graphRegistry.getSubgraphs(graph)])
+      .flatMap((_graph) => this.getUnmangled(_graph))
+      .uniq()
+      .forEach((prop) => Reflect.set(props, prop, mapper(prop)))
+      .value();
     return props;
   }
 
