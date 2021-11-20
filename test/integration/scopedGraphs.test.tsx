@@ -7,10 +7,14 @@ import { SOME_STRING } from './fixtures/StringProvider';
 
 interface InjectedComponentProps {
   someString: string;
+  stringFromSubgraph: string;
 }
 
-const Component: React.FunctionComponent<InjectedComponentProps> = ({ someString }: InjectedComponentProps) => {
-  return <>{someString}</>;
+const Component: React.FunctionComponent<InjectedComponentProps> = ({
+  someString,
+  stringFromSubgraph,
+}: InjectedComponentProps) => {
+  return <>{someString + stringFromSubgraph}</>;
 };
 
 describe('Scoped graphs', () => {
@@ -25,6 +29,6 @@ describe('Scoped graphs', () => {
     act(() => {
       testRenderer = create(<InjectedComponent />);
     });
-    expect(testRenderer.toJSON()).toEqual(SOME_STRING);
+    expect(testRenderer.toJSON()).toEqual(`${SOME_STRING}FromSubgraph`);
   });
 });
