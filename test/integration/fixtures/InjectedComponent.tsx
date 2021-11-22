@@ -1,11 +1,19 @@
 import React from 'react';
-import { injectComponent } from 'src';
+import { injectComponent } from '../../../src';
 import MainGraph from './MainGraph';
 
 interface InjectedComponentProps {
   someString: string;
+  stringFromSubgraph: string;
 }
 
-const injectedComponent = ({ someString }: InjectedComponentProps) => <>{someString}</>;
+const InjectedComponent = ({ someString, stringFromSubgraph }: InjectedComponentProps) => (
+  <>
+    {`${someString}${stringFromSubgraph}`}
+  </>
+);
 
-export default injectComponent(injectedComponent, MainGraph);
+export default injectComponent(
+  InjectedComponent,
+  MainGraph,
+);

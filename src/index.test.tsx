@@ -6,6 +6,7 @@ import React, {
   useEffect,
   ReactElement,
 } from 'react';
+import {render} from '@testing-library/react';
 import { create, act, ReactTestRenderer } from 'react-test-renderer';
 import {
   Graph,
@@ -31,7 +32,7 @@ describe('Sanity', () => {
   });
 
   it('Injects to component', () => {
-    const mockLink = 'https://link-to-a-mock-page';
+    const mockLink = 'https://link-to-a-mock-page/';
 
     class PageProvider {
       get page(): string {
@@ -45,7 +46,6 @@ describe('Sanity', () => {
 
     @Graph()
     class LinkGraph extends ObjectGraph<LinkProps> {
-      // @Provides({ name: 'pageProvider' })
       @Provides()
       pageProvider(): PageProvider {
         return new PageProvider();
@@ -53,13 +53,14 @@ describe('Sanity', () => {
     }
 
     function Link({ pageProvider }: LinkProps) {
-      return <a href={pageProvider.page}>Click Me</a>;
+      return <a href={pageProvider.page} data-testid="link">Click Me</a>;
     }
 
     const Wrapped = injectComponent(Link, LinkGraph);
-    const testInstance = create(<Wrapped />).root;
-    const { pageProvider } = testInstance.findByType(Link).props;
-    expect(pageProvider.page).toEqual(mockLink);
+    const {getByTestId} = render(<Wrapped />);
+
+    const newLocal = getByTestId('link');
+    expect(newLocal).toHaveProperty('href', mockLink);
   });
 
   it('Injects to hook ', () => {

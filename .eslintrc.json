@@ -67,7 +67,8 @@
             "semi": false
         }
       ],
-      "react/display-name": "off"
+      "react/display-name": "off",
+      "no-plusplus": "off",
     },
     "settings": {
       "import/resolver": {

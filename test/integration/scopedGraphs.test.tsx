@@ -10,7 +10,7 @@ interface InjectedComponentProps {
   stringFromSubgraph: string;
 }
 
-const Component: React.FunctionComponent<InjectedComponentProps> = ({
+const Component = ({
   someString,
   stringFromSubgraph,
 }: InjectedComponentProps) => {
@@ -18,7 +18,7 @@ const Component: React.FunctionComponent<InjectedComponentProps> = ({
 };
 
 describe('Scoped graphs', () => {
-  let InjectedComponent: React.FunctionComponent;
+  let InjectedComponent: React.FunctionComponent<Partial<InjectedComponentProps>>;
   let testRenderer!: ReactTestRenderer;
 
   beforeEach(() => {
