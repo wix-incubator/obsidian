@@ -10,7 +10,7 @@ interface InjectedComponentProps {
   stringFromSubgraph: string;
 }
 
-const Component = ({
+const Component: React.FunctionComponent<InjectedComponentProps> = ({
   someString,
   stringFromSubgraph,
 }: InjectedComponentProps) => {
