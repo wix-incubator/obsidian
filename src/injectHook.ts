@@ -10,7 +10,7 @@ export default function injectHook<S, T>(target: (args: S) => T, Graph: Construc
     const [graph] = useState(graphRegistry.resolve(Graph, args));
     useEffect(() => {
       referenceCounter.retain(graph);
-      return () => referenceCounter.release(graph, graphRegistry.clear);
+      return () => referenceCounter.release(graph, (g) => graphRegistry.clear(g));
     }, [graph]);
 
     return target(new Proxy(args ?? {}, new Injector(graph)));

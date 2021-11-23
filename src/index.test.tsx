@@ -6,8 +6,7 @@ import React, {
   useEffect,
   ReactElement,
 } from 'react';
-import { render } from '@testing-library/react';
-import { create, act, ReactTestRenderer } from 'react-test-renderer';
+import { act, render } from '@testing-library/react';
 import {
   Graph,
   injectComponent,
@@ -63,7 +62,7 @@ describe('Sanity', () => {
     expect(newLocal).toHaveProperty('href', mockLink);
   });
 
-  it('Injects to hook ', () => {
+  it('Injects to hook ', async () => {
     const mockFriendId = 'mock_friend_id';
 
     interface FriendProps {
@@ -132,23 +131,17 @@ describe('Sanity', () => {
       if (isOnline === null) {
         return <>Loading...</>;
       }
-      return <>{isOnline ? `${friendId} Online` : `${friendId} Offline`}</>;
+      return <div data-testid="container">{isOnline ? `${friendId} Online` : `${friendId} Offline`}</div>;
     }
 
-    let testRenderer!: ReactTestRenderer;
-    act(() => {
-      testRenderer = create(<FriendStatus />);
-    });
+    const { findByTestId } = render(<FriendStatus />);
+    const container = await findByTestId('container');
 
-    act(() => {
-      ChatAPI.notifyFriendStatus(mockFriendId, true);
-    });
-    expect(testRenderer.root.findByType(FriendStatus).children[0]).toEqual('mock_friend_id Online');
+    act(() => { ChatAPI.notifyFriendStatus(mockFriendId, true); });
+    expect(container.textContent).toBe('mock_friend_id Online');
 
-    act(() => {
-      ChatAPI.notifyFriendStatus(mockFriendId, false);
-    });
-    expect(testRenderer.root.findByType(FriendStatus).children[0]).toEqual('mock_friend_id Offline');
+    act(() => { ChatAPI.notifyFriendStatus(mockFriendId, false); });
+    expect(container.textContent).toBe('mock_friend_id Offline');
   });
 
   it('Injects to class', () => {
@@ -178,7 +171,7 @@ describe('Sanity', () => {
       }
     }
 
-    const testRenderer = create(<TestClass />);
-    expect(testRenderer.toJSON()).toEqual(mockTestPropValue);
+    const { findByText } = render(<TestClass />);
+    expect(findByText(mockTestPropValue)).toBeDefined();
   });
 });
