@@ -6,7 +6,7 @@ import React, {
   useEffect,
   ReactElement,
 } from 'react';
-import {render} from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { create, act, ReactTestRenderer } from 'react-test-renderer';
 import {
   Graph,
@@ -57,7 +57,7 @@ describe('Sanity', () => {
     }
 
     const Wrapped = injectComponent(Link, LinkGraph);
-    const {getByTestId} = render(<Wrapped />);
+    const { getByTestId } = render(<Wrapped />);
 
     const newLocal = getByTestId('link');
     expect(newLocal).toHaveProperty('href', mockLink);
