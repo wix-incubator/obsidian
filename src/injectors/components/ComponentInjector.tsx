@@ -7,7 +7,10 @@ import PropsInjector from './PropsInjector';
 import useGraph from './useGraph';
 
 export default class ComponentInjector {
-  inject<P>(Target: React.FC<P>, Graph: Constructable<ObjectGraph>): React.FunctionComponent<Partial<P>> {
+  inject<P>(
+    Target: React.FunctionComponent<P>,
+    Graph: Constructable<ObjectGraph>,
+  ): React.FunctionComponent<Partial<P>> {
     const Wrapped = this.wrapComponent(Target, Graph);
     hoistNonReactStatics(Wrapped, Target);
     return Wrapped;
