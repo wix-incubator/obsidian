@@ -20,7 +20,7 @@ export default class ComponentInjector {
     return (passedProps: Partial<P>) => {
       const graph = useGraph(Graph, passedProps);
       const [proxiedProps] = useState(new PropsInjector(graph).inject(passedProps));
-      return <>{Target(proxiedProps  as unknown as P)}</>
+      return <>{Target(proxiedProps as unknown as P)}</>;
     };
   }
 }

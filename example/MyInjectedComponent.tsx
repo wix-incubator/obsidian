@@ -9,7 +9,7 @@ interface DependenciesProps {
 @Graph()
 class DependenciesGraph extends ObjectGraph<DependenciesProps> {
   @Provides()
-  get myText(): string {
+  myText(): string {
     return 'Hello injected';
   }
 }
