@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import GraphProperties from './GraphProperties';
 import IObjectGraph from './IObjectGraph';
 
