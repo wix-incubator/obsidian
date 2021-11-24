@@ -4,11 +4,6 @@ import IObjectGraph from './IObjectGraph';
 class ProvidedPropertiesStore {
   private readonly providedPropertiesForGraph: Map<string, GraphProperties> = new Map();
 
-  getUnmangled(graph: IObjectGraph): string[] {
-    const graphProperties = this.providedPropertiesForGraph.get(graph.constructor.name);
-    return graphProperties?.unmangledProperties ?? [];
-  }
-
   getMangledProperty(graph: IObjectGraph, unmangledProp: string): string | undefined {
     const className = graph.constructor.name;
     return this.providedPropertiesForGraph.get(className)?.getMangledProperty(unmangledProp);
