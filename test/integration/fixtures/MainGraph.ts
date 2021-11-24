@@ -1,5 +1,5 @@
 import { Graph, ObjectGraph, Provides } from '../../../src';
-import { StringProvider } from './StringProvider';
+import StringProvider from './StringProvider';
 import Subgraph from './Subgraph';
 
 @Graph({ subgraphs: [Subgraph] })

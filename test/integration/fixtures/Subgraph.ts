@@ -1,5 +1,6 @@
 import { Graph, ObjectGraph, Provides } from '../../../src';
-import { StringProvider } from './StringProvider';
+import injectedValues from './injectedValues';
+import StringProvider from './StringProvider';
 
 @Graph()
 export default class Subgraph extends ObjectGraph {
@@ -10,7 +11,7 @@ export default class Subgraph extends ObjectGraph {
 
   @Provides()
   stringFromSubgraph(): string {
-    return 'FromSubgraph';
+    return injectedValues.fromSubgraph;
   }
 
   @Provides()

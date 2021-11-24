@@ -1,5 +1,5 @@
-export const SOME_STRING = 'Fear kills progress';
+import injectedValues from './injectedValues';
 
-export class StringProvider {
-  constructor(public readonly theString: string = SOME_STRING) { }
+export default class StringProvider {
+  constructor(public readonly theString: string = injectedValues.fromStringProvider) { }
 }
