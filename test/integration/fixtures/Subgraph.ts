@@ -12,4 +12,9 @@ export default class Subgraph extends ObjectGraph {
   stringFromSubgraph(): string {
     return 'FromSubgraph';
   }
+
+  @Provides()
+  unusedDependency(): string {
+    throw Error('This dependency should not have been resolved since it not required by anyone.');
+  }
 }

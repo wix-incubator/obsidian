@@ -1,15 +1,13 @@
 import ObjectGraph from 'src/ObjectGraph';
 
-export default class PropsInjector<T extends Record<string, any>> {
+export default class PropsInjector<Props> {
   constructor(private graph: ObjectGraph) {}
 
-  inject(props: T | undefined): T {
-    return new Proxy(props || {}, {
-      get: (
-        obj: any,
-        property: string,
-        receiver: any,
-      ): any => (property in obj ? obj[property] : this.graph.get(property, receiver)),
+  inject(passedProps: Props): Partial<Props> {
+    // eslint-disable-next-line prefer-object-spread
+    const props = Object.assign({}, passedProps);
+    return new Proxy(props, {
+      get: (_target: object, p: string, receiver: any): any => this.graph.get(p, receiver),
     });
   }
 }

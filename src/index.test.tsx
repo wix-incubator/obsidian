@@ -6,7 +6,7 @@ import React, {
   useEffect,
   ReactElement,
 } from 'react';
-import { create, act, ReactTestRenderer } from 'react-test-renderer';
+import { act, render } from '@testing-library/react';
 import {
   Graph,
   injectComponent,
@@ -31,7 +31,7 @@ describe('Sanity', () => {
   });
 
   it('Injects to component', () => {
-    const mockLink = 'https://link-to-a-mock-page';
+    const mockLink = 'https://link-to-a-mock-page/';
 
     class PageProvider {
       get page(): string {
@@ -45,7 +45,6 @@ describe('Sanity', () => {
 
     @Graph()
     class LinkGraph extends ObjectGraph<LinkProps> {
-      // @Provides({ name: 'pageProvider' })
       @Provides()
       pageProvider(): PageProvider {
         return new PageProvider();
@@ -53,16 +52,17 @@ describe('Sanity', () => {
     }
 
     function Link({ pageProvider }: LinkProps) {
-      return <a href={pageProvider.page}>Click Me</a>;
+      return <a href={pageProvider.page} data-testid="link">Click Me</a>;
     }
 
     const Wrapped = injectComponent(Link, LinkGraph);
-    const testInstance = create(<Wrapped />).root;
-    const { pageProvider } = testInstance.findByType(Link).props;
-    expect(pageProvider.page).toEqual(mockLink);
+    const { getByTestId } = render(<Wrapped />);
+
+    const newLocal = getByTestId('link');
+    expect(newLocal).toHaveProperty('href', mockLink);
   });
 
-  it('Injects to hook ', () => {
+  it('Injects to hook ', async () => {
     const mockFriendId = 'mock_friend_id';
 
     interface FriendProps {
@@ -131,23 +131,17 @@ describe('Sanity', () => {
       if (isOnline === null) {
         return <>Loading...</>;
       }
-      return <>{isOnline ? `${friendId} Online` : `${friendId} Offline`}</>;
+      return <div data-testid="container">{isOnline ? `${friendId} Online` : `${friendId} Offline`}</div>;
     }
 
-    let testRenderer!: ReactTestRenderer;
-    act(() => {
-      testRenderer = create(<FriendStatus />);
-    });
+    const { findByTestId } = render(<FriendStatus />);
+    const container = await findByTestId('container');
 
-    act(() => {
-      ChatAPI.notifyFriendStatus(mockFriendId, true);
-    });
-    expect(testRenderer.root.findByType(FriendStatus).children[0]).toEqual('mock_friend_id Online');
+    act(() => { ChatAPI.notifyFriendStatus(mockFriendId, true); });
+    expect(container.textContent).toBe('mock_friend_id Online');
 
-    act(() => {
-      ChatAPI.notifyFriendStatus(mockFriendId, false);
-    });
-    expect(testRenderer.root.findByType(FriendStatus).children[0]).toEqual('mock_friend_id Offline');
+    act(() => { ChatAPI.notifyFriendStatus(mockFriendId, false); });
+    expect(container.textContent).toBe('mock_friend_id Offline');
   });
 
   it('Injects to class', () => {
@@ -177,7 +171,7 @@ describe('Sanity', () => {
       }
     }
 
-    const testRenderer = create(<TestClass />);
-    expect(testRenderer.toJSON()).toEqual(mockTestPropValue);
+    const { findByText } = render(<TestClass />);
+    expect(findByText(mockTestPropValue)).toBeDefined();
   });
 });

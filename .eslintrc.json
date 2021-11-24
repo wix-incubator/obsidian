@@ -67,7 +67,13 @@
             "semi": false
         }
       ],
-      "react/display-name": "off"
+      "react/display-name": "off",
+      "no-plusplus": "off",
+      "no-trailing-spaces": "error",
+      "no-shadow": "off",
+      "@typescript-eslint/no-shadow": ["error"],
+      "react/button-has-type": "off",
+      "react/jsx-one-expression-per-line": ["off"]
     },
     "settings": {
       "import/resolver": {

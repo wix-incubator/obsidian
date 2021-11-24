@@ -8,7 +8,7 @@ export default <P>(Graph: Constructable<ObjectGraph>, props: Partial<P>) => {
   const [graph] = useState(graphRegistry.resolve(Graph, props));
   useEffect(() => {
     referenceCounter.retain(graph);
-    return () => referenceCounter.release(graph, graphRegistry.clear);
+    return () => referenceCounter.release(graph, g => graphRegistry.clear(g));
   }, [graph]);
   return graph;
 };

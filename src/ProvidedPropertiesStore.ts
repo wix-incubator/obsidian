@@ -1,25 +1,8 @@
-import _ from 'lodash';
 import GraphProperties from './GraphProperties';
-import graphRegistry from './GraphRegistry';
 import IObjectGraph from './IObjectGraph';
 
 class ProvidedPropertiesStore {
   private readonly providedPropertiesForGraph: Map<string, GraphProperties> = new Map();
-
-  keyByUnmangled(graph: IObjectGraph, mapper: (unmangledProperty: string) => string): Record<string, any> {
-    const props = {};
-    _.chain([graph, ...graphRegistry.getSubgraphs(graph)])
-      .flatMap((_graph) => this.getUnmangled(_graph))
-      .uniq()
-      .forEach((prop) => Reflect.set(props, prop, mapper(prop)))
-      .value();
-    return props;
-  }
-
-  getUnmangled(graph: IObjectGraph): string[] {
-    const graphProperties = this.providedPropertiesForGraph.get(graph.constructor.name);
-    return graphProperties?.unmangledProperties ?? [];
-  }
 
   getMangledProperty(graph: IObjectGraph, unmangledProp: string): string | undefined {
     const className = graph.constructor.name;

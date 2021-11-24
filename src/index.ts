@@ -18,6 +18,6 @@ export const Obsidian = new _obsidian();
 
 const componentInjector = new ComponentInjector();
 export const injectComponent = <P> (
-  __Target: React.ComponentType<P>,
+  __Target: React.FunctionComponent<P>,
   __Graph: Constructable<_ObjectGraph>,
 ) => componentInjector.inject(__Target, __Graph);
