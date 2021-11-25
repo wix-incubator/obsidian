@@ -33,7 +33,7 @@
     "@typescript-eslint/eslint-plugin": "^5.3.0",
     "@typescript-eslint/parser": "^5.3.0",
     "eslint": "^7.32.0",
-    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-airbnb-typescript": "^16.0.0",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-import-newlines": "^1.1.5",
     "eslint-plugin-jsx-a11y": "^6.4.1",
@@ -47,7 +47,7 @@
   },
   "scripts": {
     "prepack": "npm run lint && tsc --project tsconfig.prod.json",
-    "lint": "npx eslint",
+    "lint": "npx eslint src transformers test --ignore-pattern '*.d.ts' --ext .ts,.tsx,.js",
     "pretest": "tsc",
     "test": "npx jest"
   },

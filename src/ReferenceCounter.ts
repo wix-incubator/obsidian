@@ -1,5 +1,5 @@
 class ReferenceCounter {
-  private readonly references = new WeakMap<object, number>()
+  private readonly references = new WeakMap<object, number>();
 
   retain(object: any) {
     const count = this.references.get(object) ?? 0;

@@ -3,8 +3,11 @@ import IObjectGraph from './IObjectGraph';
 
 class GraphRegistry {
   private readonly scopedGraphs: Record<Scope, Constructable<IObjectGraph>> = {};
+
   private readonly constructorToInstance = new Map<Constructable<IObjectGraph>, IObjectGraph>();
+
   private readonly instanceToConstructor = new Map<IObjectGraph, Constructable<IObjectGraph>>();
+
   private readonly graphToSubgraphs = new Map<Constructable<IObjectGraph>, Set<Constructable<IObjectGraph>>>();
 
   register(

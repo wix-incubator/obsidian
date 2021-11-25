@@ -4,7 +4,7 @@ import ObjectGraph from './ObjectGraph';
 
 const injectionMetadataKey = 'injectionMetadata';
 
-export function Injectable<T extends {new(...args: any[]): any}>(Graph: Constructable<ObjectGraph>): any {
+export function Injectable<T extends { new(...args: any[]): any }>(Graph: Constructable<ObjectGraph>): any {
   return (Target: T) => {
     const proxy = {
       construct(target: any, args: any[], newTarget: any): new() => {} {

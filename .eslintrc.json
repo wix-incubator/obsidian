@@ -1,16 +1,19 @@
 {
+    "root": true,
     "env": {
         "es2021": true,
         "jest": true
     },
     "extends": [
-        "airbnb",
+        "airbnb-base",
+        "airbnb-typescript",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:import/typescript"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
+        "project": "./tsconfig.json",
         "ecmaVersion": 2021,
         "sourceType": "module",
         "ecmaFeatures": {
