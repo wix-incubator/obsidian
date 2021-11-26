@@ -5,9 +5,10 @@ export default class PropsInjector<Props> {
 
   inject(passedProps: Props): Partial<Props> {
     // eslint-disable-next-line prefer-object-spread
-    const props = Object.assign({}, passedProps);
-    return new Proxy(props, {
-      get: (_target: object, p: string, receiver: any): any => this.graph.get(p, receiver),
+    return new Proxy(Object.assign({}, passedProps), {
+      get: (target: object, p: string, receiver: any): any => {
+        return p in target ? Reflect.get(target, p, receiver) : this.graph.get(p, receiver);
+      },
     });
   }
 }

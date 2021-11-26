@@ -37,11 +37,12 @@ class GraphRegistry {
 
   resolve<T extends IObjectGraph>(Graph: Constructable<T>, props?: any): T {
     if (this.has(Graph)) {
-      const graph: T = this.get(Graph);
-      const scope = Reflect.getMetadata('scope', Graph);
-      if (scope) return graph;
+      return this.get(Graph);
+      // const graph: T = this.get(Graph);
+      // const scope = Reflect.getMetadata('scope', Graph);
+      // if (scope) return graph;
 
-      this.set(Graph, new Graph(props));
+      // this.set(Graph, new Graph(props));
     }
     const graph = new Graph(props);
     this.set(Graph, graph);
