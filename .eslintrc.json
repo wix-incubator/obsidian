@@ -73,7 +73,9 @@
       "no-shadow": "off",
       "@typescript-eslint/no-shadow": ["error"],
       "react/button-has-type": "off",
-      "react/jsx-one-expression-per-line": ["off"]
+      "react/jsx-one-expression-per-line": ["off"],
+      "arrow-body-style": ["off"],
+      "quotes": ["error", "single", {"avoidEscape": true, "allowTemplateLiterals": true}]
     },
     "settings": {
       "import/resolver": {
