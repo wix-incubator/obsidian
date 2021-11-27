@@ -90,6 +90,7 @@ describe('Sanity', () => {
 
     class ChatAPI {
       static subscribers: Map<string, Function> = new Map();
+
       static subscribeToFriendStatus(friendId: string, statusChangeHandler: Function) {
         ChatAPI.subscribers.set(friendId, statusChangeHandler);
       }

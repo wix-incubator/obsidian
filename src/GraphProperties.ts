@@ -1,5 +1,5 @@
 export default class GraphProperties {
-  private unmangledToMangledPropKeys = new Map<string, string>()
+  private unmangledToMangledPropKeys = new Map<string, string>();
 
   add(mangledPropertyKey: string, unmangledPropertyKey: string) {
     this.unmangledToMangledPropKeys.set(unmangledPropertyKey, mangledPropertyKey);

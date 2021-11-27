@@ -1,16 +1,19 @@
 {
+    "root": true,
     "env": {
         "es2021": true,
         "jest": true
     },
     "extends": [
-        "airbnb",
+        "airbnb-base",
+        "airbnb-typescript",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:import/typescript"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
+        "project": "./tsconfig.json",
         "ecmaVersion": 2021,
         "sourceType": "module",
         "ecmaFeatures": {
@@ -75,7 +78,9 @@
       "react/button-has-type": "off",
       "react/jsx-one-expression-per-line": ["off"],
       "arrow-body-style": ["off"],
-      "quotes": ["error", "single", {"avoidEscape": true, "allowTemplateLiterals": true}]
+      "quotes": ["error", "single", {"avoidEscape": true, "allowTemplateLiterals": true}],
+      "@typescript-eslint/lines-between-class-members": "off",
+      "@typescript-eslint/no-explicit-any": "off"
     },
     "settings": {
       "import/resolver": {

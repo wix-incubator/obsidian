@@ -5,7 +5,7 @@ import MainGraph from './fixtures/MainGraph';
 describe('Class injection', () => {
   @Injectable(MainGraph)
   class MyClass {
-    @Inject someString!: string
+    @Inject someString!: string;
   }
 
   it('Injects class properties', () => {
