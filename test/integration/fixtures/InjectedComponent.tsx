@@ -13,7 +13,4 @@ const InjectedComponent = ({ someString, stringFromSubgraph }: InjectedComponent
   </>
 );
 
-export default injectComponent(
-  InjectedComponent,
-  MainGraph,
-);
+export default injectComponent(InjectedComponent, MainGraph);

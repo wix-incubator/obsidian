@@ -1,4 +1,4 @@
-import ObjectGraph from '../ObjectGraph';
+import ObjectGraph from '../graph/ObjectGraph';
 
 type Constructable<T> = {
   new(...args: any): T;

@@ -2,7 +2,7 @@ import { Constructable } from '@Obsidian';
 import { useEffect, useState } from 'react';
 import 'reflect-metadata';
 import graphRegistry from './GraphRegistry';
-import ObjectGraph from './ObjectGraph';
+import ObjectGraph from './graph/ObjectGraph';
 import referenceCounter from './ReferenceCounter';
 
 export default function injectHook<S, T>(target: (args: S) => T, Graph: Constructable<ObjectGraph>) {

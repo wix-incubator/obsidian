@@ -1,5 +1,5 @@
 import { Scope } from '@Obsidian';
-import IObjectGraph from './IObjectGraph';
+import IObjectGraph from './graph/IObjectGraph';
 import providedPropertiesStore from './ProvidedPropertiesStore';
 
 interface ProvidesParams {

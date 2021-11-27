@@ -1,5 +1,5 @@
 import GraphProperties from './GraphProperties';
-import IObjectGraph from './IObjectGraph';
+import IObjectGraph from './graph/IObjectGraph';
 
 class ProvidedPropertiesStore {
   private readonly providedPropertiesForGraph: Map<string, GraphProperties> = new Map();
