@@ -1,8 +1,8 @@
 import { Scope } from '@Obsidian';
-import IObjectGraph from './IObjectGraph';
+import Graph from './Graph';
 import PropertyRetriever from './PropertyRetriever';
 
-export default abstract class ObjectGraph<T = unknown> implements IObjectGraph {
+export default abstract class ObjectGraph<T = unknown> implements Graph {
   // TODO? rename scope to singleInstance
   public scope!: Scope;
   public name!: string;

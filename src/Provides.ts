@@ -1,5 +1,5 @@
 import { Scope } from '@Obsidian';
-import IObjectGraph from './graph/IObjectGraph';
+import Graph from './graph/Graph';
 import providedPropertiesStore from './ProvidedPropertiesStore';
 
 interface ProvidesParams {
@@ -8,7 +8,7 @@ interface ProvidesParams {
 }
 
 function Provides({ name }: Partial<ProvidesParams> = {}) {
-  return function provide(graph: IObjectGraph, propertyKey: string, descriptor: PropertyDescriptor) {
+  return function provide(graph: Graph, propertyKey: string, descriptor: PropertyDescriptor) {
     providedPropertiesStore.set(graph, propertyKey, name!);
     return descriptor;
   };

@@ -1,15 +1,15 @@
 import graphRegistry from '../GraphRegistry';
-import IObjectGraph from './IObjectGraph';
+import Graph from './Graph';
 import providedPropertiesStore from '../ProvidedPropertiesStore';
 
 export default class PropertyRetriever {
-  constructor(private graph: IObjectGraph) { }
+  constructor(private graph: Graph) { }
 
   retrieve(property: string, receiver?: unknown): unknown | undefined {
     const mangledPropertyKey = providedPropertiesStore.getMangledProperty(this.graph, property);
     if (mangledPropertyKey && mangledPropertyKey in this.graph) {
       const proxiedGraph = new Proxy(this.graph, {
-        get(graph: IObjectGraph, dependencyName: string) {
+        get(graph: Graph, dependencyName: string) {
           return graph.get(dependencyName);
         },
       });
@@ -30,7 +30,7 @@ export default class PropertyRetriever {
   private getFromSubgraphs(property: string, receiver: unknown): unknown[] {
     const subgraphs = graphRegistry.getSubgraphs(this.graph);
     return subgraphs
-      .map((subgraph: IObjectGraph) => subgraph.get(property, receiver))
+      .map((subgraph: Graph) => subgraph.get(property, receiver))
       .filter((result) => result !== undefined);
   }
 }

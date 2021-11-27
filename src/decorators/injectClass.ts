@@ -1,6 +1,6 @@
 import { Constructable } from '@Obsidian';
-import graphRegistry from './GraphRegistry';
-import ObjectGraph from './graph/ObjectGraph';
+import graphRegistry from '../GraphRegistry';
+import ObjectGraph from '../graph/ObjectGraph';
 
 const injectionMetadataKey = 'injectionMetadata';
 

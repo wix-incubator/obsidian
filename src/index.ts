@@ -1,11 +1,11 @@
 import React from 'react';
 import { Constructable } from '@Obsidian';
-import _Graph from './Graph';
+import _Graph from './decorators/Graph';
 import _ObjectGraph from './graph/ObjectGraph';
 import _injectHook from './injectHook';
 import ComponentInjector from './injectors/components/ComponentInjector';
 import _Provides from './Provides';
-import { Inject as _Inject, Injectable as _Injectable } from './injectClass';
+import { Inject as _Inject, Injectable as _Injectable } from './decorators/injectClass';
 import _obsidian from './Obsidian';
 
 export const Graph = _Graph;

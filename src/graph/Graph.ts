@@ -1,6 +1,6 @@
-interface IObjectGraph {
+interface Graph {
   get name(): string;
   get: (property: string, receiver?: unknown) => unknown | undefined;
 }
 
-export default IObjectGraph;
+export default Graph;

@@ -1,44 +1,41 @@
 import { Constructable, Scope } from '@Obsidian';
-import IObjectGraph from './graph/IObjectGraph';
+import Graph from './graph/Graph';
 
 class GraphRegistry {
-  private readonly scopedGraphs: Record<Scope, Constructable<IObjectGraph>> = {};
-
-  private readonly constructorToInstance = new Map<Constructable<IObjectGraph>, IObjectGraph>();
-
-  private readonly instanceToConstructor = new Map<IObjectGraph, Constructable<IObjectGraph>>();
-
-  private readonly graphToSubgraphs = new Map<Constructable<IObjectGraph>, Set<Constructable<IObjectGraph>>>();
+  private readonly scopedGraphs: Record<Scope, Constructable<Graph>> = {};
+  private readonly constructorToInstance = new Map<Constructable<Graph>, Graph>();
+  private readonly instanceToConstructor = new Map<Graph, Constructable<Graph>>();
+  private readonly graphToSubgraphs = new Map<Constructable<Graph>, Set<Constructable<Graph>>>();
 
   register(
-    constructor: Constructable<IObjectGraph>,
+    constructor: Constructable<Graph>,
     scope: Scope | undefined = undefined,
-    subgraphs: Constructable<IObjectGraph>[] = [],
+    subgraphs: Constructable<Graph>[] = [],
   ) {
     if (scope) this.scopedGraphs[scope] = constructor;
     this.graphToSubgraphs.set(constructor, new Set(subgraphs));
   }
 
-  has(Graph: Constructable<IObjectGraph>) {
+  has(Graph: Constructable<Graph>) {
     return this.constructorToInstance.has(Graph);
   }
 
-  get<T extends IObjectGraph>(Graph: Constructable<T>): T {
+  get<T extends Graph>(Graph: Constructable<T>): T {
     return this.constructorToInstance.get(Graph)! as unknown as T;
   }
 
-  set(Graph: Constructable<IObjectGraph>, graph: IObjectGraph) {
+  set(Graph: Constructable<Graph>, graph: Graph) {
     this.constructorToInstance.set(Graph, graph);
     this.instanceToConstructor.set(graph, Graph);
   }
 
-  getSubgraphs(graph: IObjectGraph): IObjectGraph[] {
+  getSubgraphs(graph: Graph): Graph[] {
     const Graph = this.instanceToConstructor.get(graph)!;
     const subgraphs = this.graphToSubgraphs.get(Graph) ?? new Set();
     return Array.from(subgraphs).map((G) => this.resolve(G));
   }
 
-  resolve<T extends IObjectGraph>(Graph: Constructable<T>, props?: any): T {
+  resolve<T extends Graph>(Graph: Constructable<T>, props?: any): T {
     if (this.has(Graph)) {
       return this.get(Graph);
       // const graph: T = this.get(Graph);
@@ -52,7 +49,7 @@ class GraphRegistry {
     return graph;
   }
 
-  clear(graph: IObjectGraph) {
+  clear(graph: Graph) {
     const Graph = this.instanceToConstructor.get(graph)!;
     this.instanceToConstructor.delete(graph);
     this.constructorToInstance.delete(Graph);

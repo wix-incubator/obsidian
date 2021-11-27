@@ -1,7 +1,7 @@
 import { Constructable, Scope } from '@Obsidian';
 import 'reflect-metadata';
-import graphRegistry from './GraphRegistry';
-import ObjectGraph from './graph/ObjectGraph';
+import graphRegistry from '../GraphRegistry';
+import ObjectGraph from '../graph/ObjectGraph';
 
 interface GraphParams {
   scope: Scope | undefined;
