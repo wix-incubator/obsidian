@@ -78,7 +78,9 @@
       "react/button-has-type": "off",
       "react/jsx-one-expression-per-line": ["off"],
       "arrow-body-style": ["off"],
-      "quotes": ["error", "single", {"avoidEscape": true, "allowTemplateLiterals": true}]
+      "quotes": ["error", "single", {"avoidEscape": true, "allowTemplateLiterals": true}],
+      "@typescript-eslint/lines-between-class-members": "off",
+      "@typescript-eslint/no-explicit-any": "off"
     },
     "settings": {
       "import/resolver": {
