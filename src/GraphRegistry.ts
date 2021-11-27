@@ -1,5 +1,5 @@
 import { Constructable, Scope } from '@Obsidian';
-import IObjectGraph from './IObjectGraph';
+import IObjectGraph from './graph/IObjectGraph';
 
 class GraphRegistry {
   private readonly scopedGraphs: Record<Scope, Constructable<IObjectGraph>> = {};

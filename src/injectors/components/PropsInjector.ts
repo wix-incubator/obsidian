@@ -1,4 +1,4 @@
-import ObjectGraph from 'src/ObjectGraph';
+import ObjectGraph from 'src/graph/ObjectGraph';
 
 export default class PropsInjector<Props> {
   constructor(private graph: ObjectGraph) {}

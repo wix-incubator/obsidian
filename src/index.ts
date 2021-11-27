@@ -1,7 +1,7 @@
 import React from 'react';
 import { Constructable } from '@Obsidian';
 import _Graph from './Graph';
-import _ObjectGraph from './ObjectGraph';
+import _ObjectGraph from './graph/ObjectGraph';
 import _injectHook from './injectHook';
 import ComponentInjector from './injectors/components/ComponentInjector';
 import _Provides from './Provides';

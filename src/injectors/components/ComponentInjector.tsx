@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Constructable } from '@Obsidian';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import 'reflect-metadata';
-import ObjectGraph from '../../ObjectGraph';
+import ObjectGraph from '../../graph/ObjectGraph';
 import PropsInjector from './PropsInjector';
 import useGraph from './useGraph';
 

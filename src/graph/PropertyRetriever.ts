@@ -1,6 +1,6 @@
-import graphRegistry from './GraphRegistry';
+import graphRegistry from '../GraphRegistry';
 import IObjectGraph from './IObjectGraph';
-import providedPropertiesStore from './ProvidedPropertiesStore';
+import providedPropertiesStore from '../ProvidedPropertiesStore';
 
 export default class PropertyRetriever {
   constructor(private graph: IObjectGraph) { }

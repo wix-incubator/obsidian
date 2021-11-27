@@ -1,6 +1,6 @@
 import { Constructable, ServiceLocator } from '@Obsidian';
 import graphRegistry from './GraphRegistry';
-import ObjectGraph from './ObjectGraph';
+import ObjectGraph from './graph/ObjectGraph';
 
 export default class Obsidian {
   obtain<T extends ObjectGraph<P>, P = any>(Graph: Constructable<T>, props?: P): ServiceLocator<T> {
