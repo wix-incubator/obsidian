@@ -1,6 +1,7 @@
-interface Graph {
+import PropertyRetrieverDelegate from './PropertyRetrieverDelegate';
+
+interface Graph extends PropertyRetrieverDelegate {
   get name(): string;
-  get: (property: string, receiver?: unknown) => unknown | undefined;
 }
 
 export default Graph;

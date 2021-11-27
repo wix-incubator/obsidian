@@ -21,6 +21,6 @@ class Injector implements ProxyHandler<any> {
   constructor(private graph: ObjectGraph) {}
 
   get(obj: any, property: string, receiver: any): any {
-    return property in obj ? obj[property] : this.graph.get(property, receiver);
+    return property in obj ? obj[property] : this.graph.retrieve(property, receiver);
   }
 }

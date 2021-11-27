@@ -13,7 +13,7 @@ export function Injectable<T extends { new(...args: any[]): any }>(Graph: Constr
         const createdObject = Reflect.construct(target, args, newTarget);
         const graph = graphRegistry.resolve(Graph);
         for (const key of keysToInject) {
-          Reflect.set(createdObject, key, graph.get(key));
+          Reflect.set(createdObject, key, graph.retrieve(key));
         }
         return createdObject;
       },

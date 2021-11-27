@@ -10,7 +10,7 @@ export default class PropertyRetriever {
     if (mangledPropertyKey && mangledPropertyKey in this.graph) {
       const proxiedGraph = new Proxy(this.graph, {
         get(graph: Graph, dependencyName: string) {
-          return graph.get(dependencyName);
+          return graph.retrieve(dependencyName);
         },
       });
       return Reflect.get(this.graph, mangledPropertyKey, receiver)(proxiedGraph);
@@ -30,7 +30,7 @@ export default class PropertyRetriever {
   private getFromSubgraphs(property: string, receiver: unknown): unknown[] {
     const subgraphs = graphRegistry.getSubgraphs(this.graph);
     return subgraphs
-      .map((subgraph: Graph) => subgraph.get(property, receiver))
+      .map((subgraph: Graph) => subgraph.retrieve(property, receiver))
       .filter((result) => result !== undefined);
   }
 }
