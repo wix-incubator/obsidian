@@ -5,8 +5,10 @@ import PropertyRetriever from './PropertyRetriever';
 export default abstract class ObjectGraph<T = unknown> implements Graph {
   // TODO? rename scope to singleInstance
   public scope!: Scope;
-  public name!: string;
   private propertyRetriever = new PropertyRetriever(this);
+  get name(): string {
+    return this.constructor.name;
+  }
 
   // eslint-disable-next-line no-useless-constructor, no-unused-vars, no-empty-function
   constructor(protected props?: T) {}

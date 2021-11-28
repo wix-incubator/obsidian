@@ -5,19 +5,17 @@ class ProvidedPropertiesStore {
   private readonly providedPropertiesForGraph: Map<string, GraphProperties> = new Map();
 
   getMangledProperty(graph: Graph, unmangledProp: string): string | undefined {
-    const className = graph.constructor.name;
-    return this.providedPropertiesForGraph.get(className)?.getMangledProperty(unmangledProp);
+    return this.providedPropertiesForGraph.get(graph.name)?.getMangledProperty(unmangledProp);
   }
 
   set(graph: Graph, mangledProperty: string, unmangledProperty: string) {
-    const className = graph.constructor.name;
-    const graphProperties = this.providedPropertiesForGraph.get(className) ?? new GraphProperties();
+    const graphProperties = this.providedPropertiesForGraph.get(graph.name) ?? new GraphProperties();
     graphProperties.add(mangledProperty, unmangledProperty);
-    this.providedPropertiesForGraph.set(className, graphProperties);
+    this.providedPropertiesForGraph.set(graph.name, graphProperties);
   }
 
   clear(graph: Graph) {
-    this.providedPropertiesForGraph.delete(graph.constructor.name);
+    this.providedPropertiesForGraph.delete(graph.name);
   }
 }
 
