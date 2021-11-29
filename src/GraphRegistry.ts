@@ -6,6 +6,7 @@ class GraphRegistry {
   private readonly constructorToInstance = new Map<Constructable<Graph>, Graph>();
   private readonly instanceToConstructor = new Map<Graph, Constructable<Graph>>();
   private readonly graphToSubgraphs = new Map<Constructable<Graph>, Set<Constructable<Graph>>>();
+  private readonly replacedGraphs = new Map<Constructable<Graph>, Constructable<Graph>>();
 
   register(
     constructor: Constructable<Graph>,
@@ -37,6 +38,7 @@ class GraphRegistry {
 
   resolve<T extends Graph>(Graph: Constructable<T>, props?: any): T {
     if (this.has(Graph)) {
+      if (this.replacedGraphs.has(Graph)) return this.get(this.replacedGraphs.get(Graph) as Constructable<T>);
       return this.get(Graph);
       // const graph: T = this.get(Graph);
       // const scope = Reflect.getMetadata('scope', Graph);
@@ -44,15 +46,25 @@ class GraphRegistry {
 
       // this.set(Graph, new Graph(props));
     }
-    const graph = new Graph(props);
+    const graph = this.instantiate(Graph, props);
     this.set(Graph, graph);
     return graph;
+  }
+
+  instantiate<T extends Graph>(Graph: Constructable<T>, props?: any): T {
+    if (!this.replacedGraphs.has(Graph)) return new Graph(props);
+    const ReplacementGraph = this.replacedGraphs.get(Graph)!;
+    return new ReplacementGraph(props) as T;
   }
 
   clear(graph: Graph) {
     const Graph = this.instanceToConstructor.get(graph)!;
     this.instanceToConstructor.delete(graph);
     this.constructorToInstance.delete(Graph);
+  }
+
+  replace<T extends Graph>(oldGraph: Constructable<T>, newGraph: Constructable<T>) {
+    this.replacedGraphs.set(oldGraph, newGraph);
   }
 }
 
