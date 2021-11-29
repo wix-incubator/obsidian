@@ -7,6 +7,7 @@ import ComponentInjector from './injectors/components/ComponentInjector';
 import _Provides from './Provides';
 import { Inject as _Inject, Injectable as _Injectable } from './decorators/injectClass';
 import _obsidian from './Obsidian';
+import _testKit from './testKit/TestKit';
 
 export const Graph = _Graph;
 export const ObjectGraph = _ObjectGraph;
@@ -21,3 +22,5 @@ export const injectComponent = <P> (
   __Target: React.FunctionComponent<P>,
   __Graph: Constructable<_ObjectGraph>,
 ) => componentInjector.inject(__Target, __Graph);
+
+export const TestKit = _testKit;
