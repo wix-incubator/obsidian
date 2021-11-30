@@ -38,7 +38,6 @@ class GraphRegistry {
 
   resolve<T extends Graph>(Graph: Constructable<T>, props?: any): T {
     if (this.has(Graph)) {
-      if (this.replacedGraphs.has(Graph)) return this.get(this.replacedGraphs.get(Graph) as Constructable<T>);
       return this.get(Graph);
       // const graph: T = this.get(Graph);
       // const scope = Reflect.getMetadata('scope', Graph);
