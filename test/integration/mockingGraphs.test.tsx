@@ -2,11 +2,11 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { GraphCreator } from 'src/graph/registry/GraphCreator';
 import { Constructable } from '@Obsidian';
-import ObjectGraph from 'src/graph/ObjectGraph';
 import { Graph, Obsidian, Provides } from '../../src';
 import InjectedComponent from './fixtures/InjectedComponent';
 import MainGraph from './fixtures/MainGraph';
 import Subgraph from './fixtures/Subgraph';
+import ObjectGraph from '../../src/graph/Graph';
 
 describe('Test doubles', () => {
   let Component: React.FunctionComponent;
