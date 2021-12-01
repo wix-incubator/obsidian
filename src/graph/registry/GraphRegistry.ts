@@ -1,11 +1,13 @@
 import { Constructable, Scope } from '@Obsidian';
-import Graph from './graph/Graph';
+import Graph from '../Graph';
+import { GraphCreator, ObsidianGraphCreator } from './GraphCreator';
 
 class GraphRegistry {
   private readonly scopedGraphs: Record<Scope, Constructable<Graph>> = {};
   private readonly constructorToInstance = new Map<Constructable<Graph>, Graph>();
   private readonly instanceToConstructor = new Map<Graph, Constructable<Graph>>();
   private readonly graphToSubgraphs = new Map<Constructable<Graph>, Set<Constructable<Graph>>>();
+  private graphCreator: GraphCreator = new ObsidianGraphCreator();
 
   register(
     constructor: Constructable<Graph>,
@@ -44,7 +46,7 @@ class GraphRegistry {
 
       // this.set(Graph, new Graph(props));
     }
-    const graph = new Graph(props);
+    const graph = this.graphCreator.create(Graph, props);
     this.set(Graph, graph);
     return graph;
   }
@@ -53,6 +55,14 @@ class GraphRegistry {
     const Graph = this.instanceToConstructor.get(graph)!;
     this.instanceToConstructor.delete(graph);
     this.constructorToInstance.delete(Graph);
+  }
+
+  setGraphCreator(creator: GraphCreator) {
+    this.graphCreator = creator;
+  }
+
+  clearGraphCreator() {
+    this.graphCreator = new ObsidianGraphCreator();
   }
 }
 

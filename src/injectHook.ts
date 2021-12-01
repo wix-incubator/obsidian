@@ -1,7 +1,7 @@
 import { Constructable } from '@Obsidian';
 import { useEffect, useState } from 'react';
 import 'reflect-metadata';
-import graphRegistry from './GraphRegistry';
+import graphRegistry from './graph/registry/GraphRegistry';
 import ObjectGraph from './graph/ObjectGraph';
 import referenceCounter from './ReferenceCounter';
 
