@@ -1,35 +1,108 @@
-# react-native-obsidian
-[![License][]](https://opensource.org/licenses/ISC)
-[![Build Status]](https://github.com/wix-private/react-obsidian/actions/workflows/ci.yml)
-[![NPM Package]](https://npmjs.org/package/react-obsidian)
-[![Code Coverage]](https://codecov.io/gh/wix-private/react-obsidian)
-[![semantic-release]](https://github.com/semantic-release/semantic-release)
-
-[License]: https://img.shields.io/badge/License-ISC-blue.svg
-[Build Status]: https://github.com/wix-private/react-obsidian/actions/workflows/ci.yml/badge.svg
-[NPM Package]: https://img.shields.io/npm/v/react-obsidian.svg
-[Code Coverage]: https://codecov.io/gh/wix-private/react-obsidian/branch/master/graph/badge.svg
-[semantic-release]: https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg
+# react-obsidian
 
 > Dependency injection framework for React and React Native applications
 
-## Install
+## Installation
 
 ``` shell
 npm install react-obsidian
 ```
 
-## Use
+## Usage
+
+### Declare an object graph
+Before we can inject dependencies into hooks, components and classes, we first need to declare our dependencies. Dependencies are declared in classes called "Graphs" where the relationships between the dependencies are outlined.
+
+In the `ApplicationGraph` example below, we declare two dependencies:
+1. `httpClient`
+2. `biLogger`
+
+Both functions are annotated by the `@Provides()` annotation. This signals Obsidian that the results of these functions are provided by the graph and can be injected.
+
+Notice how the biLogger function receives an `httpClient` as an argument. This means that `biLogger` has a dependency on `httpClient`. Obsidian will create an `httpClient` when `biLogger` is injected. 
 
 ``` typescript
-import { reactObsidian } from 'react-obsidian'
-// TODO: describe usage
+@Graph()
+export default class ApplicationGraph extends ObjectGraph {
+  @Provides()
+  httpClient(): HttpClient {
+    return new HttpClient();
+  }
+
+  @Provides()
+  biLogger(httpClient: HttpClient): BiLogger {
+    return new BiLogger(httpClient);
+  }
+}
+```
+
+### Component injection
+```typescript
+import {injectComponent} from 'react-obsidian';
+
+interface InjectedComponentProps {
+  biLogger: BiLogger;
+}
+
+// When injecting components - we must use destructuring in order for Obsidian to know which dependencies to inject.
+const InjectedComponent = ({ biLogger }: InjectedComponentProps) => (
+  <>
+    <button onclick={biLogger.logButtonClick}>Click Me</button>
+  </>
+);
+
+export default injectComponent(InjectedComponent, MainGraph);
+```
+
+### Hooks injection
+
+```typescript
+interface UseButtonPressProps {
+  biLogger: BiLogger;
+}
+
+interface UseButtonPress {
+  usePress: () => void;
+}
+
+// Similarly to how dependencies are injected into hooks, we must use destructuring for Obsidian to be able to inject the dependencies.
+const useButtonClick = ({ biLogger }: UseButtonPressProps): UseButtonPress => {
+  const onClick = useCallback(() => {
+    biLogger.logButtonClick();
+  }, [biLogger]);
+  
+  return { onClick };
+};
+
+// Dependencies are injected from MainGraph
+export default injectHook(usePress, MainGraph);
+
+// Now that exported the injected hook, we can use it in a component without needed so provide it's dependencies manually
+const Component = () => (
+  // No need to specify dependencies as they are injected automatically
+  const { onClick } = useButtonClick();
+  <>
+    <button onclick={onClick}>Click Me</button>
+  </>
+);
+```
+
+### Class injection
+Obsidian supports injected class properties. Constructor injection is not supported at this time.
+
+```typescript
+@Injectable(MainGraph)
+class ButtonController {
+  @Inject biLogger!: BiLogger;
+
+  onClick() {
+    this.biLogger.logButtonClick();
+  }
+}
 ```
 
 ## Related
 
-TODO
-
-## Acknowledgments
-
-TODO
+* [InversifyJS](https://github.com/inversify/InversifyJS)
+* [tsyringe](https://github.com/microsoft/tsyringe)
+* [Dagger](https://github.com/google/dagger)
