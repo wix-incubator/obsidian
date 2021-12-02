@@ -1,5 +1,4 @@
 import { Constructable, Scope } from '@Obsidian';
-import _ from 'lodash';
 import Graph from '../Graph';
 import { GraphResolver } from './interfaces';
 import GraphResolversChain from './GraphResolversChain';
