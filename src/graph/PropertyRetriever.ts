@@ -1,4 +1,4 @@
-import graphRegistry from '../GraphRegistry';
+import graphRegistry from './registry/GraphRegistry';
 import Graph from './Graph';
 import providedPropertiesStore from '../ProvidedPropertiesStore';
 

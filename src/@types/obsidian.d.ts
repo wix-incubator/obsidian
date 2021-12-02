@@ -2,14 +2,18 @@ import ObjectGraph from '../graph/ObjectGraph';
 
 type Constructable<T> = {
   new(...args: any): T;
-}
+};
 
-type Scope = string | number | symbol
+type GraphClass<T extends ObjectGraph<P>, P> = {
+  new(props?: P): T;
+};
 
-type Constructor = {new(...args: any[]): any}
+type Scope = string | number | symbol;
 
-type GraphType = {new(...args: any[]): ObjectGraph};
+type Constructor = { new(...args: any[]): any };
+
+type GraphType = { new(...args: any[]): ObjectGraph };
 
 type ServiceLocator<Clazz> = {
   [Key in keyof Clazz]: Function
-}
+};

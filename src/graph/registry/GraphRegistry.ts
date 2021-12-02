@@ -1,11 +1,14 @@
 import { Constructable, Scope } from '@Obsidian';
-import Graph from './graph/Graph';
+import Graph from '../Graph';
+import { GraphMiddleware } from './GraphMiddleware';
+import GraphMiddlewareChain from './GraphMiddlewareChain';
 
 class GraphRegistry {
   private readonly scopedGraphs: Record<Scope, Constructable<Graph>> = {};
   private readonly constructorToInstance = new Map<Constructable<Graph>, Graph>();
   private readonly instanceToConstructor = new Map<Graph, Constructable<Graph>>();
   private readonly graphToSubgraphs = new Map<Constructable<Graph>, Set<Constructable<Graph>>>();
+  private graphMiddlewares = new GraphMiddlewareChain();
 
   register(
     constructor: Constructable<Graph>,
@@ -44,7 +47,7 @@ class GraphRegistry {
 
       // this.set(Graph, new Graph(props));
     }
-    const graph = new Graph(props);
+    const graph = this.graphMiddlewares.resolve(Graph, props);
     this.set(Graph, graph);
     return graph;
   }
@@ -53,6 +56,14 @@ class GraphRegistry {
     const Graph = this.instanceToConstructor.get(graph)!;
     this.instanceToConstructor.delete(graph);
     this.constructorToInstance.delete(Graph);
+  }
+
+  addGraphMiddleware(middleware: GraphMiddleware) {
+    this.graphMiddlewares.add(middleware);
+  }
+
+  clearGraphMiddlewares() {
+    this.graphMiddlewares.clear();
   }
 }
 
