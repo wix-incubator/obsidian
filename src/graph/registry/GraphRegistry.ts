@@ -1,14 +1,14 @@
 import { Constructable, Scope } from '@Obsidian';
 import Graph from '../Graph';
-import { GraphResolver } from './interfaces';
-import GraphResolversChain from './GraphResolversChain';
+import { GraphMiddleware } from './GraphMiddleware';
+import GraphMiddlewareChain from './GraphMiddlewareChain';
 
 class GraphRegistry {
   private readonly scopedGraphs: Record<Scope, Constructable<Graph>> = {};
   private readonly constructorToInstance = new Map<Constructable<Graph>, Graph>();
   private readonly instanceToConstructor = new Map<Graph, Constructable<Graph>>();
   private readonly graphToSubgraphs = new Map<Constructable<Graph>, Set<Constructable<Graph>>>();
-  private graphResolvers = new GraphResolversChain();
+  private graphMiddlewares = new GraphMiddlewareChain();
 
   register(
     constructor: Constructable<Graph>,
@@ -47,7 +47,7 @@ class GraphRegistry {
 
       // this.set(Graph, new Graph(props));
     }
-    const graph = this.graphResolvers.resolve(Graph, props);
+    const graph = this.graphMiddlewares.resolve(Graph, props);
     this.set(Graph, graph);
     return graph;
   }
@@ -58,12 +58,12 @@ class GraphRegistry {
     this.constructorToInstance.delete(Graph);
   }
 
-  addGraphResolver(resolver: GraphResolver) {
-    this.graphResolvers.add(resolver);
+  addGraphMiddleware(middleware: GraphMiddleware) {
+    this.graphMiddlewares.add(middleware);
   }
 
-  clearGraphResolvers() {
-    this.graphResolvers.clear();
+  clearGraphMiddlewares() {
+    this.graphMiddlewares.clear();
   }
 }
 

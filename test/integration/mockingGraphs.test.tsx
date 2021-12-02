@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import { GraphResolver, ResolveChain } from 'src/graph/registry/interfaces';
 import { Constructable } from '@Obsidian';
+import { GraphMiddleware, ResolveChain } from '../../src/graph/registry/GraphMiddleware';
 import MainGraph from './fixtures/MainGraph';
 import Subgraph from './fixtures/Subgraph';
 import { Graph, Obsidian, Provides } from '../../src';
@@ -10,11 +10,8 @@ import ObjectGraph from '../../src/graph/Graph';
 
 describe('Test doubles', () => {
   let Component: React.FunctionComponent;
-  const mockGraphCreator: GraphResolver = {
-    resolve: <T extends ObjectGraph, Props>(
-      resolveChain: ResolveChain,
-      Graph: Constructable<T>,
-      props?: Props): T => {
+  const graphMiddleware = new class extends GraphMiddleware {
+    resolve<T extends ObjectGraph, Props>(resolveChain: ResolveChain, Graph: Constructable<T>, props?: Props) {
       switch (Graph.name) {
         case MainGraph.name:
           return new MockMainGraph(props) as unknown as T;
@@ -23,16 +20,19 @@ describe('Test doubles', () => {
         default:
           return resolveChain.proceed(Graph, props);
       }
-    },
-  };
+    }
+  }();
+
+  beforeAll(() => {
+    Obsidian.addGraphMiddleware(graphMiddleware);
+  });
 
   beforeEach(() => {
     Component = InjectedComponent;
-    Obsidian.addGraphResolver(mockGraphCreator);
   });
 
   afterAll(() => {
-    Obsidian.clearGraphResolvers();
+    Obsidian.clearGraphMiddlewares();
   });
 
   it('Supports replacing graphs with test doubles', () => {
