@@ -1,13 +1,15 @@
 import { Constructable, Scope } from '@Obsidian';
+import _ from 'lodash';
 import Graph from '../Graph';
-import { GraphCreator, ObsidianGraphCreator } from './GraphCreator';
+import { GraphResolver } from './interfaces';
+import GraphResolversChain from './GraphResolversChain';
 
 class GraphRegistry {
   private readonly scopedGraphs: Record<Scope, Constructable<Graph>> = {};
   private readonly constructorToInstance = new Map<Constructable<Graph>, Graph>();
   private readonly instanceToConstructor = new Map<Graph, Constructable<Graph>>();
   private readonly graphToSubgraphs = new Map<Constructable<Graph>, Set<Constructable<Graph>>>();
-  private graphCreator: GraphCreator = new ObsidianGraphCreator();
+  private graphResolvers = new GraphResolversChain();
 
   register(
     constructor: Constructable<Graph>,
@@ -46,7 +48,7 @@ class GraphRegistry {
 
       // this.set(Graph, new Graph(props));
     }
-    const graph = this.graphCreator.create(Graph, props);
+    const graph = this.graphResolvers.resolve(Graph, props);
     this.set(Graph, graph);
     return graph;
   }
@@ -57,12 +59,12 @@ class GraphRegistry {
     this.constructorToInstance.delete(Graph);
   }
 
-  setGraphCreator(creator: GraphCreator) {
-    this.graphCreator = creator;
+  addGraphResolver(resolver: GraphResolver) {
+    this.graphResolvers.add(resolver);
   }
 
-  clearGraphCreator() {
-    this.graphCreator = new ObsidianGraphCreator();
+  clearGraphResolvers() {
+    this.graphResolvers.clear();
   }
 }
 
