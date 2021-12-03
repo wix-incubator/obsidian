@@ -8,6 +8,47 @@
 npm install react-obsidian
 ```
 
+## Prerequisites
+Obsidian is highly opinionated and is developed with a specific environment in mind. Therefore, it has a few prerequisites for projects that want to integrate it.
+
+### TypeScript
+Obsidian targets TypeScript projects. There are no plans to officially support pure JS environments.
+
+### Reflect-metadata
+Install and enable the reflect-metadata polyfill.
+* `npm install reflect-metadata`
+* `import 'reflect-metadata';` - this needs to be done once, typically in your application's entry point (index.ts).
+
+### Enable experimental decorators
+Obsidian uses the Decorators feature whose proposal is still stage 2.
+
+Add the following options to your `tsconfig.json` file.
+```json
+{
+  "compilerOptions": {
+    "types": ["reflect-metadata", "jest"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  }
+}
+```
+
+### Babel
+Obsidian relies on reflection to resolve dependencies. Production code is typically mangled to reduce bundle size. This means that some names Obsidian expects are changed during the mangling process. To workaround this, Obsidian persists the names of methods annotated with the `@Provides` decorator with a Babel transformer.
+
+### Add Obsidian's babel transformer
+Add the transformer to the list of plugins in your `.babel` file.
+```js
+module.exports = {
+  presets: ['module:metro-react-native-babel-preset'],
+  plugins: [
+    ['@babel/plugin-proposal-decorators', {legacy: true}],
+    ['@babel/plugin-proposal-class-properties', {legacy: true}],
+    [`${__dirname}/../dist/transformers/babel-plugin-obsidian-provide`],
+  ],
+};
+
+```
 ## Usage
 
 ### Declare an object graph
