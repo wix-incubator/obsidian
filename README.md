@@ -51,7 +51,7 @@ const InjectedComponent = ({ biLogger }: InjectedComponentProps) => (
   </>
 );
 
-export default injectComponent(InjectedComponent, MainGraph);
+export default injectComponent(InjectedComponent, ApplicationGraph);
 ```
 
 ### Hooks injection
@@ -74,8 +74,8 @@ const useButtonClick = ({ biLogger }: UseButtonPressProps): UseButtonPress => {
   return { onClick };
 };
 
-// Dependencies are injected from MainGraph
-export default injectHook(usePress, MainGraph);
+// Dependencies are injected from ApplicationGraph
+export default injectHook(usePress, ApplicationGraph);
 
 // Now that exported the injected hook, we can use it in a component without needed so provide it's dependencies manually
 const Component = () => (
@@ -91,7 +91,7 @@ const Component = () => (
 Obsidian supports injected class properties. Constructor injection is not supported at this time.
 
 ```typescript
-@Injectable(MainGraph)
+@Injectable(MainApplicationGraphGraph)
 class ButtonController {
   @Inject biLogger!: BiLogger;
 
@@ -100,6 +100,15 @@ class ButtonController {
   }
 }
 ```
+
+### Obtaining dependencies from a graph
+Dependencies can also be obtained by accessing the graph that provides them.
+
+```typescript
+Obsidian.obtain(ApplicationGraph).biLogger();
+```
+
+> Note: While the function that provides the `biLogger` accepts an argument of type `HttpClient`, when obtaining dependencies directly from the graph, we don't provide dependencies ourselves as they are resolved by Obsidian.
 
 ## Prerequisites
 Obsidian is highly opinionated and is developed with a specific environment in mind. Therefore, it has a few prerequisites for projects that want to integrate it.
