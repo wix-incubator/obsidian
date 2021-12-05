@@ -7,3 +7,5 @@ steps:
       if [[ $(echo $BUILDKITE_MESSAGE | tr '[:upper:]' '[:lower:]') =~ release ]];then
         npm publish
       fi
+    agents:
+      queue: testing
