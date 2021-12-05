@@ -91,7 +91,7 @@ const Component = () => (
 Obsidian supports injected class properties. Constructor injection is not supported at this time.
 
 ```typescript
-@Injectable(MainApplicationGraphGraph)
+@Injectable(ApplicationGraph)
 class ButtonController {
   @Inject biLogger!: BiLogger;
 
