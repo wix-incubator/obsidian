@@ -1,0 +1,11 @@
+steps:
+  - label: ":crossed_swords: Build"
+    command: |
+      nvm install
+      npm install
+      npm run test
+      if [[ $(echo $BUILDKITE_MESSAGE | tr '[:upper:]' '[:lower:]') =~ release ]];then
+        npm publish
+      fi
+    agents:
+      queue: testing
