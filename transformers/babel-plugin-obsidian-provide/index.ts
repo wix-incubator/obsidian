@@ -30,7 +30,9 @@ const internalVisitor = {
 };
 
 function convertProviderParamsToDestructuringAssignment(node: ClassMethod) {
-  node.params.fill(paramsToDestructuringAssignment(node.params));
+  const destructuredParams = paramsToDestructuringAssignment(node.params);
+  node.params.length = 0;
+  node.params.push(destructuredParams);
 }
 
 function saveUnmangledMethodNameInProviderArguments(node: ClassMethod, decorator: Decorator) {

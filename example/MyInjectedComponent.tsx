@@ -9,8 +9,18 @@ interface DependenciesProps {
 @Graph()
 class DependenciesGraph extends ObjectGraph<DependenciesProps> {
   @Provides()
-  myText(): string {
-    return 'Hello injected';
+  firstDependency(): string {
+    return 'firstDependency';
+  }
+
+  @Provides()
+  secondDependency(): string {
+    return 'secondDependency';
+  }
+
+  @Provides()
+  myText(firstDependency: string, secondDependency: string): string {
+    return `Hello injected from ${firstDependency} + ${secondDependency}`;
   }
 }
 
@@ -24,5 +34,4 @@ const MyInjectedComponent: React.FunctionComponent<DependenciesProps> = ({
   );
 };
 
-// export default injectComponent(MyInjectedComponent, DependenciesGraph);
 export default injectComponent(MyInjectedComponent, DependenciesGraph);

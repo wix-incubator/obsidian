@@ -3,8 +3,8 @@ import providerArgumentsTransformer from './index';
 
 const unnamedProvider = `class MainGraph {
   @Provides()
-  someString(stringProvider) {
-    return stringProvider.theString;
+  someString(stringProvider, emptyString) {
+    return stringProvider.theString + emptyString;
   }
 }`;
 

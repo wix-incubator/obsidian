@@ -9,9 +9,10 @@ let MainGraph = (_dec = Provides({
   name: \\"someString\\"
 }), (_class = class MainGraph {
   someString({
-    stringProvider: stringProvider
+    stringProvider: stringProvider,
+    emptyString: emptyString
   }) {
-    return stringProvider.theString;
+    return stringProvider.theString + emptyString;
   }
 
 }, (_applyDecoratedDescriptor(_class.prototype, \\"someString\\", [_dec], Object.getOwnPropertyDescriptor(_class.prototype, \\"someString\\"), _class.prototype)), _class));"
