@@ -4,6 +4,7 @@
         "es2021": true,
         "jest": true
     },
+    "ignorePatterns": ["**/*.config.js"],
     "extends": [
         "airbnb-base",
         "airbnb-typescript",
