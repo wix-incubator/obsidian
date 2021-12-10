@@ -15,6 +15,13 @@ const namedProvider = `class MainGraph {
   }
 }`;
 
+const noArgsProvider = `class MainGraph {
+  @Provides()
+  someString() {
+    return 'someString';
+  }
+}`;
+
 describe('Provider Arguments Transformer', () => {
   const uut: Function = providerArgumentsTransformer;
 
@@ -25,6 +32,11 @@ describe('Provider Arguments Transformer', () => {
 
   it('Does not add name if name is provided by the user', () => {
     const result = transformSync(namedProvider);
+    expect(result?.code).toMatchSnapshot();
+  });
+
+  it('handles providers that have no arguments', () => {
+    const result = transformSync(noArgsProvider);
     expect(result?.code).toMatchSnapshot();
   });
 

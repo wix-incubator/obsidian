@@ -30,6 +30,7 @@ const internalVisitor = {
 };
 
 function convertProviderParamsToDestructuringAssignment(node: ClassMethod) {
+  if (node.params.length === 0) return;
   const destructuredParams = paramsToDestructuringAssignment(node.params);
   node.params.length = 0;
   node.params.push(destructuredParams);
