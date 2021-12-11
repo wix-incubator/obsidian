@@ -17,3 +17,5 @@ type GraphType = { new(...args: any[]): ObjectGraph };
 type ServiceLocator<Clazz> = {
   [Key in keyof Clazz]: Function
 };
+
+type GraphInternals = 'retrieve' | 'name' | 'scope';
