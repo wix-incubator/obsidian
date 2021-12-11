@@ -110,6 +110,33 @@ Obsidian.obtain(ApplicationGraph).biLogger();
 
 > Note: While the function that provides the `biLogger` accepts an argument of type `HttpClient`, when obtaining dependencies directly from the graph, we don't provide dependencies ourselves as they are resolved by Obsidian.
 
+## Advance usage
+### Graph middlewares
+When working on large scale applications, a need to hook into various low level operations often arises. Obsidian lets you hook into the graph creation process by adding middlewares.
+
+Middlewares are invoked in LIFO order and can be used for various purposes:
+1. Create a graph yourself instead of letting Obsidian instantiate it.
+2. Add logging to graph creation.
+3. Handle errors when Obsidian instantiates graphs.
+4. Replace graphs with mocks for testing purposes.
+
+Middlewares follow the Chain of Responsibility pattern and therefor must always return a graph, either by creating one explicitly or by returning the instance created by another member in the resolve chain.
+
+#### Adding a logging middleware
+The following example demonstrates how to add a middleware that's used for logging purposes.
+
+```typescript
+const loggingMiddleware = new class extends GraphMiddleware {
+      resolve<T extends ObjectGraph, Props>(resolveChain: ResolveChain, Graph: Constructable<T>, props?: Props) {
+        const t1 = Date.now();
+        const graph = resolveChain.proceed(Graph, props);
+        const t2 = Date.now();
+        console.log(`Graph created in ${t2 - t1} milliseconds`);
+        return graph;
+      }
+    }();
+    Obsidian.addGraphMiddleware(loggingMiddleware);
+```
 ## Prerequisites
 Obsidian is highly opinionated and is developed with a specific environment in mind. Therefore, it has a few prerequisites for projects that want to integrate it.
 
