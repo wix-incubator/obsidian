@@ -1,5 +1,5 @@
-import Subgraph from '../../test/integration/fixtures/Subgraph';
-import { Obsidian } from '../index';
+import Subgraph from '../../../test/integration/fixtures/Subgraph';
+import { Obsidian } from '../../index';
 
 describe('Provides', () => {
   it('creates annotated dependency only once', () => {
