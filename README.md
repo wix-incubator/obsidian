@@ -175,9 +175,10 @@ module.exports = {
     react-obsidian/dist/transformers/babel-plugin-obsidian-provide
   ],
 };
-
 ```
 
+### Jest
+react-obsidian publishes untranspiled code. If you're using Jest, you'll need to add react-obsidian to [transformIgnorePatterns](https://jestjs.io/docs/configuration#transformignorepatterns-arraystring) so it's transpiled before tests are executed.
 
 ## Related
 
