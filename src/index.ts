@@ -3,7 +3,7 @@ import { Constructable } from '@Obsidian';
 import _Graph from './decorators/Graph';
 import _ObjectGraph from './graph/ObjectGraph';
 import ComponentInjector from './injectors/components/ComponentInjector';
-import _Provides from './Provides';
+import _Provides from './decorators/provides/Provides';
 import { Inject as _Inject, Injectable as _Injectable } from './decorators/injectClass';
 import _obsidian from './Obsidian';
 import HookInjector from './injectors/hooks/HookInjector';
