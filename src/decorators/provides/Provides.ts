@@ -1,4 +1,3 @@
-import { Scope } from '@Obsidian';
 import Graph from '../../graph/Graph';
 import providedPropertiesStore from '../../ProvidedPropertiesStore';
 import makeSingleton from './PropertyDescriptorToSingleton';

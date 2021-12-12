@@ -1,4 +1,3 @@
-import { Constructable } from '@Obsidian';
 import Graph from '../Graph';
 import DefaultGraphMiddleware from './DefaultGraphResolver';
 import { GraphMiddleware } from './GraphMiddleware';

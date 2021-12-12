@@ -1,4 +1,3 @@
-import { Constructable } from '@Obsidian';
 import Graph from '../Graph';
 
 export abstract class GraphMiddleware {

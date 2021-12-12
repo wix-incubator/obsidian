@@ -1,5 +1,5 @@
-import { Constructable } from '@Obsidian';
-import ObjectGraph from 'src/graph/ObjectGraph';
+import ObjectGraph from '../../graph/ObjectGraph';
+import Graph from '../../graph/Graph';
 import useGraph from '../components/useGraph';
 
 export default class HookInjector {
@@ -15,7 +15,7 @@ export default class HookInjector {
 }
 
 class Injector implements ProxyHandler<any> {
-  constructor(private graph: ObjectGraph) {}
+  constructor(private graph: Graph) {}
 
   get(obj: any, property: string, receiver: any): any {
     return property in obj ? obj[property] : this.graph.retrieve(property, receiver);

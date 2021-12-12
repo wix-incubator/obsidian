@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Constructable } from '@Obsidian';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import 'reflect-metadata';
 import ObjectGraph from '../../graph/ObjectGraph';

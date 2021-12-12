@@ -1,4 +1,3 @@
-import { Scope } from '@Obsidian';
 import Graph from './Graph';
 import PropertyRetriever from './PropertyRetriever';
 

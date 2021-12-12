@@ -35,9 +35,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "types": ["reflect-metadata", "jest"],
-    "baseUrl": "./",
-    "paths": {
-      "@Obsidian": ["./src/@types/obsidian.d.ts"]
-    },
+    "baseUrl": "./"
   }
 }
