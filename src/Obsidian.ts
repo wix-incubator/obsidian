@@ -1,4 +1,3 @@
-import { Constructable, GraphInternals, ServiceLocator } from '@Obsidian';
 import graphRegistry from './graph/registry/GraphRegistry';
 import ObjectGraph from './graph/ObjectGraph';
 import { GraphMiddleware } from './graph/registry/GraphMiddleware';

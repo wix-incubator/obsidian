@@ -1,5 +1,3 @@
-import { Scope } from '@Obsidian';
-
 class ScopedValuesRegistry {
   private readonly values: Map<string, any> = new Map();
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Constructable } from '@Obsidian';
 import _Graph from './decorators/Graph';
 import _ObjectGraph from './graph/ObjectGraph';
 import ComponentInjector from './injectors/components/ComponentInjector';

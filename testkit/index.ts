@@ -1,6 +1,5 @@
 import { GraphMiddleware, ResolveChain } from '../src/graph/registry/GraphMiddleware';
 import ObjectGraph from '../src/graph/Graph';
-import { Constructable } from '../src/@types/obsidian';
 import { Obsidian } from '../src';
 
 beforeEach(() => {

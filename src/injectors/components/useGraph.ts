@@ -1,6 +1,5 @@
-import { Constructable } from '@Obsidian';
 import { useEffect, useState } from 'react';
-import ObjectGraph from 'src/graph/ObjectGraph';
+import ObjectGraph from '../../graph/ObjectGraph';
 import graphRegistry from '../../graph/registry/GraphRegistry';
 import referenceCounter from '../../ReferenceCounter';
 
