@@ -1,3 +1,4 @@
+import { Constructable } from '../../types';
 import Graph from '../Graph';
 
 export abstract class GraphMiddleware {

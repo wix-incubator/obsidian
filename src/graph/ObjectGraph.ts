@@ -1,3 +1,4 @@
+import { Scope } from '../types';
 import Graph from './Graph';
 import PropertyRetriever from './PropertyRetriever';
 

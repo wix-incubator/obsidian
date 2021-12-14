@@ -6,6 +6,9 @@ import _Provides from './decorators/provides/Provides';
 import { Inject as _Inject, Injectable as _Injectable } from './decorators/injectClass';
 import _obsidian from './Obsidian';
 import HookInjector from './injectors/hooks/HookInjector';
+import { Constructable } from './types';
+
+export * from './types';
 
 export const Graph = _Graph;
 export const ObjectGraph = _ObjectGraph;

@@ -4,6 +4,7 @@ import 'reflect-metadata';
 import ObjectGraph from '../../graph/ObjectGraph';
 import PropsInjector from './PropsInjector';
 import useGraph from './useGraph';
+import { Constructable } from '../../types';
 
 export default class ComponentInjector {
   inject<P>(

@@ -38,8 +38,5 @@
     "types": ["reflect-metadata", "jest"],
     "emitDecoratorMetadata": true,
     "baseUrl": "./",
-    "paths": {
-      "@Obsidian": ["../src/@types/obsidian.d.ts"]
-    }
   }
 }

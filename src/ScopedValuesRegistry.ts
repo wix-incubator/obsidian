@@ -1,3 +1,5 @@
+import { Scope } from './types';
+
 class ScopedValuesRegistry {
   private readonly values: Map<string, any> = new Map();
 

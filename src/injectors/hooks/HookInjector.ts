@@ -1,6 +1,7 @@
 import ObjectGraph from '../../graph/ObjectGraph';
 import Graph from '../../graph/Graph';
 import useGraph from '../components/useGraph';
+import { Constructable } from '../../types';
 
 export default class HookInjector {
   inject<Args, Result>(

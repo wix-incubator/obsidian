@@ -1,3 +1,4 @@
+import { Constructable } from '../types';
 import graphRegistry from '../graph/registry/GraphRegistry';
 import ObjectGraph from '../graph/ObjectGraph';
 

@@ -1,6 +1,6 @@
 import { GraphMiddleware, ResolveChain } from '../src/graph/registry/GraphMiddleware';
 import ObjectGraph from '../src/graph/Graph';
-import { Obsidian } from '../src';
+import { Constructable, Obsidian } from '../src';
 
 beforeEach(() => {
   Obsidian.clearGraphMiddlewares();

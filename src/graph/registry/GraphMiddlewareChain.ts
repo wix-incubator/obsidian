@@ -1,3 +1,4 @@
+import { Constructable } from '../../types';
 import Graph from '../Graph';
 import DefaultGraphMiddleware from './DefaultGraphResolver';
 import { GraphMiddleware } from './GraphMiddleware';
