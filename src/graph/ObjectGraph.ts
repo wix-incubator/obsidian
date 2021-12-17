@@ -9,7 +9,6 @@ export default abstract class ObjectGraph<T = unknown> implements Graph {
   public scope!: Scope;
   private propertyRetriever = new PropertyRetriever(this);
 
-  @Memoize()
   protected get nameCreator(): NameCreator {
     return new NameCreator(this);
   }
