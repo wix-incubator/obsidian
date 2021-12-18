@@ -154,7 +154,6 @@ describe('Sanity', () => {
 
     @Graph()
     class TestGraph extends ObjectGraph<TestProps> {
-      // @Provides({ name: 'myProp' })
       @Provides()
       myProp(): string {
         return mockTestPropValue;
