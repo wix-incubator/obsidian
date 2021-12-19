@@ -2,6 +2,13 @@
 
 > Dependency injection framework for React and React Native applications
 
+## Introduction
+Applications are made of objects that communicate with each other. An object can depend on other objects so it can perform its responsibilities. For an object to function properly, its dependencies must be fulfilled when the object is constructed.
+
+React Obsidian is a dependency injection framework for React and React Native applications. It allows you to inject dependencies effortlessly into hooks, components or classes. Separating the construction and consumption of dependencies is crucial to maintaining a readable and testable codebase.
+
+React Obsidian is guided by the principles of the Dependency Injection pattern, but does not strictly follow it. We allowed ourselves a degree of freedom when designing the library in order to reduce boilerplate code and reduce library footprint.
+
 ## Installation
 
 ``` shell
