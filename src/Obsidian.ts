@@ -1,7 +1,7 @@
 import graphRegistry from './graph/registry/GraphRegistry';
-import ObjectGraph from './graph/ObjectGraph';
-import { GraphMiddleware } from './graph/registry/GraphMiddleware';
+import { ObjectGraph } from './graph/ObjectGraph';
 import { Constructable, GraphInternals, ServiceLocator } from './types';
+import { GraphMiddleware } from './graph/registry/GraphMiddleware';
 
 export default class Obsidian {
   obtain<T extends ObjectGraph<P>, P = any>(

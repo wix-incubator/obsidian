@@ -1,5 +1,5 @@
 import graphRegistry from './registry/GraphRegistry';
-import Graph from './Graph';
+import { Graph } from './Graph';
 import providedPropertiesStore from '../ProvidedPropertiesStore';
 
 export default class PropertyRetriever {

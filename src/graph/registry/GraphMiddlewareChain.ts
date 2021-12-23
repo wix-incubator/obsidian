@@ -1,20 +1,20 @@
 import { Constructable } from '../../types';
-import Graph from '../Graph';
+import { Graph } from '../Graph';
 import DefaultGraphMiddleware from './DefaultGraphResolver';
-import { GraphMiddleware } from './GraphMiddleware';
+import { Middleware } from './Middleware';
 
-export default class GraphMiddlewareChain {
-  private middlewares: GraphMiddleware[];
+export default class GraphMiddlewareChain<T extends Graph> {
+  private middlewares: Middleware<T>[];
 
-  constructor(defaultMiddleware: GraphMiddleware = new DefaultGraphMiddleware()) {
+  constructor(defaultMiddleware: Middleware<T> = new DefaultGraphMiddleware()) {
     this.middlewares = [defaultMiddleware];
   }
 
-  resolve<T extends Graph>(Graph: Constructable<T>, props?: any): T {
+  resolve(Graph: Constructable<T>, props?: any): T {
     return this.middlewares[0].resolve(this.middlewares[0].resolveChain, Graph, props);
   }
 
-  add(middleware: GraphMiddleware) {
+  add(middleware: Middleware<T>) {
     this.middlewares.unshift(middleware);
     this.updateResolveChain();
   }

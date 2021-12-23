@@ -1,30 +1,30 @@
 import React from 'react';
-import _Graph from './decorators/Graph';
-import _ObjectGraph from './graph/ObjectGraph';
+import { ObjectGraph as _ObjectGraph } from './graph/ObjectGraph';
 import ComponentInjector from './injectors/components/ComponentInjector';
-import _Provides from './decorators/provides/Provides';
-import { Inject as _Inject, Injectable as _Injectable } from './decorators/injectClass';
-import _obsidian from './Obsidian';
+import _Obsidian from './Obsidian';
 import HookInjector from './injectors/hooks/HookInjector';
 import { Constructable } from './types';
 
 export * from './types';
 
-export const Graph = _Graph;
-export const ObjectGraph = _ObjectGraph;
-export const Provides = _Provides;
-export const Injectable = _Injectable;
-export const Inject = _Inject;
-export const Obsidian = new _obsidian();
+export { Graph } from './decorators/Graph';
+export { ObjectGraph } from './graph/ObjectGraph';
+export { Graph as IGraph } from './graph/Graph';
+export { Provides } from './decorators/provides/Provides';
+export { Injectable } from './decorators/injectClass';
+export { Inject } from './decorators/injectClass';
+export { GraphMiddleware } from './graph/registry/GraphMiddleware';
+export { ResolveChain } from './graph/registry/Middleware';
+export const Obsidian = new _Obsidian();
 
 const componentInjector = new ComponentInjector();
 export const injectComponent = <P> (
-  __Target: React.FunctionComponent<P>,
-  __Graph: Constructable<_ObjectGraph>,
-) => componentInjector.inject(__Target, __Graph);
+  Target: React.FunctionComponent<P>,
+  Graph: Constructable<_ObjectGraph>,
+) => componentInjector.inject(Target, Graph);
 
 const hookInjector = new HookInjector();
 export const injectHook = <Args, Result> (
   hook: (args: Args) => Result,
-  __Graph: Constructable<_ObjectGraph>,
-) => hookInjector.inject(hook, __Graph);
+  Graph: Constructable<_ObjectGraph>,
+) => hookInjector.inject(hook, Graph);

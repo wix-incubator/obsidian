@@ -1,6 +1,6 @@
 import { Constructable, Scope } from '../../types';
-import Graph from '../Graph';
-import { GraphMiddleware } from './GraphMiddleware';
+import { Graph } from '../Graph';
+import { Middleware } from './Middleware';
 import GraphMiddlewareChain from './GraphMiddlewareChain';
 
 class GraphRegistry {
@@ -49,7 +49,7 @@ class GraphRegistry {
     }
     const graph = this.graphMiddlewares.resolve(Graph, props);
     this.set(Graph, graph);
-    return graph;
+    return graph as T;
   }
 
   clear(graph: Graph) {
@@ -58,7 +58,7 @@ class GraphRegistry {
     this.constructorToInstance.delete(Graph);
   }
 
-  addGraphMiddleware(middleware: GraphMiddleware) {
+  addGraphMiddleware(middleware: Middleware<Graph>) {
     this.graphMiddlewares.add(middleware);
   }
 

@@ -7,11 +7,13 @@ import {
   verify,
 } from '@johanblumenberg/ts-mockito';
 import MainGraph from '../../../test/integration/fixtures/MainGraph';
-import { GraphMiddleware } from './GraphMiddleware';
+import { Middleware } from './Middleware';
 import GraphResolversChain from './GraphMiddlewareChain';
+import { ObjectGraph } from '../ObjectGraph';
+import { GraphMiddleware } from './GraphMiddleware';
 
 describe('GraphResolverChain', () => {
-  let uut: GraphResolversChain;
+  let uut: GraphResolversChain<ObjectGraph>;
   let defaultGraphResolver: GraphMiddleware;
   const mockGraph = mock(MainGraph);
 
@@ -29,7 +31,7 @@ describe('GraphResolverChain', () => {
   });
 
   it('Resolves middlewares in LIFO order', () => {
-    const anotherResolver: GraphMiddleware = imock();
+    const anotherResolver: Middleware<ObjectGraph> = imock();
     when(anotherResolver.resolve(anything(), anything(), anything())).thenReturn(mockGraph);
 
     uut.add(instance(anotherResolver));

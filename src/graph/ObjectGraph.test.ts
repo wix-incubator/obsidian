@@ -1,4 +1,4 @@
-import ObjectGraph from './ObjectGraph';
+import { ObjectGraph } from './ObjectGraph';
 
 describe('ObjectGraph', () => {
   let uut: ObjectGraph;

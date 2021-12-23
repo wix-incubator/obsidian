@@ -1,5 +1,5 @@
-import ObjectGraph from '../../graph/ObjectGraph';
-import Graph from '../../graph/Graph';
+import { ObjectGraph } from '../../graph/ObjectGraph';
+import { Graph } from '../../graph/Graph';
 import useGraph from '../components/useGraph';
 import { Constructable } from '../../types';
 

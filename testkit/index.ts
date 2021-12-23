@@ -1,6 +1,10 @@
-import { GraphMiddleware, ResolveChain } from '../src/graph/registry/GraphMiddleware';
-import ObjectGraph from '../src/graph/Graph';
-import { Constructable, Obsidian } from '../src';
+import {
+  ObjectGraph,
+  Constructable,
+  GraphMiddleware,
+  Obsidian,
+  ResolveChain,
+} from '../src';
 
 beforeEach(() => {
   Obsidian.clearGraphMiddlewares();
@@ -9,10 +13,10 @@ beforeEach(() => {
 class Index {
   mockGraphs(graphNameToGraph: Record<string, Constructable<ObjectGraph>>) {
     const graphMiddleware = new class extends GraphMiddleware {
-      resolve<T extends ObjectGraph, Props>(resolveChain: ResolveChain, Graph: Constructable<T>, props?: Props) {
+      resolve<Props>(resolveChain: ResolveChain<ObjectGraph>, Graph: Constructable<ObjectGraph>, props?: Props) {
         if (graphNameToGraph[Graph.name]) {
           const TheGraph = graphNameToGraph[Graph.name];
-          return new TheGraph(props) as unknown as T;
+          return new TheGraph(props);
         }
         return resolveChain.proceed(Graph, props);
       }

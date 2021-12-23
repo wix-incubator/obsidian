@@ -1,9 +1,9 @@
 import { Constructable } from '../../types';
-import Graph from '../Graph';
-import { GraphMiddleware, ResolveChain } from './GraphMiddleware';
+import { Graph } from '../Graph';
+import { Middleware, ResolveChain } from './Middleware';
 
-export default class DefaultGraphMiddleware extends GraphMiddleware {
-  resolve<T extends Graph, Props>(_resolveChain: ResolveChain, Graph: Constructable<T>, props?: Props): T {
+export default class DefaultGraphMiddleware<T extends Graph> extends Middleware<T> {
+  resolve<Props>(_resolveChain: ResolveChain<T>, Graph: Constructable<T>, props?: Props): T {
     return new Graph(props);
   }
 }

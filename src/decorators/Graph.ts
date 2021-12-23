@@ -1,14 +1,14 @@
 import { Constructable, Scope } from '../types';
 import 'reflect-metadata';
 import graphRegistry from '../graph/registry/GraphRegistry';
-import ObjectGraph from '../graph/ObjectGraph';
+import { ObjectGraph } from '../graph/ObjectGraph';
 
 interface GraphParams {
   scope: Scope | undefined;
   subgraphs: Constructable<ObjectGraph>[];
 }
 
-export default function Graph({
+export function Graph({
   scope,
   subgraphs = [],
 }: Partial<GraphParams> = {}) {

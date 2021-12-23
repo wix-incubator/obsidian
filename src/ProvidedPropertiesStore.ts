@@ -1,5 +1,5 @@
 import GraphProperties from './GraphProperties';
-import Graph from './graph/Graph';
+import { Graph } from './graph/Graph';
 
 class ProvidedPropertiesStore {
   private readonly providedPropertiesForGraph: Map<string, GraphProperties> = new Map();
