@@ -14,7 +14,7 @@ export { Provides } from './decorators/provides/Provides';
 export { Injectable } from './decorators/injectClass';
 export { Inject } from './decorators/injectClass';
 export { GraphMiddleware } from './graph/registry/GraphMiddleware';
-export { ResolveChain } from './graph/registry/Middleware';
+export { GraphResolveChain as ResolveChain } from './graph/registry/GraphResolveChain';
 export const Obsidian = new _Obsidian();
 
 const componentInjector = new ComponentInjector();

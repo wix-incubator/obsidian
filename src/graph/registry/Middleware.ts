@@ -1,9 +1,11 @@
 import { Constructable } from '../../types';
+import { Graph } from '../Graph';
+import { ResolveChain } from './ResolveChain';
 
-export abstract class Middleware<T> {
-  private next!: Middleware<T>;
+export abstract class Middleware<T = Graph, RC = ResolveChain<T>> {
+  private next!: Middleware<T, ResolveChain<T>>;
 
-  public setNext(next: Middleware<T>) {
+  public setNext(next: Middleware<T, ResolveChain<T>>) {
     this.next = next;
   }
 
@@ -15,9 +17,5 @@ export abstract class Middleware<T> {
     };
   }
 
-  abstract resolve<Props>(resolveChain: ResolveChain<T>, Graph: Constructable<T>, props?: Props): T;
-}
-
-export interface ResolveChain<T> {
-  proceed<Props>(Graph: Constructable<T>, props?: Props): T;
+  abstract resolve<Props = any>(resolveChain: RC, Graph: Constructable<T>, props?: Props): T;
 }
