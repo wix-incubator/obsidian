@@ -1,6 +1,7 @@
 import { uniqueId } from 'lodash';
 import Memoize from '../decorators/Memoize';
 import { Scope } from '../types';
+import { autobind } from './autobind';
 import { Graph } from './Graph';
 import PropertyRetriever from './PropertyRetriever';
 
@@ -14,8 +15,9 @@ export abstract class ObjectGraph<T = unknown> implements Graph {
     return uniqueId(this.constructor.name);
   }
 
-  // eslint-disable-next-line no-useless-constructor, no-unused-vars, no-empty-function
-  constructor(protected props?: T) {}
+  constructor(protected _props?: T) {
+    autobind(this);
+  }
 
   retrieve<Dependency>(property: string, receiver?: unknown): Dependency | undefined {
     return this.propertyRetriever.retrieve(property, receiver) as Dependency | undefined;

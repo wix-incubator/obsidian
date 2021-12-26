@@ -1,7 +1,7 @@
 import { Scope } from '../../types';
 import { Graph } from '../../graph/Graph';
 import providedPropertiesStore from '../../ProvidedPropertiesStore';
-import makeSingleton from './PropertyDescriptorToSingleton';
+import { memoizeDescriptor } from './MemoizeDescriptor';
 
 interface ProvidesParams {
   scope?: Scope;
@@ -11,6 +11,6 @@ interface ProvidesParams {
 export function Provides({ name }: Partial<ProvidesParams> = {}) {
   return function provide(graph: Graph, propertyKey: string, descriptor: PropertyDescriptor) {
     providedPropertiesStore.set(graph, propertyKey, name!);
-    return makeSingleton(descriptor);
+    return memoizeDescriptor(propertyKey, descriptor);
   };
 }

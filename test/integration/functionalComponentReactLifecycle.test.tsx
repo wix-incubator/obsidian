@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import React, { useCallback, useEffect, useState } from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { injectComponent } from '../../src';
@@ -10,9 +11,7 @@ interface InjectedComponentProps {
   someString: string;
 }
 
-const Component: React.FunctionComponent<InjectedComponentProps> = ({
-  someString,
-}: InjectedComponentProps) => {
+const Component: React.FunctionComponent<InjectedComponentProps> = ({ someString }: InjectedComponentProps) => {
   useEffect(() => {
     componentLifecycle.push(Lifecycle.Mounted);
     return () => { componentLifecycle.push(Lifecycle.Unmounted); };
