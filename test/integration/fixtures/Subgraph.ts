@@ -17,7 +17,7 @@ export default class Subgraph extends ObjectGraph {
 
   @Provides()
   unusedDependency(): string {
-    throw Error('This dependency should not have been resolved since it not required by anyone.');
+    throw Error('This dependency should not have been resolved since it is not required by anyone.');
   }
 
   @Provides()
