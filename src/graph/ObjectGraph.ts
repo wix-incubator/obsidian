@@ -1,7 +1,7 @@
 import { uniqueId } from 'lodash';
 import Memoize from '../decorators/Memoize';
 import { Scope } from '../types';
-import { autobind } from './autobind';
+import { autobind } from '../utils/autobind';
 import { Graph } from './Graph';
 import PropertyRetriever from './PropertyRetriever';
 
