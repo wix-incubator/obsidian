@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { autobind } from './autobind';
 
 class Uut {
