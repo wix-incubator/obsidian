@@ -1,7 +1,7 @@
 import { uniqueId } from 'lodash';
 import Memoize from '../decorators/Memoize';
 import { Scope } from '../types';
-import { autobind } from '../utils/autobind';
+import { bindProviders } from './ProviderBinder';
 import { Graph } from './Graph';
 import PropertyRetriever from './PropertyRetriever';
 
@@ -16,7 +16,7 @@ export abstract class ObjectGraph<T = unknown> implements Graph {
   }
 
   constructor(protected _props?: T) {
-    autobind(this);
+    bindProviders(this);
   }
 
   retrieve<Dependency>(property: string, receiver?: unknown): Dependency | undefined {

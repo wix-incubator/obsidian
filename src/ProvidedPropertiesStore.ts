@@ -14,6 +14,10 @@ class ProvidedPropertiesStore {
     this.providedPropertiesForGraph.set(graph.name, graphProperties);
   }
 
+  getMangledProperties(graph: Graph): string[] {
+    return this.providedPropertiesForGraph.get(graph.name)?.getMangledProperties() ?? [];
+  }
+
   clear(graph: Graph) {
     this.providedPropertiesForGraph.delete(graph.name);
   }

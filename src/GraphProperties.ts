@@ -8,4 +8,8 @@ export default class GraphProperties {
   getMangledProperty(unmangledProperty: string): string | undefined {
     return this.unmangledToMangledPropKeys.get(unmangledProperty);
   }
+
+  getMangledProperties(): string[] {
+    return Array.from(this.unmangledToMangledPropKeys.values());
+  }
 }
