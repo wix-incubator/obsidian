@@ -2,8 +2,13 @@ import { Constructable } from 'src';
 import { ObjectGraph } from '../graph/ObjectGraph';
 
 export function Singleton() {
-  return <T extends ObjectGraph>(constructor: Constructable<T>) => {
-    Reflect.defineMetadata('isSingleton', true, constructor);
-    return constructor;
+  return function singleton(
+    constructorOrGraph: Constructable<ObjectGraph> | ObjectGraph,
+    _property?: string,
+    descriptor?: PropertyDescriptor,
+  ): any {
+    const target = descriptor || constructorOrGraph;
+    Reflect.defineMetadata('isSingleton', true, target);
+    return target;
   };
 }

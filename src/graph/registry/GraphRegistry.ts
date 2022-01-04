@@ -50,7 +50,7 @@ export class GraphRegistry {
   clear(graph: Graph) {
     const Graph = this.instanceToConstructor.get(graph)!;
     this.instanceToConstructor.delete(graph);
-    this.constructorToInstance.delete(Graph);
+    this.constructorToInstance.get(Graph)!.delete(graph);
   }
 
   addGraphMiddleware(middleware: Middleware<Graph>) {
