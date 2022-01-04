@@ -8,6 +8,7 @@ import { Constructable } from './types';
 export * from './types';
 
 export { Graph } from './decorators/Graph';
+export { Singleton } from './decorators/Singleton';
 export { ObjectGraph } from './graph/ObjectGraph';
 export { Graph as IGraph } from './graph/Graph';
 export { Provides } from './decorators/provides/Provides';

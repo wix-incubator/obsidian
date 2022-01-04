@@ -1,20 +1,17 @@
-import { Constructable, Scope } from '../types';
+import { Constructable } from '../types';
 import 'reflect-metadata';
 import graphRegistry from '../graph/registry/GraphRegistry';
 import { ObjectGraph } from '../graph/ObjectGraph';
 
 interface GraphParams {
-  scope: Scope | undefined;
   subgraphs: Constructable<ObjectGraph>[];
 }
 
 export function Graph({
-  scope,
   subgraphs = [],
 }: Partial<GraphParams> = {}) {
   return <T extends ObjectGraph>(constructor: Constructable<T>) => {
-    Reflect.defineMetadata('scope', scope, constructor);
-    graphRegistry.register(constructor, scope, subgraphs);
+    graphRegistry.register(constructor, subgraphs);
     return constructor;
   };
 }

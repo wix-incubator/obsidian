@@ -1,35 +1,16 @@
-import { Constructable, Scope } from '../../types';
+import { Constructable } from '../../types';
 import { Graph } from '../Graph';
 import { Middleware } from './Middleware';
 import GraphMiddlewareChain from './GraphMiddlewareChain';
 
-class GraphRegistry {
-  private readonly scopedGraphs: Record<Scope, Constructable<Graph>> = {};
-  private readonly constructorToInstance = new Map<Constructable<Graph>, Graph>();
+export class GraphRegistry {
+  private readonly constructorToInstance = new Map<Constructable<Graph>, Set<Graph>>();
   private readonly instanceToConstructor = new Map<Graph, Constructable<Graph>>();
   private readonly graphToSubgraphs = new Map<Constructable<Graph>, Set<Constructable<Graph>>>();
-  private graphMiddlewares = new GraphMiddlewareChain();
+  private readonly graphMiddlewares = new GraphMiddlewareChain();
 
-  register(
-    constructor: Constructable<Graph>,
-    scope: Scope | undefined = undefined,
-    subgraphs: Constructable<Graph>[] = [],
-  ) {
-    if (scope) this.scopedGraphs[scope] = constructor;
+  register(constructor: Constructable<Graph>, subgraphs: Constructable<Graph>[] = []) {
     this.graphToSubgraphs.set(constructor, new Set(subgraphs));
-  }
-
-  has(Graph: Constructable<Graph>) {
-    return this.constructorToInstance.has(Graph);
-  }
-
-  get<T extends Graph>(Graph: Constructable<T>): T {
-    return this.constructorToInstance.get(Graph)! as unknown as T;
-  }
-
-  set(Graph: Constructable<Graph>, graph: Graph) {
-    this.constructorToInstance.set(Graph, graph);
-    this.instanceToConstructor.set(graph, Graph);
   }
 
   getSubgraphs(graph: Graph): Graph[] {
@@ -39,17 +20,31 @@ class GraphRegistry {
   }
 
   resolve<T extends Graph>(Graph: Constructable<T>, props?: any): T {
-    if (this.has(Graph)) {
-      return this.get(Graph);
-      // const graph: T = this.get(Graph);
-      // const scope = Reflect.getMetadata('scope', Graph);
-      // if (scope) return graph;
-
-      // this.set(Graph, new Graph(props));
+    if (this.isSingleton(Graph) && this.has(Graph)) {
+      return this.getFirst(Graph);
     }
     const graph = this.graphMiddlewares.resolve(Graph, props);
     this.set(Graph, graph);
     return graph as T;
+  }
+
+  private has(Graph: Constructable<Graph>) {
+    return this.constructorToInstance.has(Graph);
+  }
+
+  private getFirst<T extends Graph>(Graph: Constructable<T>): T {
+    return this.constructorToInstance.get(Graph)!.values().next().value;
+  }
+
+  private set(Graph: Constructable<Graph>, graph: Graph) {
+    const graphs = this.constructorToInstance.get(Graph) ?? new Set();
+    graphs.add(graph);
+    this.constructorToInstance.set(Graph, graphs);
+    this.instanceToConstructor.set(graph, Graph);
+  }
+
+  private isSingleton(Graph: Constructable<Graph>): boolean {
+    return Reflect.getMetadata('isSingleton', Graph) ?? false;
   }
 
   clear(graph: Graph) {
