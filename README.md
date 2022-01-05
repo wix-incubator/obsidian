@@ -15,7 +15,7 @@ React Obsidian is guided by the principles of the Dependency Injection pattern, 
 npm install react-obsidian
 ```
 
-See the #Prerequisites section for additional requirements.
+See the [#Prerequisites](https://github.com/wix-incubator/react-obsidian#prerequisites) section for additional requirements.
 
 ## Usage
 
