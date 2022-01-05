@@ -15,6 +15,8 @@ React Obsidian is guided by the principles of the Dependency Injection pattern, 
 npm install react-obsidian
 ```
 
+See the #Prerequisites section for additional requirements.
+
 ## Usage
 
 ### Declare an object graph
@@ -29,7 +31,7 @@ Both functions are annotated by the `@Provides()` annotation. This signals Obsid
 Notice how the biLogger function receives an `httpClient` as an argument. This means that `biLogger` has a dependency on `httpClient`. Obsidian will create an `httpClient` when `biLogger` is injected. 
 
 ``` typescript
-@Graph()
+@Singleton() @Graph()
 export default class ApplicationGraph extends ObjectGraph {
   @Provides()
   httpClient(): HttpClient {
@@ -118,6 +120,36 @@ Obsidian.obtain(ApplicationGraph).biLogger();
 > Note: While the function that provides the `biLogger` accepts an argument of type `HttpClient`, when obtaining dependencies directly from the graph, we don't provide dependencies ourselves as they are resolved by Obsidian.
 
 ## Advance usage
+### Singleton graphs and providers
+Graphs and Providers can be marked as singletons with the `@Singleton` decorator. When a graph is marked as a singleton, when an instance of that graph is requested, Obsidian will reuse the existing instance. Graphs that are not annotated with the `@Singleton` decorator will be instantiated each time they are needed for injection.
+
+Singleton providers are shared between all instances of a graph.
+
+```typescript
+@Graph()
+class PushedScreenGraph { // A new PushedScreenGraph instance is created each time the corresponding screen is created
+  @Provides()
+  presenter(): PushedScreenPresenter {
+    return new PushedScreenPresenter(); // Created each time PushedGraph is created
+  }
+
+  @Provides() @Singleton()
+  someUseCase(): SomeUseCase {
+    return new SomeUseCase(); // Created once for all PushedGraph instances
+  }
+}
+```
+
+In this example we declared a singleton graph. This means that all of its providers are also singleton.
+```typescript
+@Singleton() @Graph()
+class ApplicationGraph {
+  @Provides()
+  biLogger(): BiLogger {
+    return new BiLogger() // Created once because the graph is a singleton
+  }
+}
+```
 ### Graph middlewares
 When working on large scale applications, a need to hook into various low level operations often arises. Obsidian lets you hook into the graph creation process by adding middlewares.
 
@@ -134,7 +166,7 @@ The following example demonstrates how to add a middleware that's used for loggi
 
 ```typescript
 const loggingMiddleware = new class extends GraphMiddleware {
-      resolve<T extends ObjectGraph, Props>(resolveChain: ResolveChain, Graph: Constructable<T>, props?: Props) {
+      resolve<Props>(resolveChain: GraphResolveChain, Graph: Constructable<T>, props?: Props) {
         const t1 = Date.now();
         const graph = resolveChain.proceed(Graph, props);
         const t2 = Date.now();
