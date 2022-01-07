@@ -32,7 +32,7 @@ Notice how the biLogger function receives an `httpClient` as an argument. This m
 
 ``` typescript
 @Singleton() @Graph()
-export default class ApplicationGraph extends ObjectGraph {
+class ApplicationGraph extends ObjectGraph {
   @Provides()
   httpClient(): HttpClient {
     return new HttpClient();
@@ -120,6 +120,24 @@ Obsidian.obtain(ApplicationGraph).biLogger();
 > Note: While the function that provides the `biLogger` accepts an argument of type `HttpClient`, when obtaining dependencies directly from the graph, we don't provide dependencies ourselves as they are resolved by Obsidian.
 
 ## Advance usage
+### Accessing props in graphs
+If a graph is instantiated in order to inject a component, then it receives the component's props in the constructor.
+```typescript
+@Graph()
+class ProfileScreenGraph extends ObjectGraph<ProfileScreenProps> {
+  private profile: UserProfile;
+
+  constructor(props: ProfileScreenProps) {
+    super(props);
+    this.profile = props.profile;
+  }
+
+  @Provides()
+  profileFetcher(): ProfileFetcher {
+    return new ProfileFetcher(this.profile);
+  }
+}
+```
 ### Singleton graphs and providers
 Graphs and Providers can be marked as singletons with the `@Singleton` decorator. When a graph is marked as a singleton, when an instance of that graph is requested, Obsidian will reuse the existing instance. Graphs that are not annotated with the `@Singleton` decorator will be instantiated each time they are needed for injection.
 
