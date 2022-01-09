@@ -13,6 +13,7 @@ export function setTabsAppRoot(tabsConfig: TabConfig[]) {
       bottomTabs: {
         options: {
           bottomTabs: {
+            tabsAttachMode: 'afterInitialTab',
             testID: 'bottom_tabs_test_id',
           },
         },
