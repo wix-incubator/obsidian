@@ -4,7 +4,6 @@ export type TabConfig = {
   componentName: string;
   title: string;
   icon?: ImageResource;
-  selectedIcon?: ImageResource;
   testID?: string;
 };
 
@@ -37,7 +36,7 @@ export function setTabsAppRoot(tabsConfig: TabConfig[]) {
               bottomTab: {
                 text: tabConfig.title,
                 icon: tabConfig.icon,
-                selectedIcon: tabConfig.selectedIcon,
+                selectedIconColor: '#000000',
                 testID: tabConfig.testID,
               },
             },
