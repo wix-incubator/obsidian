@@ -1,40 +1,14 @@
 import React from 'react';
-import type {ReactNode} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  useColorScheme,
-  View,
-} from 'react-native';
+import {View} from 'react-native-ui-lib';
+import baseScreen from './baseScreen';
+import MyInjectedComponent from '../components/MyInjectedComponent';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-
-import MyInjectedComponent from './MyInjectedComponent';
-
-const Explore: () => ReactNode = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
+const Explore: () => JSX.Element = () => {
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View style={styles.root} />
-        <MyInjectedComponent />
-      </ScrollView>
-    </SafeAreaView>
+    <View flex>
+      <MyInjectedComponent />
+    </View>
   );
 };
 
-const styles = StyleSheet.create({
-  root: {
-    backgroundColor: 'red',
-  },
-});
-
-export default Explore;
+export default baseScreen(Explore);

@@ -1,9 +1,9 @@
 import React from 'react';
-import type {ReactNode} from 'react';
 import {View} from 'react-native';
+import baseScreen from './baseScreen';
 
-const Wishlist: () => ReactNode = () => {
+const Wishlist: () => JSX.Element = () => {
   return <View />;
 };
 
-export default Wishlist;
+export default baseScreen(Wishlist);

@@ -1,9 +1,9 @@
 import React from 'react';
-import type {ReactNode} from 'react';
 import {View} from 'react-native';
+import baseScreen from './baseScreen';
 
-const MyBar: () => ReactNode = () => {
+const MyBar: () => JSX.Element = () => {
   return <View />;
 };
 
-export default MyBar;
+export default baseScreen(MyBar);

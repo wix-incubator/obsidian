@@ -29,10 +29,18 @@ export function setTabsAppRoot(tabsConfig: TabConfig[]) {
                       },
                     },
                   },
+                  passProps: {
+                    title: tabConfig.title,
+                  },
                 },
               },
             ],
             options: {
+              topBar: {
+                visible: false,
+                drawBehind: true,
+                translucent: true,
+              },
               bottomTab: {
                 text: tabConfig.title,
                 icon: tabConfig.icon,
