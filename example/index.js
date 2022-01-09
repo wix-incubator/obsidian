@@ -14,6 +14,13 @@ Navigation.events().registerAppLaunchedListener(() => {
         children: [
           {
             component: {
+              options: {
+                topBar: {
+                  title: {
+                    text: 'Hey',
+                  },
+                },
+              },
               name: appName,
             },
           },
