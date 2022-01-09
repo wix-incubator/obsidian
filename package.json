@@ -47,6 +47,7 @@
     "typescript": "^4.4.4"
   },
   "scripts": {
+    "postinstall": "npm run prepack",
     "prepack": "npm run lint && tsc --project tsconfig.prod.json",
     "lint": "npx eslint src transformers test --ignore-pattern '*.d.ts' --ext .ts,.tsx,.js",
     "pretest": "tsc",
