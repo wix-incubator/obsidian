@@ -1,15 +1,11 @@
 import {Navigation} from 'react-native-navigation';
-import {name as appName} from './app.json';
+import {Screens, registerScreens} from './screens';
 import {setTabsAppRoot} from './services/navigation';
-
-function registerComponents() {
-  Navigation.registerComponent(appName, () => require('./App').default);
-}
 
 function setAppRoot() {
   setTabsAppRoot([
     {
-      componentName: appName,
+      componentName: Screens.Main,
       tabTitle: 'Example',
       tabItemTitle: 'Example',
     },
@@ -17,6 +13,6 @@ function setAppRoot() {
 }
 
 export function init() {
-  registerComponents();
+  registerScreens();
   Navigation.events().registerAppLaunchedListener(() => setAppRoot());
 }
