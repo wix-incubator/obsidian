@@ -1,9 +1,16 @@
 import React, {ComponentType} from 'react';
 import {View} from 'react-native-ui-lib';
 import TopBarBackground from '../components/TopBarBackground';
+import {NavigationComponentProps} from 'react-native-navigation';
 
-export function baseScreen(WrappedComponent: ComponentType): ComponentType {
-  return props => (
+interface Props extends NavigationComponentProps {
+  title: string;
+}
+
+export function baseScreen(
+  WrappedComponent: ComponentType<Props>,
+): ComponentType<Props> {
+  return (props: Props) => (
     <View flex>
       <TopBarBackground title={props.title} />
       <WrappedComponent {...props} />
