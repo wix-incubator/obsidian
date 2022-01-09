@@ -1,6 +1,6 @@
 import React from 'react';
 import type {ReactNode} from 'react';
-import {SafeAreaView, ScrollView, StatusBar, useColorScheme, View} from 'react-native';
+import {SafeAreaView, ScrollView, useColorScheme, View} from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
@@ -15,14 +15,15 @@ const App: () => ReactNode = () => {
 
   return (
     <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView contentInsetAdjustmentBehavior="automatic" style={backgroundStyle}>
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        style={backgroundStyle}>
         <View
           style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <MyInjectedComponent />
-        </View>
+            backgroundColor: 'red',
+          }}
+        />
+        <MyInjectedComponent />
       </ScrollView>
     </SafeAreaView>
   );
