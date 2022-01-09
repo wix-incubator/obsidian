@@ -12,7 +12,7 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import MyInjectedComponent from './MyInjectedComponent';
 
-const App: () => ReactNode = () => {
+const Explore: () => ReactNode = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -37,4 +37,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export default Explore;

@@ -2,11 +2,10 @@ import {Navigation, ImageResource} from 'react-native-navigation';
 
 export type TabConfig = {
   componentName: string;
-  tabTitle: string;
-  tabItemTitle: string;
-  tabItemIcon?: ImageResource;
-  tabItemSelectedIcon?: ImageResource;
-  tabItemTestID?: string;
+  title: string;
+  icon?: ImageResource;
+  selectedIcon?: ImageResource;
+  testID?: string;
 };
 
 export function setTabsAppRoot(tabsConfig: TabConfig[]) {
@@ -27,7 +26,7 @@ export function setTabsAppRoot(tabsConfig: TabConfig[]) {
                   options: {
                     topBar: {
                       title: {
-                        text: tabConfig.tabTitle,
+                        text: tabConfig.title,
                       },
                     },
                   },
@@ -36,10 +35,10 @@ export function setTabsAppRoot(tabsConfig: TabConfig[]) {
             ],
             options: {
               bottomTab: {
-                text: tabConfig.tabItemTitle,
-                icon: tabConfig.tabItemIcon,
-                selectedIcon: tabConfig.tabItemSelectedIcon,
-                testID: tabConfig.tabItemTestID,
+                text: tabConfig.title,
+                icon: tabConfig.icon,
+                selectedIcon: tabConfig.selectedIcon,
+                testID: tabConfig.testID,
               },
             },
           },
