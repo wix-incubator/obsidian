@@ -1,0 +1,31 @@
+{
+  "spirits": {
+    "title": "Spirits",
+    "items": [
+      {
+        "name": "Hans Jurgen Gin",
+        "image":
+        "https://singold-whisky.de/wp-content/uploads/2018/06/hans-juergen-gin.png"
+      },
+      {
+        "name": "Gordon’s Gin",
+        "image": "https://cdn.store-assets.com/s/286852/i/11186940.png"
+      }
+    ]
+  },
+  "liquors": {
+    "title": "Liquors",
+    "items": [
+      {
+        "name": "Cointreau",
+        "image":
+        "https://baradvisor.com/wp-content/uploads/2018/07/Cointreau.png"
+      },
+      {
+        "name": "Disaronno",
+        "image":
+        "https://cdn.shopify.com/s/files/1/1267/4059/products/Disaronno-Originale-Amaretto-700ml_large.png?v=1550189343"
+      }
+    ]
+  }
+}

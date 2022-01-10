@@ -11,7 +11,7 @@ export function baseScreen(
   WrappedComponent: ComponentType<Props>,
 ): ComponentType<Props> {
   return (props: Props) => (
-    <View flex>
+    <View flex bg-grey70>
       <TopBarBackground title={props.title} />
       <WrappedComponent {...props} />
     </View>
