@@ -23,6 +23,7 @@
     "@babel/core": "7.16.0",
     "@babel/plugin-proposal-decorators": "7.16.0",
     "@babel/plugin-proposal-class-properties": "7.16.x",
+    "@babel/plugin-transform-flow-strip-types": "7.16.x",
     "@babel/preset-typescript": "7.16.0",
     "@babel/runtime": "7.16.0",
     "@types/react-native": "0.66.3",

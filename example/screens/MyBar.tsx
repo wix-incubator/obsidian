@@ -12,15 +12,18 @@ const MyBar: () => JSX.Element = () => {
       numColumns={2}
       keyExtractor={item => item.image}
       data={myBarData.spirits.items}
-      renderItem={item => (
-        <GridListItem
-          imageProps={{source: {uri: item.image}}}
-          itemSize={{width: 50, height: 70}}
-          title={item.name}
-          titleTypography={'bodySmall'}
-          alignToStart
-        />
-      )}
+      renderItem={({item}) => {
+        console.log(`***** item: ${JSON.stringify(item)}`);
+        return (
+          <GridListItem
+            imageProps={{source: {uri: item.image}}}
+            itemSize={{width: 50, height: 70}}
+            title={item.name}
+            titleTypography={'bodySmall'}
+            alignToStart
+          />
+        );
+      }}
     />
   );
 };
