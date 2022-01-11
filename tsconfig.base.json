@@ -9,8 +9,8 @@
     "dist"
   ],
   "compilerOptions": {
-    "target": "es6",
-    "module": "es6",
+    "target": "es5",
+    "module": "commonjs",
     "lib": [
       "ES6",
       "DOM",
