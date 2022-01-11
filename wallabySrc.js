@@ -4,6 +4,8 @@ module.exports = () => {
 
     tests: [
       'test/**/*.test.*',
+      'test/**/*.ts',
+      'test/**/*.tsx',
       'src/**/*.test.*',
     ],
 

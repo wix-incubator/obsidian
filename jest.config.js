@@ -9,6 +9,9 @@ const config = {
   modulePathIgnorePatterns : [
     'example',
   ],
+  transformIgnorePatterns: [
+    'example/node_modules\/(?!react-obsidian)(.*)'
+  ]
 };
 
 module.exports = config;
