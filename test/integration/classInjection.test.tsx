@@ -14,6 +14,9 @@ describe('Class injection', () => {
   it('Injects class properties', () => {
     const uut = new MyClass();
     expect(uut.someString).toBe(injectedValues.fromStringProvider);
+
+    const metadata = Reflect.getMetadata('design:paramtypes', MyClass);
+    console.log(`****** metadata: ${JSON.stringify(metadata)}`);
   });
 
   // cannot be tested in unit for now, can't get the metadata in reflection
