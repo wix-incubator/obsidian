@@ -16,8 +16,8 @@ describe('Class injection', () => {
     expect(uut.someString).toBe(injectedValues.fromStringProvider);
   });
 
-  // cannot be tested in unit for now, can't get the metadata in reflection
-  it.skip('Injects constructor arguments', () => {
+  // TODO: make it pass
+  fit('Injects constructor arguments', () => {
     const uut = new MyClass();
     expect(uut.anotherString).toBe(injectedValues.anotherString);
   });
