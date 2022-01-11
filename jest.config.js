@@ -3,15 +3,10 @@ const config = {
   resetModules: true,
   roots: [
     'node_modules',
+    'src',
     'transformers',
     'test',
   ],
-  modulePathIgnorePatterns : [
-    'example',
-  ],
-  transformIgnorePatterns: [
-    'example/node_modules\/(?!react-obsidian)(.*)'
-  ]
 };
 
 module.exports = config;

@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { useState } from 'react';
-import StringProvider from 'test/integration/fixtures/StringProvider';
+import StringProvider from '../../../test/integration/fixtures/StringProvider';
 import Subgraph from '../../../test/integration/fixtures/Subgraph';
 import injectedValues from '../../../test/integration/fixtures/injectedValues';
 import HookInjector from './HookInjector';
