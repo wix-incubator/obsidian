@@ -3,9 +3,11 @@ const config = {
   resetModules: true,
   roots: [
     'node_modules',
-    'src',
     'transformers',
     'test',
+  ],
+  modulePathIgnorePatterns : [
+    'example',
   ],
 };
 
