@@ -1,33 +1,19 @@
 import {Navigation} from 'react-native-navigation';
-import {Screens, registerScreens} from './screens';
-import {setTabsAppRoot} from './services/navigation';
+import {registerScreens} from './screens';
+import {Inject, Injectable} from 'react-obsidian';
+import DependenciesGraph from './graphs/dependenciesGraph';
+import Navigator from './services/navigator';
 
-function setAppRoot() {
-  setTabsAppRoot([
-    {
-      componentName: Screens.Explore,
-      title: 'Explore',
-      icon: require('./assets/tabIcons/explore.png'),
-    },
-    {
-      componentName: Screens.Recipes,
-      title: 'Recipes',
-      icon: require('./assets/tabIcons/recipes.png'),
-    },
-    {
-      componentName: Screens.MyBar,
-      title: 'My Bar',
-      icon: require('./assets/tabIcons/my_bar.png'),
-    },
-    {
-      componentName: Screens.Wishlist,
-      title: 'Wishlist',
-      icon: require('./assets/tabIcons/wishlist.png'),
-    },
-  ]);
+@Injectable(DependenciesGraph)
+class Main {
+  @Inject navigator!: Navigator;
+
+  public init() {
+    registerScreens();
+    Navigation.events().registerAppLaunchedListener(() =>
+      this.navigator.setAppRoot(),
+    );
+  }
 }
 
-export function init() {
-  registerScreens();
-  Navigation.events().registerAppLaunchedListener(() => setAppRoot());
-}
+export default new Main();

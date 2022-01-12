@@ -1,1 +1,2 @@
-require('./main').init();
+import main from './main';
+main.init();
