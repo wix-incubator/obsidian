@@ -10,9 +10,7 @@ class Main {
 
   public init() {
     registerScreens();
-    Navigation.events().registerAppLaunchedListener(() =>
-      this.navigator.setAppRoot(),
-    );
+    this.navigator.startTabbedApp();
   }
 }
 

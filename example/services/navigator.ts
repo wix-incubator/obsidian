@@ -9,7 +9,11 @@ export type TabConfig = {
 };
 
 export default class Navigator {
-  public setAppRoot() {
+  public startTabbedApp() {
+    Navigation.events().registerAppLaunchedListener(() => this.setAppRoot());
+  }
+
+  private setAppRoot() {
     this.setTabsAppRoot([
       {
         componentName: Screens.Explore,
