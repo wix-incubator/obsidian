@@ -1,7 +1,7 @@
-{
-  "spirits": {
+[
+  {
     "title": "Spirits",
-    "items": [
+    "data": [[
       {
         "name": "Hans Jurgen Gin",
         "image":
@@ -11,21 +11,21 @@
         "name": "Gordon’s Gin",
         "image": "https://cdn.store-assets.com/s/286852/i/11186940.png"
       }
-    ]
+    ]]
   },
-  "liquors": {
+  {
     "title": "Liquors",
-    "items": [
+    "data": [[
       {
         "name": "Cointreau",
         "image":
-        "https://baradvisor.com/wp-content/uploads/2018/07/Cointreau.png"
+        "https://target.scene7.com/is/image/Target/GUEST_a317a4d9-a7a3-4050-b26f-a850321cf1a5?wid=400&hei=400&qlt=80&fmt=png"
       },
       {
         "name": "Disaronno",
         "image":
         "https://cdn.shopify.com/s/files/1/1267/4059/products/Disaronno-Originale-Amaretto-700ml_large.png?v=1550189343"
       }
-    ]
+    ]]
   }
-}
+]

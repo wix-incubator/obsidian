@@ -3,7 +3,7 @@ import {View} from 'react-native-ui-lib';
 import TopBarBackground from '../components/TopBarBackground';
 import {NavigationComponentProps} from 'react-native-navigation';
 
-interface Props extends NavigationComponentProps {
+export interface Props extends NavigationComponentProps {
   title: string;
 }
 
