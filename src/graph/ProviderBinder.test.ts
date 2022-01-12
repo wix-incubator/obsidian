@@ -50,9 +50,9 @@ describe('ProviderBinder', () => {
   it('injects classes', () => {
     @Injectable(GraphB)
     class Uut {
-      @Inject firstDep!: string;
-      @Inject secondDep!: string;
-      @Inject thirdDep!: string;
+      @Inject() firstDep!: string;
+      @Inject() secondDep!: string;
+      @Inject() thirdDep!: string;
     }
 
     const uut = new Uut();

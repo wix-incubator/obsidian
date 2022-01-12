@@ -6,7 +6,6 @@ module.exports = {
   ],
   plugins: [
     `${__dirname}/dist/transformers/babel-plugin-obsidian-provide`,
-    'babel-plugin-transform-typescript-metadata',
     ['@babel/plugin-proposal-decorators', { legacy: true }],
     ['@babel/plugin-proposal-class-properties', { legacy: true }],
     'babel-plugin-parameter-decorator'

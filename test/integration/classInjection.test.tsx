@@ -5,10 +5,10 @@ import MainGraph from './fixtures/MainGraph';
 describe('Class injection', () => {
   @Injectable(MainGraph)
   class MyClass {
-    @Inject someString!: string;
+    @Inject() someString!: string;
 
     constructor(anotherString?: string);
-    public constructor(@Inject public anotherString: string) { }
+    public constructor(@Inject() public anotherString: string) { }
   }
 
   it('Injects class properties', () => {
@@ -16,8 +16,7 @@ describe('Class injection', () => {
     expect(uut.someString).toBe(injectedValues.fromStringProvider);
   });
 
-  // TODO: make it pass
-  fit('Injects constructor arguments', () => {
+  it('Injects constructor arguments', () => {
     const uut = new MyClass();
     expect(uut.anotherString).toBe(injectedValues.anotherString);
   });
