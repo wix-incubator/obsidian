@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   GridListItem,
   Text,
@@ -22,7 +22,11 @@ const kItemWidth = Math.floor(
 const kItemHeight = kItemWidth * 1.27;
 
 const MyBar: React.FunctionComponent<DependenciesProps> = ({api}) => {
-  const myBarData = api.getMyBarData();
+  const [myBarData, setMyBarData] = useState([]);
+  useEffect(() => {
+    setMyBarData(api.getMyBarData());
+  }, [api]);
+
   return (
     <SectionList
       sections={myBarData}
