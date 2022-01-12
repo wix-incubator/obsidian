@@ -8,7 +8,7 @@ const config = {
     'test',
   ],
   setupFilesAfterEnv: [
-    '<rootDir>/node_modules/setimmediate/setimmediate.js'
+    './node_modules/setimmediate/setimmediate.js'
   ],
   testEnvironment: 'jsdom'
 };
