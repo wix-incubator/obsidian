@@ -1,7 +1,5 @@
 import { isNumber } from 'lodash';
-
-const injectionMetadataKey = 'injectionMetadata';
-const injectedConstructorArgsKey = 'injectedConstructorArgsKey';
+import InjectionTarget from '../../injectors/class/InjectionTarget';
 
 export function Inject(name?: string) {
   return (
@@ -10,19 +8,9 @@ export function Inject(name?: string) {
     indexOrPropertyDescriptor?: number | PropertyDescriptor,
   ) => {
     if (name && isNumber(indexOrPropertyDescriptor)) {
-      const constructorArgsToInject = Reflect.getMetadata(
-        injectedConstructorArgsKey,
-        target,
-      ) ?? new Array<[string, number]>();
-      constructorArgsToInject.push([name, indexOrPropertyDescriptor]);
-      Reflect.defineMetadata(
-        injectedConstructorArgsKey,
-        constructorArgsToInject,
-        target,
-      );
+      new InjectionTarget(target).saveConstructorParamMetadata(name!, indexOrPropertyDescriptor);
     } else {
-      const keysToInject = Reflect.getMetadata(injectionMetadataKey, target.constructor) ?? new Set();
-      Reflect.defineMetadata(injectionMetadataKey, keysToInject.add(propertyKey), target.constructor);
+      new InjectionTarget(target.constructor).savePropertyMetadata(propertyKey!);
     }
   };
 }
