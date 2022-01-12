@@ -8,7 +8,9 @@ export interface Props extends NavigationComponentProps {
 }
 
 export function baseScreen(
-  WrappedComponent: ComponentType<Props>,
+  WrappedComponent:
+    | ComponentType<Props>
+    | React.FunctionComponent<Partial<any>>,
 ): ComponentType<Props> {
   return (props: Props) => (
     <View flex bg-grey70>

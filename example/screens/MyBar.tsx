@@ -7,7 +7,11 @@ import {
   Shadows,
 } from 'react-native-ui-lib';
 import {FlatList, SectionList, StyleSheet} from 'react-native';
+import {injectComponent} from 'react-obsidian';
 import baseScreen from './baseScreen';
+import DependenciesGraph, {
+  DependenciesProps,
+} from '../graphs/dependenciesGraph';
 
 const kNumColumns = 2;
 const kSpacing = 20;
@@ -17,9 +21,8 @@ const kItemWidth = Math.floor(
 );
 const kItemHeight = kItemWidth * 1.27;
 
-const myBarData = require('../mockData/myBar.json');
-
-const MyBar: () => JSX.Element = () => {
+const MyBar: React.FunctionComponent<DependenciesProps> = ({api}) => {
+  const myBarData = api.getMyBarData();
   return (
     <SectionList
       sections={myBarData}
@@ -60,4 +63,5 @@ const style = StyleSheet.create({
   },
 });
 
-export default baseScreen(MyBar);
+const InjectedMyBar = injectComponent(MyBar, DependenciesGraph);
+export default baseScreen(InjectedMyBar);
