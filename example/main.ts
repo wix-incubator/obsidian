@@ -1,4 +1,3 @@
-import {Navigation} from 'react-native-navigation';
 import {registerScreens} from './screens';
 import {Inject, Injectable} from 'react-obsidian';
 import DependenciesGraph from './graphs/dependenciesGraph';
