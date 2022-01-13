@@ -226,11 +226,16 @@ Obsidian relies on reflection to resolve dependencies. Production code is typica
 Add the transformer to the list of plugins in your `.babel` file.
 ```js
 module.exports = {
-  presets: ['module:metro-react-native-babel-preset'],
-  plugins: [
-    ['@babel/plugin-proposal-decorators', {legacy: true}],
-    react-obsidian/dist/transformers/babel-plugin-obsidian
+  presets: [
+    'module:metro-react-native-babel-preset',
+    ['@babel/preset-typescript', {'onlyRemoveTypeImports': true}]
   ],
+  plugins: [
+    react-obsidian/dist/transformers/babel-plugin-obsidian,
+    ['@babel/plugin-proposal-decorators', {legacy: true}],
+    ['@babel/plugin-proposal-class-properties', { legacy: true }],
+    'babel-plugin-parameter-decorator'
+  ]
 };
 ```
 
