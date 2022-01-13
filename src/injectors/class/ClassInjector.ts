@@ -19,24 +19,26 @@ export default class ClassInjector {
     Graph: Constructable<Graph>,
     graphRegistry: GraphRegistry,
     injectionMetadata: InjectionMetadata,
-  ) {
-    return {
-      construct(target: any, args: any[], newTarget: any): new () => {} {
+  ): ProxyHandler<any> {
+    return new class Handler implements ProxyHandler<any> {
+      construct(target: any, args: any[], newTarget: Function): any {
         const graph = graphRegistry.resolve(Graph);
 
-        try {
-          args.push(graph.retrieve(injectionMetadata.getConstructorArgsToInject(target)[0][0]));
-        } catch (e: any) {
-          //
-        }
+        const argsToInject = this.injectConstructorArgs(args, graph, target);
 
-        const createdObject = Reflect.construct(target, args, newTarget);
+        const createdObject = Reflect.construct(target, argsToInject, newTarget);
         injectionMetadata.getPropertiesToInject(target).forEach((key) => {
           Reflect.set(createdObject, key, graph.retrieve(key));
         });
 
         return createdObject;
-      },
-    };
+      }
+
+      private injectConstructorArgs(args: any[], graph: Graph, target: any): any[] {
+        return [
+          graph.retrieve(injectionMetadata.getConstructorArgsToInject(target).getProperty(0)),
+        ];
+      }
+    }();
   }
 }
