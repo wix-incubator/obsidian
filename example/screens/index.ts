@@ -5,20 +5,14 @@ export enum Screens {
   Recipes = 'com.react-obsidian.example.recipes',
   MyBar = 'com.react-obsidian.example.my-bar',
   Wishlist = 'com.react-obsidian.example.wishlist',
+  BottleDetail = 'com.react-obsidian.example.bottle-detail',
 }
-
 export function registerScreens() {
-  Navigation.registerComponent(
-    Screens.Explore,
-    () => require('./Explore').default,
-  );
-  Navigation.registerComponent(
-    Screens.Recipes,
-    () => require('./Recipes').default,
-  );
-  Navigation.registerComponent(Screens.MyBar, () => require('./MyBar').default);
-  Navigation.registerComponent(
-    Screens.Wishlist,
-    () => require('./Wishlist').default,
-  );
+  Object.entries({
+    [Screens.Explore]: require('./Explore').default,
+    [Screens.Recipes]: require('./Recipes').default,
+    [Screens.MyBar]: require('./MyBar').default,
+    [Screens.Wishlist]: require('./Wishlist').default,
+    [Screens.BottleDetail]: require('./BottleDetail').default,
+  }).forEach(entry => Navigation.registerComponent(entry[0], () => entry[1]));
 }

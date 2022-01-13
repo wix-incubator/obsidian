@@ -1,4 +1,10 @@
-import {Navigation, ImageResource} from 'react-native-navigation';
+import {
+  Navigation,
+  ImageResource,
+  Layout,
+  LayoutComponent,
+  Options,
+} from 'react-native-navigation';
 import {Screens} from '../screens';
 
 export type TabConfig = {
@@ -11,6 +17,10 @@ export type TabConfig = {
 export default class Navigator {
   public startTabbedApp() {
     Navigation.events().registerAppLaunchedListener(() => this.setAppRoot());
+  }
+
+  public showBottleDetailScreen(bottle: {title: string}) {
+    this.showModal(Screens.BottleDetail, bottle.title);
   }
 
   private setAppRoot() {
@@ -86,4 +96,32 @@ export default class Navigator {
       },
     });
   }
+
+  private showModal(
+    screenId: string,
+    titleText: string,
+    passProps: object = {},
+  ) {
+    const component = {name: screenId, passProps} as LayoutComponent;
+    component.options = {topBar: {title: {text: titleText}}} as Options;
+    Navigation.showModal({stack: {children: [{component}]}} as Layout);
+  }
+
+  /*
+  private pushScreen(
+    componentId: string,
+    screenId: string,
+    titleText: string,
+    passProps: object = {},
+    hideBottomTabs = false,
+  ) {
+    const component = {name: screenId, passProps} as LayoutComponent;
+    const options = {topBar: {title: {text: titleText}}} as Options;
+    if (hideBottomTabs) {
+      options.bottomTabs = {visible: false};
+    }
+    component.options = options;
+    Navigation.push(componentId, {component});
+  }
+  */
 }

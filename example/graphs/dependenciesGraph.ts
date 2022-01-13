@@ -4,6 +4,7 @@ import Navigator from '../services/navigator';
 
 export interface DependenciesProps {
   api: API;
+  navigator: Navigator;
 }
 
 @Singleton()

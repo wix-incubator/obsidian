@@ -21,11 +21,18 @@ const kItemWidth = Math.floor(
 );
 const kItemHeight = kItemWidth * 1.27;
 
-const MyBar: React.FunctionComponent<DependenciesProps> = ({api}) => {
+const MyBar: React.FunctionComponent<DependenciesProps> = ({
+  api,
+  navigator,
+}) => {
   const [myBarData, setMyBarData] = useState([]);
   useEffect(() => {
     setMyBarData(api.getMyBarData());
   }, [api]);
+
+  function onItemPress(bottle: {title: string}) {
+    navigator.showBottleDetailScreen(bottle);
+  }
 
   return (
     <SectionList
@@ -48,6 +55,7 @@ const MyBar: React.FunctionComponent<DependenciesProps> = ({api}) => {
               imageProps={{source: {uri: bottle.image}}}
               title={bottle.name}
               titleTypography={'text80BO'}
+              onPress={onItemPress}
             />
           )}
         />

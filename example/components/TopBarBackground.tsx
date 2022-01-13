@@ -3,19 +3,17 @@ import React from 'react';
 import {View, Text} from 'react-native-ui-lib';
 import {ImageBackground, StyleSheet} from 'react-native';
 
-const TopBarBackground: (props: {title: string}) => JSX.Element = props => {
-  return (
-    <ImageBackground
-      style={style.bgImage}
-      source={require('../assets/nav_bg.png')}>
-      <View style={style.titleContainer}>
-        <Text text40H white>
-          {props.title}
-        </Text>
-      </View>
-    </ImageBackground>
-  );
-};
+const TopBarBackground: (props: {title: string}) => JSX.Element = props => (
+  <ImageBackground
+    style={style.bgImage}
+    source={require('../assets/nav_bg.png')}>
+    <View style={style.titleContainer}>
+      <Text text40H white>
+        {props.title}
+      </Text>
+    </View>
+  </ImageBackground>
+);
 
 const style = StyleSheet.create({
   bgImage: {
