@@ -1,5 +1,5 @@
 import { isNumber } from 'lodash';
-import InjectionTarget from '../../injectors/class/InjectionTarget';
+import InjectionMetadata from '../../injectors/class/InjectionMetadata';
 
 export function Inject(name?: string) {
   return (
@@ -7,10 +7,11 @@ export function Inject(name?: string) {
     propertyKey?: string,
     indexOrPropertyDescriptor?: number | PropertyDescriptor,
   ) => {
+    const metadata = new InjectionMetadata();
     if (name && isNumber(indexOrPropertyDescriptor)) {
-      new InjectionTarget(target).saveConstructorParamMetadata(name!, indexOrPropertyDescriptor);
+      metadata.saveConstructorParamMetadata(target, name!, indexOrPropertyDescriptor);
     } else {
-      new InjectionTarget(target.constructor).savePropertyMetadata(propertyKey!);
+      metadata.savePropertyMetadata(target.constructor, propertyKey!);
     }
   };
 }

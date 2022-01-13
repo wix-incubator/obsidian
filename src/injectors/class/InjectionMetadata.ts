@@ -1,4 +1,4 @@
-export default class InjectTarget {
+export default class InjectionMetadata {
   private readonly injectionMetadataKey = 'injectionMetadata';
   private readonly injectedConstructorArgsKey = 'injectedConstructorArgsKey';
 
@@ -10,23 +10,21 @@ export default class InjectTarget {
     return Reflect.getMetadata(this.injectionMetadataKey, target) ?? new Set();
   }
 
-  constructor(private target: any) {}
-
-  saveConstructorParamMetadata(paramName: string, index: number) {
-    const argsToInject = this.getConstructorArgsToInject(this.target);
+  saveConstructorParamMetadata(target: any, paramName: string, index: number) {
+    const argsToInject = this.getConstructorArgsToInject(target);
     argsToInject.push([paramName, index]);
     Reflect.defineMetadata(
       this.injectedConstructorArgsKey,
       argsToInject,
-      this.target,
+      target,
     );
   }
 
-  savePropertyMetadata(property: string) {
+  savePropertyMetadata(target: any, property: string) {
     Reflect.defineMetadata(
       this.injectionMetadataKey,
-      this.getPropertiesToInject(this.target).add(property),
-      this.target,
+      this.getPropertiesToInject(target).add(property),
+      target,
     );
   }
 }
