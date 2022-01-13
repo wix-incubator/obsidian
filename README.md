@@ -97,8 +97,9 @@ const Component = () => (
 ```
 
 ### Class injection
-Obsidian supports injected class properties. Constructor injection is not supported at this time.
+Obsidian supports injecting both class properties and constructor arguments.
 
+#### Injecting properties
 ```typescript
 @Injectable(ApplicationGraph)
 class ButtonController {
@@ -107,6 +108,25 @@ class ButtonController {
   onClick() {
     this.biLogger.logButtonClick();
   }
+}
+```
+
+#### Injecting constructor arguments
+```typescript
+@Injectable(ApplicationGraph)
+class Presenter {
+  constructor(@Inject() public biLogger: BiLogger) { }
+}
+```
+
+TypeScript's compiler won't let you construct the class without providing the argument `anotherString` as it's not optional.
+If you want to be able to instantiate the class without providing arguments, you'll also need to declare a constructor overload that receives optional arguments.
+
+```typescript
+@Injectable(ApplicationGraph)
+class Presenter {
+  constructor(biLogger?: BiLogger);
+  constructor(@Inject() public biLogger: BiLogger) { }
 }
 ```
 
