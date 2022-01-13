@@ -1,4 +1,4 @@
-import { Constructable } from 'src';
+import { Constructable } from '../types';
 import { ObjectGraph } from '../graph/ObjectGraph';
 
 export function Singleton() {

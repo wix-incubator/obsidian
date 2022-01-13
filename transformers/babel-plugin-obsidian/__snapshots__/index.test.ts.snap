@@ -49,3 +49,11 @@ let MainGraph = (_dec = Provides({
 
 }, (_applyDecoratedDescriptor(_class.prototype, \\"someString\\", [_dec], Object.getOwnPropertyDescriptor(_class.prototype, \\"someString\\"), _class.prototype)), _class));"
 `;
+
+exports[`Provider Arguments Transformer saves constructor argument name in Inject - @Inject -> @Inject(arg) 1`] = `
+"class MainGraph {
+  constructor(@Inject(\\"arg\\")
+  arg) {}
+
+}"
+`;

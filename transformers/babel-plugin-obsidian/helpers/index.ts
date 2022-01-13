@@ -7,8 +7,11 @@ import {
   Identifier,
   ObjectExpression,
   ObjectPattern,
+  TSParameterProperty,
 } from '@babel/types';
 import { get } from 'lodash';
+
+const never = '';
 
 export function providerIsNotNamed(decorator: Decorator): boolean {
   const argument = getDecoratorArgument(decorator);
@@ -44,8 +47,11 @@ export function getMethodName(node: ClassMethod): string {
   throw new Error(`Tried to get class name but encountered unexpected key of type: ${node.key.type}`);
 }
 
-export function getProviderDecorator(decorators: Array<Decorator> | undefined | null): Decorator | undefined {
-  return decorators?.find((decorator) => get(decorator, 'expression.callee.name') === 'Provides');
+export function getDecoratorByName(
+  decorators: Array<Decorator> | undefined | null,
+  decoratorName: string,
+): Decorator | undefined {
+  return decorators?.find((decorator) => get(decorator, 'expression.callee.name') === decoratorName);
 }
 
 export function getDecoratorName(decorator?: Decorator): string | undefined {
@@ -56,4 +62,22 @@ export function paramsToDestructuringAssignment(params: (Identifier | any)[]): O
   return t.objectPattern(params
     .filter((p) => t.isIdentifier(p))
     .map((p) => t.objectProperty(t.identifier(p.name), t.identifier(p.name))));
+}
+
+export function passParamNameAsInjectArgument(node: Identifier | TSParameterProperty, decorator: Decorator) {
+  if (t.isCallExpression(decorator.expression)) {
+    decorator.expression.arguments = [
+      t.stringLiteral(getIdentifierOrParamName(node)),
+    ];
+  }
+}
+
+function getIdentifierOrParamName(node: Identifier | TSParameterProperty): string {
+  if (t.isTSParameterProperty(node)) {
+    if (t.isIdentifier(node.parameter)) {
+      return node.parameter.name;
+    }
+    return never;
+  }
+  return node.name;
 }

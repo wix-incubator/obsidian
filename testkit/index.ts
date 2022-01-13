@@ -1,4 +1,4 @@
-import { GraphResolveChain } from 'src/graph/registry/GraphResolveChain';
+import { GraphResolveChain } from '../src/graph/registry/GraphResolveChain';
 import {
   ObjectGraph,
   Constructable,

@@ -22,6 +22,10 @@ const noArgsProvider = `class MainGraph {
   }
 }`;
 
+const unnamedConstructorInject = `class MainGraph {
+  constructor(@Inject() arg) {}
+}`;
+
 describe('Provider Arguments Transformer', () => {
   const uut: Function = providerArgumentsTransformer;
 
@@ -37,6 +41,11 @@ describe('Provider Arguments Transformer', () => {
 
   it('handles providers that have no arguments', () => {
     const result = transformSync(noArgsProvider);
+    expect(result?.code).toMatchSnapshot();
+  });
+
+  it('saves constructor argument name in Inject - @Inject -> @Inject(arg)', () => {
+    const result = transformSync(unnamedConstructorInject);
     expect(result?.code).toMatchSnapshot();
   });
 

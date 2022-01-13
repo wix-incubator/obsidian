@@ -7,6 +7,10 @@ const config = {
     'transformers',
     'test',
   ],
+  setupFilesAfterEnv: [
+    './jest.setup-after-env.js'
+  ],
+  testEnvironment: 'jsdom'
 };
 
 module.exports = config;
