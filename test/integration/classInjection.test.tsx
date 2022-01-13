@@ -30,7 +30,7 @@ describe('Class injection', () => {
     expect(uut.anotherString).toBe(injectedValues.anotherString);
   });
 
-  xit('Injects multiple constructor arguments', () => {
+  it('Injects multiple constructor arguments', () => {
     const uut = new MultiArgClass();
     expect(uut.someString).toBe(injectedValues.fromStringProvider);
     expect(uut.anotherString).toBe(injectedValues.anotherString);

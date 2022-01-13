@@ -35,9 +35,11 @@ export default class ClassInjector {
       }
 
       private injectConstructorArgs(args: any[], graph: Graph, target: any): any[] {
-        return [
-          graph.retrieve(injectionMetadata.getConstructorArgsToInject(target).getProperty(0)),
-        ];
+        const argsToInject = injectionMetadata.getConstructorArgsToInject(target);
+        if (!argsToInject.hasArgs()) return args;
+        return [...new Array(argsToInject.size())].map((_value, idx): any => {
+          return graph.retrieve(argsToInject.getProperty(idx));
+        });
       }
     }();
   }
