@@ -5,7 +5,7 @@ module.exports = {
     '@babel/preset-react',
   ],
   plugins: [
-    `${__dirname}/dist/transformers/babel-plugin-obsidian-provide`,
+    `${__dirname}/dist/transformers/babel-plugin-obsidian`,
     ['@babel/plugin-proposal-decorators', { legacy: true }],
     ['@babel/plugin-proposal-class-properties', { legacy: true }],
     'babel-plugin-parameter-decorator'
