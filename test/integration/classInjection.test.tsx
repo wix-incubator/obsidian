@@ -20,19 +20,25 @@ describe('Class injection', () => {
     ) { }
   }
 
-  it('Injects class properties', () => {
+  it('injects class properties', () => {
     const uut = new SingleArgClass();
     expect(uut.someString).toBe(injectedValues.fromStringProvider);
   });
 
-  it('Injects constructor arguments', () => {
+  it('injects constructor arguments', () => {
     const uut = new SingleArgClass();
     expect(uut.anotherString).toBe(injectedValues.anotherString);
   });
 
-  it('Injects multiple constructor arguments', () => {
+  it('injects multiple constructor arguments', () => {
     const uut = new MultiArgClass();
     expect(uut.someString).toBe(injectedValues.fromStringProvider);
+    expect(uut.anotherString).toBe(injectedValues.anotherString);
+  });
+
+  it('only injects if constructor arg is undefined', () => {
+    const uut = new MultiArgClass('override');
+    expect(uut.someString).toBe('override');
     expect(uut.anotherString).toBe(injectedValues.anotherString);
   });
 });

@@ -1,3 +1,4 @@
+import { get } from 'lodash';
 import { Constructable } from '../../types';
 import { GraphRegistry } from '../../graph/registry/GraphRegistry';
 import { Graph } from '../../graph/Graph';
@@ -37,8 +38,8 @@ export default class ClassInjector {
       private injectConstructorArgs(args: any[], graph: Graph, target: any): any[] {
         const argsToInject = injectionMetadata.getConstructorArgsToInject(target);
         if (!argsToInject.hasArgs()) return args;
-        return [...new Array(argsToInject.size())].map((_value, idx): any => {
-          return graph.retrieve(argsToInject.getProperty(idx));
+        return [...args, ...new Array(Math.abs(args.length - argsToInject.size()))].map((value, idx): any => {
+          return value ?? graph.retrieve(argsToInject.getProperty(idx));
         });
       }
     }();
