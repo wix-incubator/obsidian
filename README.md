@@ -11,6 +11,25 @@ React Obsidian is a dependency injection framework for React and React Native ap
 
 React Obsidian is guided by the principles of the Dependency Injection pattern, but does not strictly follow it. We allowed ourselves a degree of freedom when designing the library in order to reduce boilerplate code and reduce library footprint.
 
+* [Installation](https://github.com/wix-incubator/react-obsidian#installation)
+* [Prerequisites](https://github.com/wix-incubator/react-obsidian#prerequisites)
+* [Usage](https://github.com/wix-incubator/react-obsidian#usage)
+  * [Declare an object graph](https://github.com/wix-incubator/react-obsidian#declare-an-object-graph)
+  * [Component injection](https://github.com/wix-incubator/react-obsidian#component-injection)
+  * [Hooks injection](https://github.com/wix-incubator/react-obsidian#hooks-injection)
+  * [Class injection](https://github.com/wix-incubator/react-obsidian#class-injection)
+    * [Injecting properties](https://github.com/wix-incubator/react-obsidian#injecting-properties)
+    * [Injecting constructor arguments](https://github.com/wix-incubator/react-obsidian#injecting-constructor-arguments)
+  * [Obtaining dependencies from a graph](https://github.com/wix-incubator/react-obsidian#obtaining-dependencies-from-a-graph)
+* [Advance usage](https://github.com/wix-incubator/react-obsidian#advance-usage)
+  * [Accessing props in graphs](https://github.com/wix-incubator/react-obsidian#accessing-props-in-graphs)
+  * [Singleton graphs and providers](https://github.com/wix-incubator/react-obsidian#singleton-graphs-and-providers)
+  * [Graph middlewares](https://github.com/wix-incubator/react-obsidian#graph-middlewares)
+
+
+
+
+
 ## Installation
 
 ``` shell
