@@ -120,7 +120,7 @@ class Presenter {
 ```
 
 TypeScript's compiler won't let you construct the class without providing the argument `anotherString` as it's not optional.
-If you want to be able to instantiate the class without providing arguments, you'll also need to declare a constructor overload that receives optional arguments.
+If you want to be able to instantiate the class yourself without providing arguments, you'll also need to declare a constructor overload that receives optional arguments.
 
 ```typescript
 @Injectable(ApplicationGraph)
