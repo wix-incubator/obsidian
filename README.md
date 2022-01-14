@@ -1,6 +1,8 @@
 # react-obsidian
-
 > Dependency injection framework for React and React Native applications
+
+🏗 **This library is still under active development.**
+<br>⚠️ **Until we hit v1, Obsidian is not semver-compliant and all APIs are subject to change.**
 
 ## Introduction
 Applications are made of objects that communicate with each other. An object can depend on other objects so it can perform its responsibilities. For an object to function properly, its dependencies must be fulfilled when the object is constructed.
