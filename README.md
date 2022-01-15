@@ -124,7 +124,7 @@ Obsidian supports injecting both class properties and constructor arguments.
 ```typescript
 @Injectable(ApplicationGraph)
 class ButtonController {
-  @Inject biLogger!: BiLogger;
+  @Inject() biLogger!: BiLogger;
 
   onClick() {
     this.biLogger.logButtonClick();
