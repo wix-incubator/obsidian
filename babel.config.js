@@ -7,7 +7,7 @@ module.exports = {
   plugins: [
     `${__dirname}/dist/transformers/babel-plugin-obsidian`,
     ['@babel/plugin-proposal-decorators', { legacy: true }],
-    ['@babel/plugin-proposal-class-properties', { legacy: true }],
+    ['@babel/plugin-proposal-class-properties', { loose: true }],
     'babel-plugin-parameter-decorator'
   ],
 };
