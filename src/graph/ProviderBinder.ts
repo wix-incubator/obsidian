@@ -4,9 +4,8 @@ import { Graph } from './Graph';
 
 export function bindProviders(graph: Graph & Record<string, any>) {
   providedPropertiesStore.getMangledProperties(graph)
+    .filter((method) => graph[method])
     .forEach((method) => {
-      if (graph[method] !== undefined) {
-        graph[method] = graph[method].bind(graph);
-      }
+      graph[method] = graph[method].bind(graph);
     });
 }
