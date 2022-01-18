@@ -74,7 +74,6 @@ interface InjectedComponentProps {
   biLogger: BiLogger;
 }
 
-// When injecting components - we must use destructuring in order for Obsidian to know which dependencies to inject.
 const InjectedComponent = ({ biLogger }: InjectedComponentProps) => (
   <>
     <button onclick={biLogger.logButtonClick}>Click Me</button>
