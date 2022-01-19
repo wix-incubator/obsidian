@@ -1,6 +1,6 @@
-import lazyInjector from 'src/injectors/class/LazyInjector';
 import { Injectable, LazyInject } from '../../src';
 import injectedValues from './fixtures/injectedValues';
+import lazyInjector from '../../src/injectors/class/LazyInjector';
 import MainGraph from './fixtures/MainGraph';
 
 describe('Class lazy injection', () => {
