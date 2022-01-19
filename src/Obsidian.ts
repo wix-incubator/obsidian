@@ -12,9 +12,7 @@ export default class Obsidian {
     return graphRegistry.resolve(Graph, props) as unknown as ServiceLocator<T>;
   }
 
-  inject<T extends Object>(
-    target: T,
-  ) {
+  inject<T extends Object>(target: T) {
     return lazyInjector.inject(target);
   }
 
