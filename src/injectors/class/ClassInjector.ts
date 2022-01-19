@@ -23,9 +23,11 @@ export default class ClassInjector {
     return new class Handler implements ProxyHandler<any> {
       construct(target: any, args: any[], newTarget: Function): any {
         const graph = graphRegistry.resolve(Graph);
-
+        const ClassToCreate = class extends target {
+          _graphInstanceName = graph.name;
+        };
         const argsToInject = this.injectConstructorArgs(args, graph, target);
-        const createdObject = Reflect.construct(target, argsToInject, newTarget);
+        const createdObject = Reflect.construct(ClassToCreate, argsToInject, newTarget);
         this.injectProperties(target, createdObject, graph);
 
         return createdObject;
