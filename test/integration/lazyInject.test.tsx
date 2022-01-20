@@ -10,9 +10,24 @@ describe('Class lazy injection', () => {
     lazyInjector.inject(uut);
     expect(uut.someString).toBe(injectedValues.fromStringProvider);
   });
+
+  it('lazy injector injects class property', () => {
+    const uut = new LazyMultiArg();
+    expect(uut.someString).toBeUndefined();
+    expect(uut.anotherString).toBeUndefined();
+    lazyInjector.inject(uut);
+    expect(uut.someString).toBe(injectedValues.fromStringProvider);
+    expect(uut.anotherString).toBe(injectedValues.anotherString);
+  });
 });
 
 @Injectable(MainGraph)
 class LazySingleArg {
   @LazyInject() someString!: string;
+}
+
+@Injectable(MainGraph)
+class LazyMultiArg {
+  @LazyInject() someString!: string;
+  @LazyInject() anotherString!: string;
 }
