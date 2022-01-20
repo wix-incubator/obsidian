@@ -4,14 +4,14 @@ import InjectionMetadata from '../../injectors/class/InjectionMetadata';
 export function Inject(name?: string) {
   return (
     target: Object | any,
-    propertyKey?: string,
+    _propertyKey?: string,
     indexOrPropertyDescriptor?: number | PropertyDescriptor,
   ) => {
     const metadata = new InjectionMetadata();
-    if (name && isNumber(indexOrPropertyDescriptor)) {
+    if (isNumber(indexOrPropertyDescriptor)) {
       metadata.saveConstructorParamMetadata(target, name!, indexOrPropertyDescriptor);
     } else {
-      metadata.savePropertyMetadata(target.constructor, propertyKey!);
+      metadata.savePropertyMetadata(target.constructor, name!);
     }
   };
 }

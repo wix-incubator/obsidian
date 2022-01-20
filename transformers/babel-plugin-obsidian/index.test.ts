@@ -26,6 +26,22 @@ const unnamedConstructorInject = `class MainGraph {
   constructor(@Inject() arg) {}
 }`;
 
+const unnamedInject = `class MainGraph {
+  @Inject() someString;
+}`;
+
+const namedInject = `class MainGraph {
+  @Inject('myDependency') someString;
+}`;
+
+const unnamedLazyInject = `class MainGraph {
+  @LazyInject() someString;
+}`;
+
+const namedLazyInject = `class MainGraph {
+  @LazyInject('myDependency') someString;
+}`;
+
 describe('Provider Arguments Transformer', () => {
   const uut: Function = providerArgumentsTransformer;
 
@@ -46,6 +62,26 @@ describe('Provider Arguments Transformer', () => {
 
   it('saves constructor argument name in Inject - @Inject -> @Inject(arg)', () => {
     const result = transformSync(unnamedConstructorInject);
+    expect(result?.code).toMatchSnapshot();
+  });
+
+  it('Adds property name to @Inject arguments @Inject -> @Inject("myDependency")', () => {
+    const result = transformSync(unnamedInject);
+    expect(result?.code).toMatchSnapshot();
+  });
+
+  it('Does not add property name to @Inject if name is provided by the user', () => {
+    const result = transformSync(namedInject);
+    expect(result?.code).toMatchSnapshot();
+  });
+
+  it('Adds property name to @LazyInject arguments @LazyInject -> @LazyInject("myDependency")', () => {
+    const result = transformSync(unnamedLazyInject);
+    expect(result?.code).toMatchSnapshot();
+  });
+
+  it('Does not add property name to @LazyInject if name is provided by the user', () => {
+    const result = transformSync(namedLazyInject);
     expect(result?.code).toMatchSnapshot();
   });
 

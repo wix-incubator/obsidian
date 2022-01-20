@@ -22,6 +22,7 @@ describe('Sanity', () => {
     expect(Injectable).toBeDefined();
     expect(Inject).toBeDefined();
     expect(Obsidian.obtain).toBeDefined();
+    expect(Obsidian.inject).toBeDefined();
     expect(GraphMiddleware).toBeDefined();
   });
 });

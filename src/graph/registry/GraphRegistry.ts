@@ -6,6 +6,7 @@ import GraphMiddlewareChain from './GraphMiddlewareChain';
 export class GraphRegistry {
   private readonly constructorToInstance = new Map<Constructable<Graph>, Set<Graph>>();
   private readonly instanceToConstructor = new Map<Graph, Constructable<Graph>>();
+  private readonly nameToInstance = new Map<string, Graph>();
   private readonly graphToSubgraphs = new Map<Constructable<Graph>, Set<Constructable<Graph>>>();
   private readonly graphMiddlewares = new GraphMiddlewareChain();
 
@@ -17,6 +18,10 @@ export class GraphRegistry {
     const Graph = this.instanceToConstructor.get(graph)!;
     const subgraphs = this.graphToSubgraphs.get(Graph) ?? new Set();
     return Array.from(subgraphs).map((G) => this.resolve(G));
+  }
+
+  getGraphInstance(name: string): Graph {
+    return this.nameToInstance.get(name)!;
   }
 
   resolve<T extends Graph>(Graph: Constructable<T>, props?: any): T {
@@ -41,6 +46,7 @@ export class GraphRegistry {
     graphs.add(graph);
     this.constructorToInstance.set(Graph, graphs);
     this.instanceToConstructor.set(graph, Graph);
+    this.nameToInstance.set(graph.name, graph);
   }
 
   private isSingleton(Graph: Constructable<Graph>): boolean {
@@ -51,6 +57,7 @@ export class GraphRegistry {
     const Graph = this.instanceToConstructor.get(graph)!;
     this.instanceToConstructor.delete(graph);
     this.constructorToInstance.get(Graph)!.delete(graph);
+    this.nameToInstance.delete(graph.name);
   }
 
   addGraphMiddleware(middleware: Middleware<Graph>) {
