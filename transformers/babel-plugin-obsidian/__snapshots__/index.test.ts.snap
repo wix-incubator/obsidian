@@ -25,7 +25,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
-let MainGraph = (_dec = Inject(), (_class = class MainGraph {
+let MainGraph = (_dec = Inject(\\"someString\\"), (_class = class MainGraph {
   someString = _initializerWarningHelper(_descriptor, this);
 }, (_descriptor = _applyDecoratedDescriptor(_class.prototype, \\"someString\\", [_dec], {
   configurable: true,
@@ -42,7 +42,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
-let MainGraph = (_dec = LazyInject(), (_class = class MainGraph {
+let MainGraph = (_dec = LazyInject(\\"someString\\"), (_class = class MainGraph {
   someString = _initializerWarningHelper(_descriptor, this);
 }, (_descriptor = _applyDecoratedDescriptor(_class.prototype, \\"someString\\", [_dec], {
   configurable: true,
