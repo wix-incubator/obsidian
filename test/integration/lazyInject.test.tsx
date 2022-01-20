@@ -20,6 +20,11 @@ describe('Class lazy injection', () => {
     const uut = new LazyConstruct();
     expect(uut.someString).toBe(injectedValues.fromStringProvider);
   });
+
+  it('@LazyInject does not change the class name', () => {
+    const uut = new LazyConstruct();
+    expect(uut.constructor.name).toBe(LazyConstruct.name);
+  });
 });
 
 @Injectable(MainGraph)
