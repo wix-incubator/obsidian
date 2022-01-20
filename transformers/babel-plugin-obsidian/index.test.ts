@@ -31,7 +31,7 @@ const unnamedInject = `class MainGraph {
 }`;
 
 const namedInject = `class MainGraph {
-  @Inject({name: 'myDependency'}) someString;
+  @Inject('myDependency') someString;
 }`;
 
 const unnamedLazyInject = `class MainGraph {
@@ -39,7 +39,7 @@ const unnamedLazyInject = `class MainGraph {
 }`;
 
 const namedLazyInject = `class MainGraph {
-  @LazyInject({name: 'myDependency'}) someString;
+  @LazyInject('myDependency') someString;
 }`;
 
 describe('Provider Arguments Transformer', () => {
@@ -65,7 +65,7 @@ describe('Provider Arguments Transformer', () => {
     expect(result?.code).toMatchSnapshot();
   });
 
-  it('Adds property name to @Inject arguments @Inject -> @Inject({name: "myDependency"})', () => {
+  it('Adds property name to @Inject arguments @Inject -> @Inject("myDependency")', () => {
     const result = transformSync(unnamedInject);
     expect(result?.code).toMatchSnapshot();
   });
@@ -75,7 +75,7 @@ describe('Provider Arguments Transformer', () => {
     expect(result?.code).toMatchSnapshot();
   });
 
-  it('Adds property name to @LazyInject arguments @LazyInject -> @LazyInject({name: "myDependency"}', () => {
+  it('Adds property name to @LazyInject arguments @LazyInject -> @LazyInject("myDependency")', () => {
     const result = transformSync(unnamedLazyInject);
     expect(result?.code).toMatchSnapshot();
   });
