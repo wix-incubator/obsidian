@@ -1,6 +1,6 @@
 {
   "name": "react-obsidian",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "Dependency injection framework for React and React Native applications",
   "main": "src/index.ts",
   "directories": {
