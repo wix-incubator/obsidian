@@ -1,23 +1,24 @@
-import { Injectable, LazyInject } from '../../src';
+import { Injectable, LazyInject, Obsidian } from '../../src';
 import injectedValues from './fixtures/injectedValues';
 import lazyInjector from '../../src/injectors/class/LazyInjector';
 import MainGraph from './fixtures/MainGraph';
 
 describe('Class lazy injection', () => {
-  it('lazy injector injects class property', () => {
+  it('Inject @LazyInject property', () => {
     const uut = new LazySingleArg();
     expect(uut.someString).toBeUndefined();
     lazyInjector.inject(uut);
     expect(uut.someString).toBe(injectedValues.fromStringProvider);
   });
 
-  it('lazy injector injects class property', () => {
-    const uut = new LazyMultiArg();
+  it('Does not inject @LazyInject property without calling constructor', () => {
+    const uut = Object.create(LazyConstruct.prototype);
     expect(uut.someString).toBeUndefined();
-    expect(uut.anotherString).toBeUndefined();
-    lazyInjector.inject(uut);
+  });
+
+  fit('Inject @LazyInject property by calling constructor', () => {
+    const uut = new LazyConstruct();
     expect(uut.someString).toBe(injectedValues.fromStringProvider);
-    expect(uut.anotherString).toBe(injectedValues.anotherString);
   });
 });
 
@@ -27,7 +28,9 @@ class LazySingleArg {
 }
 
 @Injectable(MainGraph)
-class LazyMultiArg {
+class LazyConstruct {
   @LazyInject() someString!: string;
-  @LazyInject() anotherString!: string;
+  constructor() {
+    Obsidian.inject(this);
+  }
 }
