@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
 import {
   ClassMethod,
+  ClassProperty,
   Identifier,
   Program,
   TSParameterProperty,
@@ -22,10 +23,15 @@ const internalVisitor = {
       unmagler.saveClassMethod('Provides', node);
     },
   },
+  ClassProperty: {
+    enter({ node }: NodePath<ClassProperty>) {
+      unmagler.saveClassProperty('Inject', node);
+      unmagler.saveClassProperty('LazyInject', node);
+    },
+  },
   Identifier: {
     enter({ node }: NodePath<Identifier>) {
       unmagler.saveIdentifier('Inject', node);
-      unmagler.saveIdentifier('LazyInject', node);
     },
   },
   TSParameterProperty: {

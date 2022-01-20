@@ -3,6 +3,7 @@ import { types as t } from '@babel/core';
 import {
   CallExpression,
   ClassMethod,
+  ClassProperty,
   Decorator,
   Identifier,
   ObjectExpression,
@@ -12,6 +13,8 @@ import {
 import { get } from 'lodash';
 
 const never = '';
+
+export type AcceptedNodeType = Identifier | TSParameterProperty | ClassProperty;
 
 export function providerIsNotNamed(decorator: Decorator): boolean {
   const argument = getDecoratorArgument(decorator);
@@ -64,18 +67,27 @@ export function paramsToDestructuringAssignment(params: (Identifier | any)[]): O
     .map((p) => t.objectProperty(t.identifier(p.name), t.identifier(p.name))));
 }
 
-export function passParamNameAsInjectArgument(node: Identifier | TSParameterProperty, decorator: Decorator) {
+export function passParamNameAsInjectArgument(
+  node: AcceptedNodeType,
+  decorator: Decorator,
+) {
   if (t.isCallExpression(decorator.expression)) {
     decorator.expression.arguments = [
-      t.stringLiteral(getIdentifierOrParamName(node)),
+      t.stringLiteral(getNodeName(node)),
     ];
   }
 }
 
-function getIdentifierOrParamName(node: Identifier | TSParameterProperty): string {
+function getNodeName(node: AcceptedNodeType): string {
   if (t.isTSParameterProperty(node)) {
     if (t.isIdentifier(node.parameter)) {
       return node.parameter.name;
+    }
+    return never;
+  }
+  if (t.isClassProperty(node)) {
+    if (t.isIdentifier(node.key)) {
+      return node.key.name;
     }
     return never;
   }
