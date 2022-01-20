@@ -16,7 +16,7 @@ describe('Class lazy injection', () => {
     expect(uut.someString).toBeUndefined();
   });
 
-  fit('Inject @LazyInject property by calling constructor', () => {
+  it('Inject @LazyInject property by calling constructor', () => {
     const uut = new LazyConstruct();
     expect(uut.someString).toBe(injectedValues.fromStringProvider);
   });

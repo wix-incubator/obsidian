@@ -14,7 +14,7 @@ class LazyInjector<T extends object> {
   }
 
   private getGraphInstance(target: T) {
-    const graphInstanceName = Reflect.get(target, this.graphInstanceName);
+    const graphInstanceName = Reflect.get(target.constructor, this.graphInstanceName);
     return graphRegistry.getGraphInstance(graphInstanceName);
   }
 }

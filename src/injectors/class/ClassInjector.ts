@@ -21,13 +21,14 @@ export default class ClassInjector {
     injectionMetadata: InjectionMetadata,
   ): ProxyHandler<any> {
     return new class Handler implements ProxyHandler<any> {
-      construct(target: any, args: any[], newTarget: Function): any {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      construct(target: any, args: any[], _newTarget: Function): any {
         const graph = graphRegistry.resolve(Graph);
         const ClassToCreate = class extends target {
-          _graphInstanceName = graph.name;
+          static _graphInstanceName = graph.name;
         };
         const argsToInject = this.injectConstructorArgs(args, graph, target);
-        const createdObject = Reflect.construct(ClassToCreate, argsToInject, newTarget);
+        const createdObject = Reflect.construct(ClassToCreate, argsToInject);
         this.injectProperties(target, createdObject, graph);
 
         return createdObject;
