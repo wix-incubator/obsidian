@@ -5,7 +5,7 @@ class LazyInjector<T extends Object> {
   private readonly graphInstanceName = '_graphInstanceName';
 
   inject(target: T): T {
-    const injectionMetadata: InjectionMetadata = new InjectionMetadata();
+    const injectionMetadata = new InjectionMetadata();
     const graph = this.getGraphInstance(target);
     injectionMetadata.getLazyPropertiesToInject(target.constructor).forEach((key) => {
       Reflect.set(target, key, graph.retrieve(key));
