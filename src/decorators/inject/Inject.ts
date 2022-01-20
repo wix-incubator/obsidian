@@ -7,7 +7,6 @@ export function Inject(name?: string) {
     _propertyKey?: string,
     indexOrPropertyDescriptor?: number | PropertyDescriptor,
   ) => {
-    console.log(name);
     const metadata = new InjectionMetadata();
     if (isNumber(indexOrPropertyDescriptor)) {
       metadata.saveConstructorParamMetadata(target, name!, indexOrPropertyDescriptor);
