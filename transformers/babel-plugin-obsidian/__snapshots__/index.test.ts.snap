@@ -129,23 +129,3 @@ exports[`Provider Arguments Transformer saves constructor argument name in Injec
 
 }"
 `;
-
-exports[`Provider Arguments Transformer saves constructor argument name in Inject - @Inject -> @Inject(arg) 2`] = `
-"class MainGraph {
-  constructor(@Inject({
-    name: 'myDependency'
-  })
-  arg) {}
-
-}"
-`;
-
-exports[`Provider Arguments Transformer x 1`] = `
-"class MainGraph {
-  constructor(@Inject({
-    name: 'myDependency'
-  })
-  arg) {}
-
-}"
-`;
