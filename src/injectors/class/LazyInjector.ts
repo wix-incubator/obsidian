@@ -1,9 +1,9 @@
 import graphRegistry from '../../graph/registry/GraphRegistry';
 import InjectionMetadata from './InjectionMetadata';
 
-class LazyInjector<T extends object> {
-  private readonly graphInstanceName = '_graphInstanceName';
+export const GRAPH_INSTANCE_NAME_KEY = 'GRAPH_INSTANCE_NAME';
 
+class LazyInjector<T extends object> {
   inject(target: T): T {
     const injectionMetadata = new InjectionMetadata();
     const graph = this.getGraphInstance(target);
@@ -14,7 +14,7 @@ class LazyInjector<T extends object> {
   }
 
   private getGraphInstance(target: T) {
-    const graphInstanceName = Reflect.get(target.constructor, this.graphInstanceName);
+    const graphInstanceName = Reflect.getMetadata(GRAPH_INSTANCE_NAME_KEY, target.constructor);
     return graphRegistry.getGraphInstance(graphInstanceName);
   }
 }
