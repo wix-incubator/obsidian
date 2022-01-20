@@ -1,7 +1,7 @@
 import graphRegistry from '../../graph/registry/GraphRegistry';
 import InjectionMetadata from './InjectionMetadata';
 
-class LazyInjector<T extends Object> {
+class LazyInjector<T extends object> {
   private readonly graphInstanceName = '_graphInstanceName';
 
   inject(target: T): T {
