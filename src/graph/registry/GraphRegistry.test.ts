@@ -18,4 +18,12 @@ describe('GraphRegistry', () => {
     uut.register(SingletonGraph);
     expect(uut.resolve(SingletonGraph)).toEqual(uut.resolve(SingletonGraph));
   });
+
+  it('recreates @Singleton graphs after reset', () => {
+    uut.register(SingletonGraph);
+    const beforeReset = uut.resolve(SingletonGraph);
+    uut.reset();
+    const afterReset = uut.resolve(SingletonGraph);
+    expect(beforeReset).not.toEqual(afterReset);
+  });
 });

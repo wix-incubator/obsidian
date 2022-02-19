@@ -30,3 +30,5 @@ export const injectHook = <Args, Result> (
   hook: (args: Args) => Result,
   Graph: Constructable<_ObjectGraph>,
 ) => hookInjector.inject(hook, Graph);
+
+export { testKit } from '../testkit';

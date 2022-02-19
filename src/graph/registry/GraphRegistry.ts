@@ -67,6 +67,12 @@ export class GraphRegistry {
   clearGraphMiddlewares() {
     this.graphMiddlewares.clear();
   }
+
+  reset() {
+    this.instanceToConstructor.clear();
+    this.constructorToInstance.clear();
+    this.nameToInstance.clear();
+  }
 }
 
 export default new GraphRegistry();

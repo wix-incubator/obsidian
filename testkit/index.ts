@@ -1,17 +1,16 @@
 import { GraphResolveChain } from '../src/graph/registry/GraphResolveChain';
-import {
-  ObjectGraph,
-  Constructable,
-  GraphMiddleware,
-  Obsidian,
-} from '../src';
+import { ObjectGraph } from '../src/graph/ObjectGraph';
+import { GraphMiddleware } from '../src/graph/registry/GraphMiddleware';
+import { Constructable } from '../src/types';
+import graphRegistry from '../src/graph/registry/GraphRegistry';
 
 beforeEach(() => {
-  Obsidian.clearGraphMiddlewares();
+  graphRegistry.clearGraphMiddlewares();
+  graphRegistry.reset();
 });
 
-class Index {
-  mockGraphs(graphNameToGraph: Record<string, Constructable<ObjectGraph>>) {
+class TestKit {
+  public mockGraphs(graphNameToGraph: Record<string, Constructable<ObjectGraph>>) {
     const graphMiddleware = new class extends GraphMiddleware {
       resolve<Props>(resolveChain: GraphResolveChain, Graph: Constructable<ObjectGraph>, props?: Props) {
         if (graphNameToGraph[Graph.name]) {
@@ -21,8 +20,8 @@ class Index {
         return resolveChain.proceed(Graph, props);
       }
     }();
-    Obsidian.addGraphMiddleware(graphMiddleware);
+    graphRegistry.addGraphMiddleware(graphMiddleware);
   }
 }
 
-export default new Index();
+export const testKit = new TestKit();
