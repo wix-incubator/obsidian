@@ -1,5 +1,5 @@
 import { GraphResolveChain } from '../src/graph/registry/GraphResolveChain';
-import { ObjectGraph } from '../src/graph/ObjectGraph';
+import { isGraph, ObjectGraph } from '../src/graph/ObjectGraph';
 import { GraphMiddleware } from '../src/graph/registry/GraphMiddleware';
 import { Constructable } from '../src/types';
 import graphRegistry from '../src/graph/registry/GraphRegistry';
@@ -10,12 +10,12 @@ beforeEach(() => {
 });
 
 class TestKit {
-  public mockGraphs(graphNameToGraph: Record<string, Constructable<ObjectGraph>>) {
+  public mockGraphs(graphNameToGraph: Record<string, Constructable<ObjectGraph> | ((props: any) => ObjectGraph)>) {
     const graphMiddleware = new class extends GraphMiddleware {
       resolve<Props>(resolveChain: GraphResolveChain, Graph: Constructable<ObjectGraph>, props?: Props) {
         if (graphNameToGraph[Graph.name]) {
-          const TheGraph = graphNameToGraph[Graph.name];
-          return new TheGraph(props);
+          const GraphOrGenerator = graphNameToGraph[Graph.name];
+          return isGraph(GraphOrGenerator) ? new GraphOrGenerator(props) : GraphOrGenerator(props);
         }
         return resolveChain.proceed(Graph, props);
       }
