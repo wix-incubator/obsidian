@@ -139,7 +139,7 @@ class Presenter {
 }
 ```
 
-TypeScript's compiler won't let you construct the class without providing the argument `anotherString` as it's not optional.
+TypeScript's compiler won't let you construct the class without providing the argument `biLogger` as it's not optional.
 If you want to be able to instantiate the class yourself without providing arguments, you'll also need to declare a constructor overload that receives optional arguments.
 
 ```typescript
@@ -148,6 +148,9 @@ class Presenter {
   constructor(biLogger?: BiLogger);
   constructor(@Inject() public biLogger: BiLogger) { }
 }
+
+// Now you can instantiate the class without providing it's constructor dependencies
+const presenter = new Presenter();
 ```
 
 ### Obtaining dependencies from a graph
