@@ -285,6 +285,9 @@ module.exports = {
 ### Jest
 react-obsidian publishes untranspiled code. If you're using Jest, you'll need to add react-obsidian to [transformIgnorePatterns](https://jestjs.io/docs/configuration#transformignorepatterns-arraystring) so it's transpiled before tests are executed.
 
+### Peer Dependencies
+Obsidian has a peer dependency on `lodash`.
+
 ## Related
 
 * [InversifyJS](https://github.com/inversify/InversifyJS)
