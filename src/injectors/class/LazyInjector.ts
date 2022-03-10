@@ -1,12 +1,13 @@
+import { ObjectGraph } from '../../graph/ObjectGraph';
 import graphRegistry from '../../graph/registry/GraphRegistry';
 import InjectionMetadata from './InjectionMetadata';
 
 export const GRAPH_INSTANCE_NAME_KEY = 'GRAPH_INSTANCE_NAME';
 
 class LazyInjector<T extends object> {
-  inject(target: T): T {
+  inject(target: T, sourceGraph?: ObjectGraph): T {
     const injectionMetadata = new InjectionMetadata();
-    const graph = this.getGraphInstance(target);
+    const graph = sourceGraph ?? this.getGraphInstance(target);
     injectionMetadata.getLazyPropertiesToInject(target.constructor).forEach((key) => {
       Reflect.set(target, key, graph.retrieve(key));
     });

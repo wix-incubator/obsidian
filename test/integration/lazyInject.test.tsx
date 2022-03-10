@@ -25,6 +25,17 @@ describe('Class lazy injection', () => {
     const uut = new LazyPropertyConstructorInjection();
     expect(uut.constructor.name).toBe(LazyPropertyConstructorInjection.name);
   });
+
+  it('@LazyInjects from source graph', () => {
+    const obj = new LazyProperty();
+    const graph = new class extends MainGraph {
+      override someString(): string {
+        return 'overridden';
+      }
+    }();
+    Obsidian.inject(obj, graph);
+    expect(obj.someString).toBe('overridden');
+  });
 });
 
 @Injectable(MainGraph)

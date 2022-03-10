@@ -12,8 +12,8 @@ export default class Obsidian {
     return graphRegistry.resolve(Graph, props) as unknown as ServiceLocator<T>;
   }
 
-  inject<T extends object>(target: T) {
-    return lazyInjector.inject(target);
+  inject<T extends object>(target: T, graph?: ObjectGraph) {
+    return lazyInjector.inject(target, graph);
   }
 
   addGraphMiddleware(middleware: GraphMiddleware) {
