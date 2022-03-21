@@ -7,11 +7,10 @@
 <br>⚠️ <b>Until we hit v1, Obsidian is not semver-compliant and all APIs are subject to change.</b></h5>
 
 ## Introduction
-Applications are made of objects that communicate with each other. An object can depend on other objects so it can perform its responsibilities. For an object to function properly, its dependencies must be fulfilled when the object is constructed.
 
 React Obsidian is a dependency injection framework for React and React Native applications. It allows you to inject dependencies effortlessly into hooks, components or classes. Separating the construction and consumption of dependencies is crucial to maintaining a readable and testable codebase.
 
-React Obsidian is guided by the principles of the Dependency Injection pattern, but does not strictly follow it. We allowed ourselves a degree of freedom when designing the library in order to reduce boilerplate code and reduce library footprint.
+React Obsidian is guided by the principles of the Dependency Injection pattern, but does not strictly follow them. We allowed ourselves a degree of freedom when designing the library in order to reduce boilerplate code and library footprint.
 
 * [Installation](https://github.com/wix-incubator/react-obsidian#installation)
 * [Prerequisites](https://github.com/wix-incubator/react-obsidian#prerequisites)
@@ -26,7 +25,7 @@ React Obsidian is guided by the principles of the Dependency Injection pattern, 
 * [Advance usage](https://github.com/wix-incubator/react-obsidian#advance-usage)
   * [Accessing props in graphs](https://github.com/wix-incubator/react-obsidian#accessing-props-in-graphs)
   * [Singleton graphs and providers](https://github.com/wix-incubator/react-obsidian#singleton-graphs-and-providers)
-  * [Graph middlewares](https://github.com/wix-incubator/react-obsidian#graph-middlewares)
+  * [Graph middleware](https://github.com/wix-incubator/react-obsidian#graph-middleware)
 
 
 
@@ -51,7 +50,7 @@ In the `ApplicationGraph` example below, we declare two dependencies:
 
 Both functions are annotated by the `@Provides()` annotation. This signals Obsidian that the results of these functions are provided by the graph and can be injected.
 
-Notice how the biLogger function receives an `httpClient` as an argument. This means that `biLogger` has a dependency on `httpClient`. Obsidian will create an `httpClient` when `biLogger` is injected. 
+Notice how the biLogger function receives an `httpClient` as an argument. This means that `biLogger` is dependent on `httpClient`. Obsidian will create an `httpClient` when `biLogger` is injected. 
 
 ``` typescript
 @Singleton() @Graph()
@@ -108,7 +107,7 @@ const useButtonClick = ({ biLogger }: UseButtonPressProps): UseButtonPress => {
 // Dependencies are injected from ApplicationGraph
 export default injectHook(usePress, ApplicationGraph);
 
-// Now that exported the injected hook, we can use it in a component without needed so provide it's dependencies manually
+// Now that we exported the injected hook, we can use it in a component without the needed so provide its dependencies manually
 const Component = () => (
   // No need to specify dependencies as they are injected automatically
   const { onClick } = useButtonClick();
@@ -141,7 +140,7 @@ class Presenter {
 }
 ```
 
-TypeScript's compiler won't let you construct the class without providing the argument `biLogger` as it's not optional.
+The TypeScript compiler won't let you construct the class without providing the `biLogger` argument as it's not optional.
 If you want to be able to instantiate the class yourself without providing arguments, you'll also need to declare a constructor overload that receives optional arguments.
 
 ```typescript
@@ -162,11 +161,11 @@ Dependencies can also be obtained by accessing the graph that provides them.
 Obsidian.obtain(ApplicationGraph).biLogger();
 ```
 
-> Note: While the function that provides the `biLogger` accepts an argument of type `HttpClient`, when obtaining dependencies directly from the graph, we don't provide dependencies ourselves as they are resolved by Obsidian.
+> Note: While the function that provides the `biLogger` accepts an argument of type `HttpClient`, we don't provide dependencies ourselves when obtaining dependencies directly from the graph, as they are resolved by Obsidian.
 
-## Advance usage
+## Advanced usage
 ### Accessing props in graphs
-If a graph is instantiated in order to inject a component, then it receives the component's props in the constructor.
+If a graph is instantiated in order to inject a component, then it will receive the component's props in the constructor.
 ```typescript
 @Graph()
 class ProfileScreenGraph extends ObjectGraph<ProfileScreenProps> {
@@ -183,8 +182,9 @@ class ProfileScreenGraph extends ObjectGraph<ProfileScreenProps> {
   }
 }
 ```
+
 ### Singleton graphs and providers
-Graphs and Providers can be marked as singletons with the `@Singleton` decorator. When a graph is marked as a singleton, when an instance of that graph is requested, Obsidian will reuse the existing instance. Graphs that are not annotated with the `@Singleton` decorator will be instantiated each time they are needed for injection.
+Graphs and Providers can be marked as singletons with the `@Singleton` decorator. If a graph is marked as a singleton, when an instance of such graph is requested, Obsidian will reuse the existing instance. Graphs that are not annotated with the `@Singleton` decorator will be instantiated each time they are needed for injection.
 
 Singleton providers are shared between all instances of a graph.
 
@@ -213,16 +213,17 @@ class ApplicationGraph {
   }
 }
 ```
-### Graph middlewares
-When working on large scale applications, a need to hook into various low level operations often arises. Obsidian lets you hook into the graph creation process by adding middlewares.
 
-Middlewares are invoked in LIFO order and can be used for various purposes:
-1. Create a graph yourself instead of letting Obsidian instantiate it.
+### Graph middleware
+When working on large scale applications, we often need to to hook into various low level operations. Obsidian lets you hook into the graph creation process by adding middleware(s).
+
+Those middleware are invoked in LIFO order and can be used for various purposes:
+1. Create a graph yourself instead of letting Obsidian to instantiate it.
 2. Add logging to graph creation.
 3. Handle errors when Obsidian instantiates graphs.
 4. Replace graphs with mocks for testing purposes.
 
-Middlewares follow the Chain of Responsibility pattern and therefor must always return a graph, either by creating one explicitly or by returning the instance created by another member in the resolve chain.
+Middleware follow the Chain of Responsibility pattern and therefore must always return a graph, either by creating one explicitly or by returning the instance created by another member in the resolve chain.
 
 #### Adding a logging middleware
 The following example demonstrates how to add a middleware that's used for logging purposes.
@@ -239,6 +240,7 @@ const loggingMiddleware = new class extends GraphMiddleware {
     }();
     Obsidian.addGraphMiddleware(loggingMiddleware);
 ```
+
 ## Prerequisites
 Obsidian is highly opinionated and is developed with a specific environment in mind. Therefore, it has a few prerequisites for projects that want to integrate it.
 
@@ -265,7 +267,7 @@ Add the following options to your `tsconfig.json` file.
 ```
 
 ### Babel
-Obsidian relies on reflection to resolve dependencies. Production code is typically mangled to reduce bundle size. This means that some names Obsidian expects are changed during the mangling process. To workaround this, Obsidian persists the names of methods annotated with the `@Provides` decorator with a Babel transformer.
+Obsidian relies on reflection to resolve dependencies. Production code is typically mangled to reduce bundle size. This means that some names Obsidian expects are changed during the mangling process. To work around this, Obsidian persists the names of methods annotated with the `@Provides` decorator with a Babel transformer.
 
 ### Add Obsidian's babel transformer
 Add the transformer to the list of plugins in your `.babel` file.
