@@ -24,8 +24,8 @@ export default class Obsidian {
     graphRegistry.clearGraphMiddlewares();
   }
 
-  resetGraphs() {
+  clearGraphs() {
     graphRegistry.clearGraphMiddlewares();
-    graphRegistry.reset();
+    graphRegistry.clearAll();
   }
 }

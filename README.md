@@ -241,6 +241,9 @@ const loggingMiddleware = new class extends GraphMiddleware {
     Obsidian.addGraphMiddleware(loggingMiddleware);
 ```
 
+#### Clear graphs
+Graphs can be cleared by invoking `Obsidian.clearGraphs()`. This is useful in tests or when you need to reset the system to it's original state, for example when a user logs out.
+
 ## Prerequisites
 Obsidian is highly opinionated and is developed with a specific environment in mind. Therefore, it has a few prerequisites for projects that want to integrate it.
 

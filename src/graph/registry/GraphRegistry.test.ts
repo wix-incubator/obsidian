@@ -22,7 +22,7 @@ describe('GraphRegistry', () => {
   it('recreates @Singleton graphs after reset', () => {
     uut.register(SingletonGraph);
     const beforeReset = uut.resolve(SingletonGraph);
-    uut.reset();
+    uut.clearAll();
     const afterReset = uut.resolve(SingletonGraph);
     expect(beforeReset).not.toEqual(afterReset);
   });
