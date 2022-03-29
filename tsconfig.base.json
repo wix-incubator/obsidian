@@ -2,7 +2,8 @@
   "include": [
     "src/**/*",
     "transformers/**/*",
-    "test/**/*"
+    "test/**/*",
+    "./resetGraphs.ts"
   ],
   "exclude": [
     "node_modules",
