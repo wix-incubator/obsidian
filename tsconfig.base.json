@@ -3,7 +3,7 @@
     "src/**/*",
     "transformers/**/*",
     "test/**/*",
-    "./resetGraphs.ts"
+    "./clearGraphs.ts"
   ],
   "exclude": [
     "node_modules",
