@@ -26,6 +26,7 @@ React Obsidian is guided by the principles of the Dependency Injection pattern, 
   * [Accessing props in graphs](https://github.com/wix-incubator/react-obsidian#accessing-props-in-graphs)
   * [Singleton graphs and providers](https://github.com/wix-incubator/react-obsidian#singleton-graphs-and-providers)
   * [Graph middleware](https://github.com/wix-incubator/react-obsidian#graph-middleware)
+  * [Clear graphs](https://github.com/wix-incubator/react-obsidian#clear-graphs)
 
 
 
@@ -241,8 +242,14 @@ const loggingMiddleware = new class extends GraphMiddleware {
     Obsidian.addGraphMiddleware(loggingMiddleware);
 ```
 
-#### Clear graphs
+### Clear graphs
 Graphs can be cleared by invoking `Obsidian.clearGraphs()`. This is useful in tests or when you need to reset the system to it's original state, for example when a user logs out.
+
+#### Clearing graphs automatically during execution of Jest tests
+Create a `jest.setup.js` file and add it to [setupFilesAfterEnv](https://jestjs.io/docs/configuration#setupfilesafterenv-array). Then, import the following file when ensures graphs are cleared before each test.
+```javascript
+import 'react-obsidian/clearGraphs';
+```
 
 ## Prerequisites
 Obsidian is highly opinionated and is developed with a specific environment in mind. Therefore, it has a few prerequisites for projects that want to integrate it.
