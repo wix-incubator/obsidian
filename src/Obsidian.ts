@@ -3,13 +3,14 @@ import { ObjectGraph } from './graph/ObjectGraph';
 import { Constructable, GraphInternals, ServiceLocator } from './types';
 import { GraphMiddleware } from './graph/registry/GraphMiddleware';
 import lazyInjector from './injectors/class/LazyInjector';
+import serviceLocatorFactory from './graph/ServiceLocatorFactory';
 
 export default class Obsidian {
   obtain<T extends ObjectGraph<P>, P = any>(
     Graph: Constructable<T>,
     props?: P,
   ): ServiceLocator<Omit<T, GraphInternals>> {
-    return graphRegistry.resolve(Graph, props) as unknown as ServiceLocator<T>;
+    return serviceLocatorFactory.fromGraph(Graph, props);
   }
 
   inject<T extends object>(target: T, graph?: ObjectGraph) {
