@@ -1,6 +1,10 @@
 [![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://vshymanskyy.github.io/StandWithUkraine)
 
-# react-obsidian
+<p align="center">
+  </br><img width="300px" src=".github/logo.svg"></br>
+</p>
+
+# React Obsidian
 > Dependency injection framework for React and React Native applications
 
 <h5>🏗 <b>This library is still under active development.</b>
@@ -11,6 +15,9 @@
 React Obsidian is a dependency injection framework for React and React Native applications. It allows you to inject dependencies effortlessly into hooks, components or classes. Separating the construction and consumption of dependencies is crucial to maintaining a readable and testable codebase.
 
 React Obsidian is guided by the principles of the Dependency Injection pattern, but does not strictly follow them. We allowed ourselves a degree of freedom when designing the library in order to reduce boilerplate code and library footprint.
+
+> 📖 Read more about Dependency Injection and Obsidian in [Breaking complexity with Dependency Injection: Introducing Obsidian](https://guyca.medium.com/breaking-complexity-with-dependency-injection-introducing-obsidian-cd452802f076) on Medium.
+ 
 
 * [Installation](https://github.com/wix-incubator/react-obsidian#installation)
 * [Prerequisites](https://github.com/wix-incubator/react-obsidian#prerequisites)
