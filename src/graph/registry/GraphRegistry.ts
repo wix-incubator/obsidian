@@ -14,6 +14,11 @@ export class GraphRegistry {
     this.graphToSubgraphs.set(constructor, new Set(subgraphs));
   }
 
+  ensureRegistered(graph: Graph) {
+    if (this.instanceToConstructor.get(graph)) return;
+    this.set(graph.constructor as any, graph);
+  }
+
   getSubgraphs(graph: Graph): Graph[] {
     const Graph = this.instanceToConstructor.get(graph)!;
     const subgraphs = this.graphToSubgraphs.get(Graph) ?? new Set();
