@@ -6,6 +6,7 @@ export const GRAPH_INSTANCE_NAME_KEY = 'GRAPH_INSTANCE_NAME';
 
 class LazyInjector<T extends object> {
   inject(target: T, sourceGraph?: ObjectGraph): T {
+    if (sourceGraph) graphRegistry.ensureRegistered(sourceGraph);
     const injectionMetadata = new InjectionMetadata();
     const graph = sourceGraph ?? this.getGraphInstance(target);
     injectionMetadata.getLazyPropertiesToInject(target.constructor).forEach((key) => {
