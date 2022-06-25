@@ -1,5 +1,5 @@
 import React from 'react';
-import { injectComponent } from '../../../src';
+import { injectComponent } from '../../src';
 import MainGraph from './MainGraph';
 
 interface InjectedComponentProps {

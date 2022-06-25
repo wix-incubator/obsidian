@@ -1,9 +1,9 @@
 import React from 'react';
 import { render } from '@testing-library/react';
-import MainGraph from './fixtures/MainGraph';
-import Subgraph from './fixtures/Subgraph';
+import MainGraph from '../fixtures/MainGraph';
+import Subgraph from '../fixtures/Subgraph';
 import { Graph, Provides } from '../../src';
-import InjectedComponent from './fixtures/InjectedComponent';
+import InjectedComponent from '../fixtures/InjectedComponent';
 import { testKit } from '../../testkit';
 
 describe('Test doubles', () => {

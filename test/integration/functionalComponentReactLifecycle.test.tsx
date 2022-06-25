@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { fireEvent, render } from '@testing-library/react';
 import { injectComponent } from '../../src';
-import MainGraph from './fixtures/MainGraph';
+import MainGraph from '../fixtures/MainGraph';
 
 enum Lifecycle {Mounted, Unmounted}
 const componentLifecycle: Lifecycle[] = [];

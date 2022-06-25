@@ -1,4 +1,4 @@
-import Subgraph from '../../../test/integration/fixtures/Subgraph';
+import Subgraph from '../../../test/fixtures/Subgraph';
 import { Obsidian } from '../../index';
 
 describe('Provides', () => {

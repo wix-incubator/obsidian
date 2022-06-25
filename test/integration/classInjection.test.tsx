@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '../../src';
-import injectedValues from './fixtures/injectedValues';
-import MainGraph from './fixtures/MainGraph';
+import injectedValues from '../fixtures/injectedValues';
+import MainGraph from '../fixtures/MainGraph';
 
 describe('Class injection', () => {
   it('injects class properties', () => {

@@ -1,4 +1,4 @@
-import { Graph, Provides } from '../../../src';
+import { Graph, Provides } from '../../src';
 import MainGraph from './MainGraph';
 
 @Graph()

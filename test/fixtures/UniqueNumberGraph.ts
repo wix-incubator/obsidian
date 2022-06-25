@@ -3,7 +3,7 @@ import {
   ObjectGraph,
   Provides,
   Singleton,
-} from '../../../src';
+} from '../../src';
 
 @Graph()
 export class UniqueNumberGraph extends ObjectGraph {

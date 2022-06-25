@@ -1,7 +1,7 @@
 import { Injectable, LazyInject, Obsidian } from '../../src';
-import injectedValues from './fixtures/injectedValues';
+import injectedValues from '../fixtures/injectedValues';
 import lazyInjector from '../../src/injectors/class/LazyInjector';
-import MainGraph from './fixtures/MainGraph';
+import MainGraph from '../fixtures/MainGraph';
 
 describe('Class lazy injection', () => {
   it('Inject @LazyInject property', () => {

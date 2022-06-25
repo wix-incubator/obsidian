@@ -1,10 +1,10 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { useState } from 'react';
-import StringProvider from '../../../test/integration/fixtures/StringProvider';
-import Subgraph from '../../../test/integration/fixtures/Subgraph';
-import injectedValues from '../../../test/integration/fixtures/injectedValues';
+import StringProvider from '../../../test/fixtures/StringProvider';
+import Subgraph from '../../../test/fixtures/Subgraph';
+import injectedValues from '../../../test/fixtures/injectedValues';
 import HookInjector from './HookInjector';
-import MainGraph from '../../../test/integration/fixtures/MainGraph';
+import MainGraph from '../../../test/fixtures/MainGraph';
 
 describe('Hook injection', () => {
   let uut: HookInjector;

@@ -6,7 +6,7 @@ import {
   anything,
   verify,
 } from '@johanblumenberg/ts-mockito';
-import MainGraph from '../../../test/integration/fixtures/MainGraph';
+import MainGraph from '../../../test/fixtures/MainGraph';
 import { Middleware } from './Middleware';
 import GraphResolversChain from './GraphMiddlewareChain';
 import { ObjectGraph } from '../ObjectGraph';

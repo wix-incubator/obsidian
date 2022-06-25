@@ -1,5 +1,5 @@
-import SingletonGraph from '../../../test/integration/fixtures/SingletonGraph';
-import MainGraph from '../../../test/integration/fixtures/MainGraph';
+import SingletonGraph from '../../../test/fixtures/SingletonGraph';
+import MainGraph from '../../../test/fixtures/MainGraph';
 import { GraphRegistry } from './GraphRegistry';
 
 describe('GraphRegistry', () => {

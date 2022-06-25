@@ -2,9 +2,9 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 import { injectComponent } from '../../src';
-import injectedValues from './fixtures/injectedValues';
-import MainGraph from './fixtures/MainGraph';
-import ThrowingMainGraph from './fixtures/ThrowingMainGraph';
+import injectedValues from '../fixtures/injectedValues';
+import MainGraph from '../fixtures/MainGraph';
+import ThrowingMainGraph from '../fixtures/ThrowingMainGraph';
 
 interface InjectedComponentProps {
   someString: string;

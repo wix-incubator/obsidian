@@ -1,7 +1,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { injectComponent } from '../../src';
-import SingletonGraph from '../integration/fixtures/SingletonGraph';
+import SingletonGraph from '../fixtures/SingletonGraph';
 
 const Component = (props: any) => <>{`${props.instanceId}`}</>;
 

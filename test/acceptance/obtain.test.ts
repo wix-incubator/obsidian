@@ -1,6 +1,6 @@
 import { Obsidian } from '../../src';
-import injectedValues from '../integration/fixtures/injectedValues';
-import MainGraph from '../integration/fixtures/MainGraph';
+import injectedValues from '../fixtures/injectedValues';
+import MainGraph from '../fixtures/MainGraph';
 
 describe('obtain', () => {
   it('Retrieves value from a provider that has no dependencies', () => {

@@ -1,4 +1,4 @@
-import { UniqueNumberGraph } from '../../test/integration/fixtures/UniqueNumberGraph';
+import { UniqueNumberGraph } from '../../test/fixtures/UniqueNumberGraph';
 import PropertyRetriever from './PropertyRetriever';
 
 describe('PropertyRetriever', () => {
