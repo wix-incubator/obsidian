@@ -24,6 +24,7 @@
     "@babel/core": "7.16.x",
     "@babel/plugin-proposal-decorators": "7.16.x",
     "@babel/preset-env": "7.16.x",
+    "babel-plugin-parameter-decorator": "1.x.x",
     "@babel/preset-react": "7.16.x",
     "@babel/preset-typescript": "7.16.x",
     "@babel/types": "7.16.x",
@@ -38,7 +39,6 @@
     "@types/react-test-renderer": "17.0.1",
     "@typescript-eslint/eslint-plugin": "^5.3.0",
     "@typescript-eslint/parser": "^5.3.0",
-    "babel-plugin-parameter-decorator": "1.x.x",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-typescript": "^16.0.0",
     "eslint-plugin-import": "^2.25.2",
@@ -51,8 +51,8 @@
     "lodash": "^4.17.21",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "setimmediate": "^1.0.5",
-    "typescript": "^4.5.4"
+    "typescript": "^4.5.4",
+    "setimmediate": "^1.0.5"
   },
   "repository": {
     "type": "git",

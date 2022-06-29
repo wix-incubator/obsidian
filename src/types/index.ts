@@ -9,7 +9,3 @@ export type ServiceLocator<Clazz> = {
 };
 
 export type GraphInternals = 'retrieve' | 'name' | 'scope';
-
-export type ProvidedDependencies<Graph> = {
-  [Key in keyof Omit<Graph, GraphInternals>]: Graph[Key] extends (...args: any[]) => infer R ? R : never;
-};
