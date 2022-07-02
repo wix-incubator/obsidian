@@ -3,7 +3,7 @@ import { Constructable } from '../../types';
 import ComponentInjector from './ComponentInjector';
 
 interface Descriminator {
-  obsidianDescriminator: string;
+  obsidianDescriminator: never;
 }
 
 const componentInjector = new ComponentInjector();
