@@ -16,6 +16,6 @@ export { GraphResolveChain as ResolveChain } from './graph/registry/GraphResolve
 export const Obsidian = new _Obsidian();
 
 export { injectComponent } from './injectors/components/InjectComponent';
-export { injectHook } from './injectors/hooks/InjectHook';
+export { injectHook, injectHookWithArguments } from './injectors/hooks/InjectHook';
 
 export { testKit } from '../testkit';

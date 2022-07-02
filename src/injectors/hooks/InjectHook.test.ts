@@ -2,18 +2,18 @@ import { renderHook } from '@testing-library/react-hooks';
 import MainGraph from '../../../test/fixtures/MainGraph';
 import Subgraph from '../../../test/fixtures/Subgraph';
 import { ProvidedDependencies } from '../../types';
-import { injectHook } from './InjectHook';
+import { injectHook, injectHookWithArguments } from './InjectHook';
 
 describe('injectHook', () => {
-  const hook = ({ ownProp, someString }: OwnProps & InjectedProps): Result => {
-    return { ownProp, someString };
-  };
+  interface InjectedProps extends ProvidedDependencies<MainGraph>, ProvidedDependencies<Subgraph> {}
 
   interface OwnProps {
     ownProp: string;
   }
 
-  interface InjectedProps extends ProvidedDependencies<MainGraph>, ProvidedDependencies<Subgraph> {}
+  const hook = ({ ownProp, someString }: OwnProps & InjectedProps): Result => {
+    return { ownProp, someString };
+  };
 
   interface Result {
     ownProp: string;
@@ -25,21 +25,25 @@ describe('injectHook', () => {
     someString: 'Fear kills progress',
   };
 
-  it('Both own and injected props are defined', () => {
-    const injectedHook = injectHook<OwnProps, InjectedProps>(hook, MainGraph);
-    const { result } = renderHook(injectedHook, { initialProps: { ownProp: expectedResult.ownProp } });
-    expect(result.current).toStrictEqual(expectedResult);
+  describe('injectHook', () => {
+    it('Generics defined', () => {
+      const injectedHook = injectHook<Result, InjectedProps & OwnProps>(hook, MainGraph);
+      const { result } = renderHook(injectedHook, { initialProps: { ownProp: expectedResult.ownProp } });
+      expect(result.current).toStrictEqual(expectedResult);
+    });
+
+    it('Generics are not defined', () => {
+      const injectedHook = injectHook(hook, MainGraph);
+      const { result } = renderHook(injectedHook, { initialProps: { ownProp: expectedResult.ownProp } });
+      expect(result.current).toStrictEqual(expectedResult);
+    });
   });
 
-  it('Only own props are defined', () => {
-    const injectedHook = injectHook<OwnProps>(hook, MainGraph);
-    const { result } = renderHook(injectedHook, { initialProps: { ownProp: expectedResult.ownProp } });
-    expect(result.current).toStrictEqual(expectedResult);
-  });
-
-  it('Props type is inferred', () => {
-    const injectedHook = injectHook(hook, MainGraph);
-    const { result } = renderHook(injectedHook, { initialProps: { ownProp: expectedResult.ownProp } });
-    expect(result.current).toStrictEqual(expectedResult);
+  describe('injectHookWithArguments', () => {
+    it('Generics defined', () => {
+      const injectedHook = injectHookWithArguments<Result, InjectedProps, OwnProps>(hook, MainGraph);
+      const { result } = renderHook(injectedHook, { initialProps: { ownProp: expectedResult.ownProp } });
+      expect(result.current).toStrictEqual(expectedResult);
+    });
   });
 });
