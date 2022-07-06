@@ -1,12 +1,10 @@
 import { render } from '@testing-library/react';
 import React from 'react';
-import MainGraph from '../../../test/fixtures/MainGraph';
-import Subgraph from '../../../test/fixtures/Subgraph';
-import { ProvidedDependencies } from '../../types';
+import MainGraph, { Dependencies } from '../../../test/fixtures/MainGraph';
 import { injectComponent } from './InjectComponent';
 
 describe('injectComponent', () => {
-  const component = ({ ownProp, someString }: OwnProps & InjectedProps) => {
+  const component = ({ ownProp, someString }: OwnProps & Dependencies) => {
     return (<>{`${ownProp ?? 'error: own prop not provided'} - ${someString}`}</>);
   };
 
@@ -14,10 +12,8 @@ describe('injectComponent', () => {
     ownProp: string;
   }
 
-  interface InjectedProps extends ProvidedDependencies<MainGraph>, ProvidedDependencies<Subgraph> {}
-
   it('Both own and injected props are defined', () => {
-    const InjectedComponent = injectComponent<OwnProps, InjectedProps>(component, MainGraph);
+    const InjectedComponent = injectComponent<OwnProps, Dependencies>(component, MainGraph);
     const { container } = render(
     <InjectedComponent
       ownProp={'this prop must be provided'}

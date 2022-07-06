@@ -1,7 +1,14 @@
-import { Graph, ObjectGraph, Provides } from '../../src';
+import {
+  Graph,
+  ObjectGraph,
+  Provides,
+  DependenciesOf,
+} from '../../src';
 import injectedValues from './injectedValues';
 import StringProvider from './StringProvider';
 import Subgraph from './Subgraph';
+
+export type Dependencies = DependenciesOf<[MainGraph, Subgraph]>;
 
 @Graph({ subgraphs: [Subgraph] })
 export default class MainGraph extends ObjectGraph {

@@ -1,11 +1,11 @@
 import { renderHook } from '@testing-library/react-hooks';
 import MainGraph from '../../../test/fixtures/MainGraph';
 import Subgraph from '../../../test/fixtures/Subgraph';
-import { ProvidedDependencies } from '../../types';
+import { DependenciesOf } from '../../types';
 import { injectHook, injectHookWithArguments } from './InjectHook';
 
 describe('injectHook', () => {
-  interface InjectedProps extends ProvidedDependencies<MainGraph>, ProvidedDependencies<Subgraph> {}
+  type InjectedProps = DependenciesOf<[MainGraph, Subgraph]>;
 
   interface OwnProps {
     ownProp: string;
