@@ -26,4 +26,11 @@ describe('GraphRegistry', () => {
     const afterReset = uut.resolve(SingletonGraph);
     expect(beforeReset).not.toEqual(afterReset);
   });
+
+  it(`clear() doesn't clear @Singleton graphs`, () => {
+    uut.register(SingletonGraph);
+    const graph = uut.resolve(SingletonGraph);
+    uut.clear(graph);
+    expect(uut.resolve(SingletonGraph)).toEqual(graph);
+  });
 });
