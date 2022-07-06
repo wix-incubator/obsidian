@@ -7,10 +7,8 @@ interface GraphParams {
   subgraphs: Constructable<ObjectGraph>[];
 }
 
-export function Graph({
-  subgraphs = [],
-}: Partial<GraphParams> = {}) {
-  return <T extends ObjectGraph>(constructor: Constructable<T>) => {
+export function Graph({ subgraphs = [] }: Partial<GraphParams> = {}) {
+  return (constructor: any) => {
     graphRegistry.register(constructor, subgraphs);
     return constructor;
   };
