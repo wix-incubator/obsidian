@@ -32,6 +32,7 @@ React Obsidian is guided by the principles of the Dependency Injection pattern, 
 * [Advance usage](https://github.com/wix-incubator/react-obsidian#advance-usage)
   * [Accessing props in graphs](https://github.com/wix-incubator/react-obsidian#accessing-props-in-graphs)
   * [Singleton graphs and providers](https://github.com/wix-incubator/react-obsidian#singleton-graphs-and-providers)
+  * [Lazy property injection](https://github.com/wix-incubator/react-obsidian#lazy-property-injection)
   * [Graph middleware](https://github.com/wix-incubator/react-obsidian#graph-middleware)
   * [Clear graphs](https://github.com/wix-incubator/react-obsidian#clear-graphs)
 
@@ -218,6 +219,36 @@ class ApplicationGraph {
   @Provides()
   biLogger(): BiLogger {
     return new BiLogger() // Created once because the graph is a singleton
+  }
+}
+```
+
+### Lazy property injection
+Class properties can be injected lazily by using the `@LazyInject()` decorator. This is useful when the injection should be done in a lifecycle method instead of in the class constructor. 
+
+```ts
+@Injectable(ApplicationGraph)
+class Foo {
+  @LazyInject() private bar!: Bar;
+
+  constructor() {
+    console.log(bar) // undefined
+    Obsidian.inject(this);
+    console.log(bar) // Bar {}
+  }
+}
+```
+
+In the example above, the dependencies are resolved from the graph declared in the `@Injectable()` decorator. Declaring the graph in advance isn't always desirable. When using the `@LazyInject()` decorator, we can omit the `@Injectable()` decorator and specify the graph to inject from in the call to ``Obsidian.inject()`.
+
+```ts
+class Foo {
+  @LazyInject() private bar!: Bar;
+
+  constructor() {
+    console.log(bar) // undefined
+    Obsidian.inject(this, () => new ApplicationGraph());
+    console.log(bar) // Bar {}
   }
 }
 ```
