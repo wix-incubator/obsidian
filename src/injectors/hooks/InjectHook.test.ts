@@ -27,7 +27,7 @@ describe('injectHook', () => {
 
   describe('injectHook', () => {
     it('Generics defined', () => {
-      const injectedHook = injectHook<Result, InjectedProps & OwnProps>(hook, MainGraph);
+      const injectedHook = injectHook<InjectedProps & OwnProps, Result>(hook, MainGraph);
       const { result } = renderHook(injectedHook, { initialProps: { ownProp: expectedResult.ownProp } });
       expect(result.current).toStrictEqual(expectedResult);
     });
@@ -41,7 +41,7 @@ describe('injectHook', () => {
 
   describe('injectHookWithArguments', () => {
     it('Generics defined', () => {
-      const injectedHook = injectHookWithArguments<Result, InjectedProps, OwnProps>(hook, MainGraph);
+      const injectedHook = injectHookWithArguments<InjectedProps, OwnProps>(hook, MainGraph);
       const { result } = renderHook(injectedHook, { initialProps: { ownProp: expectedResult.ownProp } });
       expect(result.current).toStrictEqual(expectedResult);
     });

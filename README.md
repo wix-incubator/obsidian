@@ -34,7 +34,7 @@ React Obsidian is guided by the principles of the Dependency Injection pattern, 
   * [Singleton graphs and providers](https://github.com/wix-incubator/react-obsidian#singleton-graphs-and-providers)
   * [Lazy property injection](https://github.com/wix-incubator/react-obsidian#lazy-property-injection)
   * [Graph middleware](https://github.com/wix-incubator/react-obsidian#graph-middleware)
-  * [Clear graphs](https://github.com/wix-incubator/react-obsidian#clear-graphs)
+  * [Clearing graphs](https://github.com/wix-incubator/react-obsidian#clearing-graphs)
 
 
 
@@ -253,6 +253,33 @@ class Foo {
 }
 ```
 
+### Typing graphs
+Obsidian exposes a utility `type` that represents the dependencies provided by a graph. This type is useful when typing props passed to components or hooks. It's especially useful when you need to differentiate between "own" props and injected props.
+
+```ts
+type InjectedDependencies = DependenciesOf<ApplicationGraph> // { biLogger: BiLogger, httpClient: HttpClient }
+
+// These are props our hook requires from the calling scope
+interface OwnProps {
+  someArgs: string
+}
+
+// This interface represents the object returned from the hook
+interface Result {
+  //
+}
+
+// Our hook requires two dependencies:
+// 1. someArg - passed down from the calling scope
+// 2. biLogger - injected from the ApplicationGraph
+const hook = ({someArg, biLogger}: OwnProps & InjectedDependencies): Result => {
+  // ...
+}
+
+// When invoking the hook, it must be provided with `someArg` since OwnProps aren't optional
+const injectedHook: (props: OwnProps & Partial<InjectedDependencies>) => Result = injectHookWithArguments<InjectedDependencies, OwnProps, Result>(hook, MainApplication);
+```
+
 ### Graph middleware
 When working on large scale applications, we often need to to hook into various low level operations. Obsidian lets you hook into the graph creation process by adding middleware(s).
 
@@ -280,7 +307,7 @@ const loggingMiddleware = new class extends GraphMiddleware {
     Obsidian.addGraphMiddleware(loggingMiddleware);
 ```
 
-### Clear graphs
+### Clearing graphs
 Graphs can be cleared by invoking `Obsidian.clearGraphs()`. This is useful in tests or when you need to reset the system to it's original state, for example when a user logs out.
 
 #### Clearing graphs automatically during execution of Jest tests

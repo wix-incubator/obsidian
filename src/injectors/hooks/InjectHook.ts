@@ -10,14 +10,14 @@ const hookInjector = new HookInjector();
 // 1. injectHookWithArguments: Should be used when a hook requires parameters in addition to the injected dependencies.
 // 2. injectHook: Should be used when a hook does not require parameters.
 
-export function injectHookWithArguments<Result, Injected, Args>(
-  hook: (args: Injected & Args) => Result,
+export function injectHookWithArguments<Injected, Own, Result = {}>(
+  hook: (args: Injected & Own) => Result,
   Graph: Constructable<ObjectGraph>,
-): (props: Args & Partial<Injected>) => Result {
+): (props: Own & Partial<Injected>) => Result {
   return hookInjector.inject(hook, Graph);
 }
 
-export function injectHook<Result, Injected>(
+export function injectHook<Injected, Result = {}>(
   hook: (args: Injected) => Result,
   Graph: Constructable<ObjectGraph>,
 ): (props?: Partial<Injected>) => Result {
