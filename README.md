@@ -33,6 +33,7 @@ React Obsidian is guided by the principles of the Dependency Injection pattern, 
   * [Accessing props in graphs](https://github.com/wix-incubator/react-obsidian#accessing-props-in-graphs)
   * [Singleton graphs and providers](https://github.com/wix-incubator/react-obsidian#singleton-graphs-and-providers)
   * [Lazy property injection](https://github.com/wix-incubator/react-obsidian#lazy-property-injection)
+  * [Typing graphs](https://github.com/wix-incubator/react-obsidian#typing-graphs)
   * [Graph middleware](https://github.com/wix-incubator/react-obsidian#graph-middleware)
   * [Clearing graphs](https://github.com/wix-incubator/react-obsidian#clearing-graphs)
 
