@@ -7,7 +7,7 @@ export type Constructable<T> = {
 export type Constructor = { new(...args: any[]): any };
 
 export type ServiceLocator<Clazz> = {
-  [Key in keyof Clazz]: Function
+  [Key in keyof Clazz]: () => Clazz[Key] extends (...args: any[]) => infer R ? R : never;
 };
 
 export type GraphInternals = 'retrieve' | 'name' | 'scope';
