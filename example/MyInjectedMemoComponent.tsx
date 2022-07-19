@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {Text, View} from 'react-native';
 import {Graph, injectComponent, ObjectGraph, Provides} from 'react-obsidian';
 
@@ -25,16 +25,14 @@ class DependenciesGraph extends ObjectGraph<DependenciesProps> {
   }
 }
 
-const MyInjectedComponent: React.FunctionComponent<DependenciesProps> = ({
-  myText,
-  testProp,
-}: DependenciesProps) => {
-  return (
-    <View style={{alignItems: 'center'}}>
-      <Text>{myText || 'default'}</Text>
-      <Text>{testProp ? 'On' : 'Off'}</Text>
-    </View>
-  );
-};
+const MyInjectedMemoComponent: React.FunctionComponent<DependenciesProps> =
+  memo(({myText, testProp}: DependenciesProps) => {
+    return (
+      <View style={{alignItems: 'center'}}>
+        <Text>{myText || 'default'}</Text>
+        <Text>{testProp ? 'On' : 'Off'}</Text>
+      </View>
+    );
+  });
 
-export default injectComponent(MyInjectedComponent, DependenciesGraph);
+export default injectComponent(MyInjectedMemoComponent, DependenciesGraph);
