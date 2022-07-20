@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { ObjectGraph } from '../../graph/ObjectGraph';
 import PropsInjector from './PropsInjector';
@@ -21,7 +21,12 @@ export default class ComponentInjector {
   ): React.FunctionComponent<Partial<P>> {
     return (passedProps: Partial<P>) => {
       const graph = useGraph(Graph, passedProps);
-      const [proxiedProps] = useState(new PropsInjector(graph).inject(passedProps));
+      const [proxiedProps, setProxiedProps] = useState(new PropsInjector(graph).inject(passedProps));
+
+      useEffect(() => {
+        setProxiedProps(new PropsInjector(graph).inject(passedProps));
+      }, [passedProps]);
+
       return <>{Target(proxiedProps as unknown as P)}</>;
     };
   }
