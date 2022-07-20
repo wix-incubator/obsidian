@@ -11,7 +11,7 @@
 <br>⚠️ <b>Until we hit v1, Obsidian is not semver-compliant and all APIs are subject to change.</b></h5>
 
 ## Introduction
-
+useButtonClick
 React Obsidian is a dependency injection framework for React and React Native applications. It allows you to inject dependencies effortlessly into hooks, components or classes. Separating the construction and consumption of dependencies is crucial to maintaining a readable and testable codebase.
 
 React Obsidian is guided by the principles of the Dependency Injection pattern, but does not strictly follow them. We allowed ourselves a degree of freedom when designing the library in order to reduce boilerplate code and library footprint.
@@ -115,7 +115,7 @@ const useButtonClick = ({ biLogger }: UseButtonPressProps): UseButtonPress => {
 };
 
 // Dependencies are injected from ApplicationGraph
-export default injectHook(usePress, ApplicationGraph);
+export default injectHook(useButtonClick, ApplicationGraph);
 
 // Now that we exported the injected hook, we can use it in a component without the needed so provide its dependencies manually
 const Component = () => (
