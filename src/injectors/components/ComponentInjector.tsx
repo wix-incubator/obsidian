@@ -4,6 +4,7 @@ import { ObjectGraph } from '../../graph/ObjectGraph';
 import PropsInjector from './PropsInjector';
 import useGraph from './useGraph';
 import { Constructable } from '../../types';
+import { isMemoizedComponent } from '../../utils/React';
 
 export default class ComponentInjector {
   inject<P>(
@@ -16,7 +17,7 @@ export default class ComponentInjector {
   }
 
   private wrapComponent<P>(
-    Target: React.FunctionComponent<P>,
+    InjectionCandidate: React.FunctionComponent<P>,
     Graph: Constructable<ObjectGraph>,
   ): React.FunctionComponent<Partial<P>> {
     return (passedProps: Partial<P>) => {
@@ -27,6 +28,7 @@ export default class ComponentInjector {
         setProxiedProps(new PropsInjector(graph).inject(passedProps));
       }, [passedProps]);
 
+      const Target = isMemoizedComponent(InjectionCandidate) ? InjectionCandidate.type : InjectionCandidate;
       return <>{Target(proxiedProps as unknown as P)}</>;
     };
   }
