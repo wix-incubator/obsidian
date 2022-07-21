@@ -25,7 +25,13 @@ export default class ComponentInjector {
       const [proxiedProps, setProxiedProps] = useState(new PropsInjector(graph).inject(passedProps));
 
       useEffect(() => {
-        setProxiedProps(new PropsInjector(graph).inject(passedProps));
+        if (isMemoizedComponent(InjectionCandidate) && InjectionCandidate.compare) {
+          if (!InjectionCandidate.compare(proxiedProps, passedProps)) {
+            setProxiedProps(new PropsInjector(graph).inject(passedProps));
+          }
+        } else {
+          setProxiedProps(new PropsInjector(graph).inject(passedProps));
+        }
       }, [passedProps]);
 
       const Target = isMemoizedComponent(InjectionCandidate) ? InjectionCandidate.type : InjectionCandidate;
