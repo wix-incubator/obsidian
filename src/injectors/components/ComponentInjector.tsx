@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { ObjectGraph } from '../../graph/ObjectGraph';
 import PropsInjector from './PropsInjector';
@@ -22,17 +22,8 @@ export default class ComponentInjector {
   ): React.FunctionComponent<Partial<P>> {
     return (passedProps: Partial<P>) => {
       const graph = useGraph(Graph, passedProps);
-      const [proxiedProps, setProxiedProps] = useState(new PropsInjector(graph).inject(passedProps));
-
-      useEffect(() => {
-        if (isMemoizedComponent(InjectionCandidate) && InjectionCandidate.compare) {
-          if (!InjectionCandidate.compare(proxiedProps, passedProps)) {
-            setProxiedProps(new PropsInjector(graph).inject(passedProps));
-          }
-        } else {
-          setProxiedProps(new PropsInjector(graph).inject(passedProps));
-        }
-      }, [passedProps]);
+      // const [proxiedProps, setProxiedProps] = useState(new PropsInjector(graph).inject(passedProps));
+      const proxiedProps = new PropsInjector(graph).inject(passedProps);
 
       const Target = isMemoizedComponent(InjectionCandidate) ? InjectionCandidate.type : InjectionCandidate;
       return <>{Target(proxiedProps as unknown as P)}</>;

@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import React from 'react';
+import React, { useRef } from 'react';
 import MainGraph, { Dependencies } from '../../../test/fixtures/MainGraph';
 import { injectComponent } from './InjectComponent';
 
@@ -52,5 +52,18 @@ describe('ComponentInjector', () => {
     arePropsEqual = false;
     rerender(<InjectedComponent count={2} />);
     expect(container.textContent).toBe('2 - Fear kills progress');
+  });
+
+  const RenderCounter = ({ someString }: OwnProps & Dependencies) => {
+    const renderCount = useRef(0);
+    renderCount.current += 1;
+    return (<>{`${renderCount.current} - ${someString}`}</>);
+  };
+
+  it('xxx', () => {
+    const MemoizedComponent = React.memo<any>(RenderCounter);
+    const InjectedComponent = injectComponent(MemoizedComponent, MainGraph);
+    const { container } = render(<InjectedComponent />);
+    expect(container.textContent).toBe('1 - Fear kills progress');
   });
 });
