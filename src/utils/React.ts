@@ -11,5 +11,5 @@ export function genericMemo<C extends React.ComponentType<any>>(
   Component: Parameters<typeof React.memo>[0],
   propsAreEqual?: Parameters<typeof React.memo>[1],
 ) {
-  return (React.memo(Component, propsAreEqual) as unknown) as C;
+  return React.memo(Component, propsAreEqual) as unknown as C;
 }
