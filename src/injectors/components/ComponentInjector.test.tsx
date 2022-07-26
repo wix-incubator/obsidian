@@ -60,7 +60,7 @@ describe('ComponentInjector', () => {
     return (<>{`${renderCount.current} - ${someString}`}</>);
   };
 
-  it('xxx', () => {
+  it('Renders once when component is created', () => {
     const MemoizedComponent = React.memo<any>(RenderCounter);
     const InjectedComponent = injectComponent(MemoizedComponent, MainGraph);
     const { container } = render(<InjectedComponent />);
