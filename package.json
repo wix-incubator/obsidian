@@ -22,7 +22,6 @@
   },
   "devDependencies": {
     "@babel/core": "7.16.x",
-    "@babel/plugin-proposal-decorators": "7.16.x",
     "@babel/preset-env": "7.16.x",
     "@babel/preset-react": "7.16.x",
     "@babel/preset-typescript": "7.16.x",
@@ -39,6 +38,7 @@
     "@typescript-eslint/eslint-plugin": "^5.3.0",
     "@typescript-eslint/parser": "^5.3.0",
     "babel-plugin-parameter-decorator": "1.x.x",
+    "babel-plugin-typescript-decorators": "^1.0.3",
     "eslint": "^7.32.0",
     "eslint-config-airbnb-typescript": "^16.0.0",
     "eslint-plugin-import": "^2.25.2",

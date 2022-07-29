@@ -119,9 +119,10 @@ let MainGraph = (_dec = Provides({
 `;
 
 exports[`Provider Arguments Transformer saves constructor argument name in Inject - @Inject -> @Inject(arg) 1`] = `
-"class MainGraph {
-  constructor(@Inject(\\"arg\\")
-  arg) {}
+"var _dec, _class;
 
-}"
+let MainGraph = (_dec = Inject(\\"arg\\"), (_class = class MainGraph {
+  constructor(arg) {}
+
+}, (_class = _dec(_class, undefined, 0) || _class), _class));"
 `;

@@ -344,21 +344,51 @@ Add the following options to your `tsconfig.json` file.
 ### Babel
 Obsidian relies on reflection to resolve dependencies. Production code is typically mangled to reduce bundle size. This means that some names Obsidian expects are changed during the mangling process. To work around this, Obsidian persists the names of methods annotated with the `@Provides` decorator with a Babel transformer.
 
-### Add Obsidian's babel transformer
-Add the transformer to the list of plugins in your `.babel` file.
-```js
+
+Add Obsidian's babel transformer and the additional plugins to your `babel.config`:
+
+```diff
 module.exports = {
   presets: [
     'module:metro-react-native-babel-preset',
-    ['@babel/preset-typescript', {'onlyRemoveTypeImports': true}]
+    [
+      '@babel/preset-typescript',
+      {
++        'onlyRemoveTypeImports': true
+      }
+    ]
   ],
   plugins: [
-    react-obsidian/dist/transformers/babel-plugin-obsidian,
-    ['@babel/plugin-proposal-decorators', {legacy: true}],
-    ['@babel/plugin-proposal-class-properties', { legacy: true }],
-    'babel-plugin-parameter-decorator'
++    react-obsidian/dist/transformers/babel-plugin-obsidian,
++    ['@babel/plugin-proposal-decorators', {legacy: true}],
++    ['@babel/plugin-proposal-class-properties', { legacy: true }]
   ]
 };
+```
+
+Make sure the plugns are installed as well.
+```
+npm i --save @babel/plugin-proposal-decorators
+npm i --save @babel/plugin-proposal-class-properties
+```
+
+#### Optional config for injecting constructor parameters
+If you'd like to inject constructor parameters, you'll need to use the following config.
+
+```diff
+module.exports = {
+  plugins: [
+-    ['@babel/plugin-proposal-decorators', {legacy: true}],
++    'babel-plugin-typescript-decorators',
++    'babel-plugin-parameter-decorator'
+  ]
+};
+```
+
+Make sure the plugns are installed as well.
+```
+npm i --save babel-plugin-typescript-decorators
+npm i --save babel-plugin-parameter-decorator
 ```
 
 ### Jest
