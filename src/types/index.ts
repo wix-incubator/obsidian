@@ -12,12 +12,16 @@ export type ServiceLocator<Clazz> = {
 
 export type GraphInternals = 'retrieve' | 'name' | 'scope';
 
-export type DependenciesOf<G> =
-  G extends Graph ?
-    DependenciesOf1<G> :
-    G extends any[] ?
-      DependenciesOfN<G> :
-      never;
+export type DependenciesOf<G, Dependencies extends keyof DependenciesOf<G> = never> =
+  Partial<Dependencies> extends never ?
+    DependenciesOfInternal<G> :
+    Pick<DependenciesOfInternal<G>, Dependencies>;
+
+type DependenciesOfInternal<G> = G extends Graph ?
+  DependenciesOf1<G> :
+  G extends any[] ?
+    DependenciesOfN<G> :
+    never;
 
 type DependenciesOfN<Graphs extends any[]> =
   Graphs extends [infer G, ...infer R] ?
