@@ -14,7 +14,7 @@ export function injectHookWithArguments<Injected, Own, Result = {}>(
   hook: (args: Injected & Own) => Result,
   Graph: Constructable<ObjectGraph>,
 ): (props: Own & Partial<Injected>) => Result {
-  return hookInjector.inject(hook, Graph);
+  return hookInjector.inject(hook, Graph) as (props: Own & Partial<Injected>) => Result;
 }
 
 export function injectHook<Injected, Result = {}>(

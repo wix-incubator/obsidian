@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { ObjectGraph } from '../../graph/ObjectGraph';
 import PropsInjector from './PropsInjector';
@@ -25,10 +25,10 @@ export default class ComponentInjector {
     const compare = isMemoized ? InjectionCandidate.compare : undefined;
 
     return genericMemo((passedProps: P) => {
-      const graph = useGraph(Graph, passedProps);
+      const graph = useGraph<P>(Graph, passedProps);
       const proxiedProps = new PropsInjector(graph).inject(passedProps);
 
-      return <>{Target(proxiedProps as unknown as P)}</>;
+      return <>{Target(proxiedProps as unknown as PropsWithChildren<P>)}</>;
     }, compare);
   }
 }
