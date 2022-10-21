@@ -4,15 +4,32 @@ import { injectComponent, injectHook } from '../../src';
 import { ScopedGraph } from '../fixtures/ScopedGraph';
 
 describe('Scoped graphs', () => {
-  const useHook = injectHook(() => {}, ScopedGraph);
+  const Component = createComponent();
 
-  const Component = injectComponent(() => {
-    useHook();
-    return <></>;
-  }, ScopedGraph);
+  beforeEach(() => {
+    ScopedGraph.timesCreated = 0;
+  });
 
-  it('should render the scoped graph', async () => {
-    const { container } = render(<Component />);
+  it('creates a scoped graph only once', async () => {
+    render(<Component />);
+    render(<Component />);
     expect(ScopedGraph.timesCreated).toBe(1);
   });
+
+  it('clears a scoped graph when all dependent components and hooks are unmounted', () => {
+    const { unmount } = render(<Component />);
+    unmount();
+    render(<Component />);
+
+    expect(ScopedGraph.timesCreated).toBe(2);
+  });
+
+  function createComponent() {
+    const useHook = injectHook(() => {}, ScopedGraph);
+
+    return injectComponent(() => {
+      useHook();
+      return <></>;
+    }, ScopedGraph);
+  }
 });
