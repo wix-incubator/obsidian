@@ -1,7 +1,7 @@
 import SingletonGraph from '../../../test/fixtures/SingletonGraph';
 import MainGraph from '../../../test/fixtures/MainGraph';
 import { GraphRegistry } from './GraphRegistry';
-import { ScopedGraph } from '../../../test/fixtures/ScopedGraph';
+import { LifecycleBoundGraph } from '../../../test/fixtures/LifecycleBoundGraph';
 
 describe('GraphRegistry', () => {
   let uut: GraphRegistry;
@@ -20,15 +20,15 @@ describe('GraphRegistry', () => {
     expect(uut.resolve(SingletonGraph)).toBe(uut.resolve(SingletonGraph));
   });
 
-  it('creates scoped graphs once if the graph exists', () => {
-    uut.register(ScopedGraph);
-    expect(uut.resolve(ScopedGraph)).toBe(uut.resolve(ScopedGraph));
+  it('creates bound graphs once if the graph exists', () => {
+    uut.register(LifecycleBoundGraph);
+    expect(uut.resolve(LifecycleBoundGraph)).toBe(uut.resolve(LifecycleBoundGraph));
   });
 
-  it('recreates scoped graphs after it was cleared', () => {
-    const first = uut.resolve(ScopedGraph);
+  it('recreates bound graph after it was cleared', () => {
+    const first = uut.resolve(LifecycleBoundGraph);
     uut.clear(first);
-    const second = uut.resolve(ScopedGraph);
+    const second = uut.resolve(LifecycleBoundGraph);
     expect(second).not.toBe(first);
   });
 

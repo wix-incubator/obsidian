@@ -30,7 +30,7 @@ export class GraphRegistry {
   }
 
   resolve<T extends Graph>(Graph: Constructable<T>, props?: any): T {
-    if ((this.isSingleton(Graph) || this.isScoped(Graph)) && this.has(Graph)) {
+    if ((this.isSingleton(Graph) || this.isBoundToReactLifecycle(Graph)) && this.has(Graph)) {
       return this.getFirst(Graph);
     }
     const graph = this.graphMiddlewares.resolve(Graph, props);
@@ -58,8 +58,8 @@ export class GraphRegistry {
     return Reflect.getMetadata('isSingleton', Graph) ?? false;
   }
 
-  private isScoped(Graph: Constructable<Graph>): boolean {
-    return Reflect.getMetadata('scopeId', Graph) ?? false;
+  private isBoundToReactLifecycle(Graph: Constructable<Graph>): boolean {
+    return Reflect.getMetadata('isLifecycleBound', Graph) ?? false;
   }
 
   clear(graph: Graph) {
