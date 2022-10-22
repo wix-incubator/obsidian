@@ -31,6 +31,7 @@ React Obsidian is guided by the principles of the Dependency Injection pattern, 
 * [Advance usage](https://github.com/wix-incubator/react-obsidian#advance-usage)
   * [Accessing props in graphs](https://github.com/wix-incubator/react-obsidian#accessing-props-in-graphs)
   * [Singleton graphs and providers](https://github.com/wix-incubator/react-obsidian#singleton-graphs-and-providers)
+  * [React lifecycle-bound graphs](https://github.com/wix-incubator/react-obsidian#react-lifecycle-bound-graphs)
   * [Lazy property injection](https://github.com/wix-incubator/react-obsidian#lazy-property-injection)
   * [Typing graphs](https://github.com/wix-incubator/react-obsidian#typing-graphs)
   * [Graph middleware](https://github.com/wix-incubator/react-obsidian#graph-middleware)
@@ -220,6 +221,17 @@ class ApplicationGraph {
   biLogger(): BiLogger {
     return new BiLogger() // Created once because the graph is a singleton
   }
+}
+```
+
+### React lifecycle-bound graphs
+Graphs can be linked to the lifecycle of React components (and hooks) that require them. `@LifecycleBound` graphs are effectively singletons within the lifespan of the React components and hooks that were injected by the graph. Once all of the React component and hooks that were injected by the `@LifecycleBound` graph are unmounted - the graph is deallocated.
+
+This is mostly useful when a graph is shared between multiple screens that either share the same root screen or are all part of the same flow.
+
+```typescript
+@Singleton() @Graph()
+class HomeGraph {
 }
 ```
 
