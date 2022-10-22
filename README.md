@@ -230,7 +230,7 @@ Graphs can be linked to the lifecycle of React components (and hooks) that requi
 This is mostly useful when a graph is shared between multiple screens that either share the same root screen or are all part of the same flow.
 
 ```typescript
-@Singleton() @Graph()
+@LifecycleBound() @Graph()
 class HomeGraph {
 }
 ```
