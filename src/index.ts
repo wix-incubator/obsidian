@@ -10,6 +10,7 @@ export { Provides } from './decorators/provides/Provides';
 export { Injectable } from './decorators/inject/Injectable';
 export { Inject } from './decorators/inject/Inject';
 export { LazyInject } from './decorators/inject/LazyInject';
+export { LifecycleBound } from './decorators/LifecycleBound';
 export { GraphMiddleware } from './graph/registry/GraphMiddleware';
 export { GraphResolveChain as ResolveChain } from './graph/registry/GraphResolveChain';
 
