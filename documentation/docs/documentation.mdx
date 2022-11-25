@@ -14,7 +14,7 @@ Get started by **following the installation guide** Or **try Obsidian immediatel
 
 ## The 2 steps tutorial for injecting dependencies with Obsidian
 
-### Declare how dependencies should be created
+### Step 1: Declare how dependencies should be created
 We declare a singleton graph that is instantiated once and is retained throughout the lifespan of the application. All dependencies it provides are also singletons.
 
 The graph bellow provides two dependencies that can be injected, a `fooService` and a `barManager`.
@@ -39,8 +39,8 @@ export class AppGraph extends ObjectGraph {
 }
 ```
 
-### That's it - The dependencies can now be injected!
-Obsidian can inject dependencies into React components, React hooks, and ES6 classes:
+### Step 2: Inject the dependencies
+Obsidian can inject dependencies into components, hooks, and classes.
 
 
 
@@ -155,7 +155,7 @@ Now we can use the injected class without providing its dependencies manually:
 const myClass = new MyClass();
 ```
 
-Or, we could use the injected class with its dependencies provided manually:
+Of course, passing dependencies explicitly is still possible:
 ```ts
 const myClass = new MyClass(new FooService());
 ```
