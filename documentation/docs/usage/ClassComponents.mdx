@@ -1,0 +1,18 @@
+---
+sidebar_position: 4
+title: "Class components"
+---
+
+## Injecting class components
+Injecting class components is a two step process. First, annotate the class with the `@Injectable` annotation and pass the graph from which dependencies should be resolve. Then, declare the dependencies as class members and annotate them with the `@Inject` annotation.
+
+```ts
+import {Injectable, Inject} from 'react-obsidian';
+import {ApplicationGraph} from './ApplicationGraph';
+
+@Injectable(ApplicationGraph)
+export class ClassComponent extends React.Component {
+  @Inject() private httpClient!: HttpClient;
+  
+}
+```
