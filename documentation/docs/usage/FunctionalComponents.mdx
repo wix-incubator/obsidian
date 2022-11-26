@@ -1,12 +1,12 @@
 ---
 sidebar_position: 3
-title: "Components"
+title: "Functional components"
 ---
 
-## Injecting components
+## Injecting functional components
 Component injection is identical in principle to how hooks are injected. The only difference is that instead if using the `injectHook` function, you use the `injectComponent` function. The `injectComponent` function takes the same arguments as the `injectHook` function, except that it takes a component as the second argument instead of a hook.
 
-```tsx title="Injecting a component"
+```tsx title="Injecting a functional component"
 import { injectComponent, DependenciesOf } from 'react-obsidian';
 import {ApplicationGraph} from './ApplicationGraph';
 

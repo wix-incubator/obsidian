@@ -1,0 +1,22 @@
+---
+sidebar_position: 5
+title: "Classes"
+---
+
+## Injecting classes
+Injecting classes is a two step process. First, annotate the class with the `@Injectable` annotation and pass the graph from which dependencies should be resolve. Then, declare the dependencies as class members and annotate them with the `@Inject` annotation.
+
+```ts
+import {Injectable, Inject} from 'react-obsidian';
+import {ApplicationGraph} from './ApplicationGraph';
+
+@Injectable(ApplicationGraph)
+export class MyClass {
+  @Inject() private httpClient!: HttpClient;
+  
+}
+```
+
+:::important Always prefer constructor injection over field injection
+Constructor injection is the preferred way to inject dependencies. It is more explicit and easier to test. **Field injection should only be used when a class is not instantiated by a graph.**
+:::
