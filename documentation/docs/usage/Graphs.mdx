@@ -107,8 +107,8 @@ In the example below we declared a lifecycle-bound graph called `LoginGraph`. Th
 
 
 ```ts title="LoginGraph.ts"
-import {Graph, ObjectGraph, Provides} from "obsidian";
-import {ApplicationGraph} from "./ApplicationGraph";
+import {Graph, ObjectGraph, Provides} from 'react-obsidian';
+import {ApplicationGraph} from './ApplicationGraph';
 
 @LifecycleBound() @Graph({subgraphs: [ApplicationGraph]}) 
 export class LoginGraph extends ObjectGraph {
@@ -118,10 +118,3 @@ export class LoginGraph extends ObjectGraph {
   }
 }
 ```
-
-
-
-<!-- * Prevents circular references between dependencies
-* Allows for easy refactoring -->
-
-<!-- are a powerful tool for understanding the relationships between packages. They can be used to find out which packages depend on a particular package, or which packages a particular package depends on. They can also be used to find out which packages are installed on a system, and which packages are not installed on a system. -->

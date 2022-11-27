@@ -11,7 +11,7 @@ type FeatureItem = {
 const FeatureList: FeatureItem[] = [
   {
     title: 'Easy to Pick Up',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    Svg: require('@site/static/img/api.svg').default,
     description: (
       <>
         Obsidian is easy learn. It can be integrated into new projects or
@@ -21,7 +21,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: 'Improves Code Structure',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    Svg: require('@site/static/img/prototype.svg').default,
     description: (
       <>
         Better understand relationships between objects to convert implicit dependencies into explicit.
@@ -31,7 +31,7 @@ const FeatureList: FeatureItem[] = [
   {
     // title: 'Powered by React',
     title: 'Strongly Typed Dependency Injection Container that Scales as you grow',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    Svg: require('@site/static/img/stethoscope.svg').default,
     description: (
       <>
         Start small with a single dependency-graph, and create additional graphs as your app grows.
