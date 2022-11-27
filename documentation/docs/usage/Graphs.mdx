@@ -46,7 +46,7 @@ The term "graph" comes from [graph theory](https://en.wikipedia.org/wiki/Graph_t
 Some of the services defined in your graphs may be independent, meaning they don't require any dependencies to be constructed. However, most of the time, services will require other services to perform their responsibilities. In these cases, you can specify the dependencies of a service as arguments in the provider and Obsidian will resolve them automatically.
 
 ```ts title="ApplicationGraph.ts"
-import {Singleton, Graph, ObjectGraph, Provides} from "obsidian";
+import {Singleton, Graph, ObjectGraph, Provides} from 'react-obsidian';
 
 @Singleton() @Graph()
 export class ApplicationGraph extends ObjectGraph {

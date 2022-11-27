@@ -1,0 +1,38 @@
+---
+sidebar_position: 5
+title: "Service locator"
+---
+
+## Obtaining dependencies imperatively
+
+Obsidian is an Inversion of Control container. This means that it will automatically resolve dependencies for you, and you don't need to worry about how to obtain them. However, there are times when you need to obtain a dependency imperatively, for example when you need to pass a dependency to a third-party library that doesn't support dependency injection.
+
+For these cases, you can obtain a graph instance and access the dependencies it provides imperatively. This is done by using the `Obsidian.obtain()` function which allows you to treat the graph as a Service Locator.
+
+### Example
+Consider the following graph which provides two dependencies: `fooService` and `barService` where `barService` depends on `fooService`:
+
+```ts
+import {Singleton, Graph, ObjectGraph, Provides} from 'react-obsidian';
+
+@Singleton() @Graph()
+export class SomeGraph extends ObjectGraph {
+  @Provides()
+  fooService(): FooService {
+    return new FooService();
+  }
+
+  @Provides()
+  barService(fooService: FooService): AppInitializer {
+    return new BarService(fooService);
+  }
+}
+```
+
+Obtaining the dependencies directly from the graph is straight forward:
+```ts Obtaining a dependency imperatively
+Obsidian.obtain(ApplicationGraph).fooService();
+
+// Even though barService depends on fooService, you don't need to provide its dependency
+Obsidian.obtain(ApplicationGraph).barService();
+```
