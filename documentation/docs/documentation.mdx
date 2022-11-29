@@ -10,15 +10,16 @@ import TabItem from '@theme/TabItem';
 
 Obsidian is a dependency injection container with first-class support for React and React Native applications.
 
-Get started by **following the installation guide** Or **try Obsidian immediately** in the **[Online Playground](https://docusaurus.new)**.
+Get started by **following the installation guide** bellow.
+<!-- Or **try Obsidian immediately** in the **[Online Playground](https://docusaurus.new)**. -->
 
 ## The 2 steps tutorial for injecting dependencies with Obsidian
 
 ### Step 1: Declare how dependencies should be created
 We declare a singleton graph that is instantiated once and is retained throughout the lifespan of the application. All dependencies it provides are also singletons.
 
-The graph bellow provides two dependencies that can be injected, a `fooService` and a `barManager`.
-```ts title="AppGraph.ts"
+The graph bellow provides two dependencies that can be injected: `fooService` and `barManager`.
+```ts title="A singleton graph that provides two dependencies"
 import {Singleton, Graph, ObjectGraph, Provides} from 'react-obsidian';
 
 
