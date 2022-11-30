@@ -16,15 +16,14 @@ Get started by **following the installation guide** bellow.
 ## The 2 steps tutorial for injecting dependencies with Obsidian
 
 ### Step 1: Declare how dependencies should be created
-We declare a singleton graph that is instantiated once and is retained throughout the lifespan of the application. All dependencies it provides are also singletons.
 
-The graph bellow provides two dependencies that can be injected: `fooService` and `barManager`.
+Define a singleton graph that is instantiated once and is retained throughout the lifespan of the application. All dependencies it provides are also singletons. The graph bellow provides two dependencies that can be injected: `fooService` and `barManager`.
 ```ts title="A singleton graph that provides two dependencies"
 import {Singleton, Graph, ObjectGraph, Provides} from 'react-obsidian';
 
 
 @Singleton() @Graph()
-export class AppGraph extends ObjectGraph {
+export class ApplicationGraph extends ObjectGraph {
 
  // fooService requires a barManager so it receives one as a parameter.
   @Provides()
@@ -52,10 +51,10 @@ Injecting React functional components essentially revolves around two things: de
 
 ```ts title="MyComponent.tsx"
 import {DependenciesOf, injectComponent} from 'react-obsidian';
-import {AppGraph} from './AppGraph';
+import {ApplicationGraph} from './ApplicationGraph';
 
 // 1. Declare which dependencies should be injected.
-type Props = DependenciesOf<AppGraph, 'fooService'>; // {fooService: FooService}
+type Props = DependenciesOf<ApplicationGraph, 'fooService'>; // {fooService: FooService}
 
 // 2. Implement the component.
 const myComponent = ({fooService}: Props) => {
@@ -63,7 +62,7 @@ const myComponent = ({fooService}: Props) => {
 }
 
 // 3. Export the injected component.
-export default injectComponent(myComponent, AppGraph);
+export default injectComponent(myComponent, ApplicationGraph);
 ```
 
 Now we can use the injected component without providing its dependencies manually:
@@ -81,12 +80,11 @@ const SomeComponent = () => {
 Hooks are injected in a similar way to functional components. The only difference is that the `injectHook` function is used instead of `injectComponent`.
 
 ```ts title="MyHook.ts"
-```ts title="MyHook.tsx"
 import {DependenciesOf, injectHook} from 'react-obsidian';
-import {AppGraph} from './AppGraph';
+import {ApplicationGraph} from './ApplicationGraph';
 
 // 1. Declare which dependencies should be injected.
-type Props = DependenciesOf<AppGraph, 'fooService'>; // {fooService: FooService}
+type Props = DependenciesOf<ApplicationGraph, 'fooService'>; // {fooService: FooService}
 
 // 2. Implement the hook.
 const myHook = ({fooService}: Props) => {
@@ -94,7 +92,7 @@ const myHook = ({fooService}: Props) => {
 }
 
 // 3. Export the injected hook.
-export default injectHook(myHook, AppGraph);
+export default injectHook(myHook, ApplicationGraph);
 ```
 
 The injected hook can be used without providing its dependencies manually:
@@ -115,9 +113,9 @@ To inject a class, annotate it with the `@Injectable` decorator. The `@Injectabl
 
 ```ts title="MyComponent.tsx"
 import {Injectable, Inject} from 'react-obsidian';
-import {AppGraph} from './AppGraph';
+import {ApplicationGraph} from './ApplicationGraph';
 
-@Injectable(AppGraph)
+@Injectable(ApplicationGraph)
 export MyClassComponent extends React.Component {
   @Inject() private fooService!: FooService;
 
@@ -142,9 +140,9 @@ Declare the dependencies as constructor parameters and annotate them with the `@
 
 ```ts title="MyClass.tsx"
 import {Injectable, Inject} from 'react-obsidian';
-import {AppGraph} from './AppGraph';
+import {ApplicationGraph} from './ApplicationGraph';
 
-@Injectable(AppGraph)
+@Injectable(ApplicationGraph)
 export MyClass {
   constructor (fooService?: FooService);
   constructor(@Inject() private fooService: FooService) { }
@@ -173,8 +171,8 @@ ___
   * Hooks
   * Class components
 * 🛠 Improve code structure
-  * Eliminate circular dependencies
   * Easily write object-oriented code with Single Responsibility in mind
+  * Eliminate circular dependencies
   * Avoid implicit dependencies to make your code easier to reason about
 * ❤️ Developer experience
   * Seamlessly integrates into existing projects

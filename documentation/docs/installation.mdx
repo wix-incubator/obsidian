@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Installation
 
-Like most Dependency Injection frameworks, Obsidian relies on automatic code generation to resolve dependencies and to reduce the amount of boilerplate code required to use it. Obsidian uses Babel to generate code needed for injection and therefore requires Babel to be configured in your project.
+Like most Dependency Injection frameworks, Obsidian uses automatic code generation to create the bindings necessary for resolving dependencies. This approach helps reduce the amount of boilerplate code required by developers. Obsidian relies on Babel for code generation, so you'll need to have Babel configured in your project.
 
 ## 1. Install Obsidian
 
@@ -24,7 +24,7 @@ import 'reflect-metadata';
 ```
 
 ## 3. Enable experimental decorators
-Obsidian uses the Decorators feature whose proposal is still stage 2.
+Obsidian uses the Decorators feature whose proposal is at stage 3.
 
 Add the following options to your tsconfig.json file.
 
@@ -40,17 +40,17 @@ Add the following options to your tsconfig.json file.
 ## 4. Add the required Babel plugins
 Add the transformer to the list of plugins in your `.babel` file.
 
-```js
+```diff
 module.exports = {
   presets: [
     'module:metro-react-native-babel-preset',
-    ['@babel/preset-typescript', {'onlyRemoveTypeImports': true}]
++    ['@babel/preset-typescript', {'onlyRemoveTypeImports': true}]
   ],
   plugins: [
-    react-obsidian/dist/transformers/babel-plugin-obsidian,
-    ['@babel/plugin-proposal-decorators', {legacy: true}],
-    ['@babel/plugin-proposal-class-properties', { legacy: true }],
-    'babel-plugin-parameter-decorator'
++    react-obsidian/dist/transformers/babel-plugin-obsidian,
++    ['@babel/plugin-proposal-decorators', {legacy: true}],
++    ['@babel/plugin-proposal-class-properties', { legacy: true }],
++    'babel-plugin-parameter-decorator'
   ]
 };
 ```

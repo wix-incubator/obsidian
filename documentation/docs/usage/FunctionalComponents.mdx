@@ -4,11 +4,11 @@ title: "Functional components"
 ---
 
 ## Injecting functional components
-Component injection is identical in principle to how hooks are injected. The only difference is that instead if using the `injectHook` function, you use the `injectComponent` function. The `injectComponent` function takes the same arguments as the `injectHook` function, except that it takes a component as the second argument instead of a hook.
+Component injection is identical in principle to how hooks are injected. The only difference is that instead of using the `injectHook` function, you use the `injectComponent` function. The `injectComponent` function takes the same arguments as the `injectHook` function, except that it takes a component as the second argument instead of a hook.
 
 ```tsx title="Injecting a functional component"
 import { injectComponent, DependenciesOf } from 'react-obsidian';
-import {ApplicationGraph} from './ApplicationGraph';
+import { ApplicationGraph } from './ApplicationGraph';
 
 const MyComponent = ({httpService}: DependenciesOf<ApplicationGraph, 'httpClient'>) => {
   return <div>My component</div>
@@ -18,9 +18,9 @@ export default injectComponent(MyComponent, ApplicationGraph);
 ```
 
 :::tip Prefer injecting hooks over components
-Every entity (class, functional component etc.) in your application should have a single responsibility, and as such, there should be only one reason to change it. Components are responsible for rendering the UI, and as such should change only when UI requirements change. 
+Every entity (class, functional component etc.) in your application should have a single responsibility, and as such, there should be only one reason to change it. Components are responsible for rendering the UI, and therefor should change only when UI requirements change. 
 
-Prefer injecting hooks that will bridge between components and application logic. This allows components to emphasizes "what" they need instead of "how". Thus, preventing implementation detail from leaking into them.
+Prefer injecting hooks that will bridge between components and application logic. This allows components to emphasize "what" they need instead of "how", thus, preventing implementation details from leaking into them.
 :::
 
 ## Strongly typed components
@@ -49,7 +49,7 @@ If a component doesn't require any props from its parent component, simply use t
 
 ```tsx title="Typing components that don't require props"
 const MyComponent = ({httpService}: DependenciesOf<ApplicationGraph, 'httpClient'>) => {
-  return <div>Hey, my name is: {name} 👋</div>
+  return <div>Hello world 👋</div>
 }
 
 // The result type is React.FunctionComponent<{httpClient?: HttpClient}>
