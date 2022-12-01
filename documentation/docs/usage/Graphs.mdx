@@ -89,6 +89,32 @@ In other words, dependencies provided by lifecycle-bound graphs are:
 1. Constructed and destroyed when the flow starts and ends.
 2. Shared between all components and hooks that take part in the flow.
 
+#### Passing props to a lifecycle-bound graph
+When a graph is created, it receives the props of the component or hook that requested it. This means that the graph can use the props to construct the dependencies it provides. The `@LifecycleBound` in the example below graph provides a `userService` which requires a `userId`. The `userId` is obtained from props.
+
+```ts title="A lifecycle-bound graph"
+import {LifecycleBound, Graph, ObjectGraph, Provides} from 'react-obsidian';
+
+type HomeScreenProps {
+  userId: string;
+}
+
+@LifecycleBound() @Graph()
+class HomeGraph extends ObjectGraph<HomeScreenProps> {
+  private userId: string;
+
+  construct(props: HomeScreenProps) {
+    super(props);
+    this.userId = props.userId;
+  }
+
+  @Provides()
+  userService(): UserService {
+    return new UserService(this.userId);
+  }
+}
+```
+
 ## Typed dependencies
 The `DependenciesOf` utility type creates a type of the dependencies provided by a graph. This type can be used to type the dependencies of hooks or props required by components. This utility type takes two arguments: the graph and a union of the keys of the dependencies we want to inject.
 
