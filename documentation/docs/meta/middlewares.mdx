@@ -1,0 +1,27 @@
+---
+sidebar_position: 1
+title: "Graph middlewares"
+---
+
+Graph middlewares let you plug into the graph creation process and modify the graph in any way you want. This is useful when working on large scale applications where "observability" is a key concern. For example, you can use a middleware to swizzle providers, add logging, or even add a new provider to the graph.
+
+Middleware follow the Chain of Responsibility pattern and therefore must always return a graph, either by creating one explicitly or by returning the instance created by another member in the resolve chain.
+
+## Example: adding a logging middleware
+The following example demonstrates how to add a middleware that's used for logging purposes.
+
+```ts
+import { GraphMiddleware } from 'react-obsidian';
+
+const loggingMiddleware = new class extends GraphMiddleware {
+      resolve<Props>(resolveChain: GraphResolveChain, Graph: Constructable<T>, props?: Props) {
+        const t1 = Date.now();
+        const graph = resolveChain.proceed(Graph, props);
+        const t2 = Date.now();
+        console.log(`Graph created in ${t2 - t1} milliseconds`);
+        return graph;
+      }
+    }();
+
+Obsidian.addGraphMiddleware(loggingMiddleware);
+```

@@ -1,0 +1,13 @@
+---
+sidebar_position: 2
+title: "Clearing graphs"
+---
+
+Graphs can be cleared by invoking the `Obsidian.clearGraphs()` function. This is useful in tests or when you need to reset the system to it's original state, for example after a user logs out.
+
+#### Clearing graphs automatically during execution of Jest tests
+Create a `jest.setup.js` file and add it to [setupFilesAfterEnv](https://jestjs.io/docs/configuration#setupfilesafterenv-array). Then, import the following file when ensures graphs are cleared before each test.
+
+```js
+import 'react-obsidian/clearGraphs';
+```
