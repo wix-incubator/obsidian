@@ -1,0 +1,85 @@
+---
+sidebar_position: 2
+---
+
+## Injecting hooks
+
+Hooks are a fundamental construct in React. They allow you to plug into the lifecycle of a component or react to user interaction and execute code accordingly. As such, hooks typically need to interact with services where the actual logic is implemented.
+
+Injecting hooks is simple and straightforward. Simply wrap your hook with the `injectHook` function and declare any required dependencies as destructured properties.
+
+```tsx
+import { injectHook, DependenciesOf } from 'react-obsidian';
+import { ApplicationGraph } from './ApplicationGraph';
+
+const myHook = ({fooService, barService}: Props) => {
+  // do something with fooService and barService
+}
+
+type Props = DependenciesOf<ApplicationGraph, 'fooService' | 'barService'>; // {fooService: FooService, barService: BarService}
+
+export injectHook(myHook, ApplicationGraph);
+```
+
+## Strongly typed hooks
+Writing strongly typed hooks is important to ensure that your hooks are easy to use and that you don't accidentally break them when refactoring. 
+
+### Combining injected dependencies and required arguments
+Sometimes you want to inject hooks with dependencies, but also require additional arguments that will be passed from the calling scope. This is possible by using the `injectHookWithArguments` function.
+
+```tsx
+import { injectHook, DependenciesOf } from 'react-obsidian';
+import { ApplicationGraph } from './ApplicationGraph';
+
+type Injected = DependenciesOf<ApplicationGraph, 'fooService'>; // {fooService: FooService}
+type Own = {count: number};
+
+const myHook = ({fooService, count}: Injected & Own) => {
+  // do something with fooService and count
+}
+
+export default injectHookWithArguments<Injected, Own>(myHook, ApplicationGraph);
+```
+
+When using `myHook`, we must pass the `count` argument otherwise we will get a type error. `fooService`, on the other hand, is optional and will be injected from the graph unless passed explicitly.
+
+```tsx
+import myHook from './myHook';
+
+const MyComponent = () => {
+  const [count, setCount] = useState(1337);
+  myHook({count}); 
+  
+}
+```
+
+### Typing the return value of a hook
+When using the standard `injectHook` function, the return value of the hook is inferred automatically by TypeScript. However, when using `injectHookWithArguments`, due to limitations of TypeScript's Generics system, the return value is not inferred and you'll have to specify it explicity.
+
+```ts
+import { injectHook, DependenciesOf } from 'react-obsidian';
+import { ApplicationGraph } from './ApplicationGraph';
+
+type Injected = DependenciesOf<ApplicationGraph, 'fooService'>;
+type Own = {count: number};
+type Result: {onPress: () => void};
+
+const myHook = ({fooService, count}: Injected & Own): Result => {
+  const onPress = useCallback(() => {
+    fooService.doSomething(count);
+  }, [fooService, count]);
+  return {onPress};
+}
+
+export default injectHookWithArguments<Injected, Own, Result>(myHook, ApplicationGraph);
+```
+
+Now the onPress callback is typed correctly when using the injected hook.
+```tsx
+import myHook from './myHook';
+
+const MyComponent = () => {
+  const [count, setCount] = useState(1337);
+  const {onPress} = myHook({count});
+}
+```

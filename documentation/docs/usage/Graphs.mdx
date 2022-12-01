@@ -1,0 +1,120 @@
+---
+sidebar_position: 1
+---
+
+## Introduction
+
+In Object Oriented Programming, programs are organized around objects, where each object has a specific purpose. These objects can require other objects to perform their responsibilities. The required objects are called dependencies. Providing these dependencies manually is a tedious and error-prone process. The dependency injection pattern is a way to automate this process so you can focus on the logic of your application instead of writing boilerplate code.
+
+Before you can inject dependencies into hooks, components and classes, the dependencies first need to be declared so Obsidian knows how to construct them. In Obsidian, dependencies are declared in classes called "Graphs". Graphs create a centralized place where dependencies are defined. This makes them a powerful tool for understanding the relationships between objects in your program.
+
+## Declaring dependencies in a graph
+The snippet below shows a basic example of a Graph. It defines two dependencies, `httpClient` and `databaseService`. 
+
+```ts title="ApplicationGraph.ts"
+import {Singleton, Graph, ObjectGraph, Provides} from 'react-obsidian';
+
+@Singleton() @Graph()
+export class ApplicationGraph extends ObjectGraph {
+  @Provides()
+  httpClient(): HttpClient {
+    return new HttpClient();
+  }
+
+  @Provides()
+  databaseService(): DatabaseService {
+    return new DatabaseService();
+  }
+}
+```
+
+Graphs must be annotated with the `@Graph` decorator. In this example we chose to annotate the class with the `@Singleton` decorator as well, which means that the graph and the dependencies it provides will only be constructed once.
+
+Dependencies are constructed in methods annotated with the `@Provides` annotation. The `@Provides` annotation is used to tell Obsidian that the method is a dependency provider. From now on we'll refer to these methods as providers. Obsidian uses the provider's method name as the dependency's name. In this example, the `httpClient` provider method provides the `httpClient` dependency. The `databaseService` provider method provides the `databaseService` dependency.
+
+Once your graph is declared you can use it to inject dependencies into the various constructs that form your application:
+* [Inject hooks](/docs/usage/hooks#injecting-hooks)
+* [Inject functional components](/docs/usage/FunctionalComponents)
+* [Inject components](/docs/usage/ClassComponents)
+* [Inject classes](/docs/usage/Classes)
+
+:::info Did you know?
+The term "graph" comes from [graph theory](https://en.wikipedia.org/wiki/Graph_theory). Obsidian constructs [Directed Acyclic Graphs](https://en.wikipedia.org/wiki/Directed_acyclic_graph) (DAGs) to represent the dependencies between objects. This type of graph ensures there are no circular dependencies between objects which cause call stack overflows and other unexpected bugs.
+:::
+
+## Specifying relationships between dependencies
+Some of the services defined in your graphs may be independent, meaning they don't require any dependencies to be constructed. However, most of the time, services will require other services to perform their responsibilities. In these cases, you can specify the dependencies of a service as arguments in the provider and Obsidian will resolve them automatically.
+
+```ts title="A graph that provides a service that depends on other services"
+import {Singleton, Graph, ObjectGraph, Provides} from 'react-obsidian';
+
+@Singleton() @Graph()
+export class ApplicationGraph extends ObjectGraph {
+  @Provides()
+  httpClient(): HttpClient {
+    return new HttpClient();
+  }
+
+  @Provides()
+  databaseService(): DatabaseService {
+    return new DatabaseService();
+  }
+
+  @Provides()
+  appInitializer(httpClient: HttpClient, databaseService: DatabaseService): AppInitializer {
+    return new AppInitializer(httpClient, databaseService);
+  }
+}
+```
+
+:::info
+Providers are evaluated lazily. This means that a provider is evaluated only when the dependency it provides is requested. Dependencies that are not used in the application, will never be constructed.
+:::
+
+## Graph types
+
+There are two types of graphs in Obsidian: A singleton graph and a lifecycle-bound graph.
+
+### The singleton graph
+Applications typically have at least one singleton graph. These graphs are used to provide dependencies that are used throughout the application. These dependencies are usually singletons, which means they should only be constructed once. The `ApplicationGraph` in the [example above](/docs/usage/Graphs#specifying-relationships-between-dependencies) is a singleton graph.
+
+To declare a singleton graph, annotate the graph class with the `@Singleton` decorator.
+
+### The lifecycle-bound graph
+Lifecycle-bound graphs are used to provide dependencies that are shared between components and hooks in a specific UI flow.
+
+Dependencies provided by a lifecycle-bound graph are treated as singletons within the scope of the components or hooks that depend on that graph. When a component or hook that depends on a lifecycle-bound graph is mounted, Obsidian will reuse an existing instance of the graph if one exists. If no instance of the graph exists, Obsidian will construct a new instance of the graph. Once all components or hooks that use the graph are unmounted, the graph is destroyed.
+
+In other words, dependencies provided by lifecycle-bound graphs are:
+1. Constructed and destroyed when the flow starts and ends.
+2. Shared between all components and hooks that take part in the flow.
+
+## Typed dependencies
+The `DependenciesOf` utility type creates a type of the dependencies provided by a graph. This type can be used to type the dependencies of hooks or props required by components. This utility type takes two arguments: the graph and a union of the keys of the dependencies we want to inject.
+
+In this example we create a type called `ApplicationDependencies` which contains the dependencies `httpClient` and `databaseService` from the `ApplicationGraph` graph.
+
+```ts
+type ApplicationDependencies = DependenciesOf<ApplicationGraph, 'httpClient' | 'databaseService'>; // {httpClient: httpClient, databaseService: DatabaseService}
+```
+
+## Graph composition
+Graph composition is a powerful feature that allows you to create complex dependency graphs by combining smaller graphs. Composing graphs is useful when you want to reuse a graph in multiple places. For example, you might have a singleton graph that provides application-level dependencies. You might also have a lifecycle-bound graph that provides dependencies for a specific UI flow. You can compose these graphs together so that the lifecycle-bound graph can also inject the dependencies provided by the singleton graph.
+
+To compose graphs, pass a `subgraphs` array to the `@Graph` decorator. The `subgraphs` array contains the graphs you want to "include" in your graph.
+
+In the example below we declared a lifecycle-bound graph called `LoginGraph`. This graph provides a single dependency called `loginService` which has a dependency on `httpClient`. Since `httpClient` is exposed via the `ApplicationGraph`, we included it in the `subgraphs` array of our graph.
+
+
+```ts title="LoginGraph.ts"
+import {Graph, ObjectGraph, Provides} from 'react-obsidian';
+import {ApplicationGraph} from './ApplicationGraph';
+
+@LifecycleBound() @Graph({subgraphs: [ApplicationGraph]}) 
+export class LoginGraph extends ObjectGraph {
+  @Provides()
+  loginService(httpClient: HttpClient): LoginService {
+    return new LoginService(httpClient);
+  }
+}
+```

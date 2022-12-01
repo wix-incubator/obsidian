@@ -1,0 +1,9 @@
+{
+  "label": "Usage",
+  "position": 2,
+  "collapsed": false,
+  "link": {
+    "type": "generated-index",
+    "description": "Learn how to inject hooks, components and classes with Obsidian."
+  }
+}

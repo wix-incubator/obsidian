@@ -1,0 +1,65 @@
+---
+sidebar_position: 2
+---
+
+# Installation
+
+Like most Dependency Injection frameworks, Obsidian uses automatic code generation to create the bindings necessary for resolving dependencies. This approach helps reduce the amount of boilerplate code required by developers. Obsidian relies on Babel for code generation, so you'll need to have Babel configured in your project.
+
+## 1. Install Obsidian
+
+```bash
+npm install react-obsidian
+```
+
+## 2. Install Reflect-metadata
+First, install and enable the reflect-metadata polyfill.
+```bash
+npm install reflect-metadata
+```
+
+Then, add the following line to the top of your application's entry point (usually index.js or index.ts):
+```js
+import 'reflect-metadata';
+```
+
+## 3. Enable experimental decorators
+Obsidian uses the Decorators feature whose proposal is at stage 3.
+
+Add the following options to your tsconfig.json file.
+
+```js
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  }
+}
+```
+
+## 4. Add the required Babel plugins
+Add the transformer to the list of plugins in your `.babel` file.
+
+```diff
+module.exports = {
+  presets: [
+    'module:metro-react-native-babel-preset',
++    ['@babel/preset-typescript', {'onlyRemoveTypeImports': true}]
+  ],
+  plugins: [
++    react-obsidian/dist/transformers/babel-plugin-obsidian,
++    ['@babel/plugin-proposal-decorators', {legacy: true}],
++    ['@babel/plugin-proposal-class-properties', { legacy: true }],
++    'babel-plugin-parameter-decorator'
+  ]
+};
+```
+
+## 5. Jest
+If you're using Jest, you'll need to add react-obsidian to [transformIgnorePatterns](https://jestjs.io/docs/configuration#transformignorepatterns-arraystring) so it's transpiled before tests are executed.
+
+## 6. Peer Dependencies
+Obsidian has a peer dependency on `lodash`.
+
+
+

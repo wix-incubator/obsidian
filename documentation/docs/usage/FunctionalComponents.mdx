@@ -1,0 +1,57 @@
+---
+sidebar_position: 3
+title: "Functional components"
+---
+
+## Injecting functional components
+Component injection is identical in principle to how hooks are injected. The only difference is that instead of using the `injectHook` function, you use the `injectComponent` function. The `injectComponent` function takes the same arguments as the `injectHook` function, except that it takes a component as the second argument instead of a hook.
+
+```tsx title="Injecting a functional component"
+import { injectComponent, DependenciesOf } from 'react-obsidian';
+import { ApplicationGraph } from './ApplicationGraph';
+
+const MyComponent = ({httpService}: DependenciesOf<ApplicationGraph, 'httpClient'>) => {
+  return <div>My component</div>
+}
+
+export default injectComponent(MyComponent, ApplicationGraph);
+```
+
+:::tip Prefer injecting hooks over components
+Every entity (class, functional component etc.) in your application should have a single responsibility, and as such, there should be only one reason to change it. Components are responsible for rendering the UI, and therefor should change only when UI requirements change. 
+
+Prefer injecting hooks that will bridge between components and application logic. This allows components to emphasize "what" they need instead of "how", thus, preventing implementation details from leaking into them.
+:::
+
+## Strongly typed components
+The `injectComponent` function leverages *generics* to correctly type injected components.
+
+### Typing components that require props and injected dependencies
+In cases where a component requires both props and injected dependencies, we recommend typing them separately and declaring the component's props as the intersection of the two types. This way the component returned by the `injectComponent` function will require its `Own` props while all `Injected` dependencies will be marked as optional. `Injected` dependencies are marked as optional because they can either be injected manually or automatically by Obsidian.
+
+```tsx title="Separate declaration for passed (own) props and injected dependencies"
+import { injectComponent, DependenciesOf } from 'react-obsidian';
+import {ApplicationGraph} from './ApplicationGraph';
+
+type Injected = DependenciesOf<ApplicationGraph, 'httpClient'>;
+type Own = {name: string};
+
+const MyComponent = ({name, httpService}: Own & Injected) => {
+  return <div>Hey, my name is: {name} 👋</div>
+}
+
+// The result type is React.FunctionComponent<{name: string , httpClient?: HttpClient}>
+export default injectComponent<Own, Injected>(MyComponent, ApplicationGraph);
+```
+
+### Typing components that don't require Props
+If a component doesn't require any props from its parent component, simply use the `DependenciesOf` utility type provided by Obsidian to type the component's props. There's no need to use generics in this case as all props will are marked as optional.
+
+```tsx title="Typing components that don't require props"
+const MyComponent = ({httpService}: DependenciesOf<ApplicationGraph, 'httpClient'>) => {
+  return <div>Hello world 👋</div>
+}
+
+// The result type is React.FunctionComponent<{httpClient?: HttpClient}>
+export default injectComponent(MyComponent, ApplicationGraph);
+```

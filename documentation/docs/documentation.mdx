@@ -1,0 +1,191 @@
+---
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
+# Introduction
+
+Obsidian is a dependency injection container with first-class support for React and React Native applications.
+
+Get started by **following the installation guide** bellow.
+<!-- Or **try Obsidian immediately** in the **[Online Playground](https://docusaurus.new)**. -->
+
+## The 2 steps tutorial for injecting dependencies with Obsidian
+
+### Step 1: Declare how dependencies should be created
+
+Define a singleton graph that is instantiated once and is retained throughout the lifespan of the application. All dependencies it provides are also singletons. The graph bellow provides two dependencies that can be injected: `fooService` and `barManager`.
+```ts title="A singleton graph that provides two dependencies"
+import {Singleton, Graph, ObjectGraph, Provides} from 'react-obsidian';
+
+
+@Singleton() @Graph()
+export class ApplicationGraph extends ObjectGraph {
+
+ // fooService requires a barManager so it receives one as a parameter.
+  @Provides()
+  fooService(barManager: BarManager): FooService {
+    return new FooService(barManager);
+  }
+
+
+  @Provides()
+  barManager(): BarManager {
+    return new BarManager();
+  }
+}
+```
+
+### Step 2: Inject the dependencies
+Obsidian can inject dependencies into components, hooks, and classes.
+
+
+
+<Tabs>
+  <TabItem value="functionalComponent" label="Functional component injection" default>
+
+Injecting React functional components essentially revolves around two things: declaring the required dependencies in the hook's prototype and exporting an injected hook using the `injectComponent` function.
+
+```ts title="MyComponent.tsx"
+import {DependenciesOf, injectComponent} from 'react-obsidian';
+import {ApplicationGraph} from './ApplicationGraph';
+
+// 1. Declare which dependencies should be injected.
+type Props = DependenciesOf<ApplicationGraph, 'fooService'>; // {fooService: FooService}
+
+// 2. Implement the component.
+const myComponent = ({fooService}: Props) => {
+  // Do something useful with fooService
+}
+
+// 3. Export the injected component.
+export default injectComponent(myComponent, ApplicationGraph);
+```
+
+Now we can use the injected component without providing its dependencies manually:
+```tsx title="SomeComponent.tsx"
+import MyComponent from './MyComponent';
+
+const SomeComponent = () => {
+  // 4. Render the component - its dependencies are resolved automatically by Obsidian.
+  return <MyComponent />;
+}
+```
+  </TabItem>
+  <TabItem value="hook" label="Hook injection">
+
+Hooks are injected in a similar way to functional components. The only difference is that the `injectHook` function is used instead of `injectComponent`.
+
+```ts title="MyHook.ts"
+import {DependenciesOf, injectHook} from 'react-obsidian';
+import {ApplicationGraph} from './ApplicationGraph';
+
+// 1. Declare which dependencies should be injected.
+type Props = DependenciesOf<ApplicationGraph, 'fooService'>; // {fooService: FooService}
+
+// 2. Implement the hook.
+const myHook = ({fooService}: Props) => {
+  // Do something useful with fooService
+}
+
+// 3. Export the injected hook.
+export default injectHook(myHook, ApplicationGraph);
+```
+
+The injected hook can be used without providing its dependencies manually:
+```tsx title="SomeComponent.tsx"
+import myHook from './MyHook';
+
+const SomeComponent = () => {
+  // 4. Use the hook without providing any dependencies manually - they are injected automatically.
+  myHook();
+
+  return <>Obsidian is awesome!</>;
+}
+```
+  </TabItem>  
+  <TabItem value="classComponent" label="Class component injection">
+
+To inject a class, annotate it with the `@Injectable` decorator. The `@Injectable` decorator takes a single parameter - the graph that should be used to resolve the dependencies. Declare the dependencies as class members and annotate them with the `@Inject` decorator.
+
+```ts title="MyComponent.tsx"
+import {Injectable, Inject} from 'react-obsidian';
+import {ApplicationGraph} from './ApplicationGraph';
+
+@Injectable(ApplicationGraph)
+export MyClassComponent extends React.Component {
+  @Inject() private fooService!: FooService;
+
+}
+```
+
+Render the injected component. Obsidian resolves the required dependencies automatically.
+```tsx title="SomeComponent.tsx"
+import MyComponent from './MyComponent';
+
+const SomeComponent = () => {
+  // 4. Render the component - its dependencies are resolved automatically by Obsidian.
+  return <MyComponent />;
+}
+```
+
+  </TabItem>
+  <TabItem value="class" label="Class constructor injection">
+
+To inject a class, annotate it with the `@Injectable` decorator. The `@Injectable` decorator takes a single parameter - the graph that should be used to resolve the dependencies.
+Declare the dependencies as constructor parameters and annotate them with the `@Inject` decorator.
+
+```ts title="MyClass.tsx"
+import {Injectable, Inject} from 'react-obsidian';
+import {ApplicationGraph} from './ApplicationGraph';
+
+@Injectable(ApplicationGraph)
+export MyClass {
+  constructor (fooService?: FooService);
+  constructor(@Inject() private fooService: FooService) { }
+}
+```
+
+Now we can use the injected class without providing its dependencies manually:
+```ts
+const myClass = new MyClass();
+```
+
+Of course, passing dependencies explicitly is still possible:
+```ts
+const myClass = new MyClass(new FooService());
+```
+
+  </TabItem>
+</Tabs>
+
+___
+
+## Features
+
+* ⚛️ Inject all React constructs
+  * Functional components
+  * Hooks
+  * Class components
+* 🛠 Improve code structure
+  * Easily write object-oriented code with Single Responsibility in mind
+  * Eliminate circular dependencies
+  * Avoid implicit dependencies to make your code easier to reason about
+* ❤️ Developer experience
+  * Seamlessly integrates into existing projects
+  * Easy to adopt gradually
+  * Scales well
+  * Idiomatic API that's easy to understand
+
+## Design principles
+
+React Obsidian is guided by the principles of the Dependency Injection pattern, but does not strictly follow them. We allowed ourselves a degree of freedom when designing the library in order to reduce boilerplate code and library footprint.
+
+* **Easy to start** - Obsidian requires very little code to get you started. Once you declare a graph, using it to inject dependencies requires as little as two lines of code.
+* **Intuitive API** - The API should be verbose and understandable even to new users without prior experience with Dependency Injection.
+* **Minimal boilerplate** - Require the bare minimum in order to construct dependencies and resolve them. 
+
+<!-- ## Comparison with other libraries -->
