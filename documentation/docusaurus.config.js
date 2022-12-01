@@ -9,7 +9,7 @@ const config = {
   title: 'Obsidian',
   tagline: 'Dependency injection framework for React and React Native applications',
   url: 'https://your-docusaurus-test-site.com',
-  baseUrl: '/',
+  baseUrl: '/obsidian/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',

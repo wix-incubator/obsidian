@@ -6,6 +6,8 @@ node_modules
 
 # Lock files
 package-lock.json
+# This package-lock is used as cache key and needs to be comitted
+!documentation/package-lock.json
 
 ############
 # iOS
