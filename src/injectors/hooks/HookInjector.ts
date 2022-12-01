@@ -9,7 +9,7 @@ export default class HookInjector {
     Graph: Constructable<ObjectGraph>,
   ): (args?: Partial<Args>) => Result {
     return (args?: Partial<Args>): Result => {
-      const graph = useGraph(Graph);
+      const graph = useGraph(Graph, args);
       return hook(new Proxy(args ?? {}, new Injector(graph)));
     };
   }
