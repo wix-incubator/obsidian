@@ -64,10 +64,16 @@ const config = {
         },
         items: [
           {
-            type: 'doc',
-            docId: 'documentation',
+            type: 'docSidebar',
+            sidebarId: 'docs2',
             position: 'left',
             label: 'Documentation',
+          },
+          {
+            type: 'docSidebar',
+            sidebarId: 'guides',
+            position: 'left',
+            label: 'Guides',
           },
           // {to: '/blog', label: 'Blog', position: 'left'},
           {
