@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 1
 title: 'Mocking dependencies in unit tests'
 ---
 
@@ -138,4 +138,4 @@ describe('Example', () => {
 ```
 
 ## Wrapping up
-While we didn't use any API from `Obsidian` in this refactor, this change was made possible by how Obsidian influences the design of our code. Obsidian makes it easy to introduce classes to each other by passing them explicitly in through the constructor. This approach encourages us to split our code into smaller classes that are easier to test.
+While we didn't use any API from `Obsidian` in this refactor, this change was made possible due to how Obsidian influences the design of our code. Obsidian makes it easy to introduce classes to each other by passing them explicitly in through the constructor. This approach encourages us to split our code into smaller classes that are easier to test.
