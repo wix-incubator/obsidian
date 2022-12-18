@@ -1,0 +1,141 @@
+---
+sidebar_position: 1
+title: 'Mocking dependencies in unit tests'
+---
+
+Tests are an integral part of any software project. They let you verify that your code works as expected and that it doesn't break when you make changes. We want our tests to be as clear as possible so that developers don't have to waste time figuring out what the test is doing our how to fix it when it fails.
+
+Obsidian promotes Object Oriented design, a paradigm that focuses on the relationships between objects and how they interact with each other. In this article we'll learn how adopting this approach lets us mock objects more easily and as a result improve the readability and maintainability of our tests.
+
+:::tip On readable tests and developer velocity
+"Every time the developers have to stop and puzzle through a test to figure out what it means, they have less time left to spend on creating new features, and the team velocity drops."
+
+— [Growing Object-Oriented Software, Guided by Tests](https://www.amazon.com/Growing-Object-Oriented-Software-Guided-Tests/dp/0321503627)
+:::
+
+## The problem
+The setup phase of a test is often the most complex part of the test. It involves creating test data, mocking dependencies and instantiating the unit-under-test. We've identified three common problems that make tests brittle, difficult to maintain, and hard to understand:
+1. **Partial mocks** - a unit test is meant to test a single unit of code in isolation. If a dependency is partially mocked, our test is no longer testing a single unit. A bug in the partially mocked dependency can cause this unit test to fail preventing us from quickly identifying the root cause of the failure.
+2. **Dependencies are introduced implicitly to the unit-under-test, usually via imports** - we should always create valid objects. If an object depends on another object, we should pass that dependency explicity in through the constructor. The constructor serves as the contract for the dependencies that a class requires to function. There's no point in creating partially working classes, and the constructor is used to enforces this constraint.
+3. **Manual mocks** - manually mocking dependencies is a tedious and error prone process. It's easy to forget to mock a dependency, or to mock it incorrectly.
+
+To illustrate these problems, let's look at a simple example.
+
+```js showLineNumbers
+describe('Example', () => {
+  const openURL = jest.fn();
+
+  let logger;
+  let foo;
+  let uut;
+
+  beforeEach(() => {
+    // Problem 1: Partial mocks
+    logger = require('./Logger');
+    logger.log = jest.fn();
+    const spy = jest.spyOn(logger, 'warn');
+
+    // Problem 2: Implicit dependencies.
+    // Our UUT uses Linking.openUrl so we mock it on the module level.
+    jest.mock('react-native', () => ({
+      Linking: {
+        openURL  
+      },
+    }));
+    // Problem 3: Manual mocks
+    foo = {
+      doSomething: jest.fn(),
+    }
+    uut = new Example(logger, foo);
+  });
+});
+```
+
+## The solution
+To achieve our goal of reducing boilerplate and improving readability, we'll refactor the above example as follows:
+1. **Convert all dependencies to ES6 classes** - this will allow us to mock them using [jest-mock-extended](https://github.com/marchaos/jest-mock-extended) - a library that lets us create mock classes in a type-safe manner.
+2. **Pass dependencies in through the constructor** - we'll pass the dependencies explicitly to the unit-under-test. This step will require us to declare new classes that will encapsulate interactions with third-party libraries.
+
+<!-- In Object Oriented design, logic is encapsulated in classes that are introduced (injected) to one another in through the constructor.  -->
+<!-- This approach lets us use modern mocking techniques that require less boilerplate and are easier to reason about. -->
+<!-- To achieve our goal, we'll do two things:
+First, 
+First, refactor our code to use dependency injection. 
+
+
+To achieve our goal, we'll use an open-source library called [jest-mock-extended](https://github.com/marchaos/jest-mock-extended) which provides a `mock` function that creates a mock object with all the methods and properties of the original object. This means that we don't have to mock each method and property individually. -->
+
+### Step 1: Encapsulate interactions with third-party dependencies
+Implicit dependencies (dependencies introduced by importing a module) make it difficult to reason about the code and to test it. To avoid this problem, we'll create a new class that encapsulates interactions with the third-party library. We'll see how this approach lets us mock dependencies more easily.
+
+```ts title="Encapsulating the Linking module in a new class responsible for opening URLs"
+import {Linking} from 'react-native';
+
+export class UrlOpener {
+  public async openUrl(url: string) {
+    if (await Linking.canOpenURL(url)) {
+      await Linking.openURL(url);
+    } else {
+      throw new Error(`Can't open URL: ${url}`);
+    }
+  }
+}
+```
+
+:::tip On decoupling third party dependencies
+"Avoid littering direct calls to library classes in your code. You might think that you'll never change them, but that can become a self-fulfilling prophecy."
+
+— [Working Effectively with Legacy Code](https://www.amazon.com/Working-Effectively-Legacy-Michael-Feathers/dp/0131177052)
+:::
+
+### Step 2: Convert dependencies to ES6 classes
+We'll convert the `Logger` and `Foo` classes to ES6 classes:
+
+```ts title="Logger.ts"
+export class Logger {
+  public log(message: string) {
+    console.log(message);
+  }
+
+  public warn(message: string) {
+    console.warn(message);
+  }
+}
+```
+
+```ts title="Foo.ts"
+export class Foo {
+  public doSomething() {
+    console.log('doing something...');
+    setTimeout(() => {
+      console.log('done!');
+    }, 1000);
+  }
+}
+```
+
+### Step 3: Mock dependencies using jest-mock-extended
+When we mock a dependency using `jest-mock-extended`, we get a mock object that has all the methods and properties of the original object. This means that we don't have to mock each method and property individually. And, because we eliminated the implicit dependency on the `Linking` module, we can use this approach to mock it as well.
+
+```ts showLineNumbers
+import {mock} from 'jest-mock-extended';
+import {Logger} from './Logger';
+import {Foo} from './Foo';
+
+describe('Example', () => {
+  let logger: Logger;
+  let foo: Foo;
+  let urlOpener: UrlOpener;
+  let uut: Example;
+
+  beforeEach(() => {
+    logger = mock<Logger>();
+    foo = mock<Foo>();
+    urlOpener = mock<UrlOpener>();
+    uut = new Example(logger, foo, urlOpener);
+  });
+}
+```
+
+## Wrapping up
+While we didn't use any API from `Obsidian` in this refactor, this change was made possible due to how Obsidian influences the design of our code. Obsidian makes it easy to introduce classes to each other by passing them explicitly in through the constructor. This approach encourages us to split our code into smaller classes that are easier to test.
