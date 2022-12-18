@@ -20,8 +20,8 @@ jobs:
           cache-dependency-path: documentation/package-lock.json
 
       - name: Install dependencies
-        run: |
-          cd documentation
-          npm ci
+        working-directory: ./documentation
+        run: npm ci
       - name: Test build documentation
+        working-directory: ./documentation
         run: npm run build
