@@ -95,7 +95,7 @@ const config = {
               },
               {
                 label: 'Installation',
-                to: '/docs/installation',
+                to: '/docs/documentation/installation',
               },
               {
                 label: 'API',
