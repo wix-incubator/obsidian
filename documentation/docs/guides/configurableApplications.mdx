@@ -28,7 +28,7 @@ A seam is a place where you can alter behavior in your program without editing i
 [Working Effectively with Legacy Code](https://www.amazon.com/Working-Effectively-Legacy-Michael-Feathers/dp/0131177052) by Michael Feathers
 :::
 
-### Example: Interchangeable dependencies according to external configurations
+### Example 1: Interchangeable dependencies according to external configurations
 In this example we'll learn how to change the concrete object returned by a provider according to an external configuration. In a real life scenario, the external configuration would represent an A/B test or a feature toggle.
 
 #### Step 1: Declare a graph
@@ -150,3 +150,56 @@ In this example we learned how to make dependencies interchangeable, and how to 
 Two important things to note about this example:
 1. The provider's return type was changed to `NetworkClient` instead of `HttpClient`. This change could lead to further changes in the codebase, but it's a small price to pay for the flexibility it provides.
 2.  We wanted to keep the example short and easy to follow, so the two HTTP clients are simplified implementations of an actual client. They also share the same API which made it easy to implement the `NetworkClient` interface and have the two clients implement it. If the two clients had different APIs, perhaps because they supported typed request options and responses, then we would have to create common interfaces that would represent the common parts of the two APIs and adapters that would convert the two clients' APIs to the common API and vice versa.
+
+### Example 2: Mocking dependencies in acceptance/integration tests
+Acceptance and integration tests are a great way to test how an application behaves as a whole. In these type of tests, objects aren't mocked since we're testing how the objects behave when they interact with each other. But because tests also need to be predictable and stable, there are some operations that we do want to simulate. For example, we might want to mock a network client so that we don't make real network requests during the test as that would add an unwanted layer of unpredictability to the test.
+
+In this example we'll learn how to mock a dependency and how to use that mocked instance across all objects involved in the test.
+
+#### Step 1: Declare a graph
+As in the previous example, we'll declare a simple graph that provides a single dependency: an HTTP client used to make network requests.
+
+```ts
+@Singleton() @Graph()
+export class ApplicationGraph extends ObjectGraph {
+  @Provides()
+  httpClient(): HttpClient {
+    return new HttpClient();
+  }
+}
+```
+
+#### Step 2: Mock the HTTP client
+To provide a mocked HTTP client to all objects involved in the test, we'll create a new graph that extends the `ApplicationGraph` and overrides the `httpClient` provider. In the next step we'll learn how to use this graph in our tests.
+
+```ts
+import { mock } from 'jest-mock-extended';
+
+@Singleton() @Graph()
+export class ApplicationGraphForTests extends ApplicationGraph {
+  @Provides()
+  override httpClient(): HttpClient {
+    return mock<HttpClient>();
+  }
+}
+```
+
+#### Step 3: Use the graph in the test
+To use the graph in the test, we'll use Obsidian's test kit to use the `ApplicationGraphForTests` instead of the `ApplicationGraph` whenever it's needed.
+
+```ts
+import {testKit} from 'react-obsidian';
+
+describe('Test suite', () => {
+  beforeEach(() => {
+    testKit.mockGraphs({
+      // Instruct Obsidian to use the ApplicationGraphForTests instead of the ApplicationGraph
+      ApplicationGraph: ApplicationGraphForTests,
+    });
+  });
+
+  it('should do something', () => {
+    // ...
+  });
+});
+```
