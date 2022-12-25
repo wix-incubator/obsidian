@@ -19,4 +19,7 @@ export const Obsidian = new _Obsidian();
 export { injectComponent } from './injectors/components/InjectComponent';
 export { injectHook, injectHookWithArguments } from './injectors/hooks/InjectHook';
 
+export { useObserver } from './observable/useObserver';
+export { Observable, OnNext } from './observable/Observable';
+
 export { testKit } from '../testkit';
