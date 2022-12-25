@@ -28,7 +28,7 @@ In the `ApplicationGraph` below, we declare two dependencies:
 
 Both functions are annotated by the `@Provides()` annotation. This signals Obsidian that the results of these functions are provided by the graph and can be injected.
 
-Notice how the biLogger function receives an `httpClient` as an argument. This means that `biLogger` is dependent on `httpClient`. Obsidian will create an `httpClient` when `biLogger` is injected. 
+Notice how the `biLogger` function receives an `httpClient` as an argument. This means that `biLogger` is dependent on `httpClient`. Obsidian will create an `httpClient` when `biLogger` is injected. 
 
 ``` typescript
 @Singleton() @Graph()
@@ -48,7 +48,7 @@ class ApplicationGraph extends ObjectGraph {
 ### Step 2: Inject a dependency
 
 ```typescript
-interface Injected = DependenciesOf<ApplicationGraph, 'biLogger'>;
+type Injected = DependenciesOf<ApplicationGraph, 'biLogger'>; // { biLogger: BiLogger }
 
 interface UseButtonPress {
   usePress: () => void;
