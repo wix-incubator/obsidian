@@ -11,6 +11,9 @@ React Obsidian is a dependency injection framework for React and React Native ap
 > 📖 Read more about Dependency Injection and Obsidian in [Breaking complexity with Dependency Injection: Introducing Obsidian](https://guyca.medium.com/breaking-complexity-with-dependency-injection-introducing-obsidian-cd452802f076) on Medium.
 
 * [Documentation](https://wix-incubator.github.io/obsidian/docs/documentation)
+  * [Getting Started](https://wix-incubator.github.io/obsidian/docs/documentation/#the-2-steps-tutorial-for-injecting-dependencies-with-obsidian)
+  * [Installation](https://wix-incubator.github.io/obsidian/docs/documentation/installation)
+  * [Guides](https://wix-incubator.github.io/obsidian/docs/guides/mockDependencies)
 * [Chat on Discord](https://discord.gg/2g5vhGQN)
 
 ## Example - Injecting a hook
