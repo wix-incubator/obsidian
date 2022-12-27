@@ -115,15 +115,6 @@ class HomeGraph extends ObjectGraph<HomeScreenProps> {
 }
 ```
 
-## Typed dependencies
-The `DependenciesOf` utility type creates a type of the dependencies provided by a graph. This type can be used to type the dependencies of hooks or props required by components. This utility type takes two arguments: the graph and a union of the keys of the dependencies we want to inject.
-
-In this example we create a type called `ApplicationDependencies` which contains the dependencies `httpClient` and `databaseService` from the `ApplicationGraph` graph.
-
-```ts
-type ApplicationDependencies = DependenciesOf<ApplicationGraph, 'httpClient' | 'databaseService'>; // {httpClient: httpClient, databaseService: DatabaseService}
-```
-
 ## Graph composition
 Graph composition is a powerful feature that allows you to create complex dependency graphs by combining smaller graphs. Composing graphs is useful when you want to reuse a graph in multiple places. For example, you might have a singleton graph that provides application-level dependencies. You might also have a lifecycle-bound graph that provides dependencies for a specific UI flow. You can compose these graphs together so that the lifecycle-bound graph can also inject the dependencies provided by the singleton graph.
 
@@ -143,4 +134,21 @@ export class LoginGraph extends ObjectGraph {
     return new LoginService(httpClient);
   }
 }
+```
+
+## Typed dependencies
+The `DependenciesOf` utility type creates a new type consisting the dependencies provided by a graph. This type can be used to type the dependencies of hooks or props required by components. This utility type takes two arguments: the graph and a union of the keys of the dependencies we want to inject.
+
+In this example we create a type called `ApplicationDependencies` which contains the dependencies `httpClient` and `databaseService` from the `ApplicationGraph` graph.
+
+```ts
+// {httpClient: HttpClient, databaseService: DatabaseService}
+type Dependencies = DependenciesOf<ApplicationGraph, 'httpClient' | 'databaseService'>;
+```
+
+In cases where a graph has subgraphs, we can pass an array of graphs to the `DependenciesOf` utility type to create a type that contains the dependencies from all the graphs. Using the `LoginGraph` from the example above, we create a type that contains dependencies from both the `LoginGraph` and the `ApplicationGraph`:
+
+```ts
+// {httpClient: HttpClient, loginService: LoginService}
+type Dependencies = DependenciesOf<[LoginGraph, ApplicationGraph], 'httpClient' | 'loginService'>;
 ```
