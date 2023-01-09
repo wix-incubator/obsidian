@@ -47,7 +47,7 @@ Obsidian can inject dependencies into components, hooks, and classes.
 <Tabs>
   <TabItem value="functionalComponent" label="Functional component injection" default>
 
-Injecting React functional components essentially revolves around two things: declaring the required dependencies in the hook's prototype and exporting an injected hook using the `injectComponent` function.
+Injecting React functional components essentially revolves around two things: declaring the required dependencies in the components's props and exporting an injected component using the `injectComponent` function.
 
 ```ts title="MyComponent.tsx"
 import {DependenciesOf, injectComponent} from 'react-obsidian';
