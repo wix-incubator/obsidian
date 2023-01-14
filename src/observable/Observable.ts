@@ -1,18 +1,19 @@
-/* eslint-disable no-underscore-dangle */
-export type OnNext<T> = (value: T) => void;
-type Unsubscribe = () => void;
+import { Observable as IObservable, OnNext, Unsubscribe } from './types';
 
-export class Observable<T> {
+export class Observable<T> implements IObservable<T> {
   private subscribers: Set<OnNext<T>> = new Set();
+  private currentValue: T | undefined;
 
-  constructor(private _value: T) {}
+  constructor(initialValue?: T) {
+    this.currentValue = initialValue;
+  }
 
   public get value(): T {
-    return this._value;
+    return this.currentValue as T;
   }
 
   public set value(value: T) {
-    this._value = value;
+    this.currentValue = value;
     this.subscribers.forEach((subscriber) => subscriber(value));
   }
 
