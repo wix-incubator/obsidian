@@ -93,4 +93,22 @@ describe('ObservableMediator', () => {
       'Subscriber already subscribed',
     );
   });
+
+  it('should mediate between observers of different types', () => {
+    const a = new Observable<number>();
+    const b = new Observable<string>();
+
+    uut.addSource(a, (nextA: number) => {
+      uut.value = nextA;
+    });
+    uut.addSource(b, (nextB) => {
+      uut.value = parseInt(nextB, 10);
+    });
+
+    uut.subscribe(() => {});
+    a.value = 1;
+    expect(uut.value).toEqual(1);
+    b.value = '2';
+    expect(uut.value).toEqual(2);
+  });
 });

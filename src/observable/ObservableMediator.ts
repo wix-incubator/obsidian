@@ -10,9 +10,9 @@ type Source<T> = {
 export class ObservableMediator<T> implements IObservable<T> {
   private subscribers: Set<OnNext<T>> = new Set();
   private currentValue!: T;
-  private sources: Source<T>[] = [];
+  private sources: Source<any>[] = [];
 
-  addSource(source: Observable<T>, onNext: OnNext<T>) {
+  addSource<S>(source: Observable<S>, onNext: OnNext<S>) {
     this.sources.push({ source, onNext });
   }
 
