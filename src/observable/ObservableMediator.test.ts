@@ -118,4 +118,9 @@ describe('ObservableMediator', () => {
 
     uut.addSource(a, NOOP).addSource(b, NOOP);
   });
+
+  it('supports passing initial value in through the constructor', () => {
+    const mediator = new ObservableMediator(1);
+    expect(mediator.value).toEqual(1);
+  });
 });
