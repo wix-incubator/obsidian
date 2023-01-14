@@ -111,4 +111,11 @@ describe('ObservableMediator', () => {
     b.value = '2';
     expect(uut.value).toEqual(2);
   });
+
+  it('should support chaining addSource calls', () => {
+    const a = new Observable();
+    const b = new Observable();
+
+    uut.addSource(a, NOOP).addSource(b, NOOP);
+  });
 });

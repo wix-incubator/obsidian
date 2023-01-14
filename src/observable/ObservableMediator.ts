@@ -12,8 +12,9 @@ export class ObservableMediator<T> implements IObservable<T> {
   private currentValue!: T;
   private sources: Source<any>[] = [];
 
-  addSource<S>(source: Observable<S>, onNext: OnNext<S>) {
+  addSource<S>(source: Observable<S>, onNext: OnNext<S>): ObservableMediator<T> {
     this.sources.push({ source, onNext });
+    return this;
   }
 
   public get value(): T {
