@@ -7,7 +7,7 @@ type Source<T> = {
   unsubscribe?: Unsubscribe;
 };
 
-export class ObservableMediator<T> implements IObservable<T> {
+export class MediatorObservable<T> implements IObservable<T> {
   private subscribers: Set<OnNext<T>> = new Set();
   private currentValue!: T;
   private sources: Source<any>[] = [];
@@ -16,7 +16,7 @@ export class ObservableMediator<T> implements IObservable<T> {
     this.currentValue = initialValue as T;
   }
 
-  addSource<S>(source: Observable<S>, onNext: OnNext<S>): ObservableMediator<T> {
+  addSource<S>(source: Observable<S>, onNext: OnNext<S>): MediatorObservable<T> {
     this.sources.push({ source, onNext });
     return this;
   }

@@ -1,21 +1,21 @@
 import { Observable } from './Observable';
-import { ObservableMediator } from './ObservableMediator';
+import { MediatorObservable } from './MediatorObservable';
 
 const NOOP = () => {};
 
 describe('ObservableMediator', () => {
-  let uut!: ObservableMediator<number>;
+  let uut!: MediatorObservable<number>;
 
   beforeEach(() => {
-    uut = new ObservableMediator();
+    uut = new MediatorObservable();
   });
 
   it('should be defined', () => {
-    expect(ObservableMediator).toBeDefined();
+    expect(MediatorObservable).toBeDefined();
   });
 
   it('should be instantiable', () => {
-    expect(uut).toBeInstanceOf(ObservableMediator);
+    expect(uut).toBeInstanceOf(MediatorObservable);
   });
 
   it('should have a value property', () => {
@@ -120,7 +120,7 @@ describe('ObservableMediator', () => {
   });
 
   it('supports passing initial value in through the constructor', () => {
-    const mediator = new ObservableMediator(1);
+    const mediator = new MediatorObservable(1);
     expect(mediator.value).toEqual(1);
   });
 });

@@ -21,7 +21,7 @@ export { injectHook, injectHookWithArguments } from './injectors/hooks/InjectHoo
 
 export { useObserver } from './observable/useObserver';
 export { Observable } from './observable/Observable';
-export { ObservableMediator } from './observable/ObservableMediator';
+export { MediatorObservable } from './observable/MediatorObservable';
 export { OnNext, Unsubscribe } from './observable/types';
 
 export { testKit } from '../testkit';
