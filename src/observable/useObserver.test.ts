@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react-hooks';
 import _ from 'lodash';
 import { Observable } from './Observable';
 import { useObserver } from './useObserver';
@@ -23,7 +23,7 @@ describe('useObserver', () => {
   it('should update the value', () => {
     const { result, rerender } = renderHook(uut);
     expect(result.current.count).toBe(0);
-    observable.value = 1;
+    act(() => { observable.value = 1; });
     rerender();
     expect(result.current.count).toBe(1);
   });
@@ -40,7 +40,7 @@ describe('useObserver', () => {
     const { setCount } = result.current;
     expect(result.current.count).toBe(0);
 
-    setCount(1);
+    act(() => { setCount(1); });
     expect(result.current.count).toBe(1);
   });
 });
