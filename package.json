@@ -21,12 +21,12 @@
     "lodash": "*"
   },
   "devDependencies": {
-    "@babel/core": "7.16.x",
-    "@babel/plugin-proposal-decorators": "7.16.x",
-    "@babel/preset-env": "7.16.x",
-    "@babel/preset-react": "7.16.x",
-    "@babel/preset-typescript": "7.16.x",
-    "@babel/types": "7.16.x",
+    "@babel/core": "7.20.x",
+    "@babel/plugin-proposal-decorators": "7.18.x",
+    "@babel/preset-env": "7.20.x",
+    "@babel/preset-react": "7.18.x",
+    "@babel/preset-typescript": "7.18.x",
+    "@babel/types": "7.20.x",
     "@johanblumenberg/ts-mockito": "1.x.x",
     "@testing-library/react": "^12.1.2",
     "@testing-library/react-hooks": "^7.0.2",
