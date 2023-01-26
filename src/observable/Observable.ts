@@ -24,4 +24,11 @@ export class Observable<T> implements IObservable<T> {
     this.subscribers.add(onNext);
     return () => this.subscribers.delete(onNext);
   }
+
+  public unsubscribe(onNext:OnNext<T>) {
+    if (!this.subscribers.has(onNext)) {
+      throw new Error('Subscribe do not exists');
+    }
+    this.subscribers.delete(onNext);
+  }
 }

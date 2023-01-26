@@ -49,4 +49,16 @@ describe('makeObservable', () => {
     observable.subscribe(subscriber);
     expect(() => observable.subscribe(subscriber)).toThrowError('Subscriber already subscribed');
   });
+  it('should unsubscribe', () => {
+    const observable = new Observable({});
+    const subscriber = () => { };
+    observable.subscribe(subscriber);
+    observable.unsubscribe(subscriber);
+    expect(observable).toEqual(new Observable({}));
+  });
+  it('should throw error because the subscriber is not in the observable', () => {
+    const observable = new Observable({});
+    const subscriber = () => { };
+    expect(() => observable.unsubscribe(subscriber)).toThrowError('Subscribe do not exists');
+  });
 });
