@@ -71,6 +71,6 @@ describe('makeObservable', () => {
   it('should throw error because the subscriber is not subscribed', () => {
     const observable = new Observable({});
     const subscriber = () => { };
-    expect(() => observable.unsubscribe(subscriber)).toThrowError('Subscribe do not exists');
+    expect(() => observable.unsubscribe(subscriber)).toThrowError(`Can't unsubscribe, subscriber doesn't exist`);
   });
 });
