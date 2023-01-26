@@ -27,7 +27,7 @@ export class Observable<T> implements IObservable<T> {
 
   public unsubscribe(onNext:OnNext<T>) {
     if (!this.subscribers.has(onNext)) {
-      throw new Error('Subscribe do not exists');
+      throw new Error(`Can't unsubscribe, subscriber doesn't exist`);
     }
     this.subscribers.delete(onNext);
   }
