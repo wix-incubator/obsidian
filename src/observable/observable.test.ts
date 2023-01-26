@@ -1,4 +1,5 @@
 import { Observable } from './Observable';
+import { OnNext } from './types';
 
 describe('makeObservable', () => {
   it('should make observable', () => {
@@ -49,14 +50,25 @@ describe('makeObservable', () => {
     observable.subscribe(subscriber);
     expect(() => observable.subscribe(subscriber)).toThrowError('Subscriber already subscribed');
   });
+
   it('should unsubscribe', () => {
-    const observable = new Observable({});
-    const subscriber = () => { };
+    const observable = new Observable(0);
+    let value = 0;
+    const subscriber: OnNext<number> = (next: number) => {
+      value = next;
+    };
     observable.subscribe(subscriber);
+    expect(value).toBe(0);
+
+    observable.value = 1;
+    expect(value).toBe(1);
+
     observable.unsubscribe(subscriber);
-    expect(observable).toEqual(new Observable({}));
+    observable.value = 2;
+    expect(value).toBe(1);
   });
-  it('should throw error because the subscriber is not in the observable', () => {
+
+  it('should throw error because the subscriber is not subscribed', () => {
     const observable = new Observable({});
     const subscriber = () => { };
     expect(() => observable.unsubscribe(subscriber)).toThrowError('Subscribe do not exists');
