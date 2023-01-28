@@ -1,0 +1,96 @@
+---
+sidebar_position: 5
+title: "Reactivity"
+---
+
+Obsidian is first and foremost a dependency injection library. But it also includes reactive programming features that allow you to observe changes in your data and react to them. This is useful for things like updating the UI when a value changes.
+
+## Observable
+Making a class field reactive is as simple as wrapping it with the `Observable` decorator. Observable is a data holder classes that also allows you to subscribe to changes in the data.
+
+### Create observables
+In the example below, we declare a boolean observable called `isLoggedIn`. We can then subscribe to changes in the `isLoggedIn` value and update the UI accordingly.
+
+```ts
+import { Observable } from 'react-obsidian';
+
+class UserService {
+  public isLoggedIn = new Observable(false); // The initial value is false
+}
+
+export default new UserService();
+```
+
+### Observe changes
+#### Observe changes in hooks or components
+Once you have declared an observable, you can subscribe to changes in the value by using the `useObserver` hook. This hook will return the current value of the observable and subscribe to changes in the value. When the value changes, the hook will re-render the component.
+
+```ts
+import { useObserver } from 'react-obsidian';
+import userService from './UserService';
+
+const useLogin = () => {
+  const [isLoggedIn] = useObserver(userService.isLoggedIn);
+
+  return {isLoggedIn};
+}
+```
+
+#### Observe changes imperatively
+You can also subscribe to changes in an observable imperatively by calling the `subscribe` method on the observable. This method returns a function that can be called to unsubscribe from the observable.
+
+```ts
+import userService from './UserService';
+
+const unsubscribe = userService.isLoggedIn.subscribe((isLoggedIn: boolean) => {
+  // Do something with the isLoggedIn value
+});
+```
+
+### Update Observables
+Observables expose the data they hold via a `value` property. You can update the value of an observable by setting the value of the `value` property.
+This will also trigger any subscribers to the observable.
+
+```ts
+import userService from './UserService';
+
+userService.isLoggedIn.value = true; // Update the value and notify all subscribers
+```
+
+#### Update Observables from hooks or components
+The `useObserver` hook also returns a setter function that can be used to update the value of the observable.
+
+```ts
+import { useObserver } from 'react-obsidian';
+import userService from './UserService';
+
+const useLogin = () => {
+  const [isLoggedIn, setIsLoggedIn] = useObserver(userService.isLoggedIn);
+  const onLogoutButtonPress = useCallback(() => {
+    setIsLoggedIn(false);
+  }, [setIsLoggedIn]);
+
+  return {isLoggedIn, onLogoutButtonPress};
+}
+```
+
+### Merge multiple observable sources
+`MediatorObservable` is a special type of observable that allows you to merge multiple observable sources into a single observable. This is useful for creating side effect from one or more observables.
+
+In the example below, we create a `MediatorObservable` called `downloadStatus` that will be updated when either the `networkConditions` or `batteryLevel` observables are updated. We can then subscribe to changes in the `downloadStatus` observable to update the UI or perform other side effects.
+
+```ts
+import { MediatorObservable, Observable } from 'react-obsidian';
+
+const networkConditions = new Observable<'poor' | 'strong'>();
+const batteryLevel = new Observable<'low' | 'normal'>();
+
+const downloadStatus = new MediatorObservable<'paused' | 'active'>('active')
+  .addSource(networkConditions, (condition: 'poor' | 'strong') => {
+    this.value = condition === 'poor' ? 'paused' : 'active';
+  })
+  .addSource(batteryLevel, (level: 'low' | 'normal') => {
+    this.value = level === 'low' ? 'paused' : 'active';
+  });
+
+```
