@@ -1,18 +1,18 @@
 import {
   Graph,
-  LazyInject,
+  LateInject,
   ObjectGraph,
   Obsidian,
   Provides,
   testKit,
 } from '../../src';
 
-describe('Lazy inject', () => {
+describe('Late inject', () => {
   it('injects from a concrete graph instance', () => {
     testKit.mockGraphs({ Subgraph: MockedSubgraph });
 
     class Injected {
-      @LazyInject() graphString!: string;
+      @LateInject() graphString!: string;
 
       constructor() {
         Obsidian.inject(this, new MockedMainGraph());
