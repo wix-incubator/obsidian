@@ -2,7 +2,7 @@ import { Constructable } from '../../types';
 import { GraphRegistry } from '../../graph/registry/GraphRegistry';
 import { Graph } from '../../graph/Graph';
 import InjectionMetadata from './InjectionMetadata';
-import { GRAPH_INSTANCE_NAME_KEY } from './LazyInjector';
+import { GRAPH_INSTANCE_NAME_KEY } from './LateInjector';
 
 export default class ClassInjector {
   constructor(

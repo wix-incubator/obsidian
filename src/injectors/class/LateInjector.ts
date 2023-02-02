@@ -4,12 +4,12 @@ import InjectionMetadata from './InjectionMetadata';
 
 export const GRAPH_INSTANCE_NAME_KEY = 'GRAPH_INSTANCE_NAME';
 
-class LazyInjector<T extends object> {
+class LateInjector<T extends object> {
   inject(target: T, sourceGraph?: ObjectGraph): T {
     if (sourceGraph) graphRegistry.ensureRegistered(sourceGraph);
     const injectionMetadata = new InjectionMetadata();
     const graph = sourceGraph ?? this.getGraphInstance(target);
-    injectionMetadata.getLazyPropertiesToInject(target.constructor).forEach((key) => {
+    injectionMetadata.getLatePropertiesToInject(target.constructor).forEach((key) => {
       Reflect.set(target, key, graph.retrieve(key));
     });
     return target;
@@ -21,4 +21,4 @@ class LazyInjector<T extends object> {
   }
 }
 
-export default new LazyInjector();
+export default new LateInjector();

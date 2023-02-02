@@ -26,7 +26,7 @@ const internalVisitor = {
   ClassProperty: {
     enter({ node }: NodePath<ClassProperty>) {
       unmagler.saveClassProperty('Inject', node);
-      unmagler.saveClassProperty('LazyInject', node);
+      unmagler.saveClassProperty('LateInject', node);
     },
   },
   Identifier: {

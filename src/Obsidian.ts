@@ -2,7 +2,7 @@ import graphRegistry from './graph/registry/GraphRegistry';
 import { ObjectGraph } from './graph/ObjectGraph';
 import { Constructable, GraphInternals, ServiceLocator } from './types';
 import { GraphMiddleware } from './graph/registry/GraphMiddleware';
-import lazyInjector from './injectors/class/LazyInjector';
+import lateInjector from './injectors/class/LateInjector';
 import serviceLocatorFactory from './graph/ServiceLocatorFactory';
 
 export default class Obsidian {
@@ -14,7 +14,7 @@ export default class Obsidian {
   }
 
   inject<T extends object>(target: T, graph?: ObjectGraph) {
-    return lazyInjector.inject(target, graph);
+    return lateInjector.inject(target, graph);
   }
 
   addGraphMiddleware(middleware: GraphMiddleware) {
