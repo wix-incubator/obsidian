@@ -1,6 +1,7 @@
 import graphRegistry from './registry/GraphRegistry';
 import { Graph } from './Graph';
 import providedPropertiesStore from '../ProvidedPropertiesStore';
+import { UnresolvedDependencyExceptionFactory } from './UnresolvedDependencyExceptionFactory';
 
 export default class PropertyRetriever {
   constructor(private graph: Graph) { }
@@ -24,7 +25,8 @@ export default class PropertyRetriever {
         + 'You should probably provide a unique name to one of the providers: @Provide({name: \'uniqueName\')})',
       );
     }
-    return undefined;
+    const errorMessage = new UnresolvedDependencyExceptionFactory().generateErrorMessage(property, this.graph);
+    throw new Error(errorMessage);
   }
 
   private getFromSubgraphs(property: string, receiver: unknown): unknown[] {
