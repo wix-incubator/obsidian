@@ -1,6 +1,8 @@
+import { MissingDependencyHasSubgraph } from '../../test/fixtures/MissingDependencyHasSubgraph';
 import { MissingDependencyGraph } from '../../test/fixtures/MissingDependencyGraph';
 import { UniqueNumberGraph } from '../../test/fixtures/UniqueNumberGraph';
 import PropertyRetriever from './PropertyRetriever';
+import graphRegistry from './registry/GraphRegistry';
 
 describe('PropertyRetriever', () => {
   let count = 0;
@@ -35,7 +37,16 @@ describe('PropertyRetriever', () => {
     const graph = new MissingDependencyGraph();
     const uut1 = new PropertyRetriever(graph);
     const errorMessage = 'Could not resolve dependency aString '
-    + 'in MissingDependencyGraph1 or in any of its subgraphs: ';
+    + 'in MissingDependencyGraph1 or in any of its subgraphs:';
     expect(() => uut1.retrieve('missingDependencyObject')).toThrow(errorMessage);
   });
+
+  // fit('should throw error if the subgraphs dependency is undefined', () => {
+  //   const graph = new MissingDependencyHasSubgraph();
+  //   graphRegistry.ensureRegistered(graph);
+  //   const uut1 = new PropertyRetriever(graph);
+  //   const errorMessage = 'Could not resolve dependency missingDependencyObject in'
+  //     + ' MissingDependencyHasSubgraph2 or in any of its subgraphs:';
+  //   expect(() => uut1.retrieve('missingDependencyObject')).toThrow(errorMessage);
+  // });
 });

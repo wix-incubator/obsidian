@@ -22,6 +22,7 @@ export class GraphRegistry {
   getSubgraphs(graph: Graph): Graph[] {
     const Graph = this.instanceToConstructor.get(graph)!;
     const subgraphs = this.graphToSubgraphs.get(Graph) ?? new Set();
+    console.log(subgraphs);
     return Array.from(subgraphs).map((G) => this.resolve(G));
   }
 
@@ -35,6 +36,7 @@ export class GraphRegistry {
     }
     const graph = this.graphMiddlewares.resolve(Graph, props);
     this.set(Graph, graph);
+    console.log(graph);
     return graph as T;
   }
 
@@ -52,6 +54,7 @@ export class GraphRegistry {
     this.constructorToInstance.set(Graph, graphs);
     this.instanceToConstructor.set(graph, Graph);
     this.nameToInstance.set(graph.name, graph);
+    console.log('set');
   }
 
   private isSingleton(Graph: Constructable<Graph>): boolean {

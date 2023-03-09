@@ -10,6 +10,7 @@ export default class Obsidian {
     Graph: Constructable<T>,
     props?: P,
   ): ServiceLocator<Omit<T, GraphInternals>> {
+    console.log('obtain', Graph.name);
     return serviceLocatorFactory.fromGraph(Graph, props);
   }
 

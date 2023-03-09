@@ -18,6 +18,7 @@ export abstract class ObjectGraph<T = unknown> implements Graph {
   }
 
   retrieve<Dependency>(property: string, receiver?: unknown): Dependency | undefined {
+    console.log(property, receiver);
     return this.propertyRetriever.retrieve(property, receiver) as Dependency | undefined;
   }
 }

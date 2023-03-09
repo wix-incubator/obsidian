@@ -1,6 +1,6 @@
 import { Graph, ObjectGraph, Provides } from '../../src';
 
-export default class MissingDependencyClass {
+export class MissingDependencyClass {
   constructor(private theString: string) { }
   get(): string {
     return this.theString;

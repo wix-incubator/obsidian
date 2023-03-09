@@ -9,6 +9,7 @@ interface ProvidesParams {
 export function Provides({ name }: Partial<ProvidesParams> = {}) {
   return function provide(graph: Graph, propertyKey: string, descriptor: PropertyDescriptor) {
     providedPropertiesStore.set(graph, propertyKey, name!);
+    console.log('provides');
     return memoizeDescriptor(propertyKey, descriptor);
   };
 }

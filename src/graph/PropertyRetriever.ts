@@ -8,7 +8,9 @@ export default class PropertyRetriever {
 
   retrieve(property: string, receiver?: unknown): unknown | undefined {
     const mangledPropertyKey = providedPropertiesStore.getMangledProperty(this.graph, property);
+    console.log(property, receiver);
     if (mangledPropertyKey && mangledPropertyKey in this.graph) {
+      console.log(this.graph.name);
       const proxiedGraph = new Proxy(this.graph, {
         get(graph: Graph, dependencyName: string) {
           return graph.retrieve(dependencyName);
@@ -26,6 +28,7 @@ export default class PropertyRetriever {
       );
     }
     const errorMessage = new UnresolvedDependencyExceptionFactory().generateErrorMessage(property, this.graph);
+    console.log(errorMessage);
     throw new Error(errorMessage);
   }
 
