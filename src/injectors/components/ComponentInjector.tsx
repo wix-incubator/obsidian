@@ -25,7 +25,7 @@ export default class ComponentInjector {
     const compare = isMemoized ? InjectionCandidate.compare : undefined;
 
     return genericMemo((passedProps: P) => {
-      const graph = useGraph<P>(Graph, passedProps);
+      const graph = useGraph<P>(Graph, Target, passedProps);
       const proxiedProps = new PropsInjector(graph).inject(passedProps);
 
       return <>{Target(proxiedProps as unknown as PropsWithChildren<P>)}</>;

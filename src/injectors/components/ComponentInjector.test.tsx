@@ -1,6 +1,8 @@
 import { render } from '@testing-library/react';
 import React, { useRef } from 'react';
+import { GraphWithOnBind } from '../../../test/fixtures/GraphWithOnBind';
 import MainGraph, { Dependencies } from '../../../test/fixtures/MainGraph';
+import { DependenciesOf } from '../../types';
 import { injectComponent } from './InjectComponent';
 
 describe('ComponentInjector', () => {
@@ -65,5 +67,15 @@ describe('ComponentInjector', () => {
     const InjectedComponent = injectComponent(MemoizedComponent, MainGraph);
     const { container } = render(<InjectedComponent />);
     expect(container.textContent).toBe('1 - Fear kills progress');
+  });
+
+  it('Binds component to the graph before providers are resolved', () => {
+    const ComponentToTestOnBind = ({ targetName }: DependenciesOf<GraphWithOnBind, 'targetName'>) => {
+      return (<>{targetName}</>);
+    };
+
+    const InjectedComponent = injectComponent(ComponentToTestOnBind, GraphWithOnBind);
+    const { container } = render(<InjectedComponent />);
+    expect(container.textContent).toBe('ComponentToTestOnBind');
   });
 });

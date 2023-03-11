@@ -7,6 +7,7 @@ import HookInjector from './HookInjector';
 import MainGraph from '../../../test/fixtures/MainGraph';
 import { DependenciesOf } from '../../types';
 import { LifecycleBoundGraph } from '../../../test/fixtures/LifecycleBoundGraph';
+import { GraphWithOnBind } from '../../../test/fixtures/GraphWithOnBind';
 
 describe('Hook injection', () => {
   let uut: HookInjector;
@@ -34,6 +35,14 @@ describe('Hook injection', () => {
     }, { initialProps: { stringFromProps: 'Hey!' } });
 
     expect(result.current.text).toBe('A string passed via props: Hey!');
+  });
+
+  it('Binds hooks to the graph before providers are resolved', () => {
+    const hookToTestOnBind = ({ targetName }: { targetName: string }) => {
+      return targetName;
+    };
+    const { result } = renderHook(() => uut.inject(hookToTestOnBind, GraphWithOnBind)());
+    expect(result.current).toBe('hookToTestOnBind');
   });
 });
 
