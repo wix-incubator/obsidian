@@ -1,4 +1,5 @@
 import { Inject, Injectable } from '../../src';
+import { GraphWithOnBind } from '../fixtures/GraphWithOnBind';
 import injectedValues from '../fixtures/injectedValues';
 import MainGraph from '../fixtures/MainGraph';
 
@@ -6,6 +7,11 @@ describe('Class injection', () => {
   it('injects class properties', () => {
     const uut = new SingleArg();
     expect(uut.someString).toBe(injectedValues.fromStringProvider);
+  });
+
+  it('Binds to the graph before injecting properties', () => {
+    const uut = new ClassToTestOnBind();
+    expect(uut.targetName).toBe('ClassToTestOnBind');
   });
 
   // it('injects constructor arguments', () => {
@@ -30,6 +36,11 @@ describe('Class injection', () => {
   //   expect(uut.someString).toBe(injectedValues.fromStringProvider);
   //   expect(uut.anotherString).toBe(injectedValues.anotherString);
   // });
+
+  @Injectable(GraphWithOnBind)
+  class ClassToTestOnBind {
+    @Inject() public readonly targetName!: string;
+  }
 
   @Injectable(MainGraph)
   class SingleArg {

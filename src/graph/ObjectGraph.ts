@@ -20,6 +20,10 @@ export abstract class ObjectGraph<T = unknown> implements Graph {
   retrieve<Dependency>(property: string, receiver?: unknown): Dependency | undefined {
     return this.propertyRetriever.retrieve(property, receiver) as Dependency | undefined;
   }
+
+  onBind(_target: any) {
+
+  }
 }
 
 Reflect.set(ObjectGraph, 'typeDiscriminator', 'ObjectGraph');
