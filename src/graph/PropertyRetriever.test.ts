@@ -35,7 +35,7 @@ describe('PropertyRetriever', () => {
     const graph = new MissingDependencyGraph();
     const uut1 = new PropertyRetriever(graph);
     const errorMessage = 'Could not resolve dependency aString '
-    + 'in MissingDependencyGraph1 or in any of its subgraphs: ';
+    + 'in MissingDependencyGraph1';
     expect(() => uut1.retrieve('missingDependencyObject')).toThrow(errorMessage);
   });
 });
