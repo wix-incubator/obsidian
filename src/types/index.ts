@@ -10,7 +10,7 @@ export type ServiceLocator<Clazz> = {
   [Key in keyof Clazz]: () => Clazz[Key] extends (...args: any[]) => infer R ? R : never;
 };
 
-export type GraphInternals = 'retrieve' | 'name' | 'scope';
+export type GraphInternals = 'retrieve' | 'name' | 'scope' | 'onBind';
 
 export type DependenciesOf<G, Dependencies extends keyof DependenciesOf<G> = never> =
   Partial<Dependencies> extends never ?
