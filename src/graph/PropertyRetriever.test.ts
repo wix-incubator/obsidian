@@ -1,3 +1,4 @@
+import { MissingDependencyGraph } from '../../test/fixtures/MissingDependencyGraph';
 import { UniqueNumberGraph } from '../../test/fixtures/UniqueNumberGraph';
 import PropertyRetriever from './PropertyRetriever';
 
@@ -28,5 +29,20 @@ describe('PropertyRetriever', () => {
   it('invokes a singleton provider once', () => {
     expect(uut().retrieve('singletonNumber')).toBe(1);
     expect(uut().retrieve('singletonNumber')).toBe(1);
+  });
+
+  it('should throw error if the dependency is undefined', () => {
+    const graph = new MissingDependencyGraph();
+    const uut1 = new PropertyRetriever(graph);
+    const errorMessage = 'Could not resolve dependency aString '
+    + 'in MissingDependencyGraph1';
+    expect(() => uut1.retrieve('missingDependencyObject')).toThrow(errorMessage);
+  });
+
+  fit('should return undefined if the dependency starts with underscore', () => {
+    const graph = new MissingDependencyGraph();
+    const uut1 = new PropertyRetriever(graph);
+    const returnValue = uut1.retrieve('_missingDependencyObject');
+    expect(returnValue).toBe(undefined);
   });
 });
