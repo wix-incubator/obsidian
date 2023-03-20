@@ -25,6 +25,7 @@ export default class PropertyRetriever {
         + 'You should probably provide a unique name to one of the providers: @Provide({name: \'uniqueName\')})',
       );
     }
+    if (property.startsWith('_')) return undefined;
     const errorMessage = new UnresolvedDependencyExceptionFactory().generateErrorMessage(property, this.graph);
     throw new Error(errorMessage);
   }
