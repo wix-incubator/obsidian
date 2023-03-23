@@ -1,18 +1,16 @@
-import { getFixturesRootDirectory } from "../../testing/fixtureSetup";
 import { ESLintUtils } from "@typescript-eslint/utils";
 
 const definedDependencies = require('./definedDependencies');
-const tsRootDirectory = getFixturesRootDirectory();
 const ruleTester = new ESLintUtils.RuleTester({
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: 2015,
-    tsconfigRootDir: tsRootDirectory,
     project: "./tsconfig.json",
   },
 });
 const code =
-`@Singleton() @Graph()
+`
+@Singleton() @Graph()
 export default class ApplicationGraph extends ObjectGraph {
 
   @Provides()
