@@ -1,11 +1,11 @@
 import { ESLintUtils } from "@typescript-eslint/utils";
 
-const definedDependencies = require('./definedDependencies');
+import definedDependencies from './definedDependencies';
 const ruleTester = new ESLintUtils.RuleTester({
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaVersion: 2015,
-    project: "./tsconfig.json",
+    project: "../tsconfig.json",
   },
 });
 const code =

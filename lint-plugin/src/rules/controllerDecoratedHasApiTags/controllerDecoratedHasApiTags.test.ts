@@ -5,7 +5,7 @@ const ruleTester = new ESLintUtils.RuleTester({
     parser: "@typescript-eslint/parser",
     parserOptions: {
         ecmaVersion: 2015,
-        project: "./tsconfig.json",
+        project: "../tsconfig.json",
     },
 });
 

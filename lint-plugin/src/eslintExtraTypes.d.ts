@@ -1,3 +1,5 @@
+import { Program, Token } from "typescript";
+
 declare module "eslint/use-at-your-own-risk" {
     export class FileEnumerator {
         constructor(options: {
@@ -20,12 +22,3 @@ declare module "eslint/use-at-your-own-risk" {
     };
 }
 
-type AstParsed = Program & {
-    range?: [number, number] | undefined;
-    tokens?: Token[] | undefined;
-    comments?: Comment[] | undefined;
-};
-
-declare module "eslint-module-utils/unambiguous" {
-    export function isModule(ast: AstParsed): boolean;
-}

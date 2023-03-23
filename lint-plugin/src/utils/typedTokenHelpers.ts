@@ -1,6 +1,6 @@
 import {AST_NODE_TYPES, TSESLint, TSESTree} from "@typescript-eslint/utils";
 import {parse, ParserServices} from "@typescript-eslint/parser";
-import ts from "typescript";
+import {ts} from "typescript";
 import * as tsutils from "tsutils";
 import {unionTypeParts} from "tsutils";
 

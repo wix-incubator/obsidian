@@ -24,7 +24,7 @@ const rule = createRule({
   defaultOptions: [],
 
   create(
-    context: Readonly<TSESLint.RuleContext<MessageIds, never[]>>
+    context: Readonly<TSESLint.RuleContext<MessageIds, []>>
   ) {
     return {
       // eslint-disable-next-line @typescript-eslint/naming-convention

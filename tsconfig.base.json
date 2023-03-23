@@ -36,6 +36,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "types": ["reflect-metadata", "jest"],
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "allowSyntheticDefaultImports": true
   }
 }

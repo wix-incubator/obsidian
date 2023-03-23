@@ -40,7 +40,7 @@ const rule = createRule({
 
     create(
         context: Readonly<
-            TSESLint.RuleContext<"shouldUseApiTagDecorator", never[]>
+            TSESLint.RuleContext<"shouldUseApiTagDecorator", []>
         >
     ) {
         return {

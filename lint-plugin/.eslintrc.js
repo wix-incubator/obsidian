@@ -16,7 +16,7 @@ module.exports = {
     ],
     parser: "@typescript-eslint/parser",
     parserOptions: {
-        project: ["./tsconfig.json"],
+        project: ["../tsconfig.json"],
         sourceType: "module",
     },
     settings: {
@@ -25,5 +25,5 @@ module.exports = {
     rules: {
 
     },
-    plugins: ["@typescript-eslint", "prefer-arrow", ""],
+    plugins: ["@typescript-eslint", "prefer-arrow"],
 };
