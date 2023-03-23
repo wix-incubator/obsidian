@@ -10,22 +10,19 @@
         "airbnb-typescript",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:import/typescript"
-    ],
+        "plugin:import/typescript",
+        "eslint:recommended"
+      ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-        "project": "./tsconfig.json",
-        "ecmaVersion": 2021,
-        "sourceType": "module",
-        "ecmaFeatures": {
-          "jsx": true
-      }
+      "sourceType": "module"
     },
     "plugins": [
         "react",
         "@typescript-eslint",
         "import-newlines",
-        "unused-imports"
+        "unused-imports",
+        "dependency-checker"
     ],
     "rules": {
       "max-len": ["error", {"code": 115}],
@@ -89,7 +86,12 @@
 		  "unused-imports/no-unused-vars": [
 			  "error",
 			  { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
-		  ]
+		  ],
+      "dependency-checker/decoratorCheck":"error",
+      "quotes": [
+        "error",
+        "single"
+      ]
     },
     "settings": {
       "import/resolver": {

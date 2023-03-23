@@ -21,7 +21,10 @@
   },
   "peerDependencies": {
     "lodash": "*",
-    "react": "*"
+    "react": "*",
+    "@typescript-eslint/parser": "^5.0.0",
+    "class-validator": "*",
+    "eslint": "^8.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.21.3",
@@ -57,7 +60,26 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "setimmediate": "^1.0.5",
-    "typescript": "^4.9.5"
+    "typescript": "^4.9.5",
+    "@commitlint/cli": "17.2.0",
+    "@commitlint/config-conventional": "17.2.0",
+    "@semantic-release/changelog": "6.0.1",
+    "@semantic-release/exec": "6.0.3",
+    "@types/eslint": "8.4.9",
+    "@types/node": "18.11.9",
+    "class-validator": "^0.14",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-jsdoc": "39.6.2",
+    "eslint-plugin-prefer-arrow": "1.2.3",
+    "eslint-plugin-unicorn": "44.0.2",
+    "husky": "8.0.1",
+    "jest-create-mock-instance": "2.0.0",
+    "jest-junit": "14.0.1",
+    "lint-staged": "13.0.3",
+    "prettier": "2.7.1",
+    "semantic-release": "19.0.5",
+    "ts-jest": "29.0.3",
+    "ts-node": "10.9.1"    
   },
   "repository": {
     "type": "git",
@@ -90,7 +112,7 @@
     ]
   },
   "eslintConfig": {
-    "parser": "@babel/eslint-parser",
+    "parser": "@typescript-eslint/parser",
     "plugins": [
       "dependency-checker"
     ],

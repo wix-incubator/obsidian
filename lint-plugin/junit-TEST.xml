@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="jest tests" tests="2" failures="2" errors="0" time="4.67">
+  <testsuite name="definedDependencies" errors="0" failures="2" skipped="0" timestamp="2023-03-23T10:18:50" time="4.547" tests="2">
+    <testcase classname="definedDependencies valid class ExampleProviderIncludedInModule { };" name="definedDependencies valid class ExampleProviderIncludedInModule { };" time="2.094">
+      <failure>TypeError: Error while loading rule &apos;definedDependencies&apos;: (intermediate value)(intermediate value)(intermediate value) is not a function
+Occurred while linting /Users/orlyd/Documents/GitHub/obsidian/lint-plugin/src/fixtures/file.ts
+    at Object.create (/Users/orlyd/Documents/GitHub/obsidian/node_modules/eslint/lib/rule-tester/rule-tester.js:566:73)
+    at createRuleListeners (/Users/orlyd/Documents/GitHub/obsidian/node_modules/eslint/lib/linter/linter.js:926:21)
+    at /Users/orlyd/Documents/GitHub/obsidian/node_modules/eslint/lib/linter/linter.js:1108:110
+    at Array.forEach (&lt;anonymous&gt;)
+    at runRules (/Users/orlyd/Documents/GitHub/obsidian/node_modules/eslint/lib/linter/linter.js:1045:34)
+    at Linter._verifyWithoutProcessors (/Users/orlyd/Documents/GitHub/obsidian/node_modules/eslint/lib/linter/linter.js:1397:31)
+    at Linter.verify (/Users/orlyd/Documents/GitHub/obsidian/node_modules/eslint/lib/linter/linter.js:1495:57)
+    at runRuleForItem (/Users/orlyd/Documents/GitHub/obsidian/node_modules/eslint/lib/rule-tester/rule-tester.js:690:35)
+    at testValidTemplate (/Users/orlyd/Documents/GitHub/obsidian/node_modules/eslint/lib/rule-tester/rule-tester.js:750:28)
+    at Object.&lt;anonymous&gt; (/Users/orlyd/Documents/GitHub/obsidian/node_modules/eslint/lib/rule-tester/rule-tester.js:1032:29)
+    at Promise.then.completed (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-circus/build/utils.js:293:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-circus/build/utils.js:226:10)
+    at _callCircusTest (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-circus/build/run.js:297:40)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async _runTest (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-circus/build/run.js:233:3)
+    at async _runTestsForDescribeBlock (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-circus/build/run.js:135:9)
+    at async _runTestsForDescribeBlock (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-circus/build/run.js:130:9)
+    at async _runTestsForDescribeBlock (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-circus/build/run.js:130:9)
+    at async run (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-circus/build/run.js:68:3)
+    at async runAndTransformResultsToJestFormat (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at async jestAdapter (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at async runTestInternal (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-runner/build/runTest.js:367:16)
+    at async runTest (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-runner/build/runTest.js:444:34)</failure>
+    </testcase>
+    <testcase classname="definedDependencies invalid @Singleton() @Graph()
+export default class ApplicationGraph extends ObjectGraph {
+
+  @Provides()
+  engineService(): EngineService {
+    return engineService;
+  };
+  @Provides()
+  engine(engineService: EngineService): EngineInstance {
+    return engineService.instance;
+  };
+};
+" name="definedDependencies invalid @Singleton() @Graph()
+export default class ApplicationGraph extends ObjectGraph {
+
+  @Provides()
+  engineService(): EngineService {
+    return engineService;
+  };
+  @Provides()
+  engine(engineService: EngineService): EngineInstance {
+    return engineService.instance;
+  };
+};
+" time="0.025">
+      <failure>TypeError: Error while loading rule &apos;definedDependencies&apos;: (intermediate value)(intermediate value)(intermediate value) is not a function
+Occurred while linting /Users/orlyd/Documents/GitHub/obsidian/lint-plugin/src/fixtures/file.ts
+    at Object.create (/Users/orlyd/Documents/GitHub/obsidian/node_modules/eslint/lib/rule-tester/rule-tester.js:566:73)
+    at createRuleListeners (/Users/orlyd/Documents/GitHub/obsidian/node_modules/eslint/lib/linter/linter.js:926:21)
+    at /Users/orlyd/Documents/GitHub/obsidian/node_modules/eslint/lib/linter/linter.js:1108:110
+    at Array.forEach (&lt;anonymous&gt;)
+    at runRules (/Users/orlyd/Documents/GitHub/obsidian/node_modules/eslint/lib/linter/linter.js:1045:34)
+    at Linter._verifyWithoutProcessors (/Users/orlyd/Documents/GitHub/obsidian/node_modules/eslint/lib/linter/linter.js:1397:31)
+    at Linter.verify (/Users/orlyd/Documents/GitHub/obsidian/node_modules/eslint/lib/linter/linter.js:1495:57)
+    at runRuleForItem (/Users/orlyd/Documents/GitHub/obsidian/node_modules/eslint/lib/rule-tester/rule-tester.js:690:35)
+    at testInvalidTemplate (/Users/orlyd/Documents/GitHub/obsidian/node_modules/eslint/lib/rule-tester/rule-tester.js:804:28)
+    at Object.&lt;anonymous&gt; (/Users/orlyd/Documents/GitHub/obsidian/node_modules/eslint/lib/rule-tester/rule-tester.js:1043:29)
+    at Promise.then.completed (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-circus/build/utils.js:293:28)
+    at new Promise (&lt;anonymous&gt;)
+    at callAsyncCircusFn (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-circus/build/utils.js:226:10)
+    at _callCircusTest (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-circus/build/run.js:297:40)
+    at processTicksAndRejections (node:internal/process/task_queues:96:5)
+    at async _runTest (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-circus/build/run.js:233:3)
+    at async _runTestsForDescribeBlock (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-circus/build/run.js:135:9)
+    at async _runTestsForDescribeBlock (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-circus/build/run.js:130:9)
+    at async _runTestsForDescribeBlock (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-circus/build/run.js:130:9)
+    at async run (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-circus/build/run.js:68:3)
+    at async runAndTransformResultsToJestFormat (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)
+    at async jestAdapter (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)
+    at async runTestInternal (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-runner/build/runTest.js:367:16)
+    at async runTest (/Users/orlyd/Documents/GitHub/obsidian/node_modules/jest-runner/build/runTest.js:444:34)</failure>
+    </testcase>
+  </testsuite>
+</testsuites>
