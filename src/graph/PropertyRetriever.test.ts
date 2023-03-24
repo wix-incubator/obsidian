@@ -39,7 +39,7 @@ describe('PropertyRetriever', () => {
     expect(() => uut1.retrieve('missingDependencyObject')).toThrow(errorMessage);
   });
 
-  fit('should return undefined if the dependency starts with underscore', () => {
+  it('should return undefined if the dependency starts with underscore', () => {
     const graph = new MissingDependencyGraph();
     const uut1 = new PropertyRetriever(graph);
     const returnValue = uut1.retrieve('_missingDependencyObject');
