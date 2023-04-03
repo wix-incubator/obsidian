@@ -20,13 +20,25 @@ jobs:
           cache-dependency-path: documentation/package-lock.json
 
       - name: Install dependencies
-        run: |
-          cd documentation
-          npm ci
+        working-directory: documentation
+        run: npm ci
       - name: Build documentation
-        run: |
-          cd documentation
-          npm run build
+        working-directory: documentation
+        run: npm run build
+
+      - name: Install EnhanceDocs CLI
+        uses: enhancedocs/enhancedocs-github-action@0.0.2
+        with:
+          # More about EnhanceDocs Secret API Key: https://docs.enhancedocs.com/security/api-keys
+          api-key: ${{ secrets.ENHANCEDOCS_API_KEY }}
+
+      - name: Build Docs
+        working-directory: documentation
+        run: enhancedocs build docs
+
+      - name: Pushish Docs
+        working-directory: documentation
+        run: enhancedocs publish
 
       # Popular action to deploy to GitHub Pages:
       # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
