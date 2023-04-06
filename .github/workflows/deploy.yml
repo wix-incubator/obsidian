@@ -27,7 +27,7 @@ jobs:
         run: npm run build
 
       - name: Install EnhanceDocs CLI
-        uses: enhancedocs/enhancedocs-github-action@0.0.2
+        uses: enhancedocs/enhancedocs-github-action@0.1.0
         with:
           # More about EnhanceDocs Secret API Key: https://docs.enhancedocs.com/security/api-keys
           api-key: ${{ secrets.ENHANCEDOCS_API_KEY }}
@@ -36,9 +36,9 @@ jobs:
         working-directory: documentation
         run: enhancedocs build docs
 
-      - name: Pushish Docs
+      - name: Push Docs
         working-directory: documentation
-        run: enhancedocs publish
+        run: enhancedocs push 642ef48a9b7dab8fff36a55b
 
       # Popular action to deploy to GitHub Pages:
       # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
