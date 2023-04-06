@@ -10,7 +10,7 @@
     "dist"
   ],
   "compilerOptions": {
-    "target": "es5",
+    "target": "es2018",
     "module": "commonjs",
     "lib": [
       "ES6",
