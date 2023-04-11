@@ -4,6 +4,8 @@ export class CircularDependenciesDetector {
   private visitedNodes = new VisitedNodes();
   private circularDependencyDetected = false;
 
+  constructor(public firstDependencyName: string) {}
+
   public visit(graphName: string, dependencyName: string) {
     this.visitedNodes.visit(graphName, dependencyName);
   }

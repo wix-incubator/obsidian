@@ -9,10 +9,10 @@ export default class PropertyRetriever {
   retrieve(
     property: string,
     receiver?: unknown,
-    maybeCircularDependenciesDetector?: CircularDependenciesDetector,
+    maybeDetector?: CircularDependenciesDetector,
   ): unknown | undefined {
     const mangledPropertyKey = providedPropertiesStore.getMangledProperty(this.graph, property);
-    const circularDependenciesDetector = maybeCircularDependenciesDetector ?? new CircularDependenciesDetector();
+    const circularDependenciesDetector = maybeDetector ?? new CircularDependenciesDetector(mangledPropertyKey!);
     if (
       mangledPropertyKey
       && mangledPropertyKey in this.graph
@@ -29,7 +29,7 @@ export default class PropertyRetriever {
 
     if (circularDependenciesDetector.hasCircularDependencies()) {
       throw new Error(
-        `Could not resolve property ${mangledPropertyKey}`
+        `Could not resolve property ${circularDependenciesDetector.firstDependencyName}`
          + ` from ${this.graph.name} because of a circular dependency`,
       );
     }
