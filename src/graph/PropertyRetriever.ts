@@ -1,22 +1,40 @@
 import graphRegistry from './registry/GraphRegistry';
 import { Graph } from './Graph';
 import providedPropertiesStore from '../ProvidedPropertiesStore';
+import { CircularDependenciesDetector } from './CircularDependenciesDetector';
 
 export default class PropertyRetriever {
   constructor(private graph: Graph) { }
 
-  retrieve(property: string, receiver?: unknown): unknown | undefined {
+  retrieve(
+    property: string,
+    receiver?: unknown,
+    maybeCircularDependenciesDetector?: CircularDependenciesDetector,
+  ): unknown | undefined {
     const mangledPropertyKey = providedPropertiesStore.getMangledProperty(this.graph, property);
-    if (mangledPropertyKey && mangledPropertyKey in this.graph) {
+    const circularDependenciesDetector = maybeCircularDependenciesDetector ?? new CircularDependenciesDetector();
+    if (
+      mangledPropertyKey
+      && mangledPropertyKey in this.graph
+      && circularDependenciesDetector.checkForCircularDependencies(this.graph.name, mangledPropertyKey)
+    ) {
       const proxiedGraph = new Proxy(this.graph, {
         get(graph: Graph, dependencyName: string) {
-          return graph.retrieve(dependencyName);
+          circularDependenciesDetector.visit(graph.name, dependencyName);
+          return graph.retrieve(dependencyName, receiver, circularDependenciesDetector);
         },
       });
       return Reflect.get(this.graph, mangledPropertyKey, receiver)(proxiedGraph);
     }
 
-    const results = this.getFromSubgraphs(property, receiver);
+    if (circularDependenciesDetector.hasCircularDependencies()) {
+      throw new Error(
+        `Could not resolve property ${mangledPropertyKey}`
+         + ` from ${this.graph.name} because of a circular dependency`,
+      );
+    }
+
+    const results = this.getFromSubgraphs(property, circularDependenciesDetector, receiver);
     if (results.length === 1) return results[0];
     if (results.length > 1) {
       throw new Error(
@@ -27,10 +45,14 @@ export default class PropertyRetriever {
     return undefined;
   }
 
-  private getFromSubgraphs(property: string, receiver: unknown): unknown[] {
+  private getFromSubgraphs(
+    property: string,
+    circularDependenciesDetector: CircularDependenciesDetector,
+    receiver: unknown,
+  ): unknown[] {
     const subgraphs = graphRegistry.getSubgraphs(this.graph);
     return subgraphs
-      .map((subgraph: Graph) => subgraph.retrieve(property, receiver))
+      .map((subgraph: Graph) => subgraph.retrieve(property, receiver, circularDependenciesDetector))
       .filter((result) => result !== undefined);
   }
 }

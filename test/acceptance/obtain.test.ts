@@ -1,7 +1,7 @@
 import { Obsidian } from '../../src';
+import { CircularDependencyGraph } from '../fixtures/CircularDependencyGraph';
 import injectedValues from '../fixtures/injectedValues';
 import MainGraph from '../fixtures/MainGraph';
-import { MissingDependencyHasSubgraph } from '../fixtures/MissingDependencyHasSubgraph';
 
 describe('obtain', () => {
   it('Retrieves value from a provider that has no dependencies', () => {
@@ -12,9 +12,11 @@ describe('obtain', () => {
     expect(Obsidian.obtain(MainGraph).someString()).toBe(injectedValues.fromStringProvider);
   });
 
-  it('Should not overflow when attempting to retrieve a dependency with unsatisfied dependencies', () => {
+  it('Should throw circular dependency error when encountering circular dependencies', () => {
     expect(
-      () => Obsidian.obtain(MissingDependencyHasSubgraph).aString(),
-    ).not.toThrowError('Maximum call stack size exceeded');
+      () => Obsidian.obtain(CircularDependencyGraph).aString(),
+    ).toThrowError(
+      /Could not resolve property aString from CircularDependencyGraph\d because of a circular dependency/,
+    );
   });
 });
