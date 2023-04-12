@@ -12,15 +12,13 @@ export default class PropertyRetriever {
     maybeDetector?: CircularDependenciesDetector,
   ): unknown | undefined {
     const mangledPropertyKey = providedPropertiesStore.getMangledProperty(this.graph, property);
-    const circularDependenciesDetector = maybeDetector ?? new CircularDependenciesDetector(mangledPropertyKey!);
+    const circularDependenciesDetector = maybeDetector ?? new CircularDependenciesDetector(this.graph.name);
 
     if (
       mangledPropertyKey
       && mangledPropertyKey in this.graph
-      && circularDependenciesDetector.checkForCircularDependencies(this.graph.name, mangledPropertyKey)
+      && circularDependenciesDetector.visit(this.graph.name, property)
     ) {
-      circularDependenciesDetector.visit(this.graph.name, mangledPropertyKey);
-
       const proxiedGraph = new Proxy(this.graph, {
         get(graph: Graph, dependencyName: string) {
           return graph.retrieve(dependencyName, receiver, circularDependenciesDetector);
@@ -31,8 +29,9 @@ export default class PropertyRetriever {
 
     if (circularDependenciesDetector.hasCircularDependencies()) {
       throw new Error(
-        `Could not resolve property ${circularDependenciesDetector.firstDependencyName}`
-         + ` from ${this.graph.name} because of a circular dependency`,
+        `Could not resolve ${circularDependenciesDetector.firstDependencyName}`
+         + ` from ${circularDependenciesDetector.graphName} because of a circular dependency:`
+         + ` ${circularDependenciesDetector.getDependencies().join(' -> ')}`,
       );
     }
 
