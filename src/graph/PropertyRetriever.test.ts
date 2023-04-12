@@ -1,3 +1,4 @@
+import { CircularDependencyGraph2 } from '../../test/fixtures/CircularDependencyGraph2';
 import { UniqueNumberGraph } from '../../test/fixtures/UniqueNumberGraph';
 import PropertyRetriever from './PropertyRetriever';
 
@@ -28,5 +29,12 @@ describe('PropertyRetriever', () => {
   it('invokes a singleton provider once', () => {
     expect(uut().retrieve('singletonNumber')).toBe(1);
     expect(uut().retrieve('singletonNumber')).toBe(1);
+  });
+
+  it('throws on circular dependencies', () => {
+    const uut1 = new PropertyRetriever(new CircularDependencyGraph2());
+    expect(() => uut1.retrieve('dep1')).toThrowError(
+      /Could not resolve property dep1 from CircularDependencyGraph2\d because of a circular dependency/,
+    );
   });
 });
