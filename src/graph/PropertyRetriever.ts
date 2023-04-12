@@ -13,14 +13,16 @@ export default class PropertyRetriever {
   ): unknown | undefined {
     const mangledPropertyKey = providedPropertiesStore.getMangledProperty(this.graph, property);
     const circularDependenciesDetector = maybeDetector ?? new CircularDependenciesDetector(mangledPropertyKey!);
+
     if (
       mangledPropertyKey
       && mangledPropertyKey in this.graph
       && circularDependenciesDetector.checkForCircularDependencies(this.graph.name, mangledPropertyKey)
     ) {
+      circularDependenciesDetector.visit(this.graph.name, mangledPropertyKey);
+
       const proxiedGraph = new Proxy(this.graph, {
         get(graph: Graph, dependencyName: string) {
-          circularDependenciesDetector.visit(graph.name, dependencyName);
           return graph.retrieve(dependencyName, receiver, circularDependenciesDetector);
         },
       });
