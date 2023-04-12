@@ -2,21 +2,22 @@ import { VisitedNodes } from './VisitedNodes';
 
 export class CircularDependenciesDetector {
   private visitedNodes = new VisitedNodes();
-  private circularDependencyDetected = false;
 
-  constructor(public firstDependencyName: string) {}
+  constructor(public graphName: string) {}
 
-  public visit(graphName: string, dependencyName: string) {
-    this.visitedNodes.visit(graphName, dependencyName);
-  }
-
-  public checkForCircularDependencies(graphName: string, dependencyName: string): boolean {
-    const canVisit = this.visitedNodes.canVisit(graphName, dependencyName);
-    if (!canVisit) this.circularDependencyDetected = true;
-    return canVisit;
+  public visit(graphName: string, dependencyName: string): boolean {
+    return this.visitedNodes.visit(graphName, dependencyName);
   }
 
   public hasCircularDependencies(): boolean {
-    return this.circularDependencyDetected;
+    return this.visitedNodes.isCircularPath();
+  }
+
+  public getDependencies(): string[] {
+    return this.visitedNodes.getNodes();
+  }
+
+  public get firstDependencyName(): string {
+    return this.visitedNodes.getNodes()[0];
   }
 }

@@ -4,7 +4,7 @@ interface PropertyRetrieverDelegate {
   retrieve: (
     property: string,
     receiver?: unknown,
-    circularDependencyDetector?: CircularDependenciesDetector
+    circularDependenciesDetector?: CircularDependenciesDetector
   ) => unknown | undefined;
 }
 
