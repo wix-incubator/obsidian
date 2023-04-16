@@ -24,7 +24,9 @@ export default class PropertyRetriever {
           return graph.retrieve(dependencyName, receiver, circularDependenciesDetector);
         },
       });
-      return Reflect.get(this.graph, mangledPropertyKey, receiver)(proxiedGraph);
+      const resolved = Reflect.get(this.graph, mangledPropertyKey, receiver)(proxiedGraph);
+      circularDependenciesDetector.clear();
+      return resolved;
     }
 
     if (circularDependenciesDetector.hasCircularDependencies()) {

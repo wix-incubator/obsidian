@@ -20,4 +20,8 @@ export class CircularDependenciesDetector {
   public get firstDependencyName(): string {
     return this.visitedNodes.getNodes()[0];
   }
+
+  public clear() {
+    this.visitedNodes.clear();
+  }
 }

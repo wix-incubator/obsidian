@@ -1,6 +1,7 @@
 import { Obsidian } from '../../src';
 import { CircularDependencyFromSubgraph } from '../fixtures/CircularDependencyFromSubgraph';
 import { CircularDependencyGraph } from '../fixtures/CircularDependencyGraph';
+import { GraphWithMultipleDependencies } from '../fixtures/GraphWithMultipleDependencies';
 import injectedValues from '../fixtures/injectedValues';
 import MainGraph from '../fixtures/MainGraph';
 
@@ -20,6 +21,12 @@ describe('obtain', () => {
       // eslint-disable-next-line max-len
       /Could not resolve aString from CircularDependencyGraph\d because of a circular dependency: aString -> aString$/,
     );
+  });
+
+  it('Should not throw circular dependency error resolving valid dependencies', () => {
+    expect(
+      Obsidian.obtain(GraphWithMultipleDependencies).theDep(),
+    ).toBe(`prefixSuffix`);
   });
 
   it('describes the circular dependency path in the thrown exception', () => {
