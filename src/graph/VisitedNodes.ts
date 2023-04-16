@@ -19,7 +19,12 @@ export class VisitedNodes {
     return this.visitedNodes.size < this.visitPath.length;
   }
 
-  getNodes(): string[] {
+  public getNodes(): string[] {
     return this.visitPath;
+  }
+
+  public clear() {
+    this.visitedNodes.clear();
+    this.visitPath.length = 0;
   }
 }
