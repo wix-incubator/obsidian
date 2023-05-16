@@ -25,6 +25,7 @@ describe('React lifecycle bound graphs', () => {
   });
 
   function createComponent() {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const useHook = injectHook(() => {}, LifecycleBoundGraph);
 
     return injectComponent(() => {

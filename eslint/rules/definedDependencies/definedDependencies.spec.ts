@@ -8,27 +8,39 @@ import definedDependencies from './definedDependencies';
   });
   const code =
     `
-    @Singleton() @Graph()
-    export default class ApplicationGraph extends ObjectGraph {
+    import {
+  Graph,
+  ObjectGraph,
+  Provides,
+  Singleton,
+} from '../../src';
 
-      @Provides()
-      engineS(): EngineService {
-        return engineService;
-      };
-      @Provides()
-      engine(engineService: EngineService): EngineInstance {
-        return engineService.instance;
-      };
-    };
+@Graph()
+export class UniqueNumberGraph extends ObjectGraph {
+  constructor(private uniqueNumberGenerator: () => number) {
+    super();
+  }
+
+  @Provides() @Singleton()
+  singletonNumber(): number {
+    return this.uniqueNumberGenerator();
+  }
+
+  @Provides()
+  instanceNumber(): number {
+    return this.uniqueNumberGenerator();
+  }
+}
+
     `
 
   ruleTester.run('definedDependencies', definedDependencies, {
     valid: [{
-      code: `class ExampleProviderIncludedInModule { };`,
+      code:code,
     }]
     ,
     invalid: [{
-      code: code,
+      code: `class ExampleProviderIncludedInModule { };`,
       // we can use messageId from the rule object
       errors: [{ messageId: "dependencyUndefined" }],
     }]

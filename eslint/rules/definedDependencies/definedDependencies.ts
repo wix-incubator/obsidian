@@ -25,7 +25,8 @@ function mapFunctions(node: TSESTree.ClassDeclaration) {
 function checkDependencies(node: TSESTree.ClassDeclaration, existingDependencies: string[]) {
   const body = node.body.body;
   for (let j = 0; j < body.length;j++){
-    if (body[j].type = TSESTree.AST_NODE_TYPES.MethodDefinition) {
+    if (body[j].type == TSESTree.AST_NODE_TYPES.MethodDefinition
+      && ((body[j] as MethodDefinition).key as Identifier).name !='constructor') {
       const params = (body[j] as MethodDefinition).value.params;
       if (params) {
         for (let i = 0; i < params.length; i++){

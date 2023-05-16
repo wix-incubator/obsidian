@@ -6,8 +6,8 @@
     },
     "ignorePatterns": ["**/*.config.js"],
     "extends": [
-        "airbnb-base",
-        "airbnb-typescript",
+        // "airbnb-base",
+        // "airbnb-typescript",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:import/typescript",
@@ -22,7 +22,7 @@
         "@typescript-eslint",
         "import-newlines",
         "unused-imports",
-        "dependency-checker"
+        "eslint-plugin-local-rules"
     ],
     "rules": {
       "max-len": ["error", {"code": 115}],
@@ -40,7 +40,7 @@
       "no-restricted-syntax": "off",
       "import/no-named-as-default": "off",
       "@typescript-eslint/ban-types": ["off"],
-      "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+      // "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
       "max-classes-per-file": ["off"],
       "curly": ["error", "multi-line"],
       "semi": ["error", "always"],
@@ -87,11 +87,11 @@
 			  "error",
 			  { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
 		  ],
-      "dependency-checker/decoratorCheck":"error",
-      "quotes": [
-        "error",
-        "single"
-      ]
+      "local-rules/defined-dependencies":"error"
+      // "quotes": [
+      //   "error",
+      //   "single"
+      // ]
     },
     "settings": {
       "import/resolver": {
