@@ -1,5 +1,6 @@
 import {
   Graph,
+  Injectable,
   LateInject,
   ObjectGraph,
   Obsidian,
@@ -16,6 +17,21 @@ describe('Late inject', () => {
 
       constructor() {
         Obsidian.inject(this, new MockedMainGraph());
+      }
+    }
+
+    expect(new Injected().graphString).toBe('from mocked main from mocked subgraph');
+  });
+
+  it('injects from a graph class', () => {
+    testKit.mockGraphs({ Subgraph: MockedSubgraph });
+
+    @Injectable(MockedMainGraph)
+    class Injected {
+      @LateInject() graphString!: string;
+
+      constructor() {
+        Obsidian.inject(this);
       }
     }
 
