@@ -75,6 +75,11 @@ const config = {
             position: 'left',
             label: 'Guides',
           },
+          {
+            position: 'left',
+            label: 'Playground',
+            to: '/playground/playground',
+          },
           // {to: '/blog', label: 'Blog', position: 'left'},
           {
             href: 'https://github.com/wix-incubator/obsidian',
