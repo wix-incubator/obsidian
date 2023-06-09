@@ -78,7 +78,7 @@ const config = {
           {
             position: 'left',
             label: 'Playground',
-            to: '/playground/playground',
+            to: '/playground/',
           },
           // {to: '/blog', label: 'Blog', position: 'left'},
           {
