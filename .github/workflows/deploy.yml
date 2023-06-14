@@ -32,14 +32,6 @@ jobs:
           # More about EnhanceDocs Secret API Key: https://docs.enhancedocs.com/security/api-keys
           api-key: ${{ secrets.ENHANCEDOCS_API_KEY }}
 
-      - name: Build Docs
-        working-directory: documentation
-        run: enhancedocs build docs
-
-      - name: Push Docs
-        working-directory: documentation
-        run: enhancedocs push 642ef48a9b7dab8fff36a55b
-
       # Popular action to deploy to GitHub Pages:
       # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
       - name: Deploy to GitHub Pages
@@ -55,3 +47,6 @@ jobs:
           # You can swap them out with your own user credentials.
           user_name: github-actions[bot]
           user_email: 41898282+github-actions[bot]@users.noreply.github.com
+
+      - name: Update EnhanceDocs Project
+        run: enhancedocs alpha sources web --project 642ef48a9b7dab8fff36a55b https://wix-incubator.github.io/obsidian
