@@ -1,9 +1,9 @@
 "use strict";
-exports.id = 954;
-exports.ids = [954];
+exports.id = 821;
+exports.ids = [821];
 exports.modules = {
 
-/***/ 7954:
+/***/ 8821:
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -12,7 +12,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "uriTransformer": () => (/* binding */ gr)
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7294);
-/* harmony import */ var _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(499);
+/* harmony import */ var _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(8925);
 
 
 const ze = ["http", "https", "mailto", "tel"];
@@ -5631,7 +5631,7 @@ function nu() {
 (function(n) {
    true ? n.exports = Jo() : 0;
 })(Zo);
-const eu = /* @__PURE__ */ (0,_index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.g)(Se);
+const eu = /* @__PURE__ */ (0,_index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.g)(Se);
 function tu(n) {
   const e = (
     // @ts-expect-error looks like a node.
@@ -5900,62 +5900,62 @@ function Fu(n) {
 }
 Fu.propTypes = {
   // Core options:
-  children: _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.string,
+  children: _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.string,
   // Layout options:
-  className: _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.string,
+  className: _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.string,
   // Filter options:
-  allowElement: _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.func,
-  allowedElements: _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.arrayOf(_index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.string),
-  disallowedElements: _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.arrayOf(_index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.string),
-  unwrapDisallowed: _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.bool,
+  allowElement: _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.func,
+  allowedElements: _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.arrayOf(_index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.string),
+  disallowedElements: _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.arrayOf(_index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.string),
+  unwrapDisallowed: _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.bool,
   // Plugin options:
-  remarkPlugins: _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.arrayOf(
-    _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.oneOfType([
-      _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.object,
-      _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.func,
-      _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.arrayOf(
-        _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.oneOfType([
-          _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.bool,
-          _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.string,
-          _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.object,
-          _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.func,
-          _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.arrayOf(
+  remarkPlugins: _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.arrayOf(
+    _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.oneOfType([
+      _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.object,
+      _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.func,
+      _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.arrayOf(
+        _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.oneOfType([
+          _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.bool,
+          _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.string,
+          _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.object,
+          _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.func,
+          _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.arrayOf(
             // prettier-ignore
             // type-coverage:ignore-next-line
-            _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.any
+            _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.any
           )
         ])
       )
     ])
   ),
-  rehypePlugins: _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.arrayOf(
-    _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.oneOfType([
-      _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.object,
-      _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.func,
-      _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.arrayOf(
-        _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.oneOfType([
-          _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.bool,
-          _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.string,
-          _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.object,
-          _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.func,
-          _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.arrayOf(
+  rehypePlugins: _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.arrayOf(
+    _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.oneOfType([
+      _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.object,
+      _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.func,
+      _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.arrayOf(
+        _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.oneOfType([
+          _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.bool,
+          _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.string,
+          _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.object,
+          _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.func,
+          _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.arrayOf(
             // prettier-ignore
             // type-coverage:ignore-next-line
-            _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.any
+            _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.any
           )
         ])
       )
     ])
   ),
   // Transform options:
-  sourcePos: _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.bool,
-  rawSourcePos: _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.bool,
-  skipHtml: _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.bool,
-  includeElementIndex: _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.bool,
-  transformLinkUri: _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.oneOfType([_index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.func, _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.bool]),
-  linkTarget: _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.oneOfType([_index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.func, _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.string]),
-  transformImageUri: _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.func,
-  components: _index_8c0decef_js__WEBPACK_IMPORTED_MODULE_1__.p.object
+  sourcePos: _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.bool,
+  rawSourcePos: _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.bool,
+  skipHtml: _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.bool,
+  includeElementIndex: _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.bool,
+  transformLinkUri: _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.oneOfType([_index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.func, _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.bool]),
+  linkTarget: _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.oneOfType([_index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.func, _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.string]),
+  transformImageUri: _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.func,
+  components: _index_4712906b_js__WEBPACK_IMPORTED_MODULE_1__.p.object
 };
 
 
