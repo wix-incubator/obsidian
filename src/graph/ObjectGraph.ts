@@ -1,4 +1,4 @@
-import { uniqueId } from 'lodash';
+import { uniqueId } from '../utils/uniqueId';
 import Memoize from '../decorators/Memoize';
 import { bindProviders } from './ProviderBinder';
 import { Graph } from './Graph';
