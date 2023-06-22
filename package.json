@@ -17,8 +17,7 @@
     "reflect-metadata": "~0.1.13"
   },
   "peerDependencies": {
-    "react": "*",
-    "lodash": "*"
+    "react": "*"
   },
   "devDependencies": {
     "@babel/core": "7.20.x",

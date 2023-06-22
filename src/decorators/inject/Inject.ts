@@ -1,4 +1,4 @@
-import { isNumber } from 'lodash';
+import { isNumber } from '../../utils/isNumber';
 import InjectionMetadata from '../../injectors/class/InjectionMetadata';
 
 export function Inject(name?: string) {
