@@ -63,8 +63,8 @@ export class GraphRegistry {
   }
 
   clear(graph: Graph) {
-    const Graph = this.instanceToConstructor.get(graph)!;
-    if (this.isSingleton(Graph)) return;
+    const Graph = this.instanceToConstructor.get(graph);
+    if (!Graph || this.isSingleton(Graph)) return;
     this.instanceToConstructor.delete(graph);
     this.constructorToInstance.get(Graph)!.delete(graph);
     this.nameToInstance.delete(graph.name);
