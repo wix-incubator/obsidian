@@ -30,7 +30,7 @@
     "@testing-library/react": "14.x.x",
     "@testing-library/react-hooks": "^7.0.2",
     "@types/hoist-non-react-statics": "^3.3.1",
-    "@types/jest": "26.x.x",
+    "@types/jest": "29.5.x",
     "@types/lodash": "^4.14.176",
     "@types/react": "18.2.x",
     "@types/react-dom": "18.2.x",
@@ -46,11 +46,12 @@
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-unused-imports": "2.x.x",
-    "jest": "27.x.x",
+    "jest": "29.5.x",
+    "jest-environment-jsdom": "^29.5.0",
     "lodash": "^4.17.21",
-    "setimmediate": "^1.0.5",
     "react": "18.2.x",
     "react-dom": "18.2.x",
+    "setimmediate": "^1.0.5",
     "typescript": "^4.5.4"
   },
   "repository": {
