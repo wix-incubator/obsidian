@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import MainGraph from '../../../test/fixtures/MainGraph';
 import Subgraph from '../../../test/fixtures/Subgraph';
 import { DependenciesOf } from '../../types';

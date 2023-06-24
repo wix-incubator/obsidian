@@ -1,4 +1,4 @@
-import { act, renderHook } from '@testing-library/react-hooks';
+import { act, renderHook } from '@testing-library/react';
 import _ from 'lodash';
 import { Observable } from './Observable';
 import { useObserver } from './useObserver';

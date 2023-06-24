@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { useState } from 'react';
 import StringProvider from '../../../test/fixtures/StringProvider';
 import Subgraph from '../../../test/fixtures/Subgraph';
