@@ -1,4 +1,4 @@
-import { MissingDependencyGraph } from '../../test/fixtures/MissingDependencyGraph';
+import { CircularDependencyGraph2 } from '../../test/fixtures/CircularDependencyGraph2';
 import { UniqueNumberGraph } from '../../test/fixtures/UniqueNumberGraph';
 import PropertyRetriever from './PropertyRetriever';
 
@@ -31,18 +31,11 @@ describe('PropertyRetriever', () => {
     expect(uut().retrieve('singletonNumber')).toBe(1);
   });
 
-  it('should throw error if the dependency is undefined', () => {
-    const graph = new MissingDependencyGraph();
-    const uut1 = new PropertyRetriever(graph);
-    const errorMessage = 'Could not resolve dependency aString '
-    + 'in MissingDependencyGraph1';
-    expect(() => uut1.retrieve('missingDependencyObject')).toThrow(errorMessage);
-  });
-
-  it('should return undefined if the dependency starts with underscore', () => {
-    const graph = new MissingDependencyGraph();
-    const uut1 = new PropertyRetriever(graph);
-    const returnValue = uut1.retrieve('_missingDependencyObject');
-    expect(returnValue).toBe(undefined);
+  it('throws on circular dependencies', () => {
+    const uut1 = new PropertyRetriever(new CircularDependencyGraph2());
+    expect(() => uut1.retrieve('dep1')).toThrowError(
+      // eslint-disable-next-line max-len
+      /Could not resolve dep1 from CircularDependencyGraph2\d because of a circular dependency: dep1 -> dep2 -> dep3 -> dep1/,
+    );
   });
 });

@@ -1,9 +1,10 @@
-import { uniqueId } from 'lodash';
+import { uniqueId } from '../utils/uniqueId';
 import Memoize from '../decorators/Memoize';
 import { bindProviders } from './ProviderBinder';
 import { Graph } from './Graph';
 import PropertyRetriever from './PropertyRetriever';
 import { Constructable } from '../types';
+import { CircularDependenciesDetector } from './CircularDependenciesDetector';
 
 export abstract class ObjectGraph<T = unknown> implements Graph {
   private propertyRetriever = new PropertyRetriever(this);
@@ -17,8 +18,12 @@ export abstract class ObjectGraph<T = unknown> implements Graph {
     bindProviders(this);
   }
 
-  retrieve<Dependency>(property: string, receiver?: unknown): Dependency | undefined {
-    return this.propertyRetriever.retrieve(property, receiver) as Dependency | undefined;
+  retrieve<Dependency>(
+    property: string,
+    receiver?: unknown,
+    detector?: CircularDependenciesDetector,
+  ): Dependency | undefined {
+    return this.propertyRetriever.retrieve(property, receiver, detector) as Dependency | undefined;
   }
 
   onBind(_target: any) {

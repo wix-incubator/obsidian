@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'Obsidian',
   tagline: 'Dependency injection framework for React and React Native applications',
-  url: 'https://your-docusaurus-test-site.com',
+  url: 'https://wix-incubator.github.io',
   baseUrl: '/obsidian/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -74,6 +74,11 @@ const config = {
             sidebarId: 'guides',
             position: 'left',
             label: 'Guides',
+          },
+          {
+            position: 'left',
+            label: 'Playground',
+            to: '/playground/',
           },
           // {to: '/blog', label: 'Blog', position: 'left'},
           {
