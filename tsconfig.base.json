@@ -4,7 +4,7 @@
     "transformers/**/*",
     "test/**/*",
     "./clearGraphs.ts",
-    "./eslint/react-obsidian-undefined-dependencies/**/*"
+    "./eslint/**/*"
   ],
   "exclude": [
     "node_modules",
