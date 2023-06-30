@@ -73,17 +73,14 @@ describe('ObservableMediator', () => {
     expect(uut.value).toEqual(-2);
   });
 
-  it('should unsubscribe from all sources when unsubscribed', () => {
+  it('should continue observing sources even if there are no subscribers', () => {
     const a = new Observable<number>();
-    const b = new Observable<number>();
-
-    uut.addSource(a, NOOP);
-    uut.addSource(b, NOOP);
+    uut.addSource(a, (nextA) => { uut.value = nextA; });
 
     const unsubscribe = uut.subscribe(NOOP);
     unsubscribe();
-    expect(Reflect.get(a, 'subscribers').size).toEqual(0);
-    expect(Reflect.get(b, 'subscribers').size).toEqual(0);
+    a.value = 10;
+    expect(uut.value).toEqual(10);
   });
 
   it('should throw an error if a subscriber is already subscribed', () => {
@@ -122,5 +119,15 @@ describe('ObservableMediator', () => {
   it('supports passing initial value in through the constructor', () => {
     const mediator = new MediatorObservable(1);
     expect(mediator.value).toEqual(1);
+  });
+
+  it('should subscribe to sources immediately', () => {
+    const a = new Observable(1);
+    uut.addSource(a, (nextA) => {
+      uut.value = nextA * 2;
+    });
+
+    a.value = 3;
+    expect(uut.value).toEqual(6);
   });
 });
