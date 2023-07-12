@@ -5,7 +5,7 @@
   "scripts": {
     "prepack": "npm run lint && tsc --project tsconfig.prod.json",
     "lint": "npx eslint src transformers test --ignore-pattern '*.d.ts' --ext .ts,.tsx,.js",
-    "pretest": "tsc",
+    "pretest": "tsc --project tsconfig.json",
     "test": "npx jest"
   },
   "main": "dist/src/index.js",
@@ -13,13 +13,9 @@
     "test": "test"
   },
   "dependencies": {
-    "eslint-plugin-local-rules": "^1.3.2",
     "hoist-non-react-statics": "3.x.x",
     "jest-cli": "^29.5.0",
     "reflect-metadata": "~0.1.13"
-  },
-  "peerDependencies": {
-    "react": "*"
   },
   "devDependencies": {
     "@babel/core": "^7.21.3",
@@ -53,11 +49,11 @@
     "eslint": "^8.36.0",
     "eslint-config-airbnb-typescript": "17.x.x",
     "eslint-config-prettier": "8.5.0",
-    "eslint-plugin-defined-dependencies-rule": "file:eslint-local-rules",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-import-newlines": "^1.1.5",
     "eslint-plugin-jsdoc": "39.6.2",
     "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-local-rules": "^1.3.2",
     "eslint-plugin-prefer-arrow": "1.2.3",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",

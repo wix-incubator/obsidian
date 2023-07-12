@@ -6,8 +6,8 @@
     },
     "ignorePatterns": ["**/*.config.js"],
     "extends": [
-        // "airbnb-base",
-        // "airbnb-typescript",
+        "airbnb-base",
+        "airbnb-typescript",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:import/typescript",
