@@ -10,12 +10,12 @@
         "airbnb-typescript",
         "plugin:react/recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:import/typescript",
-        "eslint:recommended"
+        "plugin:import/typescript"
       ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
-      "sourceType": "module"
+      "sourceType": "module",
+      "project": "./tsconfig.json"
     },
     "plugins": [
         "react",
@@ -40,7 +40,7 @@
       "no-restricted-syntax": "off",
       "import/no-named-as-default": "off",
       "@typescript-eslint/ban-types": ["off"],
-      // "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+      "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
       "max-classes-per-file": ["off"],
       "curly": ["error", "multi-line"],
       "semi": ["error", "always"],

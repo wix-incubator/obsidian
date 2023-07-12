@@ -29,7 +29,6 @@ describe('React lifecycle bound graphs', () => {
     expect(LifecycleBoundGraph.timesCreated).toBe(2);
   });
 
-
   it('passes props to the component', () => {
     const { container } = render(<ClassComponent stringFromProps='Obsidian is cool' />);
     expect(container.textContent).toBe('A string passed via props: Obsidian is cool');

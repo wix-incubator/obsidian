@@ -17,6 +17,9 @@
     "jest-cli": "^29.5.0",
     "reflect-metadata": "~0.1.13"
   },
+  "peerDependencies": {
+    "react": "*"
+  },
   "devDependencies": {
     "@babel/core": "7.22.x",
     "@babel/eslint-parser": "7.22.x",
