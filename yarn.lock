@@ -504,7 +504,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.22.5"
 
-"@babel/plugin-transform-class-properties@^7.22.5":
+"@babel/plugin-transform-class-properties@7.22.x", "@babel/plugin-transform-class-properties@^7.22.5":
   version "7.22.5"
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@babel/plugin-transform-class-properties/-/plugin-transform-class-properties-7.22.5.tgz#97a56e31ad8c9dc06a0b3710ce7803d5a48cca77"
   integrity sha1-l6VuMa2MncBqCzcQzngD1aSMync=
@@ -3440,7 +3440,7 @@ jest-config@^29.6.1:
     slash "^3.0.0"
     strip-json-comments "^3.1.1"
 
-jest-diff@^29.6.1:
+jest-diff@^29.0.0, jest-diff@^29.6.1:
   version "29.6.1"
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/jest-diff/-/jest-diff-29.6.1.tgz#13df6db0a89ee6ad93c747c75c85c70ba941e545"
   integrity sha1-E99tsKie5q2Tx0fHXIXHC6lB5UU=
@@ -3494,7 +3494,15 @@ jest-environment-node@^29.6.1:
     jest-mock "^29.6.1"
     jest-util "^29.6.1"
 
-jest-get-type@^29.4.3:
+jest-extended@^4.0.0:
+  version "4.0.0"
+  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/jest-extended/-/jest-extended-4.0.0.tgz#00bb4b478566c28fd1b91ffd6f9cb405dc52d092"
+  integrity sha1-ALtLR4Vmwo/RuR/9b5y0BdxS0JI=
+  dependencies:
+    jest-diff "^29.0.0"
+    jest-get-type "^29.0.0"
+
+jest-get-type@^29.0.0, jest-get-type@^29.4.3:
   version "29.4.3"
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/jest-get-type/-/jest-get-type-29.4.3.tgz#1ab7a5207c995161100b5187159ca82dd48b3dd5"
   integrity sha1-GrelIHyZUWEQC1GHFZyoLdSLPdU=

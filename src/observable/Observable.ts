@@ -1,5 +1,6 @@
 import { Observable as IObservable, OnNext, Unsubscribe } from './types';
 
+const NOOP = () => {};
 export class Observable<T> implements IObservable<T> {
   private subscribers: Set<OnNext<T>> = new Set();
   private currentValue: T | undefined;
@@ -17,7 +18,7 @@ export class Observable<T> implements IObservable<T> {
     this.subscribers.forEach((subscriber) => subscriber(value));
   }
 
-  public subscribe(onNext: OnNext<T>): Unsubscribe {
+  public subscribe(onNext: OnNext<T> = NOOP): Unsubscribe {
     if (this.subscribers.has(onNext)) {
       throw new Error('Subscriber already subscribed');
     }
