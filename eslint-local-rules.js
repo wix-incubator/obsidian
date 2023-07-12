@@ -2,8 +2,7 @@ const TSESTree = require('@typescript-eslint/typescript-estree');
 const { ESLint } = require('eslint');
 const fs = require('fs');
 const path = require('path');
-
-
+const { parse } = require('@typescript-eslint/parser')
 
 module.exports = {
   'defined-dependencies': {
@@ -24,8 +23,13 @@ module.exports = {
     create(
       context,
     ) {
+      let imports = [];
+      let dependencies = [];
       return {
         // eslint-disable-next-line @typescript-eslint/naming-convention
+        ImportDeclaration(node) {
+          imports.push(node);
+        },
         ClassDeclaration(node) {
           const decorators = node.decorators;
           if (decorators) {
@@ -33,10 +37,11 @@ module.exports = {
             if (decoratorNames.includes('Graph')) {
               const subGraphs = getSubGraphs(decorators);
               if (subGraphs.length > 0) {
-                bringDependenciesFromSubgraphs(node, subGraphs);
+                dependencies.push(...bringDependenciesFromSubgraphs(imports, subGraphs,context));
               }
-              const functions = mapFunctions(node);
-              const check = checkDependencies(node, functions);
+              dependencies.push(...mapFunctions(node));
+              // console.log('dependencies', dependencies);
+              const check = checkDependencies(node, dependencies);
               if (!check?.value) {
                 context.report({
                   node: node,
@@ -54,15 +59,15 @@ module.exports = {
     },
   },
 };
-function getSubGraphs(node ) {
-  const args= node?.expression?.arguments;
+function getSubGraphs(decorator ) {
+  const args= decorator[0].expression.arguments;
   if (args) {
     for (let i = 0; i < args.length; i++) {
-      if (args[i].type == TSESTree.AST_NODE_TYPES.ObjectExpression) {
+      if (args[i].type === TSESTree.AST_NODE_TYPES.ObjectExpression) {
         const properties = args[i].properties;
         if (properties) {
           for (let j = 0; j < properties.length; j++) {
-            if (properties[j].key.name == 'subGraphs') {
+            if (properties[j].key.name == 'subgraphs') {
               return properties[j].value.elements.map(subGraph => subGraph.name);
             }
           }
@@ -73,7 +78,35 @@ function getSubGraphs(node ) {
   return [];
 }
 
-function bringDependenciesFromSubgraphs(node, subGraphs) {
+function bringDependenciesFromSubgraphs(imports, subGraphs, context) {
+  const paths=[];
+  let dependencies=[];
+  imports.forEach(el => {
+    el.specifiers.forEach(specifier => {
+      if (subGraphs.includes(specifier.local.name)) {
+        paths.push({path:el.source.value, import:specifier.local.name});
+      }
+    });
+  });
+    paths.forEach(el => {
+        const filePath = path.join(path.dirname(context.getFilename()), el.path+'.ts');
+        const fileContent = fs.readFileSync(filePath, 'utf8');
+        const fileAST = parse(fileContent.toString(), 
+        {
+          filePath,
+          useEslintrc: false,
+          parserOptions: {
+            ecmaVersion: 2022,
+            sourceType: 'module',
+            ecmaFeatures: {
+              jsx: true,
+            },
+          },
+        }
+        );
+        dependencies.push(...mapFunctions(fileAST.body[fileAST.body.length-1].declaration));
+    });
+  return dependencies;
 }
 function mapFunctions(node) {
   const body = node.body.body;
@@ -97,6 +130,7 @@ function checkDependencies(node, existingDependencies) {
       const params = (body[j])?.value?.params;
       if (params) {
         for (let i = 0; i < params.length; i++) {
+          console.log('param',(params[i]).name );
           if (!existingDependencies.includes((params[i]).name))
             {return {
               value: false,
