@@ -1,5 +1,9 @@
 const TSESTree = require('@typescript-eslint/typescript-estree');
 const { ESLint } = require('eslint');
+const fs = require('fs');
+const path = require('path');
+
+
 
 module.exports = {
   'defined-dependencies': {
@@ -96,7 +100,7 @@ function checkDependencies(node, existingDependencies) {
           if (!existingDependencies.includes((params[i]).name))
             {return {
               value: false,
-              param: params[i],
+              param: params[i].name,
             };}
         }
       }
