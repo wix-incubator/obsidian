@@ -2175,12 +2175,12 @@
     debug "^4.3.4"
     tsutils "^3.21.0"
 
-"@typescript-eslint/types@5.60.1":
+"@typescript-eslint/types@5.60.1", "@typescript-eslint/types@5.60.x":
   version "5.60.1"
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@typescript-eslint/types/-/types-5.60.1.tgz#a17473910f6b8d388ea83c9d7051af89c4eb7561"
   integrity sha1-oXRzkQ9rjTiOqDydcFGvicTrdWE=
 
-"@typescript-eslint/typescript-estree@5.60.1":
+"@typescript-eslint/typescript-estree@5.60.1", "@typescript-eslint/typescript-estree@5.60.x":
   version "5.60.1"
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@typescript-eslint/typescript-estree/-/typescript-estree-5.60.1.tgz#8c71824b7165b64d5ebd7aa42968899525959834"
   integrity sha1-jHGCS3Fltk1evXqkKWiJlSWVmDQ=
@@ -2193,7 +2193,7 @@
     semver "^7.3.7"
     tsutils "^3.21.0"
 
-"@typescript-eslint/utils@5.60.1":
+"@typescript-eslint/utils@5.60.1", "@typescript-eslint/utils@5.60.x":
   version "5.60.1"
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@typescript-eslint/utils/-/utils-5.60.1.tgz#6861ebedbefba1ac85482d2bdef6f2ff1eb65b80"
   integrity sha1-aGHr7b77oayFSC0r3vby/x62W4A=
