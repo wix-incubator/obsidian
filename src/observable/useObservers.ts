@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import { useEffect, useState } from 'react';
-import { MediatorObservable, Observable } from '..';
+import { Observable } from './Observable';
+import { MediatorObservable } from './MediatorObservable';
 
 export function useObservers<A, B>(a: Observable<A>, b: Observable<B>): [A, B];
 export function useObservers<A, B, C>(a: Observable<A>, b: Observable<B>, c: Observable<C>): [A, B, C];

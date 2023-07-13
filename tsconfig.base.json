@@ -3,7 +3,8 @@
     "src/**/*",
     "transformers/**/*",
     "test/**/*",
-    "./clearGraphs.ts"
+    "./clearGraphs.ts",
+    "global.d.ts"
   ],
   "exclude": [
     "node_modules",

@@ -20,6 +20,7 @@ export { injectComponent } from './injectors/components/InjectComponent';
 export { injectHook, injectHookWithArguments } from './injectors/hooks/InjectHook';
 
 export { useObserver } from './observable/useObserver';
+export { useObservers } from './observable/useObservers';
 export { Observable } from './observable/Observable';
 export { MediatorObservable } from './observable/MediatorObservable';
 export { OnNext, Unsubscribe } from './observable/types';
