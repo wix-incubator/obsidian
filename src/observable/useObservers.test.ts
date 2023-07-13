@@ -8,7 +8,7 @@ describe('useObservers', () => {
   let bazObservable: Observable<boolean>;
 
   const uut = () => {
-    const [foo, bar, baz] = useObservers(fooObservable, barObservable, bazObservable);
+    const { foo, bar, baz } = useObservers({ foo: fooObservable, bar: barObservable, baz: bazObservable });
     return { foo, bar, baz };
   };
 

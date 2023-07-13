@@ -31,7 +31,7 @@ describe('Model', () => {
   });
 
   const useFoo = ({ fooModel }: DependenciesOf<FooGraph, 'fooModel'>) => {
-    const [foo, bar] = fooModel.use();
+    const { foo, bar } = fooModel.use();
     return { foo, bar };
   };
 
@@ -40,7 +40,7 @@ describe('Model', () => {
     public readonly bar = new Observable('bar');
 
     public use() {
-      return useObservers(this.foo, this.bar);
+      return useObservers({ foo: this.foo, bar: this.bar });
     }
   }
 
