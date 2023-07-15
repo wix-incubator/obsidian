@@ -25,4 +25,6 @@ export { Observable } from './observable/Observable';
 export { MediatorObservable } from './observable/MediatorObservable';
 export { OnNext, Unsubscribe } from './observable/types';
 
+export { Model } from './model/Model';
+
 export { testKit } from '../testkit';

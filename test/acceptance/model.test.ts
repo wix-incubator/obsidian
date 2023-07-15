@@ -2,11 +2,11 @@ import { act, renderHook } from '@testing-library/react';
 import {
   DependenciesOf,
   Graph,
+  Model,
   ObjectGraph,
   Observable,
   Provides,
   injectHook,
-  useObservers,
 } from '../../src';
 
 describe('Model', () => {
@@ -30,18 +30,9 @@ describe('Model', () => {
     expect(result.current.foo).toBe(2);
   });
 
-  const useFoo = ({ fooModel }: DependenciesOf<FooGraph, 'fooModel'>) => {
-    const { foo, bar } = fooModel.use();
-    return { foo, bar };
-  };
-
-  class FooModel {
+  class FooModel extends Model {
     public readonly foo = new Observable(1);
     public readonly bar = new Observable('bar');
-
-    public use() {
-      return useObservers({ foo: this.foo, bar: this.bar });
-    }
   }
 
   @Graph()
@@ -51,6 +42,11 @@ describe('Model', () => {
       return model;
     }
   }
+
+  const useFoo = ({ fooModel }: DependenciesOf<FooGraph, 'fooModel'>) => {
+    const { foo, bar } = fooModel.use();
+    return { foo, bar };
+  };
 
   const useInjectedFoo = injectHook(useFoo, FooGraph);
 });
