@@ -1,7 +1,7 @@
 import { act, renderHook } from '@testing-library/react';
 import _ from 'lodash';
-import { Observable } from './Observable';
-import { useObserver } from './useObserver';
+import { Observable } from '../Observable';
+import { useObserver } from '../useObserver';
 
 describe('useObserver', () => {
   let observable: Observable<number>;

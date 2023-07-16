@@ -11,8 +11,10 @@ import {
 
 describe('Model', () => {
   let model!: FooModel;
+  let renderCount: number;
 
   beforeEach(() => {
+    renderCount = 0;
     model = new FooModel();
   });
 
@@ -30,9 +32,19 @@ describe('Model', () => {
     expect(result.current.foo).toBe(2);
   });
 
+  it('should not rerender when an unobserved value changes', () => {
+    renderHook(() => useInjectedFoo());
+    expect(model.unusedObservable.value).toBe(true);
+
+    act(() => { model.unusedObservable.value = false; });
+
+    expect(renderCount).toBe(1);
+  });
+
   class FooModel extends Model {
     public readonly foo = new Observable(1);
     public readonly bar = new Observable('bar');
+    public readonly unusedObservable = new Observable(true);
   }
 
   @Graph()
@@ -45,6 +57,7 @@ describe('Model', () => {
 
   const useFoo = ({ fooModel }: DependenciesOf<FooGraph, 'fooModel'>) => {
     const { foo, bar } = fooModel.use();
+    renderCount += 1;
     return { foo, bar };
   };
 

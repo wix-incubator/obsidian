@@ -22,7 +22,7 @@ export { injectHook, injectHookWithArguments } from './injectors/hooks/InjectHoo
 export { useObserver } from './observable/useObserver';
 export { useObservers } from './observable/useObservers';
 export { Observable } from './observable/Observable';
-export { MediatorObservable } from './observable/MediatorObservable';
+export { MediatorObservable } from './observable/mediator/MediatorObservable';
 export { OnNext, Unsubscribe } from './observable/types';
 
 export { Model } from './model/Model';
