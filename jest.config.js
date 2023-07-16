@@ -8,7 +8,8 @@ const config = {
     'test',
   ],
   setupFilesAfterEnv: [
-    './jest.setup-after-env.js'
+    './jest.setup-after-env.js',
+    'jest-extended/all'
   ],
   testEnvironment: 'jsdom'
 };
