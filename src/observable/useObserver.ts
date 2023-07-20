@@ -1,8 +1,19 @@
 /* eslint-disable no-param-reassign */
-import { useCallback, useEffect, useState } from 'react';
-import { Observable } from './types';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { Observable } from './Observable';
 
-export function useObserver<T>(observable: Observable<T>): [T, (next: T) => void] {
+type ObservableOrGenerator<T> = Observable<T> | (() => Observable<T>);
+
+export function useObserver<T>(observableOrGenerator: ObservableOrGenerator<T>): [T, (next: T) => void] {
+  const observable = useMemo(
+    () => getOrGenerateObservable(observableOrGenerator),
+    [],
+  );
   const [value, setValue] = useState(observable.value);
   const onNext = useCallback((next: T) => {
     observable.value = next;
@@ -13,4 +24,8 @@ export function useObserver<T>(observable: Observable<T>): [T, (next: T) => void
   }, [observable]);
 
   return [value, onNext];
+}
+
+function getOrGenerateObservable(observableOrGenerator: ObservableOrGenerator<any>) {
+  return observableOrGenerator instanceof Observable ? observableOrGenerator : observableOrGenerator();
 }
