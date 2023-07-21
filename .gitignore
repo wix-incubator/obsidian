@@ -117,4 +117,4 @@ buck-out/
 
 main.jsbundle.map
 index.android.bundle.map
-documentation/.docusaurus/
+**/.docusaurus
