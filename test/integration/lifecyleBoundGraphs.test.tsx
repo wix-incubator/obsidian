@@ -3,6 +3,7 @@ import React from 'react';
 import {
   Inject,
   Injectable,
+  Obsidian,
   injectComponent,
   injectHook,
 } from '../../src';
@@ -32,6 +33,19 @@ describe('React lifecycle bound graphs', () => {
   it('passes props to the component', () => {
     const { container } = render(<ClassComponent stringFromProps='Obsidian is cool' />);
     expect(container.textContent).toBe('A string passed via props: Obsidian is cool');
+  });
+
+  it('requires passing props when used as a service locator', () => {
+    expect(() => Obsidian.obtain(LifecycleBoundGraph).computedFromProps()).toThrowError(
+      `Tried to get prop stringFromProps in a @LifecycleBound graph LifecycleBoundGraph, `
+      + `but props were undefined. If you're using Obsidian.obtain(LifecycleBoundGraph) - then you `
+      + `should pass props to it explicitly: Obsidian.obtain(LifecycleBoundGraph, { stringFromProps: 'value' });`,
+    );
+  });
+
+  it(`resolves a dependency that doesn't require props, even if props were not passed`, () => {
+    const dependency = Obsidian.obtain(LifecycleBoundGraph).doesNotRequireProps();
+    expect(dependency).toBe('A string that does not require props');
   });
 
   function createFunctionalComponent() {
