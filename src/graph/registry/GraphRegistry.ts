@@ -2,6 +2,7 @@ import { Constructable } from '../../types';
 import { Graph } from '../Graph';
 import { Middleware } from './Middleware';
 import GraphMiddlewareChain from './GraphMiddlewareChain';
+import { NullProps as createNullProps } from './NullProps';
 
 export class GraphRegistry {
   private readonly constructorToInstance = new Map<Constructable<Graph>, Set<Graph>>();
@@ -33,9 +34,16 @@ export class GraphRegistry {
     if ((this.isSingleton(Graph) || this.isBoundToReactLifecycle(Graph)) && this.has(Graph)) {
       return this.getFirst(Graph);
     }
-    const graph = this.graphMiddlewares.resolve(Graph, props);
+    const graph = this.graphMiddlewares.resolve(Graph, this.ensurePropsIfLifecycleBoundGraph(Graph, props));
     this.set(Graph, graph);
     return graph as T;
+  }
+
+  private ensurePropsIfLifecycleBoundGraph<T extends Graph>(Graph: Constructable<T>, props?: any): any {
+    if (this.isBoundToReactLifecycle(Graph)) {
+      return props ?? createNullProps(Graph);
+    }
+    return props;
   }
 
   private has(Graph: Constructable<Graph>): boolean {

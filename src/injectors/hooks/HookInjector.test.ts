@@ -60,6 +60,6 @@ const hookB = ({ stringProvider }: { stringProvider: StringProvider }): Hook => 
   return { text };
 };
 
-const hookC = ({ computedFromProps }: DependenciesOf<LifecycleBoundGraph>): Hook => {
+const hookC = ({ computedFromProps }: DependenciesOf<LifecycleBoundGraph, 'computedFromProps'>): Hook => {
   return { text: computedFromProps };
 };
