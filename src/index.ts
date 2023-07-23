@@ -28,3 +28,4 @@ export { OnNext, Unsubscribe } from './observable/types';
 export { Model } from './model/Model';
 
 export { testKit } from '../testkit';
+export { mockModel, mockGraphs } from '../testkit/index';
