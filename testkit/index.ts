@@ -1,22 +1,19 @@
-import { GraphResolveChain } from '../src/graph/registry/GraphResolveChain';
-import { isGraph, ObjectGraph } from '../src/graph/ObjectGraph';
-import { GraphMiddleware } from '../src/graph/registry/GraphMiddleware';
+import { ObjectGraph } from '../src/graph/ObjectGraph';
 import { Constructable } from '../src/types';
-import graphRegistry from '../src/graph/registry/GraphRegistry';
+import { mockGraphs } from './mockGraphs';
 
 class TestKit {
+  /**
+   * @deprecated testKit.mockGraphs is deprecated, use mockGraphs instead
+   */
   public mockGraphs(graphNameToGraph: Record<string, Constructable<ObjectGraph> | ((props: any) => ObjectGraph)>) {
-    const graphMiddleware = new class extends GraphMiddleware {
-      resolve<Props>(resolveChain: GraphResolveChain, Graph: Constructable<ObjectGraph>, props?: Props) {
-        if (graphNameToGraph[Graph.name]) {
-          const GraphOrGenerator = graphNameToGraph[Graph.name];
-          return isGraph(GraphOrGenerator) ? new GraphOrGenerator(props) : GraphOrGenerator(props);
-        }
-        return resolveChain.proceed(Graph, props);
-      }
-    }();
-    graphRegistry.addGraphMiddleware(graphMiddleware);
+    // eslint-disable-next-line no-console
+    console.warn('testKit.mockGraphs is deprecated, use mockGraphs instead');
+    return mockGraphs(graphNameToGraph);
   }
 }
+
+export { mockModel } from './mockModel';
+export { mockGraphs };
 
 export const testKit = new TestKit();

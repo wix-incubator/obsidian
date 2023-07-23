@@ -4,7 +4,8 @@
     "transformers/**/*",
     "test/**/*",
     "./clearGraphs.ts",
-    "global.d.ts"
+    "global.d.ts",
+    "testkit/**/*",
   ],
   "exclude": [
     "node_modules",
