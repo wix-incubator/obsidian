@@ -130,4 +130,13 @@ describe('MediatorObservable', () => {
     a.value = 3;
     expect(uut.value).toEqual(6);
   });
+
+  it('should execute addSource callbacks immediately to create an initial value', () => {
+    const a = new Observable(1);
+    uut.addSource(a, (nextA) => {
+      uut.value = nextA * 2;
+    });
+
+    expect(uut.value).toEqual(2);
+  });
 });
