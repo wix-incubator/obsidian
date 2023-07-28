@@ -73,4 +73,17 @@ describe('makeObservable', () => {
     const subscriber = () => { };
     expect(() => observable.unsubscribe(subscriber)).toThrowError(`Can't unsubscribe, subscriber doesn't exist`);
   });
+
+  it('should await the current value', async () => {
+    const observable = new Observable(123);
+    expect(await observable.first()).toBe(123);
+  });
+
+  it('should await the next value', async () => {
+    const observable = new Observable<number>();
+    const promise = observable.first();
+    observable.value = 123;
+    observable.value = 456;
+    expect(await promise).toBe(123);
+  });
 });
