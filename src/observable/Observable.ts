@@ -18,6 +18,16 @@ export class Observable<T> implements IObservable<T> {
     this.subscribers.forEach((subscriber) => subscriber(value));
   }
 
+  async first(): Promise<T> {
+    if (this.currentValue) return this.currentValue;
+    return new Promise((resolve) => {
+      const unsubscribe = this.subscribe((value) => {
+        unsubscribe();
+        resolve(value);
+      });
+    });
+  }
+
   public subscribe(onNext: OnNext<T> = NOOP): Unsubscribe {
     if (this.subscribers.has(onNext)) {
       throw new Error('Subscriber already subscribed');
