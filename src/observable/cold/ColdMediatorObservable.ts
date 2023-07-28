@@ -1,4 +1,6 @@
+import { Observable } from '../Observable';
 import { MediatorObservable } from '../mediator/MediatorObservable';
+import { OnNext } from '../types';
 
 export class ColdMediatorObservable<T extends object> extends MediatorObservable<T> {
   constructor(obj: T, private readonly handler = new PropertyAccessTrackingProxy<T>()) {
@@ -19,6 +21,11 @@ export class ColdMediatorObservable<T extends object> extends MediatorObservable
       super.value = { ...this.value, [key]: value };
       this.handler.resumeTracking();
     }
+  }
+
+  override addSource<S>(source: Observable<S>, onNext: OnNext<S>) {
+    source.subscribe(onNext);
+    return this;
   }
 }
 
