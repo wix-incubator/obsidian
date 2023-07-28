@@ -3,7 +3,7 @@ import { MediatorObservable } from './MediatorObservable';
 
 const NOOP = () => {};
 
-describe('ObservableMediator', () => {
+describe('MediatorObservable', () => {
   let uut!: MediatorObservable<number>;
 
   beforeEach(() => {
