@@ -4,11 +4,17 @@ title: 'MVVM architecture with Obsidian'
 ---
 
 MVVM (Model-View-ViewModel) is a software architecture widely used in modern front-end development. It emphasizes separation of concerns and improves code structure. In the Model-View-ViewModel pattern, code is organized into three layers:
-* The Model represents the data and business logic
-* The View handles UI rendering and user interactions
+* The Model represents the data and business logic.
+* The View handles UI rendering and user interactions.
 * The ViewModel acts as an intermediary between the Model and the View. It exposes data and commands to the View, and allows for two-way communication between the Model and the View.
 
-This decoupling results in code that's easier to test and maintain. In this article you'll learn how to structure a single UI component using MVVM architecture and how to connect the layers together using Obsidian.
+This decoupling results in code that's easier to test and maintain.
+
+:::info
+In this article you'll learn:
+1. How to structure a single UI component using MVVM architecture
+2. How to connect the layers together using Obsidian
+:::
 
 ## Implementation
 We'll refactor a basic counter application to use MVVM architecture. The application has a button that increments a counter, and an input field that displays the counter value.
@@ -17,7 +23,7 @@ The original implementation uses hooks to manage the state and handle user inter
 
 This is the original implementation of the counter component:
 ```ts title="Counter.tsx"
-const _Counter = () => {
+const Counter = () => {
   const [count, setCount] = useState(0);
 
   return (
@@ -32,9 +38,10 @@ const _Counter = () => {
 ## Step 1: Create the model
 The model represents the data and business logic of the application. In our case, the model has a single property `count` and a method `increment()` that increments the counter.
 
+Notice that the `count` property is defined as an `Observable`. This is necessary to make the property reactive. The ViewModel will re-render the view whenever the count value changes.
+
 ```ts title="CounterModel.ts"
 export class CounterModel {
-  // The count property is an observable so that the ViewModel can react to changes
   public readonly count = new Observable(0);
 
   public increment() {
@@ -44,14 +51,10 @@ export class CounterModel {
 ```
 
 ## Step 2: Create the ViewModel
-The ViewModel mediates between the Model and the View. Unlike the model which contains data for an entire domain, the View Model contains a subset of that data that's relevant to the view. Our View Model exposes the current count value and the `onIncrementClick` method to the View.
-
-Notice that the count property is wrapped in the `useObserver` hook. This is necessary to make the ViewModel reactive. The ViewModel will re-render the view whenever the count value changes.
+The ViewModel mediates between the Model and the View. Unlike the model which contains data for an entire domain, the View Model contains a subset of that data that's relevant to a specific view. Our View Model exposes the current count value and the `onIncrementClick` method to the View.
 
 ``` ts title="CounterViewModel.ts"
 import { useObserver } from "react-obsidian"
-
-export type CounterViewModel = () => ReturnType<typeof useCounterViewModel>;
 
 export const useCounterViewModel = (model: CounterModel) => {
   const [count] = useObserver(model.count);
@@ -64,7 +67,7 @@ export const useCounterViewModel = (model: CounterModel) => {
 ```
 
 ## Step 3: Create the View
-Let's refactor the original counter component to use the ViewModel. Our aim is to decouple the count logic from the view. The view is responsible for rendering the UI. It doesn't need to know how the count is incremented or where the count value comes from.
+ The view is responsible for rendering the UI. Let's refactor the original counter component to use the ViewModel. Our aim is to decouple the count logic from the view. It doesn't need to know how the count is incremented or where the count value comes from.
 
 ```ts title="Counter.tsx"
 import {CounterGraph} from './CounterGraph';
@@ -84,12 +87,11 @@ const _Counter = ({useViewModel}: DependenciesOf<CounterGraph, 'useViewModel'>) 
 export const Counter = injectComponent(_Counter, CounterGraph);
 ```
 
-## Step 4: Create the CounterGraph
+## Step 4: Create the Graph
 At this point we have our Model, View, and View Model written. However, we still need to connect them to one another. We can do this by creating a graph.
 
 ```ts title="CounterGraph.ts"
 import { Graph, ObjectGraph, Provides } from "react-obsidian";
-import {CounterModel} from './CounterModel';
 
 @Singleton() @Graph()
 export class CounterGraph {
@@ -100,8 +102,17 @@ export class CounterGraph {
 
  // The useViewModel hook is instantiated once and injected into the Counter component
   @Provides()
-  useViewModel(model: CounterModel): SquareViewModel  {
-    return () => useSquareViewModel(model);
+  useViewModel(model: CounterModel) {
+    return () => useCounterViewModel(model);
   }
 }
 ```
+
+## Wrapping up
+
+We've successfully refactored the counter component to use MVVM architecture.
+* Our view is now decoupled from the counter logic,
+* The ViewModel exposes the data and commands to the view,
+* The Model contains reactive data and business logic.
+
+We hope this article helped you understand how to use MVVM architecture with Obsidian. You can find a more fleshed out example in the [obsidian-tic-tac-toe](https://github.com/guyca/obsidian-tic-tac-toe) repository. If you have any questions or feedback, please reach out to us on [Discord](https://discord.gg/2g5vhGQN). We'd love to hear from you!
