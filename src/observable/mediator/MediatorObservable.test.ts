@@ -139,4 +139,31 @@ describe('MediatorObservable', () => {
 
     expect(uut.value).toEqual(2);
   });
+
+  it('should support mapping other observables', () => {
+    const o = new Observable(3);
+    const uut2 = new MediatorObservable()
+      .mapSource(o, (next) => {
+        return next * 2;
+      });
+    expect(uut2.value).toEqual(6);
+  });
+
+  it('should support mapping other observables with an initial value', () => {
+    const o = new Observable(3);
+    const uut2 = new MediatorObservable(5)
+      .mapSource(o, (next, currentValue) => {
+        return next * currentValue;
+      });
+    expect(uut2.value).toEqual(15);
+  });
+
+  it('should support mapping multiple observables', () => {
+    const a = new Observable(2);
+    const b = new Observable(3);
+    const uut2 = new MediatorObservable(5)
+      .mapSource(a, (next, currentValue) => next * currentValue)
+      .mapSource(b, (next, currentValue) => next * currentValue);
+    expect(uut2.value).toEqual(30);
+  });
 });
