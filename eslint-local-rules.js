@@ -40,7 +40,7 @@ module.exports = {
                 dependencies.push(...bringDependenciesFromSubgraphs(imports, subGraphs,context));
               }
               dependencies.push(...mapFunctions(node));
-              // console.log('dependencies', dependencies);
+              dependencies.push(...getPropertyDeclarations(node));
               const check = checkDependencies(node, dependencies);
               if (!check?.value) {
                 context.report({
@@ -88,24 +88,28 @@ function bringDependenciesFromSubgraphs(imports, subGraphs, context) {
       }
     });
   });
-    paths.forEach(el => {
-        const filePath = path.join(path.dirname(context.getFilename()), el.path+'.ts');
-        const fileContent = fs.readFileSync(filePath, 'utf8');
-        const fileAST = parse(fileContent.toString(), 
-        {
-          filePath,
-          useEslintrc: false,
-          parserOptions: {
-            ecmaVersion: 2022,
-            sourceType: 'module',
-            ecmaFeatures: {
-              jsx: true,
-            },
-          },
-        }
-        );
-        dependencies.push(...mapFunctions(fileAST.body[fileAST.body.length-1].declaration));
-    });
+  paths.forEach(el => {
+    const filePath = path.join(path.dirname(context.getFilename()), el.path+'.ts');
+    const fileContent = fs.readFileSync(filePath, 'utf8'); 
+    const fileAST = parse(fileContent,
+      {
+        ecmaVersion: 9,
+        ecmaFeatures: {
+          globalReturn: false,
+          jsx: true,
+          generators: false,
+          objectLiteralDuplicateProperties: false
+        },
+        sourceType: 'module',
+        comment: true,
+        attachComment: true,
+        tokens: true,
+        loc: true,
+        range: true,
+        filePath 
+      });
+    dependencies.push(...mapFunctions(fileAST.body[fileAST.body.length-1].declaration));
+  });
   return dependencies;
 }
 function mapFunctions(node) {
@@ -130,7 +134,6 @@ function checkDependencies(node, existingDependencies) {
       const params = (body[j])?.value?.params;
       if (params) {
         for (let i = 0; i < params.length; i++) {
-          console.log('param',(params[i]).name );
           if (!existingDependencies.includes((params[i]).name))
             {return {
               value: false,
@@ -144,6 +147,18 @@ function checkDependencies(node, existingDependencies) {
 }
 function getDecoratorName(decorator) {
   return ((decorator?.expression)?.callee)?.name;
+}
+
+function getPropertyDeclarations(node) {
+  const declarations = node.body.body;
+  const properties = [];
+  declarations.map(declaration => {
+    if (declaration.type == TSESTree.AST_NODE_TYPES.PropertyDefinition) {
+      properties.push(declaration.key.name);
+    }
+  });
+  return properties;
+
 }
 
 // const definedDependencies = require('./dist/eslint/rules/definedDependencies/definedDependencies');
