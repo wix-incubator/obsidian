@@ -2,6 +2,9 @@
 sidebar_position: 2
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Installation
 
 Like most Dependency Injection frameworks, Obsidian uses automatic code generation to create the bindings necessary for resolving dependencies. This approach helps reduce the amount of boilerplate code required by developers. Obsidian relies on Babel for code generation, so you'll need to have Babel configured in your project.
@@ -38,7 +41,11 @@ Add the following options to your tsconfig.json file.
 ```
 
 ## 4. Add the required Babel plugins
-Add the transformer to the list of plugins in your `.babel` file.
+[BabelJS](https://babeljs.io/) is a JavaScript compiler that is used to transpile modern JavaScript code into code that is compatible with older browsers. Obsidian uses a Babel transformer to generate code that is used to resolve dependencies.
+
+### 4.1. Update your Babel configuration
+
+Add the transformer and the required plugins to the list of plugins in your `babel.config.js` file or `.babelrc` file:
 
 ```diff
 module.exports = {
@@ -54,3 +61,49 @@ module.exports = {
   ]
 };
 ```
+
+### 4.2. Install the required Babel plugins
+
+You will need to install these plugins if you don't have them already:
+<Tabs>
+  <TabItem value="yarn" label="Yarn" default>
+
+
+  ```shell
+  yarn add @babel/plugin-proposal-decorators @babel/plugin-transform-class-properties babel-plugin-parameter-decorator @babel/core @babel/preset-env @babel/preset-typescript
+  ```
+
+
+  </TabItem>
+  <TabItem value="npm" label="NPM" default>
+
+
+  ```shell
+  npm install @babel/plugin-proposal-decorators @babel/plugin-transform-class-properties babel-plugin-parameter-decorator @babel/core @babel/preset-env
+  ```
+
+
+  </TabItem>
+
+</Tabs>
+
+If this is your first time using Babel, you will also need to install Babel's core packages:
+
+<Tabs>
+  <TabItem value="yarn" label="Yarn" default>
+
+
+  ```shell
+  yarn add @babel/core @babel/preset-env @babel/preset-typescript
+  ```
+  </TabItem>
+  <TabItem value="npm" label="NPM" default>
+
+
+  ```shell
+  npm install @babel/core @babel/preset-env @babel/preset-typescript
+  ```
+  </TabItem>
+
+</Tabs>
+
