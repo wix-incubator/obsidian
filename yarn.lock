@@ -1428,17 +1428,6 @@
     lz-string "^1.5.0"
     pretty-format "^27.0.2"
 
-"@testing-library/react-hooks@^7.0.2":
-  version "7.0.2"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@testing-library/react-hooks/-/react-hooks-7.0.2.tgz#3388d07f562d91e7f2431a4a21b5186062ecfee0"
-  integrity sha1-M4jQf1YtkefyQxpKIbUYYGLs/uA=
-  dependencies:
-    "@babel/runtime" "^7.12.5"
-    "@types/react" ">=16.9.0"
-    "@types/react-dom" ">=16.9.0"
-    "@types/react-test-renderer" ">=16.9.0"
-    react-error-boundary "^3.1.0"
-
 "@testing-library/react@14.x.x":
   version "14.0.0"
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@testing-library/react/-/react-14.0.0.tgz#59030392a6792450b9ab8e67aea5f3cc18d6347c"
@@ -1572,7 +1561,7 @@
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
   integrity sha1-XxnSuFqY6VWANvajysyIGUIPBc8=
 
-"@types/react-dom@18.2.x", "@types/react-dom@>=16.9.0", "@types/react-dom@^18.0.0":
+"@types/react-dom@18.2.x", "@types/react-dom@^18.0.0":
   version "18.2.6"
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@types/react-dom/-/react-dom-18.2.6.tgz#ad621fa71a8db29af7c31b41b2ea3d8a6f4144d1"
   integrity sha1-rWIfpxqNspr3wxtBsuo9im9BRNE=
@@ -1586,14 +1575,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-test-renderer@>=16.9.0":
-  version "18.0.0"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@types/react-test-renderer/-/react-test-renderer-18.0.0.tgz#7b7f69ca98821ea5501b21ba24ea7b6139da2243"
-  integrity sha1-e39pypiCHqVQGyG6JOp7YTnaIkM=
-  dependencies:
-    "@types/react" "*"
-
-"@types/react@*", "@types/react@18.2.x", "@types/react@>=16.9.0":
+"@types/react@*", "@types/react@18.2.x":
   version "18.2.14"
   resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/@types/react/-/react-18.2.14.tgz#fa7a6fecf1ce35ca94e74874f70c56ce88f7a127"
   integrity sha1-+npv7PHONcqU50h09wxWzoj3oSc=
@@ -4308,13 +4290,6 @@ react-dom@18.2.x:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
-
-react-error-boundary@^3.1.0:
-  version "3.1.4"
-  resolved "https://repo.dev.wixpress.com/artifactory/api/npm/npm-repos/react-error-boundary/-/react-error-boundary-3.1.4.tgz#255db92b23197108757a888b01e5b729919abde0"
-  integrity sha1-JV25KyMZcQh1eoiLAeW3KZGaveA=
-  dependencies:
-    "@babel/runtime" "^7.12.5"
 
 react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"
