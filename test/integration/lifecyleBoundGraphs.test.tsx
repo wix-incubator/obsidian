@@ -37,7 +37,8 @@ describe('React lifecycle bound graphs', () => {
 
   it('obtains a lifecycle bound graph only if it was already created', () => {
     expect(() => Obsidian.obtain(LifecycleBoundGraph)).toThrowError(
-      'Tried to obtain a @LifecycleBound graph, but it was not created yet.',
+      'Tried to obtain a @LifecycleBound graph LifecycleBoundGraph, but it was not created yet. '
+      + '@LifecycleBound graphs can only be obtained after they were created by a React component or hook.',
     );
   });
 

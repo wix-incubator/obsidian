@@ -2,6 +2,7 @@ import { Constructable } from '../../types';
 import { Graph } from '../Graph';
 import { Middleware } from './Middleware';
 import GraphMiddlewareChain from './GraphMiddlewareChain';
+import { ObtainLifecycleBoundGraphException } from './ObtainLifecycleBoundGraphException';
 
 export class GraphRegistry {
   private readonly constructorToInstance = new Map<Constructable<Graph>, Set<Graph>>();
@@ -38,7 +39,7 @@ export class GraphRegistry {
       return this.getFirst(Graph);
     }
     if (this.isBoundToReactLifecycle(Graph) && source === 'serviceLocator') {
-      throw new Error(`Tried to obtain a @LifecycleBound graph, but it was not created yet.`);
+      throw new ObtainLifecycleBoundGraphException(Graph);
     }
     const graph = this.graphMiddlewares.resolve(Graph, props);
     this.set(Graph, graph);
