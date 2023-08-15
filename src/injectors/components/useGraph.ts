@@ -6,9 +6,9 @@ import referenceCounter from '../../ReferenceCounter';
 
 export default <P>(Graph: Constructable<ObjectGraph>, target: any, props?: Partial<P>) => {
   const [graph] = useState(() => {
-    const resolveGraph = graphRegistry.resolve(Graph, props);
-    resolveGraph.onBind(target);
-    return resolveGraph;
+    const resolvedGraph = graphRegistry.resolve(Graph, 'lifecycleOwner', props);
+    resolvedGraph.onBind(target);
+    return resolvedGraph;
   });
   useEffect(() => {
     referenceCounter.retain(graph);

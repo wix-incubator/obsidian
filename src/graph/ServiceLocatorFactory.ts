@@ -4,7 +4,7 @@ import graphRegistry from './registry/GraphRegistry';
 
 export default class ServiceLocatorFactory {
   static fromGraph<T extends ObjectGraph<P>, P = any>(Graph: Constructable<T>, props?: P) {
-    const resolved = graphRegistry.resolve(Graph, props);
+    const resolved = graphRegistry.resolve(Graph, 'serviceLocator', props);
     const wrapped = new Proxy(resolved, {
       get(_target: any, property: string, receiver: any) {
         return () => resolved.retrieve(property, receiver);
