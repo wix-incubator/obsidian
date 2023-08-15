@@ -3,6 +3,7 @@ import { GraphRegistry } from '../../graph/registry/GraphRegistry';
 import { Graph } from '../../graph/Graph';
 import InjectionMetadata from './InjectionMetadata';
 import { GRAPH_INSTANCE_NAME_KEY } from './LateInjector';
+import referenceCounter from '../../ReferenceCounter';
 
 export default class ClassInjector {
   constructor(
@@ -24,11 +25,17 @@ export default class ClassInjector {
     return new class Handler implements ProxyHandler<any> {
       construct(target: any, args: any[], newTarget: Function): any {
         const graph = graphRegistry.resolve(Graph, 'lifecycleOwner', args.length > 0 ? args[0] : undefined);
+        referenceCounter.retain(graph);
         Reflect.defineMetadata(GRAPH_INSTANCE_NAME_KEY, graph.name, target);
         const argsToInject = this.injectConstructorArgs(args, graph, target);
         graph.onBind(target);
         const createdObject = Reflect.construct(target, argsToInject, newTarget);
         this.injectProperties(target, createdObject, graph);
+        const originalComponentWillUnmount = createdObject.componentWillUnmount;
+        createdObject.componentWillUnmount = () => {
+          originalComponentWillUnmount?.();
+          referenceCounter.release(graph, (g) => graphRegistry.clear(g));
+        };
         return createdObject;
       }
 

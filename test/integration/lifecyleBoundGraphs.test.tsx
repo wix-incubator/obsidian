@@ -56,6 +56,14 @@ describe('React lifecycle bound graphs', () => {
     expect(LifecycleBoundGraph.timesCreated).toBe(1);
   });
 
+  it('clears a bound graph when all dependent class components are unmounted', () => {
+    const { unmount } = render(<ClassComponent stringFromProps='foo'/>);
+    unmount();
+    render(<Component />);
+
+    expect(LifecycleBoundGraph.timesCreated).toBe(2);
+  });
+
   function createFunctionalComponent() {
     const useHook = injectHook(() => {}, LifecycleBoundGraph);
 
