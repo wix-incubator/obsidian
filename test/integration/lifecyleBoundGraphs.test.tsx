@@ -35,17 +35,24 @@ describe('React lifecycle bound graphs', () => {
     expect(container.textContent).toBe('A string passed via props: Obsidian is cool');
   });
 
-  it('requires passing props when used as a service locator', () => {
-    expect(() => Obsidian.obtain(LifecycleBoundGraph).computedFromProps()).toThrowError(
-      `Tried to get prop stringFromProps in a @LifecycleBound graph LifecycleBoundGraph, `
-      + `but props were undefined. If you're using Obsidian.obtain(LifecycleBoundGraph) - then you `
-      + `should pass props to it explicitly: Obsidian.obtain(LifecycleBoundGraph, { stringFromProps: 'value' });`,
+  it('obtains a lifecycle bound graph only if it was already created', () => {
+    expect(() => Obsidian.obtain(LifecycleBoundGraph)).toThrowError(
+      'Tried to obtain a @LifecycleBound graph, but it was not created yet.',
     );
   });
 
-  it(`resolves a dependency that doesn't require props, even if props were not passed`, () => {
+  it(`resolves a dependency when @LifecycleBound graph is used as a service locator`, () => {
+    render(<Component />);
+
     const dependency = Obsidian.obtain(LifecycleBoundGraph).doesNotRequireProps();
     expect(dependency).toBe('A string that does not require props');
+  });
+
+  it(`treats a @LifecycleBound graph as a singleton while it's bound to a graph`, () => {
+    render(<Component />);
+    Obsidian.obtain(LifecycleBoundGraph).doesNotRequireProps();
+
+    expect(LifecycleBoundGraph.timesCreated).toBe(1);
   });
 
   function createFunctionalComponent() {
