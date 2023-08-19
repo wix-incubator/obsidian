@@ -64,7 +64,7 @@ describe('MediatorObservable', () => {
       uut.value *= nextC;
     });
 
-    uut.subscribe(() => {});
+    uut.subscribe();
     a.value = 1;
     expect(uut.value).toEqual(1);
     b.value = 2;
@@ -102,7 +102,7 @@ describe('MediatorObservable', () => {
       uut.value = parseInt(nextB, 10);
     });
 
-    uut.subscribe(() => {});
+    uut.subscribe();
     a.value = 1;
     expect(uut.value).toEqual(1);
     b.value = '2';
