@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { MediatorObservable } from './mediator/MediatorObservable';
-import { ObservedValues } from './types';
+import { ObservedValues, Unsubscribe } from './types';
 import { mapObservablesToValues } from './mapObservablesToValues';
 
 export function useObservers<T extends Record<string, any>>(observables: T): ObservedValues<T> {
@@ -8,13 +8,18 @@ export function useObservers<T extends Record<string, any>>(observables: T): Obs
 
   useEffect(() => {
     const mediator = new MediatorObservable();
+    const unsubscribers: Unsubscribe[] = [];
+
     Object.keys(observables as {}).forEach((key) => {
-      mediator.addSource(observables[key], (value) => {
-        setValues({ ...values, [key]: value });
+      const onNext = (value: any) => setValues({ ...values, [key]: value });
+      mediator.addSource(observables[key], onNext);
+
+      unsubscribers.push(() => {
+        observables[key].unsubscribe(onNext);
       });
     });
 
-    return mediator.subscribe();
+    return () => unsubscribers.forEach((unsubscribe) => unsubscribe());
   }, []);
 
   return values;
