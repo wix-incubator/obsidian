@@ -1,0 +1,41 @@
+---
+sidebar_position: 4
+title: 'useObservers'
+---
+
+**`useObservers` is a Hook that allows you to react to changes in multiple observables in a single statement.**
+
+```ts
+const {foo, bar} = useObservers({foo: fooObservable, bar: barObservable});
+```
+
+* [Reference](#reference)
+  * [useObservers(observables)](#useobserversobservables)
+___
+
+## Reference
+### useObservers(observables)
+
+```ts
+import { useObserver } from 'react-obsidian';
+
+const foo = new Observable(0);
+const bar = new Observable(true);
+
+const useHook = () => {
+  const {foo, bar} = useObservers({foo, bar});
+  return {
+    foo,
+    bar,
+  };
+}
+```
+
+#### Parameters
+A map of observables to subscribe to.
+
+#### Returns
+An object containing the current values of the observables.
+
+#### Caveats
+* The `useObservables` hook is useful in cases where you need to read the values of multiple observables. If you need to update observables, you might want to use the [`useObserver`](./useObserver) hook instead as it provides a more convenient API for updating observables.

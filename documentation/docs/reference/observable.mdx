@@ -1,0 +1,41 @@
+---
+sidebar_position: 1
+title: 'Observable'
+---
+
+`Observable` **is a class that represents a stream of values. It is similar to** `Promise` **in that it is a container for a value that will be available in the future. However, unlike **`Promise`**, **`Observable`** can emit multiple values over time.**
+
+```ts
+const isLoggedIn = new Observable(false);
+isLoggedIn.subscribe((nextValue: boolean) => {
+  if (nextValue) {
+    console.log('User is logged in');
+  } else {
+    console.log('User is logged out');
+  }
+});
+```
+
+* [Reference](#reference)
+  * [new Observable(initialValue?)](#new-observableinitialvalue)
+  * [subscribe(onNext?)](#subscribeonnext)
+  * [unsubscribe(onNext?)](#unsubscribeonnext)
+  * set value
+  * get value
+  * first
+* [Usage](#usage)
+___
+
+### Reference
+#### new Observable(initialValue?)
+Creates a new `Observable` instance with an optional initial value.
+#### Arguments
+* `initialValue?` - The initial value of the `Observable`. Defaults to `undefined`.
+
+#### Caveats
+* It's possible to instantiate an `Observable` without an initial value, but it's not recommended, as its value will be `undefined` until it's set for the first time which can lead to unexpected behavior.
+___
+### subscribe(onNext?)
+The `subscribe` method is used to listen for changes to the `Observable`'s value. It returns a function that can be used to unsubscribe from the `Observable`.
+#### Arguments
+

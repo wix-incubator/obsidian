@@ -1,0 +1,60 @@
+---
+sidebar_position: 3
+title: 'useObserver'
+---
+
+**`useObserver` is a Hook that allows you to react to changes in an observable.**
+
+```ts
+const [value, setValue] = useObserver(observable);
+```
+
+* [Reference](#reference)
+  * [useObserver(observable)](#useobserverobservable)
+  * [set function](#set-function)
+___
+
+## Reference
+### useObserver(observable)
+
+```ts
+import { useObserver } from 'react-obsidian';
+
+const count = new Observable(0);
+
+const useButtonPress = () => {
+  const [value, setValue] = useObserver(count);
+  return {
+    onPress: () => setValue(value + 1),
+  };
+}
+```
+
+The convention is to name observer variables like [something, setSomething] using [array destructuring](https://javascript.info/destructuring-assignment).
+
+#### Parameters
+* `observable`: The observable to observe.
+  * If you pass a function as the observable, it will be treated as a generator function. Obsidian will call the generator once when the component is mounted and observe the returned observable.
+
+#### Returns
+`useObserver` returns an array of two values: the current value of the observable, and a function to set the value of the observable.
+1. The current value.
+2. A `set` function that lets you update the value of the observable and trigger a re-render.
+
+___
+### set function
+The `set` function returned by `useObserver` lets you update the value of the observable and trigger a re-render.
+
+```ts
+const [count, setCount] = useObserver(() => new Observable(0));
+
+function handleClick() {
+  setCount(count + 1);
+}
+```
+
+#### Parameters
+* `next`: The new value of the observable.
+
+#### Returns
+`set` returns nothing.
