@@ -1,4 +1,5 @@
 import { act, renderHook } from '@testing-library/react';
+import _ from 'lodash';
 import { Observable } from './Observable';
 import { useObservers } from './useObservers';
 
@@ -30,5 +31,14 @@ describe('useObservers', () => {
     expect(result.current.foo).toBe(0);
     act(() => { fooObservable.value = 1; });
     expect(result.current.foo).toBe(1);
+  });
+
+  it('should release onNext callbacks when unmounted', () => {
+    const { unmount } = renderHook(uut);
+    unmount();
+
+    [fooObservable, barObservable, bazObservable].forEach((observable) => {
+      expect(_.get(observable, 'subscribers.size')).toBe(0);
+    });
   });
 });
