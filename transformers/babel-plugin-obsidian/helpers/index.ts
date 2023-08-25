@@ -10,7 +10,6 @@ import {
   ObjectPattern,
   TSParameterProperty,
 } from '@babel/types';
-import { get } from 'lodash';
 
 const never = '';
 
@@ -92,4 +91,11 @@ function getNodeName(node: AcceptedNodeType): string {
     return never;
   }
   return node.name;
+}
+
+function get(node: any, path: string): any {
+  if (node === undefined || node === null) return undefined;
+  const [key, ...rest] = path.split('.');
+  if (rest.length === 0) return node[key];
+  return get(node[key], rest.join('.'));
 }
