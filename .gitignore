@@ -118,3 +118,4 @@ buck-out/
 main.jsbundle.map
 index.android.bundle.map
 **/.docusaurus
+coverage/*
