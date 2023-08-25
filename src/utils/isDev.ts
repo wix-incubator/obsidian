@@ -3,6 +3,7 @@ export function isDev(): boolean {
 }
 
 function isNodeDev(): boolean {
+  // eslint-disable-next-line @typescript-eslint/dot-notation
   return ['test', 'development'].includes(process.env['NODE_ENV'] ?? '');
 }
 

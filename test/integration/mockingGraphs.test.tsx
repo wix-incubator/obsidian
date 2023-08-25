@@ -4,7 +4,7 @@ import MainGraph from '../fixtures/MainGraph';
 import Subgraph from '../fixtures/Subgraph';
 import { Graph, Provides } from '../../src';
 import InjectedComponent from '../fixtures/InjectedComponent';
-import { testKit } from '../../testkit';
+import { mockGraphs } from '../../testkit';
 
 describe('Test doubles', () => {
   let Component: React.FunctionComponent;
@@ -12,7 +12,7 @@ describe('Test doubles', () => {
   beforeEach(() => {
     Component = InjectedComponent;
 
-    testKit.mockGraphs({
+    mockGraphs({
       MainGraph: MockMainGraph,
       Subgraph: MockSubgraph,
     });
