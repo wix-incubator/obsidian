@@ -22,8 +22,7 @@ isLoggedIn.subscribe((nextValue: boolean) => {
   * [unsubscribe(onNext)](#unsubscribeonnext)
   * [set value](#set-value)
   * [get value](#get-value)
-  * first
-* [Usage](#usage)
+  * [async first](#async-first)
 ___
 
 ### Reference
@@ -52,3 +51,8 @@ The `value` property is used to set the `Observable`'s value. Changing the value
 ___
 ### get value
 The `value` property is used to get the `Observable`'s current value.
+___
+### async first
+The `first` method is used to get the `Observable`'s first value. If the `Observable` has no value, it will wait for the first value to be set and return it.
+#### returns
+* `Promise` - A `Promise` that resolves to the `Observable`'s current value if it has one, or waits for the first value to be set and resolves to it.
