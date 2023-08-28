@@ -25,6 +25,7 @@
         "eslint-plugin-local-rules"
     ],
     "rules": {
+      "no-console":"off",
       "max-len": ["error", {"code": 115}],
       "lines-between-class-members": ["error", "always", {"exceptAfterSingleLine": true}],
       "import/extensions": "off",
@@ -88,10 +89,6 @@
 			  { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
 		  ],
       "local-rules/defined-dependencies":"error"
-      // "quotes": [
-      //   "error",
-      //   "single"
-      // ]
     },
     "settings": {
       "import/resolver": {
