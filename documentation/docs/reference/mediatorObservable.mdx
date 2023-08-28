@@ -3,3 +3,46 @@ sidebar_position: 2
 title: 'MediatorObservable'
 ---
 
+`MediatorObservable` is a type of `Observable` that acts as an adapter between one or more source `Observable`s. It allows us to create a new observable stream based on the values of other observables.
+
+For example, we can create a `MediatorObservable` that observes an Observable of a certain type and emits a new value based on the value of the source observable. 
+
+```ts
+const user = new Observable<User>();
+
+const isLoggedIn = new MediatorObservable<boolean>();
+isLoggedIn.add(user, (nextUser) => isLoggedIn.value = nextUser !== undefined);
+```
+
+* [Reference](#reference)
+  * [new MediatorObservable(initialValue?)](#new-observableinitialvalue)
+  * [addSource(source, onNext)[#addsourcesource-onnext)](#addsourcesource-onnext]
+  * [mapSource(source, onNext)](#mapsourcesource-onnext)
+___
+## Reference
+### new MediatorObservable(initialValue?)
+___
+### addSource(source, onNext)
+___
+### mapSource(source, onNext)
+
+
+### Observing multiple sources
+Consider the following scenario: We're developing a checkout page for a food delivery app. Orders can be placed only if the total amount is greater than 50 dollars and the address is within the delivery area.
+To implement this requirement, we'll create two observables, `totalAmount` and `address`, and we'll merge their emissions in one new `MediatorObservable` called `isOrderValid`. By doing so, `totalAmount` and `address` will become the sources of the new `MediatorObservable`. 
+
+```ts
+const totalAmount = new Subject<number>();
+const address = new Subject<Address>();
+
+const isOrderValid = new MediatorObservable<number>();
+mediator.add(totalAmount, (nextTotalAmount) => mediator.value = isOrderValid(nextTotalAmount, address.value));
+mediator.add(address, (nextAddress) => mediator.value = isOrderValid(totalAmount.value, nextAddress));
+
+function isOrderValid(totalAmount: number, address: Address): boolean {
+  return totalAmount > 50 && address.isInDeliveryArea;
+}
+```
+
+
+
