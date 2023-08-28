@@ -7,7 +7,7 @@ import {
   checkDependencies,
   getDecoratorName,
   getPropertyDeclarations,
-} from './eslint-functions';
+} from './ASTFunctions';
 
 export function create(context:any) {
   const imports:TSESTree.ImportDeclaration[] = [];

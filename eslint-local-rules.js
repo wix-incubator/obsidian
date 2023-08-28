@@ -1,17 +1,5 @@
-const {create} = require('./dist/eslint/create-func')
+const {definedDependencies} = require('./dist/eslint/definedDependencies/ruleConfiguration')
 
 module.exports = {
-  'defined-dependencies': {
-    meta: {
-      docs: {
-        description:
-          'The dependency must be defined',
-        recommended: 'error',
-      },
-      messages: {
-        dependencyUndefined: 'Dependency {{ dependencyName }} is undefined',
-      },
-    },
-    create
-  },
+  'defined-dependencies': definedDependencies
 };
