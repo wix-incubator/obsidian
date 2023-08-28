@@ -164,4 +164,38 @@ describe('MediatorObservable', () => {
       .mapSource(b, (next, currentValue) => next * currentValue);
     expect(uut2.value).toEqual(30);
   });
+
+  it('should support observing multiple observables', () => {
+    const a = new Observable(true);
+    const b = new Observable(3);
+    const c = new Observable('bar');
+
+    const uut2 = new MediatorObservable('foo')
+      .mapSources([a, b, c], ([nextA, nextB, nextC], currentValue) => {
+        return `${currentValue} ${nextA.toString().repeat(nextB)} ${nextC}`;
+      });
+
+    expect(uut2.value).toEqual('foo truetruetrue bar');
+  });
+
+  it('should call the mapSources callback only once on initialization', () => {
+    const a = new Observable(1);
+    const b = new Observable(2);
+    const mapFn = jest.fn();
+
+    uut.mapSources([a, b], mapFn);
+
+    expect(mapFn).toHaveBeenCalledOnce();
+  });
+
+  it('should call the mapSources callback when a source updates', () => {
+    const a = new Observable(1);
+    const b = new Observable(2);
+    const mapFn = jest.fn();
+
+    uut.mapSources([a, b], mapFn);
+    a.value = 2;
+
+    expect(mapFn).toHaveBeenCalledTimes(2);
+  });
 });
