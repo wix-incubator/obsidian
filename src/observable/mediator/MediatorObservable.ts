@@ -1,4 +1,4 @@
-import { notNull } from '../../utils/noneNull';
+import { notNull } from '../../utils/notNull';
 import { Observable } from '../Observable';
 import {
   Mapper,
