@@ -198,4 +198,16 @@ describe('MediatorObservable', () => {
 
     expect(mapFn).toHaveBeenCalledTimes(2);
   });
+
+  it('should invoke mapSources with the updated array from the previous invocation', () => {
+    const A = new Observable(1);
+    const B = new Observable(2);
+    const uut2 = new MediatorObservable(0);
+
+    uut2.mapSources([A, B], ([a, b]) => a + b);
+    A.value = 3;
+    B.value = 4;
+
+    expect(uut2.value).toBe(7);
+  });
 });
