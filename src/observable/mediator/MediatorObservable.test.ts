@@ -210,4 +210,17 @@ describe('MediatorObservable', () => {
 
     expect(uut2.value).toBe(7);
   });
+
+  it('should invoke mapSources only if value has changed', () => {
+    const A = new Observable(1);
+    const B = new Observable(2);
+    const uut2 = new MediatorObservable(0);
+    const mapFn = jest.fn();
+
+    uut2.mapSources([A, B], mapFn);
+    A.value = 1;
+    A.value = 3;
+
+    expect(mapFn).toHaveBeenCalledTimes(2);
+  });
 });

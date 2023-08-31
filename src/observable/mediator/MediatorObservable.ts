@@ -36,6 +36,8 @@ export class MediatorObservable<T> extends Observable<T> {
       .filter(notNull)
       .forEach((source, index) => {
         this.addSource(source as IObservable<any>, (next) => {
+          if (values[index] === next) return;
+
           if (values[index] === undefined) {
             values[index] = next;
           } else {
