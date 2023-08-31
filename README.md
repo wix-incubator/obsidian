@@ -6,9 +6,8 @@
     <a href="https://www.npmjs.com/package/react-obsidian"><img src="https://img.shields.io/npm/dm/react-obsidian.svg" alt="NPM downloads"></a>
     <a href="https://github.com/wix-incubator/react-obsidian/actions/workflows/ci.yml"><img src="https://github.com/wix-incubator/react-obsidian/actions/workflows/ci.yml/badge.svg?branch=master" alt="build status"></a>
     <a href="https://discord.gg/MDH2axwaPy"><img src="https://img.shields.io/badge/chat-discord-blue?style=flat&logo=discord" alt="discord chat"></a>
+    <h1 align="center">Obsidian</h1>
 </p>
-
-# React Obsidian
 
 React Obsidian is a dependency injection framework for React and React Native applications. It allows you to inject dependencies into hooks, components, and classes. Separating the construction and consumption of dependencies is crucial to maintaining a readable and testable codebase.
 
