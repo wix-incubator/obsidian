@@ -1,3 +1,4 @@
+import { notNull } from '../../utils/notNull';
 import { Observable } from '../Observable';
 import {
   Mapper,
@@ -29,20 +30,17 @@ export class MediatorObservable<T> extends Observable<T> {
     sources: Observables<S1, S2, S3, S4, S5>,
     mapNext: MultiMapper<T, S1, S2, S3, S4, S5>,
   ) {
-    const values = new Array(sources.length).fill(undefined) as Args<S1, S2, S3, S4, S5>;
+    const values = new Array(sources.length) as Args<S1, S2, S3, S4, S5>;
 
     sources
-      .filter((source) => source !== undefined)
+      .filter(notNull)
       .forEach((source, index) => {
         this.addSource(source as IObservable<any>, (next) => {
           if (values[index] === undefined) {
             values[index] = next;
           } else {
-            const mapped = mapNext(
-              values.map((value, i) => (i === index ? next : value)) as Args<S1, S2, S3, S4, S5>,
-              this.value,
-            ) as T;
-            this.value = mapped;
+            values[index] = next;
+            this.value = mapNext(values, this.value) as T;
           }
         });
       });
