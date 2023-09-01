@@ -16,4 +16,5 @@ tsconfig.base.json
 tsconfig.json
 tsconfig.prod.json
 global.d.ts
+README.md
 babel.config.js
