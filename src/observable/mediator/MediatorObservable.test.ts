@@ -223,4 +223,40 @@ describe('MediatorObservable', () => {
 
     expect(mapFn).toHaveBeenCalledTimes(2);
   });
+
+  describe('addSources', () => {
+    let A: Observable<number>;
+    let B: Observable<number>;
+
+    beforeEach(() => {
+      A = new Observable(1);
+      B = new Observable(2);
+    });
+
+    it('should support observing multiple observables', () => {
+      uut.addSources([A, B], ([a, b]) => {
+        uut.value = a + b;
+      });
+
+      expect(uut.value).toBe(3);
+    });
+
+    it('should shallow compare current and next values to reduce re-renders', () => {
+      const onNext = jest.fn();
+
+      uut.addSources([A, B], onNext);
+      A.value = 1;
+
+      expect(onNext).toHaveBeenCalledOnce();
+    });
+
+    it('should invoke onNext when an observable changes', () => {
+      const onNext = jest.fn();
+
+      uut.addSources([A, B], onNext);
+      A.value = 11;
+
+      expect(onNext).toHaveBeenCalledTimes(2);
+    });
+  });
 });
