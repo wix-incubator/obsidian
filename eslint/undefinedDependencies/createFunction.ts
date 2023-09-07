@@ -9,7 +9,7 @@ import {
   getPropertyDeclarations,
 } from './ASTFunctions';
 
-export function create(context:any) {
+export function create(context: any) {
   const imports:TSESTree.ImportDeclaration[] = [];
   const dependencies:string[] = [];
 
@@ -33,7 +33,7 @@ export function create(context:any) {
           if (!check?.value) {
             context.report({
               node,
-              messageId: 'dependencyUndefined',
+              messageId: 'undefinedDependency',
               data: {
                 dependencyName: check.param,
               },

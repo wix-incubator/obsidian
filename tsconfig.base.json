@@ -20,7 +20,7 @@
       "DOM",
       "esnext"
     ],
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,

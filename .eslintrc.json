@@ -9,7 +9,7 @@
         "airbnb-base",
         "airbnb-typescript",
         "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-type-checked",
         "plugin:import/typescript"
       ],
     "parser": "@typescript-eslint/parser",
@@ -88,7 +88,7 @@
 			  "error",
 			  { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
 		  ],
-      "local-rules/defined-dependencies":"error",
+      "local-rules/undefined-dependency":"error",
       "@typescript-eslint/ban-ts-comment": "off"
     },
     "settings": {

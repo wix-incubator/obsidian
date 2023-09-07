@@ -1,5 +1,5 @@
-const {definedDependencies} = require('./dist/eslint/definedDependencies/ruleConfiguration')
+const {undefinedDependencies} = require('./dist/eslint/undefinedDependencies/ruleConfiguration')
 
 module.exports = {
-  'defined-dependencies': definedDependencies
+  'undefined-dependency': undefinedDependencies
 };
