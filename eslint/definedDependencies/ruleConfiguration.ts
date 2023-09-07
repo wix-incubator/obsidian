@@ -3,8 +3,7 @@ import { create } from './createFunction';
 export const definedDependencies = {
   meta: {
     docs: {
-      description:
-        'The dependency must be defined',
+      description: 'The dependency must be defined',
       recommended: 'error',
     },
     messages: {

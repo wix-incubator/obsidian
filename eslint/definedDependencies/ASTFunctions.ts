@@ -28,7 +28,7 @@ export function getSubGraphs(decorators:Decorator[]) {
   return [];
 }
 
-export function bringDependenciesFromSubgraphs(
+export function getDependenciesFromSubgraphs(
   imports: TSESTree.ImportDeclaration[],
   subGraphs:string[],
   context:Readonly<TSESLint.RuleContext<MessageIds, []>>,

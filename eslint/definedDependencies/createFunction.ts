@@ -2,7 +2,7 @@ import { TSESTree } from '@typescript-eslint/typescript-estree';
 
 import {
   getSubGraphs,
-  bringDependenciesFromSubgraphs,
+  getDependenciesFromSubgraphs,
   mapFunctions,
   checkDependencies,
   getDecoratorName,
@@ -24,7 +24,7 @@ export function create(context:any) {
         if (decoratorNames.includes('Graph')) {
           const subGraphs = getSubGraphs(decorators);
           if (subGraphs.length > 0) {
-            dependencies.push(...bringDependenciesFromSubgraphs(imports, subGraphs, context));
+            dependencies.push(...getDependenciesFromSubgraphs(imports, subGraphs, context));
           }
           dependencies.push(...mapFunctions(node));
           dependencies.push(...getPropertyDeclarations(node));
