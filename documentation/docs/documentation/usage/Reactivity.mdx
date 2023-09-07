@@ -74,6 +74,26 @@ const useLogin = () => {
 }
 ```
 
+### Avoid recreating the initial observable
+When using the `useObserver` hook, it is important to avoid recreating the initial observable.
+
+```ts title="Avoid instantiating observables in hooks"
+const useLogin = () => {
+  const [isLoggedIn] = useObserver(new Observable(false));
+}
+```
+
+Even if the value of the observable is the same, this can cause unexpected behavior since it's instantiated on every render.
+
+To solve this, you can pass a generator function to the useObserver hook instead:
+```ts
+const useLogin = () => {
+  const [isLoggedIn] = useObserver(() => new Observable(false));
+}
+```
+
+If you pass a function to the useObserver hook, it will only be called on the first render. This ensures that the observable is only instantiated once.
+
 ### Merge multiple observable sources
 `MediatorObservable` is a special type of observable that allows you to merge multiple observable sources into a single observable. This is useful for creating side effect from one or more observables.
 

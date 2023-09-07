@@ -67,7 +67,7 @@ const config = {
             type: 'docSidebar',
             sidebarId: 'docs2',
             position: 'left',
-            label: 'Documentation',
+            label: 'Learn',
           },
           {
             type: 'docSidebar',
@@ -117,7 +117,7 @@ const config = {
               // },
               {
                 label: 'Discord',
-                href: 'https://discord.gg/2g5vhGQN',
+                href: 'https://discord.gg/MDH2axwaPy',
               },
               // {
               //   label: 'Twitter',

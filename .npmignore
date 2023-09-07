@@ -4,3 +4,17 @@
 /.npmignore
 /test
 .nvmrc
+/documentation
+/example
+.vscode
+.buildkite
+.eslintrc.json
+.eslintignore
+jest.config.js
+jest.setup-after-env.js
+tsconfig.base.json
+tsconfig.json
+tsconfig.prod.json
+global.d.ts
+README.md
+babel.config.js

@@ -20,8 +20,12 @@ export { injectComponent } from './injectors/components/InjectComponent';
 export { injectHook, injectHookWithArguments } from './injectors/hooks/InjectHook';
 
 export { useObserver } from './observable/useObserver';
+export { useObservers } from './observable/useObservers';
 export { Observable } from './observable/Observable';
-export { MediatorObservable } from './observable/MediatorObservable';
+export { MediatorObservable } from './observable/mediator/MediatorObservable';
 export { OnNext, Unsubscribe } from './observable/types';
 
+export { Model } from './model/Model';
+
 export { testKit } from '../testkit';
+export { mockModel, mockGraphs } from '../testkit/index';

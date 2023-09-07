@@ -1,6 +1,6 @@
 {
   "name": "react-obsidian",
-  "version": "0.0.46",
+  "version": "2.1.0",
   "description": "Dependency injection framework for React and React Native applications",
   "scripts": {
     "prepack": "npm run lint && tsc --project tsconfig.prod.json",
@@ -63,6 +63,7 @@
     "jest-environment-jsdom": "29.5.x",
     "jest-junit": "14.0.1",
     "lint-staged": "13.0.3",
+    "jest-extended": "^4.0.0",
     "lodash": "^4.17.21",
     "prettier": "2.7.1",
     "react": "18.2.x",

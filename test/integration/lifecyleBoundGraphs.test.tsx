@@ -3,6 +3,7 @@ import React from 'react';
 import {
   Inject,
   Injectable,
+  Obsidian,
   injectComponent,
   injectHook,
 } from '../../src';
@@ -32,6 +33,35 @@ describe('React lifecycle bound graphs', () => {
   it('passes props to the component', () => {
     const { container } = render(<ClassComponent stringFromProps='Obsidian is cool' />);
     expect(container.textContent).toBe('A string passed via props: Obsidian is cool');
+  });
+
+  it('obtains a lifecycle bound graph only if it was already created', () => {
+    expect(() => Obsidian.obtain(LifecycleBoundGraph)).toThrowError(
+      'Tried to obtain a @LifecycleBound graph LifecycleBoundGraph, but it was not created yet. '
+      + '@LifecycleBound graphs can only be obtained after they were created by a React component or hook.',
+    );
+  });
+
+  it(`resolves a dependency when @LifecycleBound graph is used as a service locator`, () => {
+    render(<Component />);
+
+    const dependency = Obsidian.obtain(LifecycleBoundGraph).doesNotRequireProps();
+    expect(dependency).toBe('A string that does not require props');
+  });
+
+  it(`treats a @LifecycleBound graph as a singleton while it's bound to a graph`, () => {
+    render(<Component />);
+    Obsidian.obtain(LifecycleBoundGraph).doesNotRequireProps();
+
+    expect(LifecycleBoundGraph.timesCreated).toBe(1);
+  });
+
+  it('clears a bound graph when all dependent class components are unmounted', () => {
+    const { unmount } = render(<ClassComponent stringFromProps='foo'/>);
+    unmount();
+    render(<Component />);
+
+    expect(LifecycleBoundGraph.timesCreated).toBe(2);
   });
 
   function createFunctionalComponent() {

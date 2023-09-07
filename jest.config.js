@@ -9,7 +9,8 @@ const config = {
     'eslint'
   ],
   setupFilesAfterEnv: [
-    './jest.setup-after-env.js'
+    './jest.setup-after-env.js',
+    'jest-extended/all'
   ],
   testEnvironment: 'jsdom'
 };

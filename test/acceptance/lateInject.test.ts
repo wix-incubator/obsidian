@@ -5,12 +5,12 @@ import {
   ObjectGraph,
   Obsidian,
   Provides,
-  testKit,
+  mockGraphs,
 } from '../../src';
 
 describe('Late inject', () => {
   it('injects from a concrete graph instance', () => {
-    testKit.mockGraphs({ Subgraph: MockedSubgraph });
+    mockGraphs({ Subgraph: MockedSubgraph });
 
     class Injected {
       @LateInject() graphString!: string;
@@ -24,7 +24,7 @@ describe('Late inject', () => {
   });
 
   it('injects from a graph class', () => {
-    testKit.mockGraphs({ Subgraph: MockedSubgraph });
+    mockGraphs({ Subgraph: MockedSubgraph });
 
     @Injectable(MockedMainGraph)
     class Injected {

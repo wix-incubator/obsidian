@@ -4,11 +4,11 @@ import { LifecycleBound } from '../../src/decorators/LifecycleBound';
 export type Props = Record<string, any> & { stringFromProps: string };
 
 @LifecycleBound() @Graph()
-export class LifecycleBoundGraph<P = {}> extends ObjectGraph<P & Props> {
+export class LifecycleBoundGraph extends ObjectGraph<Props> {
   static timesCreated = 0;
-  private props: P & Props;
+  private props: Props;
 
-  constructor(props: P & Props) {
+  constructor(props: Props) {
     super(props);
     this.props = props;
     LifecycleBoundGraph.timesCreated++;
@@ -19,5 +19,10 @@ export class LifecycleBoundGraph<P = {}> extends ObjectGraph<P & Props> {
     return this.props.stringFromProps
       ? `A string passed via props: ${this.props.stringFromProps}`
       : 'stringFromProps does not exist';
+  }
+
+  @Provides()
+  doesNotRequireProps(): string {
+    return 'A string that does not require props';
   }
 }

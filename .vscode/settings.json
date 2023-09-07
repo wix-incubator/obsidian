@@ -3,5 +3,10 @@
     "estree",
     "TSES",
     "unmagler"
+    "Middlewares",
+    "MVVM",
+    "preconfigured",
+    "unmagler",
+    "unsubscribers"
   ]
 }

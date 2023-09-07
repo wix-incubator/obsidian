@@ -120,4 +120,5 @@ index.android.bundle.map
 
 .jest_cache
 .eslintcache
-coverage
+**/.docusaurus
+coverage/*

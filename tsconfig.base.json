@@ -4,7 +4,9 @@
     "transformers/**/*",
     "test/**/*",
     "./clearGraphs.ts",
-    "./eslint/**/*"
+    "./eslint/**/*",
+    "global.d.ts",
+    "testkit/**/*",
   ],
   "exclude": [
     "node_modules",
@@ -36,8 +38,7 @@
     "resolveJsonModule": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "types": ["reflect-metadata", "jest"],
-    "baseUrl": "./",
-    "allowSyntheticDefaultImports": true
+    "types": ["reflect-metadata", "jest", "node"],
+    "baseUrl": "./"
   }
 }

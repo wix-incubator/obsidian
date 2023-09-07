@@ -43,4 +43,20 @@ describe('useObserver', () => {
     act(() => { setCount(1); });
     expect(result.current.count).toBe(1);
   });
+
+  it('should support getting the observable from a generator function', () => {
+    const uut2 = () => {
+      const [count, setCount] = useObserver(() => new Observable(1));
+      return { count, setCount };
+    };
+
+    const { result, rerender } = renderHook(uut2);
+    expect(result.current.count).toBe(1);
+
+    act(() => { result.current.setCount(2); });
+    expect(result.current.count).toBe(2);
+
+    rerender();
+    expect(result.current.count).toBe(2);
+  });
 });
