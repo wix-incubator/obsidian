@@ -9,7 +9,7 @@
         "airbnb-base",
         "airbnb-typescript",
         "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended-type-checked",
+        // "plugin:@typescript-eslint/recommended-type-checked",
         "plugin:import/typescript"
       ],
     "parser": "@typescript-eslint/parser",

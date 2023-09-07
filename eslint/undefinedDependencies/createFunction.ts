@@ -28,7 +28,6 @@ export function create(context: any) {
           }
           dependencies.push(...mapFunctions(node));
           dependencies.push(...getPropertyDeclarations(node));
-          // const dependencies = createFullDependencyList(decorators, node, imports, context);
           const check = checkDependencies(node, dependencies);
           if (!check?.value) {
             context.report({
@@ -44,19 +43,3 @@ export function create(context: any) {
     },
   };
 }
-
-// function createFullDependencyList(
-//   decorators:TSESTree.Decorator[],
-//   node:any,
-//   imports:any,
-//   context:any,
-// ) {
-//   const dependencies:string[] = [];
-//   const subGraphs = getSubGraphs(decorators);
-//   if (subGraphs.length > 0) {
-//     dependencies.push(...bringDependenciesFromSubgraphs(imports, subGraphs, context));
-//   }
-//   dependencies.push(...mapFunctions(node));
-//   dependencies.push(...getPropertyDeclarations(node));
-//   return dependencies;
-// }

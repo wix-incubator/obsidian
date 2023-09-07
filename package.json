@@ -43,6 +43,7 @@
     "@typescript-eslint/eslint-plugin": "6.6.x",
     "@typescript-eslint/parser": "6.6.x",
     "@typescript-eslint/types": "6.6.x",
+    "@typescript-eslint/rule-tester": "6.6.x",
     "@typescript-eslint/typescript-estree": "6.6.x",
     "@typescript-eslint/utils": "6.6.x",
     "babel-eslint": "^10.1.0",
