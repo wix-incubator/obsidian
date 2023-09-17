@@ -9,6 +9,10 @@ import TabItem from '@theme/TabItem';
 
 Like most Dependency Injection frameworks, Obsidian uses automatic code generation to create the bindings necessary for resolving dependencies. This approach helps reduce the amount of boilerplate code required by developers. Obsidian relies on Babel for code generation, so you'll need to have Babel configured in your project.
 
+:::important
+If your project uses either **Vite** or **Create React App**, please refer to the [Integration with third-party front-end environments](#integration-with-third-party-front-end-environments) section before following the steps below.
+:::
+
 ## 1. Install Obsidian
 
 ```bash
@@ -43,26 +47,7 @@ Add the following options to your tsconfig.json file.
 ## 4. Add the required Babel plugins
 [BabelJS](https://babeljs.io/) is a JavaScript compiler that is used to transpile modern JavaScript code into code that is compatible with older browsers. Obsidian uses a Babel transformer to generate code that is used to resolve dependencies.
 
-### 4.1. Update your Babel configuration
-
-Add the transformer and the required plugins to the list of plugins in your `babel.config.js` file or `.babelrc` file:
-
-```diff
-module.exports = {
-  presets: [
-    'module:metro-react-native-babel-preset',
-+    ['@babel/preset-typescript', {'onlyRemoveTypeImports': true}]
-  ],
-  plugins: [
-+    react-obsidian/dist/transformers/babel-plugin-obsidian,
-+    ['@babel/plugin-proposal-decorators', {legacy: true}],
-+    '@babel/plugin-transform-class-properties',
-+    'babel-plugin-parameter-decorator'
-  ]
-};
-```
-
-### 4.2. Install the required Babel plugins
+### 4.1. Install the required Babel plugins
 
 You will need to install these plugins if you don't have them already:
 <Tabs>
@@ -107,3 +92,79 @@ If this is your first time using Babel, you will also need to install Babel's co
 
 </Tabs>
 
+### 4.2. Update your Babel configuration
+
+Add the transformer and the required plugins to the list of plugins in your `babel.config.js` file or `.babelrc` file:
+
+```diff
+module.exports = {
+  presets: [
+    'module:metro-react-native-babel-preset',
++    ['@babel/preset-typescript', {'onlyRemoveTypeImports': true}]
+  ],
+  plugins: [
++    react-obsidian/dist/transformers/babel-plugin-obsidian,
++    ['@babel/plugin-proposal-decorators', {legacy: true}],
++    '@babel/plugin-transform-class-properties',
++    'babel-plugin-parameter-decorator'
+  ]
+};
+```
+
+## Integration with third-party front-end environments
+### Vite
+[Vite](https://vitejs.dev/) provides a modern development environment for React application. It boasts an extremely fast development server that uses Hot Module Replacement (HMR) to enable near-instant startup time.
+
+When integrating Obsidian in a Vite application, follow steps **1-3 and step 4.1 that are listed above**. Instead of step 4.2, we'll configure Obsidian't Babel transformer in Vite's `vite.config.js` file:
+
+```js title="vite.config.js"
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [
+    react({
+      babel: {
+        plugins: [
+          'react-obsidian/dist/transformers/babel-plugin-obsidian',
+          ['@babel/plugin-proposal-decorators', { legacy: true }],
+        ],
+      },
+    }),
+  ],
+});
+```
+
+### Create React App
+Create React App (CRA) is a popular tool for getting started with React. It provides a pre-configured development environment that is ready to use out of the box.
+
+When integrating Obsidian in a CRA application, follow steps **1-4 that are listed above**. Since CRA doesn't allow you to configure Babel directly, we'll need to install two additional packages:
+1. [react-app-rewired](https://github.com/timarney/react-app-rewired). This package allows you to customize CRA scripts without ejecting.
+2. [customize-cra](https://github.com/arackaf/customize-cra). This package provides a set of utilities that can be used to customize CRA configurations. It has to be used instead of the default `react-scripts` package.
+
+#### Install the required packages and modify the default scripts
+```diff title="package.json"
+{
+  "devDependencies": {
++    "customize-cra": "1.0.0",
++    "react-app-rewired": "2.2.1"
+  },
+  "scripts": {
++    "start": "react-app-rewired start",
++    "build": "react-app-rewired build",
++    "test": "npx jest",
+-    "start": "react-scripts start",
+-    "build": "react-scripts build",
+-    "test": "react-scripts test --env=jsdom",
+  }
+}
+```
+
+#### Configure Babel
+Create a `config-overrides.js` file in the root of your project and add the following code to it:
+
+```js title="config-overrides.js"
+const { useBabelRc, override } = require('customize-cra');
+module.exports = override(useBabelRc());
+```

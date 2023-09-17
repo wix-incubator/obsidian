@@ -198,4 +198,65 @@ describe('MediatorObservable', () => {
 
     expect(mapFn).toHaveBeenCalledTimes(2);
   });
+
+  it('should invoke mapSources with the updated array from the previous invocation', () => {
+    const A = new Observable(1);
+    const B = new Observable(2);
+    const uut2 = new MediatorObservable(0);
+
+    uut2.mapSources([A, B], ([a, b]) => a + b);
+    A.value = 3;
+    B.value = 4;
+
+    expect(uut2.value).toBe(7);
+  });
+
+  it('should invoke mapSources only if value has changed', () => {
+    const A = new Observable(1);
+    const B = new Observable(2);
+    const uut2 = new MediatorObservable(0);
+    const mapFn = jest.fn();
+
+    uut2.mapSources([A, B], mapFn);
+    A.value = 1;
+    A.value = 3;
+
+    expect(mapFn).toHaveBeenCalledTimes(2);
+  });
+
+  describe('addSources', () => {
+    let A: Observable<number>;
+    let B: Observable<number>;
+
+    beforeEach(() => {
+      A = new Observable(1);
+      B = new Observable(2);
+    });
+
+    it('should support observing multiple observables', () => {
+      uut.addSources([A, B], ([a, b]) => {
+        uut.value = a + b;
+      });
+
+      expect(uut.value).toBe(3);
+    });
+
+    it('should shallow compare current and next values to reduce re-renders', () => {
+      const onNext = jest.fn();
+
+      uut.addSources([A, B], onNext);
+      A.value = 1;
+
+      expect(onNext).toHaveBeenCalledOnce();
+    });
+
+    it('should invoke onNext when an observable changes', () => {
+      const onNext = jest.fn();
+
+      uut.addSources([A, B], onNext);
+      A.value = 11;
+
+      expect(onNext).toHaveBeenCalledTimes(2);
+    });
+  });
 });

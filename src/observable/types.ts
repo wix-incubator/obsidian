@@ -1,5 +1,7 @@
 export type OnNext<T> = (value: T) => void | undefined; // OnNext callbacks should never return a value
 
+export type OnMultiNext<S1, S2, S3, S4, S5> = ([S1, S2, S3, S4, S5]: Args<S1, S2, S3, S4, S5>) => void | undefined;
+
 export type Mapper<Other, Mine> = (next: Other, currentValue: Mine) => Mine extends void ?
   'A map function must return a value. Check your map function and ensure it has a valid return statement.' :
   Mine;

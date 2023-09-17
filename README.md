@@ -1,7 +1,7 @@
 [![SWUbanner](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner2-direct.svg)](https://vshymanskyy.github.io/StandWithUkraine)
 
 <p align="center">
-  </br><img width="300px" src=".github/logo.svg"></br>
+  </br><img width="300px" src=".github/logo.svg"></br></br>
     <a href="https://npmjs.com/package/react-obsidian"><img src="https://img.shields.io/npm/v/react-obsidian.svg" alt="npm package"></a>
     <a href="https://www.npmjs.com/package/react-obsidian"><img src="https://img.shields.io/npm/dm/react-obsidian.svg" alt="NPM downloads"></a>
     <a href="https://github.com/wix-incubator/react-obsidian/actions/workflows/ci.yml"><img src="https://github.com/wix-incubator/react-obsidian/actions/workflows/ci.yml/badge.svg?branch=master" alt="build status"></a>
