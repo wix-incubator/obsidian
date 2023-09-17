@@ -38,7 +38,7 @@ ___
 The `subscribe` method is used to listen for changes to the `Observable`'s value. It returns a function that can be used to unsubscribe from the `Observable`.
 #### Arguments
 * `onNext` - A function that will be called whenever the `Observable`'s value changes. It receives the new value as an argument.
-#### returns
+#### Returns
 * `unsubscribe` - A function that can be used to unsubscribe from the `Observable`.
 ___
 ### unsubscribe(onNext)
@@ -52,7 +52,7 @@ ___
 ### get value
 The `value` property is used to get the `Observable`'s current value.
 ___
-### async first
+### async first()
 The `first` method is used to get the `Observable`'s first value. If the `Observable` has no value, it will wait for the first value to be set and return it.
-#### returns
+#### Returns
 * `Promise` - A `Promise` that resolves to the `Observable`'s current value if it has one, or waits for the first value to be set and resolves to it.

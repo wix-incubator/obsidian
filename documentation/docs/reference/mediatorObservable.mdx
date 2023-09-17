@@ -16,16 +16,36 @@ isLoggedIn.add(user, (nextUser) => isLoggedIn.value = nextUser !== undefined);
 
 * [Reference](#reference)
   * [new MediatorObservable(initialValue?)](#new-observableinitialvalue)
-  * [addSource(source, onNext)[#addsourcesource-onnext)](#addsourcesource-onnext]
-  * [mapSource(source, onNext)](#mapsourcesource-onnext)
+  * [addSource(source, onNext): this](#addsourcesource-onnext-this)
+  * [mapSource(source, mapNext): this](#mapsourcesource-mapnext-this)
 ___
 ## Reference
 ### new MediatorObservable(initialValue?)
-___
-### addSource(source, onNext)
-___
-### mapSource(source, onNext)
+Creates a new `MediatorObservable` with an optional initial value.
+#### Arguments
+* `initialValue?` - The initial value of the `MediatorObservable`. Defaults to `undefined`.
 
+#### Caveats
+* It's possible to instantiate a `MediatorObservable` without an initial value, but it's not recommended, as its value will be `undefined` until it's set for the first time which can lead to unexpected behavior.
+___
+
+### addSource(source, onNext): this
+Starts observing the given source and calls the `onNext` callback when the source emits a new value.
+
+#### Arguments
+* `source` - The source `Observable` to observe.
+* `onNext` - The callback to be called when the source emits a new value. The `onNext` callback receives the new value of the source as an argument. In order to update the value of the `MediatorObservable`, call the [value setter](observable#set-value) with the new value.
+
+#### Returns
+`addSource` returns the `MediatorObservable` instance, so it can be chained with other methods.
+___
+
+### mapSource(source, mapNext): this
+Starts observing the given source and calls the `onNext` callback when the source emits a new value.
+
+#### Arguments
+* `source` - The source `Observable` to observe.
+* `mapNext` - The callback to be called when the source emits a new value. The `mapNext` callback receives the new value of the source as an argument and should return the new value of the `MediatorObservable`.
 
 ### Observing multiple sources
 Consider the following scenario: We're developing a checkout page for a food delivery app. Orders can be placed only if the total amount is greater than 50 dollars and the address is within the delivery area.
