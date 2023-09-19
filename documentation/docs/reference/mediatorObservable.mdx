@@ -18,6 +18,9 @@ isLoggedIn.add(user, (nextUser) => isLoggedIn.value = nextUser !== undefined);
   * [new MediatorObservable(initialValue?)](#new-observableinitialvalue)
   * [addSource(source, onNext): this](#addsourcesource-onnext-this)
   * [mapSource(source, mapNext): this](#mapsourcesource-mapnext-this)
+  * [addSources(sources, onNext): this](#addsourcessources-onnext-this)
+  * [mapSources(sources, mapNext): this](#mapsourcessources-mapnext-this)
+* [Usage](#usage)
 ___
 ## Reference
 ### new MediatorObservable(initialValue?)
@@ -47,6 +50,37 @@ Starts observing the given source and calls the `onNext` callback when the sourc
 * `source` - The source `Observable` to observe.
 * `mapNext` - The callback to be called when the source emits a new value. The `mapNext` callback receives the new value of the source as an argument and should return the new value of the `MediatorObservable`.
 
+### addSources(sources, onNext): this
+Similar to [addSource](#addsourcesource-onnext-this), but accepts an array of sources instead of a single source. Use this method when the logic of the `onNext` callback is the same for all sources.
+
+#### Arguments
+* `sources` - An array of source `Observable`s to observe.
+* `onNext` - The callback to be called when any of the sources emits a new value. The `onNext` callback receives the current values of all sources as arguments. In order to update the value of the `MediatorObservable`, call the [value setter](observable#set-value) with the new value.
+
+#### Returns
+`addSources` returns the `MediatorObservable` instance, so it can be chained with other methods.
+
+### mapSources(sources, mapNext): this
+Similar to [mapSource](#mapsourcesource-mapnext-this), but accepts an array of sources instead of a single source. Use this method when the logic of the `mapNext` callback is the same for all sources.
+
+#### Arguments
+* `sources` - An array of source `Observable`s to observe.
+* `mapNext` - The callback to be called when any of the sources emits a new value. The `mapNext` callback receives the current values of all sources as arguments and should return the new value of the `MediatorObservable`.
+
+#### Returns
+`mapSources` returns the `MediatorObservable` instance, so it can be chained with other methods.
+
+## Usage
+### Skipping re-rendering of a component
+
+
+
+
+
+
+
+
+________________
 ### Observing multiple sources
 Consider the following scenario: We're developing a checkout page for a food delivery app. Orders can be placed only if the total amount is greater than 50 dollars and the address is within the delivery area.
 To implement this requirement, we'll create two observables, `totalAmount` and `address`, and we'll merge their emissions in one new `MediatorObservable` called `isOrderValid`. By doing so, `totalAmount` and `address` will become the sources of the new `MediatorObservable`. 
@@ -63,6 +97,5 @@ function isOrderValid(totalAmount: number, address: Address): boolean {
   return totalAmount > 50 && address.isInDeliveryArea;
 }
 ```
-
 
 
