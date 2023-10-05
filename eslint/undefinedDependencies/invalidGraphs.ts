@@ -1,26 +1,24 @@
-export const validGraphSimple = `import { uniqueId } from 'lodash';
-import { Graph, ObjectGraph, Provides } from 'src';
+export const invalidGraph = `import { Graph, ObjectGraph, Provides } from 'src';
 
 @Graph()
 export default class SimpleGraph extends ObjectGraph {
   @Provides()
-  instanceId(): string {
-    return 'graph';
+  instanceId(id:string): string {
+    return id;
   }
 }`;
 
-export const validGraphWithSubgraph = `import {
+export const invalidGraphWithSubgraph = `import {
   Graph,
   ObjectGraph,
   Provides,
 }  from 'src';
 import Subgraph from './subgraph';
 
-
 @Graph({ subgraphs: [Subgraph] })
 export default class SimpleGraphWithSubgraph extends ObjectGraph {
   @Provides()
-  someClass(instanceId:string): string {
-    return instanceId;
+  someClass(wrongDep:string): string {
+    return wrongDep;
   }
 }`;
