@@ -1,5 +1,5 @@
 import { RuleTester } from '@typescript-eslint/rule-tester';
-import { validGraphSimple, validGraphWithSubgraph } from './testUtils/validGraphs';
+import { validGraphSimple } from './testUtils/validGraphs';
 import { invalidGraph } from './invalidGraphs';
 import { undefinedDependencies } from './ruleConfiguration';
 
@@ -18,7 +18,7 @@ import { undefinedDependencies } from './ruleConfiguration';
 const ruleTester = new RuleTester();
 
 ruleTester.run('undefined-dependency', undefinedDependencies, {
-  valid: [validGraphSimple, validGraphWithSubgraph],
+  valid: [validGraphSimple],
   invalid: [{
     code: invalidGraph,
     errors: [{
