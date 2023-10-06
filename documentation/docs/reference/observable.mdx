@@ -23,6 +23,8 @@ isLoggedIn.subscribe((nextValue: boolean) => {
   * [set value](#set-value)
   * [get value](#get-value)
   * [async first](#async-first)
+* [Usage](#usage)
+  * [Conditional rendering of a component](#conditional-rendering-of-a-component)
 ___
 
 ### Reference
@@ -56,3 +58,7 @@ ___
 The `first` method is used to get the `Observable`'s first value. If the `Observable` has no value, it will wait for the first value to be set and return it.
 #### Returns
 * `Promise` - A `Promise` that resolves to the `Observable`'s current value if it has one, or waits for the first value to be set and resolves to it.
+
+## Usage
+### Conditional rendering of a component
+See [Conditional rendering of a component](../mediatorObservable#conditional-rendering-of-a-component) for a detailed explanation of this example.

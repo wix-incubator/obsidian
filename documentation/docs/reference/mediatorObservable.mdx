@@ -21,6 +21,8 @@ isLoggedIn.add(user, (nextUser) => isLoggedIn.value = nextUser !== undefined);
   * [addSources(sources, onNext): this](#addsourcessources-onnext-this)
   * [mapSources(sources, mapNext): this](#mapsourcessources-mapnext-this)
 * [Usage](#usage)
+  * [Observing multiple sources](#observing-multiple-sources)
+  * [Conditional rendering of a component](#conditional-rendering-of-a-component)
 ___
 ## Reference
 ### new MediatorObservable(initialValue?)
@@ -108,4 +110,32 @@ const streamQuality = new MediatorObservable<streamQuality>().mapSources(
 Now, every time the battery level or the network speed changes, the `streamQuality` observable will emit a new value based on the new values of the sources.
 
 ### Conditional rendering of a component
-See [Conditional rendering of a component](../observable#conditional-rendering-of-a-component) for a detailed explanation of this example.
+When optimizing React applications for performance, avoiding unnecessary renders is one of the most important things to do. One way to do this is to use `Observable` to conditionally render a component only when a certain condition is met. We can use `MediatorObservable` to create a new observable that observes another and emits a value only when a condition is met.
+
+To illustrate this, let's create a `MediatorObservable` that observes a user's score in a game. The `MediatorObservable` will emit a new value when the user's score is greater than 10. We'll use this observable to conditionally render a component that displays a message when the user wins the game.
+
+First, we'll declare the observables that we'll use:
+```tsx
+// An observable that tracks a user's score in a game
+const gameScoreObservable = new Observable<number>(0);
+
+const isWinnerObservable = new MediatorObservable<boolean>(false)
+  .addSource(gameScoreObservable, (score) => {
+    if (score > 10) {
+      gameState.value = true;
+    }
+  });
+```
+
+Now we can use the `isWinnerObservable` to conditionally render the game's status:
+```tsx
+const Game = () => {
+  const [isWinner] = useObserver(isWinnerObservable);
+
+  return (
+    <div>
+      {isWinner && <p>You won!</p>}
+      <GameBoard />
+    </div>
+  )
+}
