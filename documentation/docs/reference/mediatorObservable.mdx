@@ -20,6 +20,7 @@ isLoggedIn.add(user, (nextUser) => isLoggedIn.value = nextUser !== undefined);
   * [mapSource(source, mapNext): this](#mapsourcesource-mapnext-this)
   * [addSources(sources, onNext): this](#addsourcessources-onnext-this)
   * [mapSources(sources, mapNext): this](#mapsourcessources-mapnext-this)
+  * [async first&#60;T&#62;(): Promise&#60;T&#62;](#async-firstt-promiset)
 * [Usage](#usage)
   * [Observing multiple sources](#observing-multiple-sources)
   * [Conditional rendering of a component](#conditional-rendering-of-a-component)
@@ -76,6 +77,10 @@ Similar to [mapSource](#mapsourcesource-mapnext-this), but accepts an array of s
 
 #### Returns
 `mapSources` returns the `MediatorObservable` instance, so it can be chained with other methods.
+
+---
+### async first&#60;T&#62;(): Promise&#60;T&#62;
+See [Observable.first()](observable#async-firstt-promiset).
 
 ## Usage
 ### Observing multiple sources
