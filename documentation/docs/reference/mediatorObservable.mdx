@@ -37,7 +37,7 @@ Starts observing the given source and calls the `onNext` callback when the sourc
 
 #### Arguments
 * `source` - The source `Observable` to observe.
-* `onNext` - The callback to be called when the source emits a new value. The `onNext` callback receives the new value of the source as an argument. In order to update the value of the `MediatorObservable`, call the [value setter](observable#set-value) with the new value.
+* `onNext` - The callback to be called when the source emits a new value. The `onNext` callback receives the new value of the source as an argument. __In order to update the value of the `MediatorObservable`, call the [value setter](observable#set-value) with the new value__.
 
 #### Returns
 `addSource` returns the `MediatorObservable` instance, so it can be chained with other methods.
@@ -48,8 +48,12 @@ Starts observing the given source and calls the `onNext` callback when the sourc
 
 #### Arguments
 * `source` - The source `Observable` to observe.
-* `mapNext` - The callback to be called when the source emits a new value. The `mapNext` callback receives the new value of the source as an argument and should return the new value of the `MediatorObservable`.
+* `mapNext` - The callback to be called when the source emits a new value. The `mapNext` callback receives the new value of the source as an argument and __must return the new value of the `MediatorObservable`__.
 
+#### Returns
+`mapSource` returns the `MediatorObservable` instance, so it can be chained with other methods.
+
+---
 ### addSources(sources, onNext): this
 Similar to [addSource](#addsourcesource-onnext-this), but accepts an array of sources instead of a single source. Use this method when the logic of the `onNext` callback is the same for all sources.
 
@@ -60,6 +64,7 @@ Similar to [addSource](#addsourcesource-onnext-this), but accepts an array of so
 #### Returns
 `addSources` returns the `MediatorObservable` instance, so it can be chained with other methods.
 
+---
 ### mapSources(sources, mapNext): this
 Similar to [mapSource](#mapsourcesource-mapnext-this), but accepts an array of sources instead of a single source. Use this method when the logic of the `mapNext` callback is the same for all sources.
 
@@ -71,31 +76,36 @@ Similar to [mapSource](#mapsourcesource-mapnext-this), but accepts an array of s
 `mapSources` returns the `MediatorObservable` instance, so it can be chained with other methods.
 
 ## Usage
-### Skipping re-rendering of a component
-
-
-
-
-
-
-
-
-________________
 ### Observing multiple sources
-Consider the following scenario: We're developing a checkout page for a food delivery app. Orders can be placed only if the total amount is greater than 50 dollars and the address is within the delivery area.
-To implement this requirement, we'll create two observables, `totalAmount` and `address`, and we'll merge their emissions in one new `MediatorObservable` called `isOrderValid`. By doing so, `totalAmount` and `address` will become the sources of the new `MediatorObservable`. 
+Sometimes data is computed from the values of other observables. We can use `MediatorObservable` to create a new observable that observes other observables and emits a new value based on their values.
+
+Let's walk through an example to see how this works. Say we're developing a live streaming app and want to change the quality of the stream based on the device's battery level and the network speed. We'll create two observables, `batteryLevel` and `networkSpeed`, and we'll merge their emissions in one new `MediatorObservable` called `streamQuality`. By doing so, `batteryLevel` and `networkSpeed` will become the sources of the new `MediatorObservable`. 
 
 ```ts
-const totalAmount = new Subject<number>();
-const address = new Subject<Address>();
+enum NetworkSpeed { Poor = 150, Moderate = 550, Good = 2000 }
+enum streamQuality { Low, Medium, High }
 
-const isOrderValid = new MediatorObservable<number>();
-mediator.add(totalAmount, (nextTotalAmount) => mediator.value = isOrderValid(nextTotalAmount, address.value));
-mediator.add(address, (nextAddress) => mediator.value = isOrderValid(totalAmount.value, nextAddress));
+const batteryLevel = new Observable<number>();
+const networkSpeed = new Observable<number>();
 
-function isOrderValid(totalAmount: number, address: Address): boolean {
-  return totalAmount > 50 && address.isInDeliveryArea;
-}
+// Every time one of the sources emits a new value, the mediator will call the callback function
+const streamQuality = new MediatorObservable<streamQuality>().mapSources(
+  [batteryLevel, networkSpeed],
+  (batteryLevel, networkSpeed) => {
+    if (batteryLevel < 15 || networkSpeed < NetworkSpeed.Poor) {
+      return streamQuality.Low;
+    }
+
+    if (networkSpeed < NetworkSpeed.Moderate) {
+      return StreamQuality.Medium;
+    }
+
+    return StreamQuality.High;
+  }
+);
 ```
 
+Now, every time the battery level or the network speed changes, the `streamQuality` observable will emit a new value based on the new values of the sources.
 
+### Conditional rendering of a component
+See [Conditional rendering of a component](../observable#conditional-rendering-of-a-component) for a detailed explanation of this example.
