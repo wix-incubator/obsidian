@@ -11,6 +11,9 @@ const {foo, bar} = useObservers({foo: fooObservable, bar: barObservable});
 
 * [Reference](#reference)
   * [useObservers(observables)](#useobserversobservables)
+* [Usage](#usage)
+  * [Observing multiple Observables](#observing-multiple-observables)
+  
 ___
 
 ## Reference
@@ -39,3 +42,32 @@ An object containing the current values of the observables.
 
 #### Caveats
 * The `useObservables` hook is useful in cases where you need to read the values of multiple observables. If you need to update observables, you might want to use the [`useObserver`](./useObserver) hook instead as it provides a more convenient API for updating observables.
+
+## Usage
+### Observing multiple state properties
+The `useObservers` hook is useful in cases where you need to react to changes of multiple observables. This is commonly used when observing state properties. Instead of observing each property individually, you can use the `useObservers` hook to observe all of them in a single statement. This can make your code more readable and easy to understand.
+
+```ts
+import { useObservers } from 'react-obsidian';
+
+type State = {
+  foo: Observable<number>;
+  bar: Observable<boolean>;
+};
+
+const useHook = ({state}: {state: State}) => {
+  const {foo, bar} = useObservers({
+    foo: state.foo,
+    bar: state.bar
+  });
+  
+  return {
+    foo,
+    bar,
+  };
+}
+```
+
+:::tip
+If you find the `useObservers` API too verbose, consider having your state extend the [Model](./model.mdx) class. It provides a lean abstraction for observing state properties.
+:::
