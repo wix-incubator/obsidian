@@ -2,3 +2,48 @@
 sidebar_position: 5
 title: 'Model'
 ---
+
+`Model` **is an abstract utility class that provides an easy way to observe specific properties of an object.**
+
+* [Reference](#reference)
+  * [use()](#use)
+* [Usage](#usage)
+  * [Observing properties](#observing-properties)
+
+## Reference
+### use()
+The `use` method is used to observe the properties of a model. It's intended to be used only in hooks.
+#### Returns
+An object containing all of the model's observable properties.
+
+## Usage
+### Observing properties
+Since `Model` is an abstract class, you'll need to extend it to use it. Let's say you have an app state that looks like this:
+```ts
+class AppState {
+  public user = new Observable<User>();
+  public isLoggedIn = new Observable<boolean>();
+}
+```
+
+You can use `Model` to observe the properties of `AppState` like this:
+
+```ts
+import { injectHook, Model } from 'react-obsidian';
+
+// 1. Make AppState extend Model
+class AppState extends Model {
+  public user = new Observable<User>(); // { firstName: string; lastName: string;}
+  public isLoggedIn = new Observable<boolean>();
+}
+
+// 2. `appState` is injected into the hook
+const _useUserName = (appState: AppState) => {
+  // 3. Use `appState.use()` to observe the properties
+  const {user, isLoggedIn} = user.use();
+
+  return `${user.firstName} is ${isLoggedIn ? '' : 'not '}logged in`;
+};
+
+export const useUserName = injectHook(_useUserName, /* SomeGraph */);
+```
