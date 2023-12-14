@@ -37,6 +37,7 @@
     "@types/lodash": "^4.14.176",
     "@types/react": "18.2.x",
     "@types/react-dom": "18.2.x",
+    "@typescript-eslint/eslint-plugin": "6.6.x",
     "@typescript-eslint/parser": "6.6.x",
     "@typescript-eslint/types": "6.6.x",
     "@typescript-eslint/rule-tester": "6.6.x",
@@ -62,8 +63,7 @@
     "react-dom": "18.2.x",
     "setimmediate": "^1.0.5",
     "typescript": "^4.5.4",
-    "eslint-config-airbnb-typescript": "17.x.x",
-    "@typescript-eslint/eslint-plugin": "^6.0.0"
+    "eslint-config-airbnb-typescript": "17.x.x"
   },
   "repository": {
     "type": "git",
