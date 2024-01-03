@@ -1,0 +1,74 @@
+---
+sidebar_position: 1
+title: 'mockGraphs'
+---
+
+`mockGraphs` **is a function that is used in tests to replace the implementation of graphs with a mock implementation.**
+
+The `mockGraphs` function is meant to be used only in tests. It is especially useful when writing integration tests. Unlike in unit tests, where a single unit is tested in isolation, integration tests involve testing multiple **concrete** objects together. By doing so we can validate that the objects work together as expected. Sometimes, we may want to mock some of the dependencies instead of using concretions. For example, we wouldn't want to use a real database in our tests or send real HTTP requests. `mockGraphs` lets us replace certain objects with fakes or mocks.
+
+* [Reference](#reference)
+  * [mockGraphs(graphNameToGraph)](#mockgraphsgraphnametograph)
+
+## Reference
+### mockGraphs(graphNameToGraph)
+Replaces the implementation of the given graphs with mock implementations.
+#### Arguments
+* `graphNameToGraph` - An object mapping graph names to graphs. The graph names must be the same as the names of the graphs being mocked.
+
+## Usage
+### Mocking a graph
+Lets say we have a graph that looks like this:
+```ts
+@Singleton() @Graph()
+class AppGraph {
+  @Provides()
+  storage(): Storage {
+    return new Storage();
+  }
+}
+```
+
+The Storage class is a simple class that persists data to local storage. We don't want to use the real Storage class in our tests as it would make our tests slow and unpredictable. Instead, we'll create a fake implementation of Storage that stores data in memory.
+
+```ts
+class FakeStorage extends Storage {
+  private data: Record<string, string> = {};
+
+  override getItem(key: string): string | undefined {
+    return this.data[key];
+  }
+
+  override setItem(key: string, value: string) {
+    this.data[key] = value;
+  }
+}
+```
+
+Next, we'll create a graph that provides a fake implementation of Storage.
+
+```ts
+@Singleton() @Graph()
+class AppGraphForIntegrationTests {
+  @Provides()
+  override storage(): Storage {
+    return new FakeStorage();
+  }
+}
+```
+
+Finally, we'll mock the AppGraph in our tests by calling `mockGraphs` with an object mapping the name of the graph to the mocked graph.
+```ts
+import { Obsidian, mockGraphs } from 'react-obsidian';
+
+describe('Mocking graphs', () => {
+  beforeEach(() => {
+    mockGraphs({ AppGraph: AppGraphForIntegrationTests });
+  });
+
+  it('should use the fake storage', () => {
+    const storage = Obsidian.obtain(AppGraph).storage();
+    expect(storage).toBeInstanceOf(FakeStorage);
+  });
+});
+```

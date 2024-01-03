@@ -188,11 +188,11 @@ export class ApplicationGraphForTests extends ApplicationGraph {
 To use the graph in the test, we'll use Obsidian's test kit to use the `ApplicationGraphForTests` instead of the `ApplicationGraph` whenever it's needed.
 
 ```ts
-import {testKit} from 'react-obsidian';
+import {mockGraphs} from 'react-obsidian';
 
 describe('Test suite', () => {
   beforeEach(() => {
-    testKit.mockGraphs({
+    mockGraphs({
       // Instruct Obsidian to use the ApplicationGraphForTests instead of the ApplicationGraph
       ApplicationGraph: ApplicationGraphForTests,
     });
