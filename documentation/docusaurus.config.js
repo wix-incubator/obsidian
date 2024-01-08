@@ -71,6 +71,12 @@ const config = {
           },
           {
             type: 'docSidebar',
+            sidebarId: 'reference',
+            position: 'left',
+            label: 'Reference',
+          },
+          {
+            type: 'docSidebar',
             sidebarId: 'guides',
             position: 'left',
             label: 'Guides',

@@ -1,0 +1,146 @@
+---
+sidebar_position: 2
+title: 'MediatorObservable'
+---
+
+`MediatorObservable` **is a type of** `Observable` **that acts as an adapter between one or more source** `Observable`**s. It allows us to create a new observable stream based on the values of other observables.**
+
+For example, we can create a `MediatorObservable` that observes an Observable of a certain type and emits a new value based on the value of the source observable.
+
+```ts
+const user = new Observable<User>();
+
+const isLoggedIn = new MediatorObservable<boolean>();
+isLoggedIn.add(user, (nextUser) => isLoggedIn.value = nextUser !== undefined);
+```
+
+* [Reference](#reference)
+  * [new MediatorObservable(initialValue?)](#new-observableinitialvalue)
+  * [addSource(source, onNext): this](#addsourcesource-onnext-this)
+  * [mapSource(source, mapNext): this](#mapsourcesource-mapnext-this)
+  * [addSources(sources, onNext): this](#addsourcessources-onnext-this)
+  * [mapSources(sources, mapNext): this](#mapsourcessources-mapnext-this)
+  * [async first&#60;T&#62;(): Promise&#60;T&#62;](#async-firstt-promiset)
+* [Usage](#usage)
+  * [Observing multiple sources](#observing-multiple-sources)
+  * [Conditional rendering of a component](#conditional-rendering-of-a-component)
+___
+## Reference
+### new MediatorObservable(initialValue?)
+Creates a new `MediatorObservable` with an optional initial value.
+#### Arguments
+* `initialValue?` - The initial value of the `MediatorObservable`. Defaults to `undefined`.
+
+#### Caveats
+* It's possible to instantiate a `MediatorObservable` without an initial value, but it's not recommended, as its value will be `undefined` until it's set for the first time which can lead to unexpected behavior.
+___
+
+### addSource(source, onNext): this
+Starts observing the given source and calls the `onNext` callback when the source emits a new value.
+
+#### Arguments
+* `source` - The source `Observable` to observe.
+* `onNext` - The callback to be called when the source emits a new value. The `onNext` callback receives the new value of the source as an argument. __In order to update the value of the `MediatorObservable`, call the [value setter](observable#set-value) with the new value__.
+
+#### Returns
+`addSource` returns the `MediatorObservable` instance, so it can be chained with other methods.
+___
+
+### mapSource(source, mapNext): this
+Starts observing the given source and calls the `onNext` callback when the source emits a new value.
+
+#### Arguments
+* `source` - The source `Observable` to observe.
+* `mapNext` - The callback to be called when the source emits a new value. The `mapNext` callback receives the new value of the source as an argument and __must return the new value of the `MediatorObservable`__.
+
+#### Returns
+`mapSource` returns the `MediatorObservable` instance, so it can be chained with other methods.
+
+---
+### addSources(sources, onNext): this
+Similar to [addSource](#addsourcesource-onnext-this), but accepts an array of sources instead of a single source. Use this method when the logic of the `onNext` callback is the same for all sources.
+
+#### Arguments
+* `sources` - An array of source `Observable`s to observe.
+* `onNext` - The callback to be called when any of the sources emits a new value. The `onNext` callback receives the current values of all sources as arguments. In order to update the value of the `MediatorObservable`, call the [value setter](observable#set-value) with the new value.
+
+#### Returns
+`addSources` returns the `MediatorObservable` instance, so it can be chained with other methods.
+
+---
+### mapSources(sources, mapNext): this
+Similar to [mapSource](#mapsourcesource-mapnext-this), but accepts an array of sources instead of a single source. Use this method when the logic of the `mapNext` callback is the same for all sources.
+
+#### Arguments
+* `sources` - An array of source `Observable`s to observe.
+* `mapNext` - The callback to be called when any of the sources emits a new value. The `mapNext` callback receives the current values of all sources as arguments and should return the new value of the `MediatorObservable`.
+
+#### Returns
+`mapSources` returns the `MediatorObservable` instance, so it can be chained with other methods.
+
+---
+### async first&#60;T&#62;(): Promise&#60;T&#62;
+See [Observable.first()](observable#async-firstt-promiset).
+
+## Usage
+### Observing multiple sources
+Sometimes data is computed from the values of other observables. We can use `MediatorObservable` to create a new observable that observes other observables and emits a new value based on their values.
+
+Let's walk through an example to see how this works. Say we're developing a live streaming app and want to change the quality of the stream based on the device's battery level and the network speed. We'll create two observables, `batteryLevel` and `networkSpeed`, and we'll merge their emissions in one new `MediatorObservable` called `streamQuality`. By doing so, `batteryLevel` and `networkSpeed` will become the sources of the new `MediatorObservable`. 
+
+```ts
+enum NetworkSpeed { Poor = 150, Moderate = 550, Good = 2000 }
+enum streamQuality { Low, Medium, High }
+
+const batteryLevel = new Observable<number>();
+const networkSpeed = new Observable<number>();
+
+// Every time one of the sources emits a new value, the mediator will call the callback function
+const streamQuality = new MediatorObservable<streamQuality>().mapSources(
+  [batteryLevel, networkSpeed],
+  (batteryLevel, networkSpeed) => {
+    if (batteryLevel < 15 || networkSpeed < NetworkSpeed.Poor) {
+      return streamQuality.Low;
+    }
+
+    if (networkSpeed < NetworkSpeed.Moderate) {
+      return StreamQuality.Medium;
+    }
+
+    return StreamQuality.High;
+  }
+);
+```
+
+Now, every time the battery level or the network speed changes, the `streamQuality` observable will emit a new value based on the new values of the sources.
+
+### Conditional rendering of a component
+When optimizing React applications for performance, avoiding unnecessary renders is one of the most important things to do. One way to do this is to use `Observable` to conditionally render a component only when a certain condition is met. We can use `MediatorObservable` to create a new observable that observes another and emits a value only when a condition is met.
+
+To illustrate this, let's create a `MediatorObservable` that observes a user's score in a game. The `MediatorObservable` will emit a new value when the user's score is greater than 10. We'll use this observable to conditionally render a component that displays a message when the user wins the game.
+
+First, we'll declare the observables that we'll use:
+```tsx
+// An observable that tracks a user's score in a game
+const gameScoreObservable = new Observable<number>(0);
+
+const isWinnerObservable = new MediatorObservable<boolean>(false)
+  .addSource(gameScoreObservable, (score) => {
+    if (score > 10) {
+      gameState.value = true;
+    }
+  });
+```
+
+Now we can use the `isWinnerObservable` to conditionally render the game's status:
+```tsx
+const Game = () => {
+  const [isWinner] = useObserver(isWinnerObservable);
+
+  return (
+    <div>
+      {isWinner && <p>You won!</p>}
+      <GameBoard />
+    </div>
+  )
+}

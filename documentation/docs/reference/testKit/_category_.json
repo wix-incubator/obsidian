@@ -1,0 +1,9 @@
+{
+  "label": "TestKit",
+  "position": 6,
+  "collapsed": true,
+  "link": {
+    "type": "generated-index",
+    "description": "Learn how to inject hooks, components and classes with Obsidian."
+  }
+}
