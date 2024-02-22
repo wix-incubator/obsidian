@@ -117,5 +117,8 @@ buck-out/
 
 main.jsbundle.map
 index.android.bundle.map
+
+.jest_cache
+.eslintcache
 **/.docusaurus
 coverage/*

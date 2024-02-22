@@ -6,6 +6,7 @@ const config = {
     'src',
     'transformers',
     'test',
+    'eslint'
   ],
   setupFilesAfterEnv: [
     './jest.setup-after-env.js',
