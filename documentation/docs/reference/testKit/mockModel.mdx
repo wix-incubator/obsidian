@@ -1,0 +1,81 @@
+---
+sidebar_position: 2
+title: 'mockModel'
+---
+
+`mockModel` **is a utility function that allows you to easily mock [models](/docs/reference/model).**
+
+* [Reference](#reference)
+  * [mockModel(modelToMock)](#mockmodelmodeltomock-partialmodel-model)
+
+## Reference
+### `mockModel(mock, BaseClass?): Model`
+Mock a given model, and return a new instance with the specified properties stubbed.
+#### Parameters
+• `mock`: The partial implementation of the model to mock. Only the specified Observable properties will be stubbed. The rest will be left undefined. <br/>
+• `BaseClass?`: An optional base class to use for the mock. This is useful in cases where your model has helper methods or getters that should be included in the mock. 
+#### Returns
+• A new instance of the model with the specified properties stubbed.
+
+## Usage
+### Stubbing Observable Properties
+The `mockModel` function allows you to easily stub out Observable properties in a model. Consider the following example:
+
+```ts
+class AppState {
+  public session = new Observable<string | undefined>();
+  public isLoggedIn = new MediatorObservable(false).mapSource(session => !!session);
+}
+```
+
+The `isLoggedIn` property is a [MediatorObservable](/docs/reference/mediatorObservable) that maps the value of the `session` property to a boolean. When using this model in a test, we don't want to be bothered with the implementation details of the `isLoggedIn` property. We can easily stub out the `isLoggedIn` while ignoring the `session` property by using the `mockModel` function.
+
+```ts
+import { mockModel } from 'react-obsidian';
+
+describe('AppState', () => {
+  it('should return true if the user is logged in', () => {
+    const mockAppState = mockModel({
+      isLoggedIn: new Observable(true)
+    });
+
+    expect(mockAppState.isLoggedIn.value).toBe(true);
+  });
+});
+```
+
+### Including class methods and getters
+We encourage developers to add helper methods and getters to their models. This is a great way to encapsulate business logic in the domain layer. In order to include these methods in your mocks you can provide a base class to the `mockModel` function.
+
+Consider the following example. The `AppState` model has a getter called `isLoggedIn` that returns a boolean based on the value of the `session` property.
+
+```ts
+import { injectHook, Model } from 'react-obsidian';
+
+class AppState extends Model {
+  public user = new Observable<User>(); // { firstName: string; lastName: string;}
+  public session = new Observable<string>();
+
+  get isLoggedIn(): boolean {
+    return !!this.loggedIn.value;
+  }
+}
+```
+
+In order to include the `isLoggedIn` getter in the mock, we can provide the `AppState` class as the second argument to `mockModel`.
+
+```ts
+import { mockModel } from 'react-obsidian';
+
+describe('AppState', () => {
+  it('should return true if the user is logged in', () => {
+    const mockAppState = mockModel({
+        session: new Observable('1234')
+      },
+      AppState // When a base class is provided, the mock will be an instance of that class.
+    );
+
+    expect(mockAppState.isLoggedIn).toBe(true);
+  });
+});
+```

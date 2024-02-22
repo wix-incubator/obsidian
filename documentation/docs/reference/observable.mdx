@@ -1,0 +1,65 @@
+---
+sidebar_position: 1
+title: 'Observable'
+---
+
+`Observable` **is a class that represents a stream of values. It is similar to** `Promise` **in that it is a container for a value that will be available in the future. However, unlike **`Promise`**, **`Observable`** can emit multiple values over time.**
+
+```ts
+const isLoggedIn = new Observable(false);
+isLoggedIn.subscribe((nextValue: boolean) => {
+  if (nextValue) {
+    console.log('User is logged in');
+  } else {
+    console.log('User is logged out');
+  }
+});
+```
+
+* [Reference](#reference)
+  * [new Observable(initialValue?)](#new-observableinitialvalue)
+  * [subscribe(onNext)](#subscribeonnext)
+  * [unsubscribe(onNext)](#unsubscribeonnext)
+  * [set value](#set-value)
+  * [get value](#get-value)
+  * [async first&#60;T&#62;(): Promise&#60;T&#62](#async-firstt-promiset)
+* [Usage](#usage)
+  * [Conditional rendering of a component](#conditional-rendering-of-a-component)
+___
+
+### Reference
+#### new Observable(initialValue?)
+Creates a new `Observable` instance with an optional initial value.
+#### Arguments
+* `initialValue?` - The initial value of the `Observable`. Defaults to `undefined`.
+
+#### Caveats
+* It's possible to instantiate an `Observable` without an initial value, but it's not recommended, as its value will be `undefined` until it's set for the first time which can lead to unexpected behavior.
+___
+### subscribe(onNext)
+The `subscribe` method is used to listen for changes to the `Observable`'s value. It returns a function that can be used to unsubscribe from the `Observable`.
+#### Arguments
+* `onNext` - A function that will be called whenever the `Observable`'s value changes. It receives the new value as an argument.
+#### Returns
+* `unsubscribe` - A function that can be used to unsubscribe from the `Observable`.
+___
+### unsubscribe(onNext)
+The `unsubscribe` method is used to unsubscribe from the `Observable` a specific `onNext` callback.
+#### Arguments
+* `onNext` - The `onNext` callback to unsubscribe.
+___
+### set value
+The `value` property is used to set the `Observable`'s value. Changing the value will trigger all subscribers and will trigger a rerender if the `Observable` is used in a Component or a Hook.
+___
+### get value
+The `value` property is used to get the `Observable`'s current value.
+___
+### async first&#60;T&#62;(): Promise&#60;T&#62;
+The `first` method is used to get the `Observable`'s first value. If the `Observable` has no value, it will wait for the first value to be set and return it.
+
+#### Returns
+* `Promise` - A `Promise` that resolves to the `Observable`'s current value if it has one, or waits for the first value to be set and resolves to it.
+
+## Usage
+### Conditional rendering of a component
+See [Conditional rendering of a component](./mediatorObservable#conditional-rendering-of-a-component) for a detailed explanation of this example.

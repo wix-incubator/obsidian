@@ -13,7 +13,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.x]
+      node-version: [16.14.x]
+
 
     env:
       NPM_EMAIL: ''
