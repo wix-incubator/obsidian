@@ -16,12 +16,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: npm
-          cache-dependency-path: documentation/package-lock.json
+          cache: yarn
+          cache-dependency-path: documentation/yarn.lock
 
       - name: Install dependencies
         working-directory: ./documentation
-        run: npm ci
+        run: yarn install --frozen-lockfile
       - name: Test build documentation
         working-directory: ./documentation
-        run: npm run build
+        run: yarn build
