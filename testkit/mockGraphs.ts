@@ -16,5 +16,15 @@ export function mockGraphs(
       return resolveChain.proceed(Graph, props);
     }
   }();
+
+  clearRegisteredGraphs(graphNameToGraph);
   graphRegistry.addGraphMiddleware(graphMiddleware);
+}
+
+function clearRegisteredGraphs(
+  graphNameToGraph: Record<string, Constructable<ObjectGraph> | ((props: any) => ObjectGraph)>,
+) {
+  for (const graphName of Object.keys(graphNameToGraph)) {
+    graphRegistry.clearGraphAfterItWasMockedInTests(graphName);
+  }
 }

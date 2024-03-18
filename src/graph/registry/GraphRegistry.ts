@@ -70,6 +70,22 @@ export class GraphRegistry {
     return Reflect.getMetadata('isLifecycleBound', Graph) ?? false;
   }
 
+  clearGraphAfterItWasMockedInTests(graphName: string) {
+    const graphNames = this.nameToInstance.keys();
+    for (const name of graphNames) {
+      if (name.match(graphName)) {
+        const graph = this.nameToInstance.get(name);
+        if (!graph) return;
+        const Graph = this.instanceToConstructor.get(graph);
+        if (!Graph) return;
+
+        this.instanceToConstructor.delete(graph);
+        this.constructorToInstance.get(Graph)!.delete(graph);
+        this.nameToInstance.delete(graph.name);
+      }
+    }
+  }
+
   clear(graph: Graph) {
     const Graph = this.instanceToConstructor.get(graph);
     if (!Graph || this.isSingleton(Graph)) return;
@@ -93,4 +109,8 @@ export class GraphRegistry {
   }
 }
 
-export default new GraphRegistry();
+// @ts-ignore
+global.graphRegistry = global.graphRegistry || new GraphRegistry();
+// @ts-ignore
+export default global.graphRegistry as GraphRegistry;
+// export default new GraphRegistry();
