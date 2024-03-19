@@ -113,4 +113,3 @@ export class GraphRegistry {
 global.graphRegistry = global.graphRegistry || new GraphRegistry();
 // @ts-ignore
 export default global.graphRegistry as GraphRegistry;
-// export default new GraphRegistry();
