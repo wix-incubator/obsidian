@@ -30,7 +30,10 @@ export default class ClassInjector {
         const argsToInject = this.injectConstructorArgs(args, graph, target);
         graph.onBind(target);
         const createdObject = Reflect.construct(target, argsToInject, newTarget);
+
         this.injectProperties(target, createdObject, graph);
+        this.injectLazyProperties(target, createdObject, graph);
+
         const originalComponentWillUnmount = createdObject.componentWillUnmount;
         createdObject.componentWillUnmount = () => {
           originalComponentWillUnmount?.();
@@ -50,6 +53,25 @@ export default class ClassInjector {
       private injectProperties(target: any, createdObject: any, graph: Graph) {
         injectionMetadata.getPropertiesToInject(target).forEach((key) => {
           Reflect.set(createdObject, key, graph.retrieve(key));
+        });
+      }
+
+      private injectLazyProperties(target: any, createdObject: any, graph: Graph) {
+        const lazyProperties = injectionMetadata.getLazyPropertiesToInject(target);
+
+        lazyProperties.forEach((key) => {
+          Object.defineProperty(createdObject, key, {
+            get: () => {
+              const value = graph.retrieve(key);
+              Object.defineProperty(createdObject, key, {
+                value,
+                writable: true,
+                configurable: true,
+              });
+              return value;
+            },
+            configurable: true,
+          });
         });
       }
     }();
