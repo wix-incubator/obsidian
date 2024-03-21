@@ -22,7 +22,29 @@ Constructor injection is the preferred way to inject dependencies. It is more ex
 :::
 
 ## Delayed injection
-Dependencies annotated with the `@Inject` annotation are resolved immediately **after** the constructor is called. If you want to inject a class at a later point in time, you can use the `@LateInject` annotation instead, and inject the dependencies by manually with the `Obsidian.inject()` function.
+Dependencies annotated with the `@Inject` annotation are resolved immediately **after** the constructor is called. Obsidian supports two methods to delay injection: `@LazyInject` and `@LateInject`.
+
+### @LazyInject
+Class fields annotated with the `@LazyInject` annotation are resolved lazily when they are accessed for the first time.
+
+```ts
+import {Injectable, LazyInject} from 'react-obsidian';
+import {ApplicationGraph} from './ApplicationGraph';
+
+@Injectable(ApplicationGraph)
+export class MyClass {
+  @LazyInject() private httpClient!: HttpClient;
+  
+  public init() {
+    // HttpClient is hasn't been used yet, so it's undefined
+
+    this.httpClient.get('https://www.wix.com'); // HttpClient is resolved once it's accessed
+  }
+}
+```
+
+### @LateInject
+Use the `@LateInject` annotation to delay the injection of dependencies until a later point in time determined by the user.
 
 ```ts
 import {Injectable, LateInject} from 'react-obsidian';
