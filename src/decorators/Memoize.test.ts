@@ -22,6 +22,7 @@ class Uut {
 
 describe('Memoized', () => {
   let uut: Uut;
+
   beforeEach(() => {
     uut = new Uut();
   });

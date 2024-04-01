@@ -17,10 +17,7 @@ describe('obtain', () => {
   it('Should throw circular dependency error when encountering circular dependencies', () => {
     expect(
       () => Obsidian.obtain(CircularDependencyGraph).aString(),
-    ).toThrowError(
-      // eslint-disable-next-line max-len
-      /Could not resolve aString from CircularDependencyGraph\d because of a circular dependency: aString -> aString$/,
-    );
+    ).toThrowError(/Could not resolve aString from CircularDependencyGraph\d because of a circular dependency: aString -> aString$/);
   });
 
   it('Should not throw circular dependency error resolving valid dependencies', () => {

@@ -34,7 +34,6 @@ describe('PropertyRetriever', () => {
   it('throws on circular dependencies', () => {
     const uut1 = new PropertyRetriever(new CircularDependencyGraph2());
     expect(() => uut1.retrieve('dep1')).toThrowError(
-      // eslint-disable-next-line max-len
       /Could not resolve dep1 from CircularDependencyGraph2\d because of a circular dependency: dep1 -> dep2 -> dep3 -> dep1/,
     );
   });
