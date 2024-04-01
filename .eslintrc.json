@@ -10,7 +10,9 @@
         "airbnb-typescript",
         "plugin:react/recommended",
         // "plugin:@typescript-eslint/recommended-type-checked",
-        "plugin:import/typescript"
+        "plugin:import/typescript",
+        "plugin:@stylistic/disable-legacy",
+        "plugin:jest-formatting/recommended"
       ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -18,16 +20,26 @@
       "project": "./tsconfig.json"
     },
     "plugins": [
+        "@stylistic",
         "react",
         "@typescript-eslint",
         "import-newlines",
         "unused-imports",
-        "eslint-plugin-local-rules"
+        "eslint-plugin-local-rules",
+        "jest-formatting"
     ],
     "rules": {
       "no-console":"off",
-      "max-len": ["error", {"code": 115}],
-      "lines-between-class-members": ["error", "always", {"exceptAfterSingleLine": true}],
+      "@stylistic/max-len": [
+        "error",
+        {
+          "code": 115,
+          "comments": 200,
+          "ignoreRegExpLiterals": true
+        }
+      ],
+      "@stylistic/no-extra-semi": "error",
+      "@stylistic/lines-between-class-members": ["error", "always", {"exceptAfterSingleLine": true}],
       "import/extensions": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
       "no-useless-constructor": "off",
@@ -44,11 +56,11 @@
       "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
       "max-classes-per-file": ["off"],
       "curly": ["error", "multi-line"],
-      "semi": ["error", "always"],
-      "comma-dangle": ["error", "always-multiline"],
-      "function-call-argument-newline": ["error", "consistent"],
-      "function-paren-newline": ["error", "multiline-arguments"],
-      "object-curly-newline": [
+      "@stylistic/semi": ["error", "always"],
+      "@stylistic/comma-dangle": ["error", "always-multiline"],
+      "@stylistic/function-call-argument-newline": ["error", "consistent"],
+      "@stylistic/function-paren-newline": ["error", "multiline-arguments"],
+      "@stylistic/object-curly-newline": [
         "error",
         {
           "ObjectExpression": {
@@ -61,7 +73,7 @@
           }
         }
       ],
-      "no-whitespace-before-property": "error",
+      "@stylistic/no-whitespace-before-property": "error",
       "import-newlines/enforce": [
         "error",
         {
@@ -72,13 +84,13 @@
       ],
       "react/display-name": "off",
       "no-plusplus": "off",
-      "no-trailing-spaces": "error",
+      "@stylistic/no-trailing-spaces": "error",
       "no-shadow": "off",
       "@typescript-eslint/no-shadow": ["error", {"allow": ["Graph"]}],
       "react/button-has-type": "off",
       "react/jsx-one-expression-per-line": ["off"],
       "arrow-body-style": ["off"],
-      "@typescript-eslint/quotes": ["error", "single", {"avoidEscape": true, "allowTemplateLiterals": true}],
+      "@stylistic/quotes": ["error", "single", {"avoidEscape": true, "allowTemplateLiterals": true}],
       "@typescript-eslint/lines-between-class-members": "off",
       "@typescript-eslint/no-explicit-any": "off",
       "import/prefer-default-export": "off",
