@@ -7,7 +7,8 @@
     "lint": "npx eslint src transformers test --ignore-pattern '*.d.ts' --ext .ts,.tsx,.js",
     "build-local": "tsc --project tsconfig.json",
     "pretest": "tsc --project tsconfig.json",
-    "test": "npx jest"
+    "test": "npx jest",
+    "test-coverage": "npx jest --coverage"
   },
   "main": "dist/src/index.js",
   "directories": {
