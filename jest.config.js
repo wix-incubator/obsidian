@@ -20,7 +20,6 @@ const config = {
     'src/**/*.{ts,tsx}',
     '!dist/**',
   ],
-  collectCoverage: true,
 };
 
 module.exports = config;
