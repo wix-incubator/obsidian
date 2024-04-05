@@ -1,5 +1,9 @@
-name: ci
-on: [push]
+name: CI
+on:
+  push:
+    branches:
+      - master
+
 jobs:
   update-code-coverage-badge:
     runs-on: ubuntu-latest
