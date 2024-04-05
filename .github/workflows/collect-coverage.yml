@@ -9,8 +9,7 @@ jobs:
         with:
           node-version: "18"
       - name: Install
-        run: |
-          yarn
+        run: yarn
       - name: Test and collect coverage
         run: yarn test-coverage
       - name: Create badge and publish to gh-pages
