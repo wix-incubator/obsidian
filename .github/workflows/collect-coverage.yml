@@ -1,0 +1,17 @@
+name: ci
+on: [push]
+jobs:
+  update-code-coverage-badge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - name: Install
+        run: |
+          yarn
+      - name: Test and collect coverage
+        run: yarn test-coverage
+      - name: Create badge and publish to gh-pages
+        uses: nolleh/jest-badge-deploy-action@latest
