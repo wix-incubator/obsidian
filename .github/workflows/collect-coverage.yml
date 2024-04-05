@@ -10,6 +10,8 @@ jobs:
           node-version: "18"
       - name: Install
         run: yarn
+      - name: Build
+        run: yarn build-local
       - name: Test and collect coverage
         run: yarn test-coverage
       - name: Create badge and publish to gh-pages
