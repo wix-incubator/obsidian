@@ -4,6 +4,7 @@ export default class InjectionMetadata {
   private readonly injectionMetadataKey = 'injectionMetadata';
   private readonly injectedConstructorArgsKey = 'injectedConstructorArgsKey';
   private readonly lateInjectionMetadataKey = 'lateInjectionMetadataKey';
+  private readonly lazyInjectionMetadataKey = 'lazyInjectionMetadataKey';
 
   getConstructorArgsToInject(target: any): ConstructorArgs {
     return Reflect.getMetadata(this.injectedConstructorArgsKey, target) ?? new ConstructorArgs();
@@ -15,6 +16,10 @@ export default class InjectionMetadata {
 
   getLatePropertiesToInject(target: any): Set<string> {
     return this.getProperties(this.lateInjectionMetadataKey, target);
+  }
+
+  getLazyPropertiesToInject(target: any): Set<string> {
+    return this.getProperties(this.lazyInjectionMetadataKey, target);
   }
 
   saveConstructorParamMetadata(target: any, paramName: string, index: number) {
@@ -39,6 +44,14 @@ export default class InjectionMetadata {
     this.saveProperties(
       this.lateInjectionMetadataKey,
       this.getLatePropertiesToInject(target).add(property),
+      target,
+    );
+  }
+
+  saveLazyPropertyMetadata(target: any, property: string) {
+    this.saveProperties(
+      this.lazyInjectionMetadataKey,
+      this.getLazyPropertiesToInject(target).add(property),
       target,
     );
   }

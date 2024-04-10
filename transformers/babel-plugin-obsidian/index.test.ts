@@ -42,6 +42,14 @@ const namedLateInject = `class MainGraph {
   @LateInject('myDependency') someString;
 }`;
 
+const unnamedLazyInject = `class MainGraph {
+  @LazyInject() someString;
+}`;
+
+const namedLazyInject = `class MainGraph {
+  @LazyInject('myDependency') someString;
+}`;
+
 describe('Provider Arguments Transformer', () => {
   const uut: Function = providerArgumentsTransformer;
 
@@ -75,6 +83,17 @@ describe('Provider Arguments Transformer', () => {
     expect(result?.code).toMatchSnapshot();
   });
 
+  //
+  it('Adds property name to @LazyInject arguments @LazyInject -> @LazyInject("myDependency")', () => {
+    const result = transformSync(unnamedLazyInject);
+    expect(result?.code).toMatchSnapshot();
+  });
+
+  it('Does not add property name to @LazyInject if name is provided by the user', () => {
+    const result = transformSync(namedLazyInject);
+    expect(result?.code).toMatchSnapshot();
+  });
+  //
   it('Adds property name to @LateInject arguments @LateInject -> @LateInject("myDependency")', () => {
     const result = transformSync(unnamedLateInject);
     expect(result?.code).toMatchSnapshot();
