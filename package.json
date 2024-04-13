@@ -67,7 +67,7 @@
     "react": "18.2.x",
     "react-dom": "18.2.x",
     "setimmediate": "^1.0.5",
-    "typescript": "^4.5.4"
+    "typescript": "5.4.x"
   },
   "repository": {
     "type": "git",
