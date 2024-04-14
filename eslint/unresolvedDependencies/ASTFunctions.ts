@@ -4,7 +4,7 @@ import { parse } from '@typescript-eslint/parser';
 import path= require('path') ;
 import { TSESLint } from '@typescript-eslint/utils';
 
-export type MessageIds = 'undefinedDependency';
+export type MessageIds = '@obsidian/unresolved-dependencies';
 
 export function getSubGraphs(decorators: TSESTree.Decorator[]) {
   const args = (decorators[0].expression as TSESTree.CallExpression).arguments;

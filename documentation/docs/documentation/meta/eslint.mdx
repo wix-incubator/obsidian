@@ -1,0 +1,21 @@
+---
+sidebar_position: 2
+title: "Lint rules"
+---
+
+## @obsidian/unresolved-dependencies
+Ensure dependencies requested by providers can be resolved.
+
+When a provider requests a dependency that is not provided by the graph or its subgraphs, this rule will trigger a lint error.
+
+```ts
+@Graph()
+class SomeGraph extends ObjectGraph {
+  @Provides()
+  someService(someDependency: SomeDependency) {
+    //        ^ Since SomeDependency is not provided by the graph, this will trigger a lint error.
+    return new SomeService(someDependency);
+  }
+}
+```
+

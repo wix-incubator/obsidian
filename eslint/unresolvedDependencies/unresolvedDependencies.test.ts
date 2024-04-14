@@ -1,23 +1,16 @@
 import { RuleTester } from '@typescript-eslint/rule-tester';
 import { validGraphSimple } from './testUtils/validGraphs';
 import { invalidGraph } from './invalidGraphs';
-import { undefinedDependencies } from './ruleConfiguration';
+import { unresolvedDependencies } from './ruleConfiguration';
 
 const ruleTester = new RuleTester();
 
-ruleTester.run('undefined-dependency', undefinedDependencies, {
+ruleTester.run('@obsidian/unresolved-dependencies', unresolvedDependencies, {
   valid: [validGraphSimple],
   invalid: [{
     code: invalidGraph,
     errors: [{
-      messageId: 'undefinedDependency',
+      messageId: '@obsidian/unresolved-dependencies',
     }],
-  },
-  // {
-  //   code: invalidGraphWithSubgraph,
-  //   errors: [{
-  //     messageId: 'undefinedDependency',
-  //   }],
-  // },
-  ],
+  }],
 });

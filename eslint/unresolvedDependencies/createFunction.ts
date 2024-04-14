@@ -32,7 +32,7 @@ export function create(context: any) {
           if (!check?.value) {
             context.report({
               node,
-              messageId: 'undefinedDependency',
+              messageId: '@obsidian/unresolved-dependencies',
               data: {
                 dependencyName: check.param,
               },

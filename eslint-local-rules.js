@@ -1,5 +1,5 @@
-const {undefinedDependencies} = require('./dist/eslint/undefinedDependencies/ruleConfiguration')
+const {unresolvedDependencies} = require('./dist/eslint/unresolvedDependencies/ruleConfiguration')
 
 module.exports = {
-  'undefined-dependency': undefinedDependencies
+  '@obsidian/eslint-plugin-unresolved-dependencies': unresolvedDependencies
 };
