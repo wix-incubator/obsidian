@@ -1,0 +1,35 @@
+{
+  "name": "eslint-plugin-obsidian",
+  "description": "ESLint rules for Obsidian",
+  "main": "eslint-plugin-obsidian.js",
+  "version": "0.0.1",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Orly Dadashev",
+  "peerDependencies": {
+    "eslint": ">=8.0.0"
+  },
+  "devDependencies": {
+    "@types/eslint": "8.4.9",
+    "@typescript-eslint/eslint-plugin": "6.6.x",
+    "@typescript-eslint/parser": "6.6.x",
+    "@typescript-eslint/rule-tester": "6.6.x",
+    "@typescript-eslint/types": "6.6.x",
+    "@typescript-eslint/typescript-estree": "6.6.x",
+    "@typescript-eslint/utils": "6.6.x",
+    "babel-eslint": "^10.1.0",
+    "jest": "29.5.x",
+    "jest-extended": "^4.0.0",
+    "typescript": "^4.5.4"
+  },
+  "keywords": [
+    "react-obsidian",
+    "dependency-injection",
+    "ioc",
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin"
+  ],
+  "license": "ISC"
+}
