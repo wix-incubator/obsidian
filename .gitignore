@@ -122,3 +122,4 @@ index.android.bundle.map
 .eslintcache
 **/.docusaurus
 coverage/*
+packages/react-obsidian/coverage/
