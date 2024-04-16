@@ -5,12 +5,12 @@ import { unresolvedDependencies } from './ruleConfiguration';
 
 const ruleTester = new RuleTester();
 
-ruleTester.run('@obsidian/unresolved-dependencies', unresolvedDependencies, {
+ruleTester.run('@obsidian/provider-unresolved-dependencies', unresolvedDependencies, {
   valid: [validGraphSimple],
   invalid: [{
     code: invalidGraph,
     errors: [{
-      messageId: '@obsidian/unresolved-dependencies',
+      messageId: '@obsidian/provider-unresolved-dependencies',
     }],
   }],
 });

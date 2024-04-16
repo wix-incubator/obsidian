@@ -1,5 +1,5 @@
 import { uniqueId } from 'lodash';
-import { Graph, ObjectGraph, Provides } from 'src';
+import { Graph, ObjectGraph, Provides } from 'react-obsidian';
 
 @Graph()
 export default class Subgraph extends ObjectGraph {

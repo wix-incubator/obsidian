@@ -1,11 +1,6 @@
 {
   "include": [
-    "src/**/*",
-    "transformers/**/*",
-    "test/**/*",
-    "./clearGraphs.ts",
-    "global.d.ts",
-    "testkit/**/*",
+    "rules/**/*"
   ],
   "exclude": [
     "node_modules",
@@ -13,7 +8,7 @@
   ],
   "compilerOptions": {
     "target": "es2018",
-    "module": "commonjs",
+    "module": "CommonJS",
     "lib": [
       "ES6",
       "DOM",

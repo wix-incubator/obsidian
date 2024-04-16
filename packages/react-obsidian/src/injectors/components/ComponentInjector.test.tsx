@@ -43,7 +43,7 @@ describe('ComponentInjector', () => {
 
   it('Memoized component is rerendered according to the given comparator', () => {
     let arePropsEqual = true;
-    const MemoizedComponent = React.memo<any>(Component, () => arePropsEqual);
+    const MemoizedComponent = React.memo(Component, () => arePropsEqual);
     const InjectedComponent = injectComponent(MemoizedComponent, MainGraph);
     const { container, rerender } = render(<InjectedComponent count={0}/>);
     expect(container.textContent).toBe('0 - Fear kills progress');
