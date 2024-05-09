@@ -4,7 +4,6 @@ const config = {
   resetModules: true,
   roots: [
     'rules',
-    'node_modules',
   ],
   testEnvironment: 'jsdom',
 };

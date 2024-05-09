@@ -1,8 +1,8 @@
-import { TSESTree } from '@typescript-eslint/typescript-estree';
+import { TSESTree } from '@typescript-eslint/types';
 import * as fs from 'fs';
 import { parse } from '@typescript-eslint/parser';
 import path= require('path') ;
-import { TSESLint } from '@typescript-eslint/utils';
+import { RuleContext } from '@typescript-eslint/utils/ts-eslint';
 
 export type MessageIds = '@obsidian/unresolved-dependencies';
 
@@ -29,7 +29,7 @@ export function getSubGraphs(decorators: TSESTree.Decorator[]) {
 export function getDependenciesFromSubgraphs(
   imports: TSESTree.ImportDeclaration[],
   subGraphs:string[],
-  context:Readonly<TSESLint.RuleContext<MessageIds, []>>,
+  context:RuleContext<'@obsidian/provider-unresolved-dependencies', []>,
 ) {
   const paths:Record<string, string>[] = [];
   const dependencies: string[] = [];

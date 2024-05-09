@@ -6,7 +6,7 @@ const createRule = ESLintUtils.RuleCreator(
   (name) => `https://wix-incubator.github.io/obsidian/docs/documentation/meta/eslint#${name}`,
 );
 
-export const unresolvedDependencies: RuleModule<'@obsidian/provider-unresolved-dependencies'> = createRule({
+export const unresolvedProviderDependencies: RuleModule<'@obsidian/provider-unresolved-dependencies'> = createRule({
   create,
   name: '@obsidian/provider-unresolved-dependencies',
   meta: {

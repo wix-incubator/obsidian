@@ -8,13 +8,13 @@
   ],
   "compilerOptions": {
     "target": "es2018",
-    "module": "CommonJS",
+    "module": "NodeNext",
     "lib": [
       "ES6",
       "DOM",
       "esnext"
     ],
-    "moduleResolution": "node",
+    "moduleResolution": "NodeNext",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,

@@ -26,7 +26,9 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install
-      - run: yarn build-local
-      - run: yarn lint
-      - run: yarn test
+      - run: yarn
+      - run: yarn workspace react-obsidian run build-local
+      - run: yarn workspace react-obsidian run lint
+      - run: yarn workspace react-obsidian run test
+      - run: yarn workspace @obsidian/eslint-plugin-obsidian run lint
+      - run: yarn workspace @obsidian/eslint-plugin-obsidian run test

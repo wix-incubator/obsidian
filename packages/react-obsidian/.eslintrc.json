@@ -17,7 +17,7 @@
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
       "sourceType": "module",
-      "project": "./tsconfig.json"
+      "project": "packages/react-obsidian/tsconfig.json"
     },
     "plugins": [
         "@stylistic",
@@ -25,10 +25,10 @@
         "@typescript-eslint",
         "import-newlines",
         "unused-imports",
-        "eslint-plugin-local-rules",
         "jest-formatting"
     ],
     "rules": {
+      "@obsidian/provider-unresolved-dependencies": "error",
       "no-console":"off",
       "@stylistic/max-len": [
         "error",
@@ -100,7 +100,6 @@
 			  "error",
 			  { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
 		  ],
-      "local-rules/undefined-dependency":"error",
       "@typescript-eslint/ban-ts-comment": "off"
     },
     "settings": {

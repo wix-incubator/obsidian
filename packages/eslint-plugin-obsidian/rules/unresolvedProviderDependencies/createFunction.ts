@@ -1,4 +1,5 @@
-import { TSESTree } from '@typescript-eslint/typescript-estree';
+import { RuleContext } from '@typescript-eslint/utils/ts-eslint';
+import { TSESTree } from '@typescript-eslint/types';
 
 import {
   getSubGraphs,
@@ -9,18 +10,18 @@ import {
   getPropertyDeclarations,
 } from './ASTFunctions';
 
-export function create(context: any) {
+export function create(context: RuleContext<'@obsidian/provider-unresolved-dependencies', []>) {
   const imports:TSESTree.ImportDeclaration[] = [];
   const dependencies:string[] = [];
 
   return {
-    ImportDeclaration(node:TSESTree.ImportDeclaration) {
+    ImportDeclaration(node: TSESTree.ImportDeclaration) {
       imports.push(node);
     },
-    ClassDeclaration(node:TSESTree.ClassDeclaration) {
+    ClassDeclaration(node: TSESTree.ClassDeclaration) {
       const { decorators } = node;
       if (decorators) {
-        const decoratorNames = decorators.map((decorator) => getDecoratorName(decorator));
+        const decoratorNames = decorators.map((decorator: TSESTree.Decorator) => getDecoratorName(decorator));
         if (decoratorNames.includes('Graph')) {
           const subGraphs = getSubGraphs(decorators);
           if (subGraphs.length > 0) {

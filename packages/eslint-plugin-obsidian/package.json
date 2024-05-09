@@ -2,9 +2,10 @@
   "name": "@obsidian/eslint-plugin-obsidian",
   "description": "ESLint rules for Obsidian",
   "main": "eslint-plugin-obsidian.js",
-  "version": "0.0.1",
+  "version": "2.4.0",
   "scripts": {
-    "test": "npx jest"
+    "test": "npx jest",
+    "lint": "eslint . --ext .ts,.tsx"
   },
   "author": "Orly Dadashev",
   "peerDependencies": {
@@ -19,6 +20,8 @@
     "@babel/preset-react": "7.22.x",
     "@babel/preset-typescript": "7.22.x",
     "@babel/types": "7.24.x",
+    "@eslint/eslintrc": "^3.0.2",
+    "@eslint/js": "8.x.x",
     "@types/eslint": "8.4.9",
     "@typescript-eslint/eslint-plugin": "6.6.x",
     "@typescript-eslint/parser": "6.6.x",
@@ -26,11 +29,13 @@
     "@typescript-eslint/types": "6.6.x",
     "@typescript-eslint/typescript-estree": "6.6.x",
     "@typescript-eslint/utils": "6.6.x",
-    "babel-eslint": "^10.1.0",
+    "cross-env": "^7.0.3",
+    "eslint": "8.x.x",
     "jest": "29.5.x",
     "jest-extended": "^4.0.0",
+    "react-obsidian": "2.x.x",
     "typescript": "^4.5.4",
-    "react-obsidian": "2.x.x"
+    "typescript-eslint": "^7.8.0"
   },
   "keywords": [
     "react-obsidian",
