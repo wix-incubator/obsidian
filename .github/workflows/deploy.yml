@@ -12,6 +12,8 @@ jobs:
     name: Deploy to GitHub Pages
     runs-on: ubuntu-latest
     steps:
+      - name: Enable corepack
+        run: corepack enable
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v3
         with:
