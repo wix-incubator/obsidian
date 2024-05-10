@@ -21,8 +21,6 @@ jobs:
           cache: yarn
           cache-dependency-path: documentation/yarn.lock
 
-      - name: Install Yarn plugins
-        - run: yarn plugin import @yarnpkg/plugin-workspace-tools
       - name: Install dependencies
         working-directory: documentation
         run: yarn install --frozen-lockfile

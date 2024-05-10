@@ -125,4 +125,3 @@ coverage/*
 packages/react-obsidian/coverage/
 .yarn/cache
 .yarn/install-state.gz
-.yarn/plugins
