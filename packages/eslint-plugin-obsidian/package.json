@@ -29,6 +29,7 @@
     "@typescript-eslint/types": "6.6.x",
     "@typescript-eslint/typescript-estree": "6.6.x",
     "@typescript-eslint/utils": "6.6.x",
+    "@types/node": "18.x.x",
     "cross-env": "^7.0.3",
     "eslint": "8.x.x",
     "jest": "29.5.x",

@@ -2018,6 +2018,7 @@ __metadata:
     "@eslint/eslintrc": ^3.0.2
     "@eslint/js": 8.x.x
     "@types/eslint": 8.4.9
+    "@types/node": 18.x.x
     "@typescript-eslint/eslint-plugin": 6.6.x
     "@typescript-eslint/parser": 6.6.x
     "@typescript-eslint/rule-tester": 6.6.x
@@ -2341,6 +2342,15 @@ __metadata:
   dependencies:
     undici-types: ~5.26.4
   checksum: 0cc06bb69cd8150e96fcf65fa3d7f2eeebedf110a99e1834a7fa55bd6c04e7b6d73f74321a2acfc569ca300c0b88d8e1b702ce245b3802f6e5f6a8987fef451a
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:18.x.x":
+  version: 18.19.33
+  resolution: "@types/node@npm:18.19.33"
+  dependencies:
+    undici-types: ~5.26.4
+  checksum: b6db87d095bc541d64a410fa323a35c22c6113220b71b608bbe810b2397932d0f0a51c3c0f3ef90c20d8180a1502d950a7c5314b907e182d9cc10b36efd2a44e
   languageName: node
   linkType: hard
 
