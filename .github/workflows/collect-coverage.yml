@@ -14,6 +14,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "18"
+      - name: Install Yarn plugins
+        - run: yarn plugin import @yarnpkg/plugin-workspace-tools
       - name: Install
         run: yarn
       - name: Build

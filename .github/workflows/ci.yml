@@ -28,7 +28,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn
+      - name: Install Yarn plugins
+        - run: yarn plugin import @yarnpkg/plugin-workspace-tools
+      - run: yarn --frozen-lockfile
       - run: yarn workspace react-obsidian run build-local
       - run: yarn workspace react-obsidian run lint
       - run: yarn workspace react-obsidian run test
