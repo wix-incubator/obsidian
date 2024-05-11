@@ -1,7 +1,7 @@
 {
   "name": "@obsidian/eslint-plugin-obsidian",
   "description": "ESLint rules for Obsidian",
-  "main": "eslint-plugin-obsidian.js",
+  "main": "dist/index.js",
   "version": "2.4.0",
   "scripts": {
     "test": "npx jest",
@@ -23,13 +23,13 @@
     "@eslint/eslintrc": "^3.0.2",
     "@eslint/js": "8.x.x",
     "@types/eslint": "8.4.9",
+    "@types/node": "18.x.x",
     "@typescript-eslint/eslint-plugin": "6.6.x",
     "@typescript-eslint/parser": "6.6.x",
     "@typescript-eslint/rule-tester": "6.6.x",
     "@typescript-eslint/types": "6.6.x",
     "@typescript-eslint/typescript-estree": "6.6.x",
     "@typescript-eslint/utils": "6.6.x",
-    "@types/node": "18.x.x",
     "cross-env": "^7.0.3",
     "eslint": "8.x.x",
     "jest": "29.5.x",

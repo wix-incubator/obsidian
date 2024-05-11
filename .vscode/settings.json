@@ -2,11 +2,17 @@
   "cSpell.words": [
     "estree",
     "TSES",
-    "unmagler"
+    "unmagler",
     "Middlewares",
     "MVVM",
     "preconfigured",
     "unmagler",
     "unsubscribers"
+  ],
+  "eslint.ignoreUntitled": true,
+  "eslint.format.enable": true,
+  "eslint.workingDirectories": [
+    "./packages/react-obsidian",
+    "./packages/eslint-plugin-obsidian",
   ]
 }

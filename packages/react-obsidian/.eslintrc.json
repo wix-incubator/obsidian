@@ -25,10 +25,11 @@
         "@typescript-eslint",
         "import-newlines",
         "unused-imports",
-        "jest-formatting"
+        "jest-formatting",
+        "@obsidian/eslint-plugin-obsidian"
     ],
     "rules": {
-      "@obsidian/provider-unresolved-dependencies": "error",
+      "@obsidian/unresolved-provider-dependencies": "error",
       "no-console":"off",
       "@stylistic/max-len": [
         "error",

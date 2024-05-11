@@ -1,7 +1,7 @@
 {
   "include": [
     "rules/**/*"
-  ],
+, "index.ts"  ],
   "exclude": [
     "node_modules",
     "dist"

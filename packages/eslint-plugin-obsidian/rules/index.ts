@@ -1,6 +1,6 @@
 import { unresolvedProviderDependencies } from './unresolvedProviderDependencies';
 
-const plugin = {
+const plugin: any = {
   rules: {
     '@obsidian/unresolved-provider-dependencies': unresolvedProviderDependencies,
   },
