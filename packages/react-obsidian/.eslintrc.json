@@ -9,7 +9,6 @@
         "airbnb-base",
         "airbnb-typescript",
         "plugin:react/recommended",
-        // "plugin:@typescript-eslint/recommended-type-checked",
         "plugin:import/typescript",
         "plugin:@stylistic/disable-legacy",
         "plugin:jest-formatting/recommended"
@@ -25,11 +24,9 @@
         "@typescript-eslint",
         "import-newlines",
         "unused-imports",
-        "jest-formatting",
-        "@obsidian/eslint-plugin-obsidian"
+        "jest-formatting"
     ],
     "rules": {
-      "@obsidian/unresolved-provider-dependencies": "error",
       "no-console":"off",
       "@stylistic/max-len": [
         "error",
