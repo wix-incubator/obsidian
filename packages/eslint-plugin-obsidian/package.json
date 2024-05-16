@@ -4,7 +4,8 @@
   "main": "dist/index.js",
   "version": "2.4.0",
   "scripts": {
-    "test": "npx jest"
+    "test": "npx jest",
+    "lint": "eslint rules --ignore-pattern '*.d.ts' --ext .ts,.tsx,.js"
   },
   "author": "Orly Dadashev",
   "peerDependencies": {
