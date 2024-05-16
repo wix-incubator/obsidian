@@ -23,7 +23,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: ./documentation
-        run: yarn install --frozen-lockfile
+        run: yarn --frozen-lockfile
       - name: Test build documentation
         working-directory: ./documentation
         run: yarn build
