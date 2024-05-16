@@ -2017,6 +2017,7 @@ __metadata:
     "@babel/types": 7.24.x
     "@eslint/eslintrc": ^3.0.2
     "@eslint/js": 8.x.x
+    "@stylistic/eslint-plugin": ^1.7.0
     "@types/eslint": 8.4.9
     "@types/node": 18.x.x
     "@typescript-eslint/eslint-plugin": 6.6.x
@@ -2027,6 +2028,10 @@ __metadata:
     "@typescript-eslint/utils": 6.6.x
     cross-env: ^7.0.3
     eslint: 8.x.x
+    eslint-plugin-import: ^2.25.2
+    eslint-plugin-import-newlines: ^1.1.5
+    eslint-plugin-jest-formatting: ^3.1.0
+    eslint-plugin-unused-imports: 3.1.x
     jest: 29.5.x
     jest-extended: ^4.0.0
     react-obsidian: 2.x.x
@@ -2034,6 +2039,7 @@ __metadata:
     typescript-eslint: ^7.8.0
   peerDependencies:
     eslint: ">=8.0.0"
+    lodash: ^4.17.21
   languageName: unknown
   linkType: soft
 

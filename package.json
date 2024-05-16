@@ -1,7 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "test": "yarn workspaces foreach run test"
+    "test": "yarn workspaces foreach run test",
+    "lint": "yarn workspaces foreach run lint"
   },
   "workspaces": [
     "packages/*"

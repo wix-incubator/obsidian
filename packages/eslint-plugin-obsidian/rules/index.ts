@@ -6,4 +6,4 @@ const plugin: any = {
   },
 };
 
-export = plugin;
+export default plugin;

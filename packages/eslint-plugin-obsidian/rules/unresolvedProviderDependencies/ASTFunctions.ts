@@ -41,7 +41,7 @@ export function getDependenciesFromSubgraphs(
     });
   });
   paths.forEach((el) => {
-    const filePath = path.join(path.dirname(context.getFilename()), `${el['path']}.ts`);
+    const filePath = path.join(path.dirname(context.getFilename()), `${el.path}.ts`);
     const fileContent = fs.readFileSync(filePath, 'utf8');
     const fileAST = parse(
       fileContent,

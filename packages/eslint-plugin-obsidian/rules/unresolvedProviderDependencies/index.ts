@@ -1,12 +1,11 @@
 import { ESLintUtils } from '@typescript-eslint/utils';
-import { RuleModule } from '@typescript-eslint/utils/ts-eslint';
 import { create } from './createFunction';
 
 const createRule = ESLintUtils.RuleCreator(
   (name) => `https://wix-incubator.github.io/obsidian/docs/documentation/meta/eslint#${name}`,
 );
 
-export const unresolvedProviderDependencies: RuleModule<'@obsidian/provider-unresolved-dependencies'> = createRule({
+export const unresolvedProviderDependencies = createRule({
   create,
   name: '@obsidian/provider-unresolved-dependencies',
   meta: {

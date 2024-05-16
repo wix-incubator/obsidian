@@ -1,7 +1,8 @@
 {
   "include": [
-    "rules/**/*"
-, "index.ts"  ],
+    "rules/**/*",
+    ".eslintrc.js",
+  ],
   "exclude": [
     "node_modules",
     "dist"
@@ -27,7 +28,6 @@
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,
     "forceConsistentCasingInFileNames": true,
-    "jsx": "react",
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "experimentalDecorators": true,

@@ -11,8 +11,5 @@
   ],
   "eslint.ignoreUntitled": true,
   "eslint.format.enable": true,
-  "eslint.workingDirectories": [
-    "./packages/react-obsidian",
-    "./packages/eslint-plugin-obsidian",
-  ]
+  "eslint.workingDirectories": [ {"pattern": "packages/*"} ]
 }
