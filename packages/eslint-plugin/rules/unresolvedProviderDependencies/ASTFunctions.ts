@@ -1,10 +1,10 @@
 import { TSESTree } from '@typescript-eslint/types';
 import * as fs from 'fs';
 import { parse } from '@typescript-eslint/parser';
-import path= require('path') ;
-import { RuleContext } from '@typescript-eslint/utils/ts-eslint';
+import path = require('path') ;
+import type { RuleContext } from '@typescript-eslint/utils/ts-eslint';
 
-export type MessageIds = '@obsidian/unresolved-dependencies';
+export type MessageIds = 'unresolved-provider-dependencies';
 
 export function getSubGraphs(decorators: TSESTree.Decorator[]) {
   const args = (decorators[0].expression as TSESTree.CallExpression).arguments;
@@ -16,7 +16,7 @@ export function getSubGraphs(decorators: TSESTree.Decorator[]) {
           for (let j = 0; j < properties.length; j++) {
             if (((properties[j] as TSESTree.Property).key as TSESTree.Identifier).name === 'subgraphs') {
               return ((properties[j] as TSESTree.Property).value as TSESTree.ArrayExpression)
-                .elements.map((subGraph) => (subGraph as TSESTree.Identifier).name);
+                .elements.map((subGraph: any) => (subGraph as TSESTree.Identifier).name);
             }
           }
         }
@@ -29,7 +29,7 @@ export function getSubGraphs(decorators: TSESTree.Decorator[]) {
 export function getDependenciesFromSubgraphs(
   imports: TSESTree.ImportDeclaration[],
   subGraphs:string[],
-  context:RuleContext<'@obsidian/provider-unresolved-dependencies', []>,
+  context:RuleContext<'unresolved-provider-dependencies', []>,
 ) {
   const paths:Record<string, string>[] = [];
   const dependencies: string[] = [];
@@ -71,11 +71,11 @@ export function getDependenciesFromSubgraphs(
 export function mapFunctions(node: TSESTree.ClassDeclaration) {
   const { body } = node.body;
   const existingDependencies: string[] = [];
-  body.forEach((el) => {
+  body.forEach((el: any) => {
     if (el.type === TSESTree.AST_NODE_TYPES.MethodDefinition) {
       const decorators = (el)?.decorators;
       if (decorators) {
-        if (decorators.map((decorator) => getDecoratorName(decorator)).includes('Provides')) {
+        if (decorators.map((decorator: any) => getDecoratorName(decorator)).includes('Provides')) {
           existingDependencies.push(((el as TSESTree.MethodDefinition).key as TSESTree.Identifier).name);
         }
       }
@@ -109,7 +109,7 @@ export function getDecoratorName(decorator: TSESTree.Decorator) {
 
 export function getPropertyDeclarations(node:TSESTree.ClassDeclaration) {
   const classBody = node.body.body;
-  const properties = classBody.map((method) => {
+  const properties = classBody.map((method: any) => {
     return ((method as (TSESTree.PropertyDefinition | TSESTree.MethodDefinition)).key as TSESTree.Identifier).name;
   });
   return properties;

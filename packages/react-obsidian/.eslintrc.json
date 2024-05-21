@@ -24,10 +24,12 @@
         "@typescript-eslint",
         "import-newlines",
         "unused-imports",
-        "jest-formatting"
+        "jest-formatting",
+        "obsidian"
     ],
     "rules": {
       "no-console":"off",
+      "obsidian/unresolved-provider-dependencies": 2,
       "@stylistic/max-len": [
         "error",
         {

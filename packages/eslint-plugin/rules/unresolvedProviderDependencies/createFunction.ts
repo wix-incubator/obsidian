@@ -1,6 +1,5 @@
-import { RuleContext } from '@typescript-eslint/utils/ts-eslint';
-import { TSESTree } from '@typescript-eslint/types';
-
+import type { RuleContext } from '@typescript-eslint/utils/ts-eslint';
+import type { TSESTree } from '@typescript-eslint/types';
 import {
   getSubGraphs,
   getDependenciesFromSubgraphs,
@@ -10,7 +9,7 @@ import {
   getPropertyDeclarations,
 } from './ASTFunctions';
 
-export function create(context: RuleContext<'@obsidian/provider-unresolved-dependencies', []>) {
+export function create(context: RuleContext<'unresolved-provider-dependencies', []>) {
   const imports:TSESTree.ImportDeclaration[] = [];
   const dependencies:string[] = [];
 
@@ -33,7 +32,7 @@ export function create(context: RuleContext<'@obsidian/provider-unresolved-depen
           if (!check?.value) {
             context.report({
               node,
-              messageId: '@obsidian/provider-unresolved-dependencies',
+              messageId: 'unresolved-provider-dependencies',
               data: {
                 dependencyName: check.param,
               },

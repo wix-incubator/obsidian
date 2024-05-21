@@ -9,13 +9,13 @@
   ],
   "compilerOptions": {
     "target": "es2018",
-    "module": "NodeNext",
+    "module": "Node16",
     "lib": [
       "ES6",
       "DOM",
       "esnext"
     ],
-    "moduleResolution": "NodeNext",
+    "moduleResolution": "Node16",
     "outDir": "./dist",
     "declaration": true,
     "declarationMap": true,
