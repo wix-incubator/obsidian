@@ -4,7 +4,8 @@ on:
     branches:
       - master
   pull_request:
-    branches: [ master ]
+    branches:
+      - master
 
 jobs:
   update-code-coverage-badge:
