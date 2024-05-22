@@ -21,7 +21,7 @@ jobs:
       - name: Install
         run: yarn --frozen-lockfile
       - name: Build
-        - run: yarn workspace react-obsidian run build
+        run: yarn workspace react-obsidian run build
       - name: Test and collect coverage
         run: yarn workspace react-obsidian run test-coverage
       - name: Create badge and publish to gh-pages
