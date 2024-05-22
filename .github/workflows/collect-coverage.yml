@@ -25,6 +25,6 @@ jobs:
       - name: Test and collect coverage
         run: yarn workspace react-obsidian run test-coverage
       - name: Copy coverage to root
-        run: cp -r packages/react-obsidian/coverage/* .
+        run: cp -r packages/react-obsidian/coverage/* ./coverage
       - name: Create badge and publish to gh-pages
         uses: nolleh/jest-badge-deploy-action@latest
