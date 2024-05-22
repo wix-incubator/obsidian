@@ -15,8 +15,8 @@
     "LICENSE"
   ],
   "peerDependencies": {
-    "eslint": "8.x.x",
-    "react-obsidian": "2.x.x"
+    "eslint": "8.x.x"
+    
   },
   "dependencies": {
     "@typescript-eslint/parser": "6.6.x",
@@ -49,6 +49,7 @@
     "eslint-plugin-unused-imports": "3.1.x",
     "jest": "29.5.x",
     "jest-extended": "^4.0.0",
+    "react-obsidian": "2.x.x",
     "typescript": "^4.5.4"
   },
   "keywords": [
