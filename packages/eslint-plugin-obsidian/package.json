@@ -4,6 +4,7 @@
   "main": "dist/index.js",
   "version": "2.4.0",
   "scripts": {
+    "build": "npx tsc",
     "test": "npx jest",
     "lint": "eslint rules --ignore-pattern '*.d.ts' --ext .ts,.tsx,.js"
   },
