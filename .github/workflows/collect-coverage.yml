@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    branches: [ master ]
 
 jobs:
   update-code-coverage-badge:
@@ -18,8 +20,8 @@ jobs:
       - name: Install
         run: yarn --frozen-lockfile
       - name: Build
-        run: yarn build-local
+        - run: yarn workspace react-obsidian run build
       - name: Test and collect coverage
-        run: yarn test-coverage
+        run: yarn workspace react-obsidian run test-coverage
       - name: Create badge and publish to gh-pages
         uses: nolleh/jest-badge-deploy-action@latest
