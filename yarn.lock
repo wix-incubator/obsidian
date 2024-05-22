@@ -4054,10 +4054,10 @@ __metadata:
     jest: 29.5.x
     jest-extended: ^4.0.0
     lodash: ^4.17.21
+    react-obsidian: 2.x.x
     typescript: ^4.5.4
   peerDependencies:
     eslint: 8.x.x
-    react-obsidian: 2.x.x
   languageName: unknown
   linkType: soft
 
@@ -6815,7 +6815,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-obsidian@workspace:packages/react-obsidian":
+"react-obsidian@2.x.x, react-obsidian@workspace:packages/react-obsidian":
   version: 0.0.0-use.local
   resolution: "react-obsidian@workspace:packages/react-obsidian"
   dependencies:
