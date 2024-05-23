@@ -1,9 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "test": "yarn workspaces foreach run test --colors",
-    "lint": "yarn workspaces foreach run lint --colors",
-    "build": "yarn workspaces foreach run build --colors"
+    "test": "yarn workspaces foreach run test --color",
+    "lint": "yarn workspaces foreach run lint --color",
+    "build": "yarn workspaces foreach run build --color"
   },
   "workspaces": [
     "packages/*"
