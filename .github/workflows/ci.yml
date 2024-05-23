@@ -29,10 +29,13 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - run: yarn --frozen-lockfile
-      - run: yarn workspace react-obsidian run build
-      - run: yarn workspace eslint-plugin-obsidian run build
-      - run: yarn workspace react-obsidian run lint
-      - run: yarn workspace react-obsidian run test
-      - run: yarn workspace eslint-plugin-obsidian run lint
-      - run: yarn workspace eslint-plugin-obsidian run test
+      - name: Install
+        run: yarn --frozen-lockfile
+      - name: Build
+        run: |
+          yarn workspace react-obsidian run build
+          yarn workspace eslint-plugin-obsidian run build
+      - name: Lint
+        run: yarn lint
+      - name: Test
+        run: yarn test
