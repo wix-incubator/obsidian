@@ -1,0 +1,43 @@
+{
+  "include": [
+    "src/**/*",
+    "transformers/**/*",
+    "test/**/*",
+    "./clearGraphs.ts",
+    "global.d.ts",
+    "testkit/**/*",
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "commonjs",
+    "lib": [
+      "ES6",
+      "DOM",
+      "esnext"
+    ],
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "types": ["reflect-metadata", "jest", "node"],
+    "baseUrl": "./"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "name": "eslint-plugin-obsidian",
+  "description": "ESLint rules for Obsidian",
+  "main": "dist/index.js",
+  "version": "2.5.0",
+  "scripts": {
+    "build": "npx tsc",
+    "test": "npx jest",
+    "lint": "eslint rules --ignore-pattern '*.d.ts' --ext .ts,.tsx,.js"
+  },
+  "author": "Orly Dadashev",
+  "files": [
+    "dist",
+    "package.json",
+    "LICENSE"
+  ],
+  "peerDependencies": {
+    "eslint": "8.x.x"
+  },
+  "dependencies": {
+    "@typescript-eslint/parser": "6.6.x",
+    "@typescript-eslint/utils": "6.6.x",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@babel/core": "7.22.x",
+    "@babel/eslint-parser": "7.22.x",
+    "@babel/plugin-proposal-decorators": "7.22.x",
+    "@babel/plugin-transform-class-properties": "7.22.x",
+    "@babel/preset-env": "7.22.x",
+    "@babel/preset-react": "7.22.x",
+    "@babel/preset-typescript": "7.22.x",
+    "@babel/types": "7.24.x",
+    "@eslint/eslintrc": "^3.0.2",
+    "@eslint/js": "8.x.x",
+    "@stylistic/eslint-plugin": "^1.7.0",
+    "@types/eslint": "8.4.9",
+    "@types/node": "18.x.x",
+    "@typescript-eslint/eslint-plugin": "6.6.x",
+    "@typescript-eslint/rule-tester": "6.6.x",
+    "@typescript-eslint/types": "6.6.x",
+    "@typescript-eslint/typescript-estree": "6.6.x",
+    "cross-env": "^7.0.3",
+    "eslint": "8.x.x",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-import-newlines": "^1.1.5",
+    "eslint-plugin-jest-formatting": "^3.1.0",
+    "eslint-plugin-unused-imports": "3.1.x",
+    "jest": "29.5.x",
+    "jest-extended": "^4.0.0",
+    "react-obsidian": "2.x.x",
+    "typescript": "^4.5.4"
+  },
+  "keywords": [
+    "react-obsidian",
+    "dependency-injection",
+    "ioc",
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin"
+  ],
+  "license": "ISC"
+}

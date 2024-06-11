@@ -122,3 +122,8 @@ index.android.bundle.map
 .eslintcache
 **/.docusaurus
 coverage/*
+packages/react-obsidian/coverage/
+.yarn/cache
+.yarn/install-state.gz
+documentation/.yarn/cache
+documentation/.yarn/install-state.gz

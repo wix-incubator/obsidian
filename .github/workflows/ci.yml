@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [16.14.x]
+        node-version: [18]
 
 
     env:
@@ -21,12 +21,21 @@ jobs:
       NPM_TOKEN: ''
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      - name: Enable corepack
+        run: corepack enable
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - run: yarn install
-      - run: yarn build-local
-      - run: yarn lint
-      - run: yarn test
+
+      - name: Install
+        run: yarn --frozen-lockfile
+      - name: Build
+        run: |
+          yarn workspace react-obsidian run build
+          yarn workspace eslint-plugin-obsidian run build
+      - name: Lint
+        run: yarn lint
+      - name: Test
+        run: yarn test
