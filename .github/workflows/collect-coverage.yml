@@ -8,10 +8,10 @@ jobs:
   update-code-coverage-badge:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
       - name: Enable corepack
         run: corepack enable
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v3
         with:
           node-version: "18"
 
