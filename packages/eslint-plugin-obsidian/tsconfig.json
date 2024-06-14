@@ -1,7 +1,6 @@
 {
   "include": [
     "rules/**/*",
-    "tests/**/*",
     ".eslintrc.js",
   ],
   "exclude": [
