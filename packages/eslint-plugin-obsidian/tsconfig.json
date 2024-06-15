@@ -1,10 +1,12 @@
 {
   "include": [
     "rules/**/*",
+    "tests/**/*",
     ".eslintrc.js",
   ],
   "exclude": [
     "node_modules",
+    "tests/**/*",
     "dist"
   ],
   "compilerOptions": {

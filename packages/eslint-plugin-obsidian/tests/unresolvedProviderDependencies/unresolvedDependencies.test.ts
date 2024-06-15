@@ -1,5 +1,5 @@
 import { RuleTester } from '@typescript-eslint/rule-tester';
-import { validGraphSimple } from '../../rules/unresolvedProviderDependencies/testUtils/validGraphs';
+import { validGraphSimple } from './testUtils/validGraphs';
 import { unresolvedProviderDependencies } from '../../rules/unresolvedProviderDependencies';
 import { invalidGraph } from '../../rules/unresolvedProviderDependencies/invalidGraphs';
 
