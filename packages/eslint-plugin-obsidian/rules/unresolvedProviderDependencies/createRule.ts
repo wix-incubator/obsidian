@@ -8,8 +8,12 @@ import {
   getDecoratorName,
   getPropertyDeclarations,
 } from './ASTFunctions';
+import type { PathResolver } from '../framework/pathResolver';
 
-export function create(context: RuleContext<'unresolved-provider-dependencies', []>) {
+export function create(
+  context: RuleContext<'unresolved-provider-dependencies', []>,
+  pathResolver: PathResolver,
+) {
   const imports:TSESTree.ImportDeclaration[] = [];
   const dependencies:string[] = [];
 
@@ -24,7 +28,7 @@ export function create(context: RuleContext<'unresolved-provider-dependencies', 
         if (decoratorNames.includes('Graph')) {
           const subGraphs = getSubGraphs(decorators);
           if (subGraphs.length > 0) {
-            dependencies.push(...getDependenciesFromSubgraphs(imports, subGraphs, context));
+            dependencies.push(...getDependenciesFromSubgraphs(imports, subGraphs, context, pathResolver));
           }
           dependencies.push(...mapFunctions(node));
           dependencies.push(...getPropertyDeclarations(node));

@@ -1,8 +1,8 @@
 import { TSESTree } from '@typescript-eslint/types';
 import * as fs from 'fs';
 import { parse } from '@typescript-eslint/parser';
-import path = require('path') ;
 import type { RuleContext } from '@typescript-eslint/utils/ts-eslint';
+import { PathResolver } from '../framework/pathResolver';
 
 export type MessageIds = 'unresolved-provider-dependencies';
 
@@ -30,6 +30,7 @@ export function getDependenciesFromSubgraphs(
   imports: TSESTree.ImportDeclaration[],
   subGraphs:string[],
   context:RuleContext<'unresolved-provider-dependencies', []>,
+  pathResolver: PathResolver,
 ) {
   const paths:Record<string, string>[] = [];
   const dependencies: string[] = [];
@@ -42,8 +43,8 @@ export function getDependenciesFromSubgraphs(
   });
   paths.forEach((el) => {
     // eslint-disable-next-line dot-notation
-    const filePath = path.join(path.dirname(context.getFilename()), `${el['path']}.ts`);
-    const fileContent = fs.readFileSync(filePath, 'utf8');
+    const filePath = pathResolver.resolve(context, el['path']);
+    const fileContent = fs.readFileSync(filePath, { encoding: 'utf8'});
     const fileAST = parse(
       fileContent,
       {
