@@ -3,7 +3,7 @@
   "scripts": {
     "test": "yarn workspaces foreach run test --colors",
     "lint": "yarn workspaces foreach run lint",
-    "build": "yarn workspaces foreach run build"
+    "build": "yarn workspace react-obsidian build && yarn workspace eslint-plugin-obsidian build"
   },
   "workspaces": [
     "packages/*"

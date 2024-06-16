@@ -3,7 +3,7 @@ const config = {
   resetMocks: true,
   resetModules: true,
   roots: [
-    'rules',
+    'tests'
   ],
   testEnvironment: 'jsdom',
 };

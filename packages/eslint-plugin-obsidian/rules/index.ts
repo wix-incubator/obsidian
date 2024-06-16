@@ -1,7 +1,7 @@
-const { unresolvedProviderDependencies } = require('./unresolvedProviderDependencies');
+const { unresolvedProviderDependenciesGenerator } = require('./unresolvedProviderDependencies');
 
 module.exports = {
   rules: {
-    'unresolved-provider-dependencies': unresolvedProviderDependencies,
+    'unresolved-provider-dependencies': unresolvedProviderDependenciesGenerator(),
   },
 };

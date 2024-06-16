@@ -1,26 +1,33 @@
 import { ESLintUtils, type TSESLint } from '@typescript-eslint/utils';
-import { create } from './createFunction';
+import type { RuleContext } from '@typescript-eslint/utils/ts-eslint';
+import { create } from './createRule';
+import { PathResolver } from '../framework/pathResolver';
+
+type Rule = TSESLint.RuleModule<'unresolved-provider-dependencies', []>;
 
 const createRule = ESLintUtils.RuleCreator(
   (name) => `https://wix-incubator.github.io/obsidian/docs/documentation/meta/eslint#${name}`,
 );
 
-type Rule = TSESLint.RuleModule<'unresolved-provider-dependencies', []>;
-
-
-export const unresolvedProviderDependencies: Rule = createRule({
-  create,
-  name: 'unresolved-provider-dependencies',
-  meta: {
-    docs: {
-      description: 'Dependencies must be defined in the graph or its subgraphs.',
-      recommended: 'strict',
+export const unresolvedProviderDependenciesGenerator = (
+  pathResolver: PathResolver = new PathResolver(),
+) => {
+  return createRule({
+    create: (context: RuleContext<'unresolved-provider-dependencies', []>) => {
+      return create(context, pathResolver);
     },
-    messages: {
-      'unresolved-provider-dependencies': 'Dependency {{ dependencyName }} is unresolved.',
+    name: 'unresolved-provider-dependencies',
+    meta: {
+      docs: {
+        description: 'Dependencies must be defined in the graph or its subgraphs.',
+        recommended: 'strict',
+      },
+      messages: {
+        'unresolved-provider-dependencies': 'Dependency {{ dependencyName }} is unresolved.',
+      },
+      schema: [],
+      type: 'problem',
     },
-    schema: [],
-    type: 'problem',
-  },
-  defaultOptions: [],
-});
+    defaultOptions: [],
+  }) satisfies Rule;
+};
