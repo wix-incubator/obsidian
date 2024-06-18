@@ -32,13 +32,13 @@ export class GraphRegistry {
 
   resolve<T extends Graph>(
     Graph: Constructable<T>,
-    source: 'lifecycleOwner' | 'serviceLocator' = 'lifecycleOwner',
+    source: 'lifecycleOwner' | 'classInjection' | 'serviceLocator' = 'lifecycleOwner',
     props: any = undefined,
   ): T {
     if ((this.isSingleton(Graph) || this.isBoundToReactLifecycle(Graph)) && this.has(Graph)) {
       return this.getFirst(Graph);
     }
-    if (this.isBoundToReactLifecycle(Graph) && source === 'serviceLocator') {
+    if (this.isBoundToReactLifecycle(Graph) && source !== 'lifecycleOwner') {
       throw new ObtainLifecycleBoundGraphException(Graph);
     }
     const graph = this.graphMiddlewares.resolve(Graph, props);

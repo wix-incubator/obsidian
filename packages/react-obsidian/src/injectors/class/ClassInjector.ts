@@ -24,8 +24,12 @@ export default class ClassInjector {
   ): ProxyHandler<any> {
     return new class Handler implements ProxyHandler<any> {
       construct(target: any, args: any[], newTarget: Function): any {
-        const graph = graphRegistry.resolve(Graph, 'lifecycleOwner', args.length > 0 ? args[0] : undefined);
-        referenceCounter.retain(graph);
+        const isReactClassComponent = target.prototype?.isReactComponent;
+        const source = isReactClassComponent ? 'lifecycleOwner' : 'classInjection';
+        const graph = graphRegistry.resolve(Graph, source, args.length > 0 ? args[0] : undefined);
+        if (isReactClassComponent) {
+          referenceCounter.retain(graph);
+        }
         Reflect.defineMetadata(GRAPH_INSTANCE_NAME_KEY, graph.name, target);
         const argsToInject = this.injectConstructorArgs(args, graph, target);
         graph.onBind(target);

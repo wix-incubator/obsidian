@@ -8,6 +8,7 @@ import {
   injectHook,
 } from '../../src';
 import { LifecycleBoundGraph } from '../fixtures/LifecycleBoundGraph';
+import { ObtainLifecycleBoundGraphException } from '../../src/graph/registry/ObtainLifecycleBoundGraphException';
 
 describe('React lifecycle bound graphs', () => {
   const Component = createFunctionalComponent();
@@ -30,16 +31,37 @@ describe('React lifecycle bound graphs', () => {
     expect(LifecycleBoundGraph.timesCreated).toBe(2);
   });
 
+  it('clears a bound graph after dependent components are unmounted when it was used for class injection', () => {
+    const Component2 = createFunctionalComponent({ instantiateInjectableClass: true});
+    const { unmount } = render(<Component2 />);
+    unmount();
+    render(<Component2 />);
+
+    expect(LifecycleBoundGraph.timesCreated).toBe(2);
+  });
+
   it('passes props to the component', () => {
     const { container } = render(<ClassComponent stringFromProps='Obsidian is cool' />);
     expect(container.textContent).toBe('A string passed via props: Obsidian is cool');
   });
 
   it('obtains a lifecycle bound graph only if it was already created', () => {
-    expect(() => Obsidian.obtain(LifecycleBoundGraph)).toThrowError(
+    expect(() => Obsidian.obtain(LifecycleBoundGraph)).toThrow(
       'Tried to obtain a @LifecycleBound graph LifecycleBoundGraph, but it was not created yet. '
       + '@LifecycleBound graphs can only be obtained after they were created by a React component or hook.',
     );
+  });
+
+  it('throws when a lifecycle bound graph is used to inject a class before it was created', () => {
+    expect(() => {
+      @Injectable(LifecycleBoundGraph)
+      class Foo {
+        // @ts-ignore
+        @Inject() private computedFromProps!: string;
+      }
+      // eslint-disable-next-line no-new
+      new Foo();
+    }).toThrow(ObtainLifecycleBoundGraphException);
   });
 
   it(`resolves a dependency when @LifecycleBound graph is used as a service locator`, () => {
@@ -64,8 +86,16 @@ describe('React lifecycle bound graphs', () => {
     expect(LifecycleBoundGraph.timesCreated).toBe(2);
   });
 
-  function createFunctionalComponent() {
-    const useHook = injectHook(() => {}, LifecycleBoundGraph);
+  type CreateOptions = {instantiateInjectableClass: boolean};
+  function createFunctionalComponent({instantiateInjectableClass}: CreateOptions = {
+    instantiateInjectableClass: false,
+  }) {
+    const useHook = injectHook(() => {
+      if (instantiateInjectableClass) {
+        // eslint-disable-next-line no-new
+        new Foo();
+      }
+    }, LifecycleBoundGraph);
 
     return injectComponent(() => {
       useHook();
@@ -79,6 +109,15 @@ describe('React lifecycle bound graphs', () => {
 
     override render() {
       return <>{this.computedFromProps}</>;
+    }
+  }
+
+  @Injectable(LifecycleBoundGraph)
+  class Foo {
+    @Inject() private computedFromProps!: string;
+
+    log() {
+      console.log(this.computedFromProps);
     }
   }
 });
