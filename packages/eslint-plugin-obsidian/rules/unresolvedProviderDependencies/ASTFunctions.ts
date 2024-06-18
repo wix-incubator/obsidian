@@ -28,11 +28,13 @@ export function getSubGraphs(decorators: TSESTree.Decorator[]) {
 
 export function getDependenciesFromSubgraphs(
   imports: TSESTree.ImportDeclaration[],
-  subGraphs:string[],
-  context:RuleContext<'unresolved-provider-dependencies', []>,
+  subGraphs: string[],
+  context: RuleContext<'unresolved-provider-dependencies', []>,
   pathResolver: PathResolver,
 ) {
-  const paths:Record<string, string>[] = [];
+  if (imports.length === 0) return [];
+
+  const paths: Record<string, string>[] = [];
   const dependencies: string[] = [];
   imports.forEach((el) => {
     el.specifiers.forEach((specifier) => {
@@ -44,7 +46,7 @@ export function getDependenciesFromSubgraphs(
   paths.forEach((el) => {
     // eslint-disable-next-line dot-notation
     const filePath = pathResolver.resolve(context, el['path']);
-    const fileContent = fs.readFileSync(filePath, { encoding: 'utf8'});
+    const fileContent = fs.readFileSync(filePath, { encoding: 'utf8' });
     const fileAST = parse(
       fileContent,
       {
@@ -62,10 +64,9 @@ export function getDependenciesFromSubgraphs(
         filePath,
       },
     );
-    dependencies.push(...mapFunctions(
-      (fileAST.body[fileAST.body.length - 1] as TSESTree.ExportDefaultDeclaration)
-        .declaration as TSESTree.ClassDeclaration,
-    ));
+    const body = fileAST.body[fileAST.body.length - 1] as TSESTree.ExportDefaultDeclaration;
+    const node = body.declaration as TSESTree.ClassDeclaration;
+    dependencies.push(...mapFunctions(node));
   });
   return dependencies;
 }
@@ -108,10 +109,17 @@ export function getDecoratorName(decorator: TSESTree.Decorator) {
   return ((decorator?.expression as TSESTree.CallExpression)?.callee as TSESTree.Identifier)?.name;
 }
 
-export function getPropertyDeclarations(node:TSESTree.ClassDeclaration) {
+export function getPropertyDeclarations(node: TSESTree.ClassDeclaration) {
   const classBody = node.body.body;
   const properties = classBody.map((method: any) => {
     return ((method as (TSESTree.PropertyDefinition | TSESTree.MethodDefinition)).key as TSESTree.Identifier).name;
   });
   return properties;
 }
+
+export function isNotAGraph(decorators: TSESTree.Decorator[]) {
+  return decorators
+    .map((decorator: TSESTree.Decorator) => getDecoratorName(decorator))
+    .includes('Graph') === false;
+}
+

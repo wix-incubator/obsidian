@@ -1,8 +1,8 @@
 import { RuleTester } from '@typescript-eslint/rule-tester';
 import { validGraphSimple, validGraphWithSubgraph } from './testUtils/validGraphs';
 import { unresolvedProviderDependenciesGenerator } from '../../rules/unresolvedProviderDependencies';
-import { invalidGraph } from '../../rules/unresolvedProviderDependencies/invalidGraphs';
 import { PathResolverStub } from '../stubs/PathResolverStub';
+import { invalidGraph } from '../../rules/unresolvedProviderDependencies/invalidGraphs';
 
 const ruleTester = new RuleTester();
 
@@ -10,6 +10,8 @@ ruleTester.run(
   'unresolved-provider-dependencies',
   unresolvedProviderDependenciesGenerator(new PathResolverStub()),
   {
+    // valid: [validGraphWithSubgraphAndSubgraph],
+    // invalid: [],
     valid: [validGraphSimple, validGraphWithSubgraph],
     invalid: [
       {
@@ -19,5 +21,5 @@ ruleTester.run(
         }],
       },
     ],
-  }
+  },
 );

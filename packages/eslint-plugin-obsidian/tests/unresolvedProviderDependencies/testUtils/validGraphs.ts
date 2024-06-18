@@ -24,3 +24,22 @@ export default class SimpleGraphWithSubgraph extends ObjectGraph {
     return instanceId;
   }
 }`;
+
+export const validGraphWithSubgraphAndSubgraph = `import {
+  Graph,
+  ObjectGraph,
+  Provides,
+}  from 'src';
+
+import ChildGraph from './childGraph';
+
+@Graph({ subgraphs: [ChildGraph] })
+export default class SimpleGraphWithSubgraphAndSubgraph extends ObjectGraph {
+  @Provides()
+  foo(bar: string, baz: string): string {
+    return bar + baz;
+  }
+}`;
+
+
+

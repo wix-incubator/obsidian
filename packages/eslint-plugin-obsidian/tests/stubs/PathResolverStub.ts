@@ -7,6 +7,8 @@ export class PathResolverStub implements PathResolver {
     switch(relativeFilePath) {
       case './subgraph':
         return `${context.cwd}/tests/unresolvedProviderDependencies/testUtils/subgraph.ts`;
+      case './childGraph':
+        return `${context.cwd}/tests/unresolvedProviderDependencies/testUtils/childGraph.ts`;
       default:
         return path.join(path.dirname(context.getFilename()), `${relativeFilePath}.ts`);
     }
