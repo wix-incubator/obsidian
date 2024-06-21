@@ -24,3 +24,19 @@ export default class SimpleGraphWithSubgraph extends ObjectGraph {
     return instanceId;
   }
 }`;
+
+export const validLifecycleBoundGraphWithSubgraph = `import {
+  Graph,
+  ObjectGraph,
+  Provides,
+}  from 'src';
+import Subgraph from './subgraph';
+
+
+@LifecycleBound() @Graph({ subgraphs: [Subgraph] })
+export default class SimpleGraphWithSubgraph extends ObjectGraph {
+  @Provides()
+  someClass(instanceId:string): string {
+    return instanceId;
+  }
+}`;

@@ -7,32 +7,32 @@ import { PathResolver } from '../framework/pathResolver';
 export type MessageIds = 'unresolved-provider-dependencies';
 
 export function getSubGraphs(decorators: TSESTree.Decorator[]) {
-  const args = (decorators[0].expression as TSESTree.CallExpression).arguments;
-  if (args) {
-    for (let i = 0; i < args.length; i++) {
-      if (args[i].type === TSESTree.AST_NODE_TYPES.ObjectExpression) {
-        const { properties } = (args[i] as TSESTree.ObjectExpression);
-        if (properties) {
-          for (let j = 0; j < properties.length; j++) {
-            if (((properties[j] as TSESTree.Property).key as TSESTree.Identifier).name === 'subgraphs') {
-              return ((properties[j] as TSESTree.Property).value as TSESTree.ArrayExpression)
-                .elements.map((subGraph: any) => (subGraph as TSESTree.Identifier).name);
-            }
-          }
-        }
-      }
+  const properties = getGraphDecoratorProperties(decorators);
+  for (let j = 0; j < properties.length; j++) {
+    if (((properties[j] as TSESTree.Property).key as TSESTree.Identifier).name === 'subgraphs') {
+      return ((properties[j] as TSESTree.Property).value as TSESTree.ArrayExpression)
+        .elements.map((subGraph: any) => (subGraph as TSESTree.Identifier).name);
     }
   }
   return [];
 }
 
+function getGraphDecoratorProperties(decorators: TSESTree.Decorator[]) {
+  const graph = decorators.find((decorator) => {
+    const callee = (decorator.expression as TSESTree.CallExpression).callee as TSESTree.Identifier;
+    return callee.name === 'Graph';
+  });
+  const graphArguments = (graph?.expression as TSESTree.CallExpression)?.arguments[0] as TSESTree.ObjectExpression;
+  return graphArguments?.properties || [];
+}
+
 export function getDependenciesFromSubgraphs(
   imports: TSESTree.ImportDeclaration[],
-  subGraphs:string[],
-  context:RuleContext<'unresolved-provider-dependencies', []>,
+  subGraphs: string[],
+  context: RuleContext<'unresolved-provider-dependencies', []>,
   pathResolver: PathResolver,
 ) {
-  const paths:Record<string, string>[] = [];
+  const paths: Record<string, string>[] = [];
   const dependencies: string[] = [];
   imports.forEach((el) => {
     el.specifiers.forEach((specifier) => {
@@ -44,7 +44,7 @@ export function getDependenciesFromSubgraphs(
   paths.forEach((el) => {
     // eslint-disable-next-line dot-notation
     const filePath = pathResolver.resolve(context, el['path']);
-    const fileContent = fs.readFileSync(filePath, { encoding: 'utf8'});
+    const fileContent = fs.readFileSync(filePath, { encoding: 'utf8' });
     const fileAST = parse(
       fileContent,
       {
@@ -108,7 +108,7 @@ export function getDecoratorName(decorator: TSESTree.Decorator) {
   return ((decorator?.expression as TSESTree.CallExpression)?.callee as TSESTree.Identifier)?.name;
 }
 
-export function getPropertyDeclarations(node:TSESTree.ClassDeclaration) {
+export function getPropertyDeclarations(node: TSESTree.ClassDeclaration) {
   const classBody = node.body.body;
   const properties = classBody.map((method: any) => {
     return ((method as (TSESTree.PropertyDefinition | TSESTree.MethodDefinition)).key as TSESTree.Identifier).name;
