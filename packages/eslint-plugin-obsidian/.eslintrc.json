@@ -24,6 +24,8 @@
   ],
   "rules": {
     "no-console":"off",
+    "no-multi-spaces": "error",
+    "no-multiple-empty-lines": ["error", { "max": 1 }],
     "@stylistic/max-len": [
       "error",
       {
