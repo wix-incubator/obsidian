@@ -3,9 +3,9 @@ import {
   validGraphSimple,
   validGraphWithSubgraph,
   validLifecycleBoundGraphWithSubgraph,
-} from './testUtils/validGraphs';
+} from './fixtures/validGraphs';
 import { unresolvedProviderDependenciesGenerator } from '../../rules/unresolvedProviderDependencies';
-import { invalidGraph } from './testUtils/invalidGraphs';
+import { invalidGraph } from './fixtures/invalidGraphs';
 import { PathResolverStub } from '../stubs/PathResolverStub';
 
 const ruleTester = new RuleTester();
