@@ -19,13 +19,14 @@ export class GraphHandler {
   ) { }
 
   public handle(clazz: ClassDeclaration) {
-    if (this.doesNotHaveGraphDecorator(clazz)) return;
-    const dependencies = this.resolveDependencies(clazz);
-    reportErrorIfDependencyIsUnresolved(this.context, checkDependencies(clazz, dependencies));
+    if (this.hasGraphDecorator(clazz)) {
+      const dependencies = this.resolveDependencies(clazz);
+      reportErrorIfDependencyIsUnresolved(this.context, checkDependencies(clazz, dependencies));
+    }
   }
 
-  private doesNotHaveGraphDecorator(clazz: ClassDeclaration) {
-    return clazz.decoratorNames.includes('Graph') === false;
+  private hasGraphDecorator(clazz: ClassDeclaration) {
+    return clazz.decoratorNames.includes('Graph');
   }
 
   private resolveDependencies(clazz: ClassDeclaration) {
