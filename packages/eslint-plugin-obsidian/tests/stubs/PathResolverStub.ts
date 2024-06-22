@@ -1,5 +1,4 @@
 import type { RuleContext } from '@typescript-eslint/utils/ts-eslint';
-import path = require('path') ;
 import { PathResolver } from '../../rules/framework/pathResolver';
 
 export class PathResolverStub implements PathResolver {
@@ -7,8 +6,10 @@ export class PathResolverStub implements PathResolver {
     switch(relativeFilePath) {
       case './subgraph':
         return `${context.cwd}/tests/unresolvedProviderDependencies/fixtures/subgraph.ts`;
+      case './graphWithSubgraph':
+        return `${context.cwd}/tests/unresolvedProviderDependencies/fixtures/graphWithSubgraph.ts`;
       default:
-        return path.join(path.dirname(context.getFilename()), `${relativeFilePath}.ts`);
+        throw new Error(`PathResolverStub: Unhandled relativeFilePath: ${relativeFilePath}`);
     }
   }
 }

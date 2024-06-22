@@ -3,10 +3,12 @@ import * as fs from 'fs';
 import { parse } from '@typescript-eslint/parser';
 import type { RuleContext } from '@typescript-eslint/utils/ts-eslint';
 import { PathResolver } from '../framework/pathResolver';
+import { ClassDeclaration } from '../dto/classDeclaration';
+import type { Decorator } from '../dto/decorator';
 
 export type MessageIds = 'unresolved-provider-dependencies';
 
-export function getSubGraphs(decorators: TSESTree.Decorator[]) {
+export function getSubGraphs({decorators}: ClassDeclaration) {
   const properties = getGraphDecoratorProperties(decorators);
   for (let j = 0; j < properties.length; j++) {
     if (((properties[j] as TSESTree.Property).key as TSESTree.Identifier).name === 'subgraphs') {
@@ -17,7 +19,7 @@ export function getSubGraphs(decorators: TSESTree.Decorator[]) {
   return [];
 }
 
-function getGraphDecoratorProperties(decorators: TSESTree.Decorator[]) {
+function getGraphDecoratorProperties(decorators: Decorator[]) {
   const graph = decorators.find((decorator) => {
     const callee = (decorator.expression as TSESTree.CallExpression).callee as TSESTree.Identifier;
     return callee.name === 'Graph';
@@ -62,15 +64,14 @@ export function getDependenciesFromSubgraphs(
         filePath,
       },
     );
-    dependencies.push(...mapFunctions(
-      (fileAST.body[fileAST.body.length - 1] as TSESTree.ExportDefaultDeclaration)
-        .declaration as TSESTree.ClassDeclaration,
-    ));
+
+    const clazz = (fileAST.body[fileAST.body.length - 1] as TSESTree.ExportDefaultDeclaration)
+      .declaration as TSESTree.ClassDeclaration;
+    dependencies.push(...mapFunctions(new ClassDeclaration(clazz)));
   });
   return dependencies;
 }
-export function mapFunctions(node: TSESTree.ClassDeclaration) {
-  const { body } = node.body;
+export function mapFunctions({body}: ClassDeclaration) {
   const existingDependencies: string[] = [];
   body.forEach((el: any) => {
     if (el.type === TSESTree.AST_NODE_TYPES.MethodDefinition) {
@@ -84,33 +85,32 @@ export function mapFunctions(node: TSESTree.ClassDeclaration) {
   });
   return existingDependencies;
 }
-export function checkDependencies(node: TSESTree.ClassDeclaration, existingDependencies: string[]) {
-  const body = node?.body?.body;
+export function checkDependencies({body}: ClassDeclaration, dependencies: string[]) {
   for (let j = 0; j < body.length; j++) {
     if (body[j].type === TSESTree.AST_NODE_TYPES.MethodDefinition
       && ((body[j] as TSESTree.MethodDefinition).key as TSESTree.Identifier).name !== 'constructor') {
       const params = (body[j] as TSESTree.MethodDefinition).value?.params;
       if (params) {
         for (let i = 0; i < params.length; i++) {
-          if (!existingDependencies.includes((params[i] as TSESTree.Identifier).name)) {
+          if (!dependencies.includes((params[i] as TSESTree.Identifier).name)) {
             return {
-              value: false,
+              error: true,
               param: (params[i] as TSESTree.Identifier).name,
+              node: params[i],
             };
           }
         }
       }
     }
   }
-  return { value: true };
+  return { error: false };
 }
 export function getDecoratorName(decorator: TSESTree.Decorator) {
   return ((decorator?.expression as TSESTree.CallExpression)?.callee as TSESTree.Identifier)?.name;
 }
 
-export function getPropertyDeclarations(node: TSESTree.ClassDeclaration) {
-  const classBody = node.body.body;
-  const properties = classBody.map((method: any) => {
+export function getPropertyDeclarations({body}: ClassDeclaration) {
+  const properties = body.map((method: any) => {
     return ((method as (TSESTree.PropertyDefinition | TSESTree.MethodDefinition)).key as TSESTree.Identifier).name;
   });
   return properties;
