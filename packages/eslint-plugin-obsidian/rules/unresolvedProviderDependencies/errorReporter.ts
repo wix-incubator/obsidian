@@ -8,7 +8,6 @@ export function reportErrorIfDependencyIsUnresolved(
   if (error) {
     context.report({
       node: node!,
-      // node: clazz.node,
       messageId: 'unresolved-provider-dependencies',
       data: {
         dependencyName: param,

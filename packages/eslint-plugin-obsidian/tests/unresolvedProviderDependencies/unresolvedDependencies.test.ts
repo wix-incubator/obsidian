@@ -3,7 +3,7 @@ import { unresolvedProviderDependenciesGenerator } from '../../rules/unresolvedP
 import { PathResolverStub } from '../stubs/PathResolverStub';
 import {
   validFileWithTwoGraphs,
-  validGraphSimple,
+  validGraph,
   validGraphWithSubgraph,
   validLifecycleBoundGraphWithSubgraph,
 } from './fixtures/validGraphs';
@@ -16,7 +16,7 @@ ruleTester.run(
   unresolvedProviderDependenciesGenerator(new PathResolverStub()),
   {
     valid: [
-      validGraphSimple,
+      validGraph,
       validGraphWithSubgraph,
       validLifecycleBoundGraphWithSubgraph,
       validFileWithTwoGraphs,

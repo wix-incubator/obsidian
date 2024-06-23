@@ -1,4 +1,4 @@
-export const validGraphSimple = `import { uniqueId } from 'lodash';
+export const validGraph = `import { uniqueId } from 'lodash';
 import { Graph, ObjectGraph, Provides } from 'src';
 
 @Graph()

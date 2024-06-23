@@ -38,7 +38,6 @@ export function getDependenciesFromSubgraphs(
 ) {
   const paths: {path: string; import: string}[] = [];
   const dependencies: string[] = [];
-
   imports.forEach((el) => {
     el.specifiers.forEach((specifier) => {
       if (subGraphs.includes(specifier.local.name)) {

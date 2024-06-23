@@ -5,7 +5,6 @@ export class File {
 
   public findGraph(name: string) {
     return this.classNodes.find((node) => {
-      console.log((node as TSESTree.ClassDeclaration).id?.name);
       return node.id?.name === name;
     });
   }
