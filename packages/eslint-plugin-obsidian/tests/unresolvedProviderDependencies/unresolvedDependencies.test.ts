@@ -2,6 +2,7 @@ import { RuleTester } from '@typescript-eslint/rule-tester';
 import { unresolvedProviderDependenciesGenerator } from '../../rules/unresolvedProviderDependencies';
 import { PathResolverStub } from '../stubs/PathResolverStub';
 import {
+  validFileWithTwoGraphs,
   validGraphSimple,
   validGraphWithSubgraph,
   validLifecycleBoundGraphWithSubgraph,
@@ -18,6 +19,7 @@ ruleTester.run(
       validGraphSimple,
       validGraphWithSubgraph,
       validLifecycleBoundGraphWithSubgraph,
+      validFileWithTwoGraphs,
     ],
     invalid: [
       {

@@ -5,6 +5,7 @@ import type { RuleContext } from '@typescript-eslint/utils/ts-eslint';
 import { PathResolver } from '../framework/pathResolver';
 import { ClassDeclaration } from '../dto/classDeclaration';
 import type { Decorator } from '../dto/decorator';
+import { File } from '../dto/file';
 
 export type MessageIds = 'unresolved-provider-dependencies';
 
@@ -29,13 +30,15 @@ function getGraphDecoratorProperties(decorators: Decorator[]) {
 }
 
 export function getDependenciesFromSubgraphs(
+  clazz: ClassDeclaration,
   imports: TSESTree.ImportDeclaration[],
   subGraphs: string[],
   context: RuleContext<'unresolved-provider-dependencies', []>,
   pathResolver: PathResolver,
 ) {
-  const paths: Record<string, string>[] = [];
+  const paths: {path: string; import: string}[] = [];
   const dependencies: string[] = [];
+
   imports.forEach((el) => {
     el.specifiers.forEach((specifier) => {
       if (subGraphs.includes(specifier.local.name)) {
@@ -43,9 +46,21 @@ export function getDependenciesFromSubgraphs(
       }
     });
   });
+
+  // Find dependencies in graphs that are declared in the same file
+  const unimportedGraphs = subGraphs.filter(
+    subgraph => paths.find(p => p.import === subgraph) === undefined,
+  );
+  const file = new File(clazz.node.parent as TSESTree.Program);
+  unimportedGraphs.forEach((subgraph) => {
+    const graph = file.findGraph(subgraph);
+    if (graph) {
+      dependencies.push(...mapFunctions(new ClassDeclaration(graph)));
+    }
+  });
+
   paths.forEach((el) => {
-    // eslint-disable-next-line dot-notation
-    const filePath = pathResolver.resolve(context, el['path']);
+    const filePath = pathResolver.resolve(context, el.path);
     const fileContent = fs.readFileSync(filePath, { encoding: 'utf8' });
     const fileAST = parse(
       fileContent,
@@ -65,9 +80,9 @@ export function getDependenciesFromSubgraphs(
       },
     );
 
-    const clazz = (fileAST.body[fileAST.body.length - 1] as TSESTree.ExportDefaultDeclaration)
+    const clazz2 = (fileAST.body[fileAST.body.length - 1] as TSESTree.ExportDefaultDeclaration)
       .declaration as TSESTree.ClassDeclaration;
-    dependencies.push(...mapFunctions(new ClassDeclaration(clazz)));
+    dependencies.push(...mapFunctions(new ClassDeclaration(clazz2)));
   });
   return dependencies;
 }

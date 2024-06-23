@@ -32,7 +32,7 @@ export class GraphHandler {
   private resolveDependencies(clazz: ClassDeclaration) {
     const subGraphs = getSubGraphs(clazz);
     return [
-      ...getDependenciesFromSubgraphs(this.imports, subGraphs, this.context, this.pathResolver),
+      ...getDependenciesFromSubgraphs(clazz, this.imports, subGraphs, this.context, this.pathResolver),
       ...mapFunctions(clazz),
       ...getPropertyDeclarations(clazz),
     ];

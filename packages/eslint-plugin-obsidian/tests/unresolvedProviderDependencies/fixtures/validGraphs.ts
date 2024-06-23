@@ -40,3 +40,31 @@ export default class SimpleGraphWithSubgraph extends ObjectGraph {
     return instanceId;
   }
 }`;
+
+export const validFileWithTwoGraphs = `
+import {
+  Graph,
+  ObjectGraph,
+  Provides,
+}  from 'src';
+
+@Graph()
+class Subgraph extends ObjectGraph {
+  @Provides()
+  subgraphString(): string {
+    return 'from subgraph';
+  }
+
+  @Provides()
+  subgraphDescriminator(): string {
+    return 'lol';
+  }
+}
+
+@Graph({ subgraphs: [Subgraph] })
+class MainGraph extends ObjectGraph {
+  @Provides()
+  graphString(subgraphString: string): string {
+    return 'from main ' + subgraphString;
+  }
+}`;
