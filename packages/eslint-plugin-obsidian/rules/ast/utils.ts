@@ -20,7 +20,7 @@ export function isMethodDefinition(node: TSESTree.Node): node is TSESTree.Method
   return node.type === 'MethodDefinition';
 }
 
-export function getClassDeclaration(node: TSESTree.Node) {
+export function getClassDeclaration(node: TSESTree.Node): TSESTree.ClassDeclaration | undefined {
   switch (node.type) {
     case 'ClassDeclaration':
       return node;

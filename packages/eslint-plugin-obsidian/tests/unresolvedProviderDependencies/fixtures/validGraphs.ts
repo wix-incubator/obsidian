@@ -54,11 +54,6 @@ class Subgraph extends ObjectGraph {
   subgraphString(): string {
     return 'from subgraph';
   }
-
-  @Provides()
-  subgraphDescriminator(): string {
-    return 'lol';
-  }
 }
 
 @Graph({ subgraphs: [Subgraph] })
