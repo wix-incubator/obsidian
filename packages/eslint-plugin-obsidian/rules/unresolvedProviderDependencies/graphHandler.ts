@@ -1,40 +1,24 @@
-import type { TSESTree } from '@typescript-eslint/types';
-import type { ClassDeclaration } from '../dto/classDeclaration';
-import type { PathResolver } from '../framework/pathResolver';
+import type { Clazz } from '../dto/class';
 import type { Context } from './types';
-import {
-  checkDependencies,
-  getDependenciesFromSubgraphs,
-  getPropertyDeclarations,
-  getSubGraphs,
-  mapFunctions,
-} from './ASTFunctions';
+import { checkDependencies } from './ASTFunctions';
 import { reportErrorIfDependencyIsUnresolved } from './errorReporter';
+import type { DependencyResolver } from './dependencyResolver';
+import type { Import } from '../dto/import';
 
 export class GraphHandler {
   constructor(
     private context: Context,
-    private pathResolver: PathResolver,
-    private imports: TSESTree.ImportDeclaration[],
+    private dependencyResolver: DependencyResolver,
   ) { }
 
-  public handle(clazz: ClassDeclaration) {
+  public handle(clazz: Clazz, imports: Import[]) {
     if (this.hasGraphDecorator(clazz)) {
-      const dependencies = this.resolveDependencies(clazz);
+      const dependencies = this.dependencyResolver.resolve(clazz, imports);
       reportErrorIfDependencyIsUnresolved(this.context, checkDependencies(clazz, dependencies));
     }
   }
 
-  private hasGraphDecorator(clazz: ClassDeclaration) {
+  private hasGraphDecorator(clazz: Clazz) {
     return clazz.decoratorNames.includes('Graph');
-  }
-
-  private resolveDependencies(clazz: ClassDeclaration) {
-    const subGraphs = getSubGraphs(clazz);
-    return [
-      ...getDependenciesFromSubgraphs(clazz, this.imports, subGraphs, this.context, this.pathResolver),
-      ...mapFunctions(clazz),
-      ...getPropertyDeclarations(clazz),
-    ];
   }
 }

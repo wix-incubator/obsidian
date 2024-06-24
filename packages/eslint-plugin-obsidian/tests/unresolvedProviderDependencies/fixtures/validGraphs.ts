@@ -20,7 +20,7 @@ import Subgraph from './subgraph';
 @Graph({ subgraphs: [Subgraph] })
 export default class SimpleGraphWithSubgraph extends ObjectGraph {
   @Provides()
-  someClass(instanceId:string): string {
+  someDep(instanceId:string): string {
     return instanceId;
   }
 }`;
