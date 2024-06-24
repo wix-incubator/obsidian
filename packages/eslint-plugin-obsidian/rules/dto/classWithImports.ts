@@ -7,10 +7,4 @@ export class ClassWithImports {
     public readonly clazz: Clazz,
     public readonly imports: Import[],
   ) {}
-
-  public getClassPathFromImports(className: string) {
-    return this.imports.find(($import) => {
-      return $import.includes(className);
-    })?.path;
-  }
 }
