@@ -1,19 +1,23 @@
 import type { TSESTree } from '@typescript-eslint/types';
-import type { PathResolver } from '../framework/pathResolver';
-import { ClassDeclaration } from '../dto/classDeclaration';
+import { Clazz } from '../dto/class';
 import type { Context } from './types';
 import { GraphHandler } from './graphHandler';
+import { FileReader } from '../framework/fileReader';
+import { DependencyResolver } from './dependencyResolver';
+import { Import } from '../dto/import';
+import { SubgraphResolver } from './subgraphResolver';
 
-export function create(context: Context,pathResolver: PathResolver) {
-  const imports: TSESTree.ImportDeclaration[] = [];
-  const graphHandler = new GraphHandler(context, pathResolver, imports);
+export function create(context: Context, fileReader: FileReader) {
+  const imports: Import[] = [];
+  const dependencyResolver = new DependencyResolver(new SubgraphResolver(fileReader));
+  const graphHandler = new GraphHandler(context, dependencyResolver);
 
   return {
     ImportDeclaration(node: TSESTree.ImportDeclaration) {
-      imports.push(node);
+      imports.push(new Import(node));
     },
     ClassDeclaration(node: TSESTree.ClassDeclaration) {
-      graphHandler.handle(new ClassDeclaration(node));
+      graphHandler.handle(new Clazz(node), imports);
     },
   };
 }

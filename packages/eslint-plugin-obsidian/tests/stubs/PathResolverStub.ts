@@ -8,6 +8,8 @@ export class PathResolverStub implements PathResolver {
         return `${context.cwd}/tests/unresolvedProviderDependencies/fixtures/subgraph.ts`;
       case './graphWithSubgraph':
         return `${context.cwd}/tests/unresolvedProviderDependencies/fixtures/graphWithSubgraph.ts`;
+      case './namedExportSubgraph':
+        return `${context.cwd}/tests/unresolvedProviderDependencies/fixtures/namedExportSubgraph.ts`;
       default:
         throw new Error(`PathResolverStub: Unhandled relativeFilePath: ${relativeFilePath}`);
     }

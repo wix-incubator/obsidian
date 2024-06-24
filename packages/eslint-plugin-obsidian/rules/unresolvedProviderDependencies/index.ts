@@ -2,6 +2,7 @@ import { ESLintUtils, type TSESLint } from '@typescript-eslint/utils';
 import type { RuleContext } from '@typescript-eslint/utils/ts-eslint';
 import { create } from './createRule';
 import { PathResolver } from '../framework/pathResolver';
+import { FileReader } from '../framework/fileReader';
 
 type Rule = TSESLint.RuleModule<'unresolved-provider-dependencies', []>;
 
@@ -14,7 +15,7 @@ export const unresolvedProviderDependenciesGenerator = (
 ) => {
   return createRule({
     create: (context: RuleContext<'unresolved-provider-dependencies', []>) => {
-      return create(context, pathResolver);
+      return create(context, new FileReader(context, pathResolver));
     },
     name: 'unresolved-provider-dependencies',
     meta: {
