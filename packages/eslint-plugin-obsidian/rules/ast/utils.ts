@@ -7,6 +7,8 @@ export function isClassLike(node: TSESTree.Node): node is TSESTree.ClassDeclarat
       return true;
     case 'ExportDefaultDeclaration':
       return isClassLike(node.declaration);
+    case 'ExportNamedDeclaration':
+      return isClassLike(node.declaration!);
     default:
       return false;
   }
@@ -26,6 +28,8 @@ export function getClassDeclaration(node: TSESTree.Node): TSESTree.ClassDeclarat
       return node;
     case 'ExportDefaultDeclaration':
       return getClassDeclaration(node.declaration);
+    case 'ExportNamedDeclaration':
+      return getClassDeclaration(node.declaration!);
     default:
       return undefined;
   }

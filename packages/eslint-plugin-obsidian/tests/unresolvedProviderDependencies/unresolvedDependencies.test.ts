@@ -4,6 +4,7 @@ import { PathResolverStub } from '../stubs/PathResolverStub';
 import {
   validFileWithTwoGraphs,
   validGraph,
+  validGraphWithNamedExportSubgraph,
   validGraphWithSubgraph,
   validLifecycleBoundGraphWithSubgraph,
 } from './fixtures/validGraphs';
@@ -20,6 +21,7 @@ ruleTester.run(
       validGraphWithSubgraph,
       validLifecycleBoundGraphWithSubgraph,
       validFileWithTwoGraphs,
+      validGraphWithNamedExportSubgraph,
     ],
     invalid: [
       {

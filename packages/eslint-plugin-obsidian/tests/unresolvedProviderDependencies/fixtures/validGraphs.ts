@@ -25,6 +25,22 @@ export default class SimpleGraphWithSubgraph extends ObjectGraph {
   }
 }`;
 
+export const validGraphWithNamedExportSubgraph = `import {
+  Graph,
+  ObjectGraph,
+  Provides,
+}  from 'src';
+import { Subgraph } from './namedExportSubgraph';
+
+
+@Graph({ subgraphs: [Subgraph] })
+export default class SimpleGraphWithNamedExportSubgraph extends ObjectGraph {
+  @Provides()
+  someDep(instanceId:string): string {
+    return instanceId;
+  }
+}`;
+
 export const validLifecycleBoundGraphWithSubgraph = `import {
   Graph,
   ObjectGraph,
