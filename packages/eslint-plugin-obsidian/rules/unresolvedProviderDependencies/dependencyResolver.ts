@@ -17,8 +17,7 @@ export class DependencyResolver {
   private getDependenciesFromSubgraphs(clazz: ClassWithImports): string[] {
     return this.subgraphResolver
       .resolve(clazz)
-      .map(this.getGraphDependencies)
-      .flat();
+      .flatMap(this.getGraphDependencies);
   }
 
   private getGraphDependencies({ clazz }: ClassWithImports) {

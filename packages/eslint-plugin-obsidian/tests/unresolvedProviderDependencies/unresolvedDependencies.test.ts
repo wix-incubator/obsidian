@@ -5,6 +5,7 @@ import {
   validFileWithTwoGraphs,
   validGraph,
   validGraphWithNamedExportSubgraph,
+  validGraphWithNestedSubgraphs,
   validGraphWithRegularMethod,
   validGraphWithSubgraph,
   validLifecycleBoundGraphWithSubgraph,
@@ -24,6 +25,7 @@ ruleTester.run(
       validFileWithTwoGraphs,
       validGraphWithNamedExportSubgraph,
       validGraphWithRegularMethod,
+      validGraphWithNestedSubgraphs,
     ],
     invalid: [
       {
