@@ -79,3 +79,18 @@ class MainGraph extends ObjectGraph {
     return 'from main ' + subgraphString;
   }
 }`;
+
+export const validGraphWithRegularMethod = `
+import { Graph, ObjectGraph, Provides } from 'src';
+
+@Graph()
+export default class SimpleGraph extends ObjectGraph {
+  override onBind(target: any) {
+    this.target = target;
+  }
+
+  @Provides()
+  foo(): string {
+    return 'foo';
+  }
+}`;

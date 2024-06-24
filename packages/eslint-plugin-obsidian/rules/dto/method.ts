@@ -10,7 +10,7 @@ export class Method {
   }
 
   isDecoratedWith(decoratorName: string): boolean {
-    return this.decorators?.some((decorator) => {
+    return this.decorators.some((decorator) => {
       return decorator.expression.callee.name === decoratorName;
     });
   }

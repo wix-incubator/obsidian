@@ -5,6 +5,7 @@ import {
   validFileWithTwoGraphs,
   validGraph,
   validGraphWithNamedExportSubgraph,
+  validGraphWithRegularMethod,
   validGraphWithSubgraph,
   validLifecycleBoundGraphWithSubgraph,
 } from './fixtures/validGraphs';
@@ -22,6 +23,7 @@ ruleTester.run(
       validLifecycleBoundGraphWithSubgraph,
       validFileWithTwoGraphs,
       validGraphWithNamedExportSubgraph,
+      validGraphWithRegularMethod,
     ],
     invalid: [
       {
