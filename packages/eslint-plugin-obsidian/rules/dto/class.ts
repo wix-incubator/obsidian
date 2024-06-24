@@ -5,9 +5,7 @@ import { isMethodDefinition } from '../ast/utils';
 import { Method } from './method';
 
 export class Clazz {
-  constructor(
-    public node: TSESTree.ClassDeclaration,
-  ) {
+  constructor(public node: TSESTree.ClassDeclaration) {
     assertDefined(this.node);
   }
 

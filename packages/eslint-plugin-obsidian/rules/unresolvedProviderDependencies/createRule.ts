@@ -5,10 +5,12 @@ import { GraphHandler } from './graphHandler';
 import { FileReader } from '../framework/fileReader';
 import { DependencyResolver } from './dependencyResolver';
 import { Import } from '../dto/import';
+import { SubgraphResolver } from './subgraphResolver';
 
 export function create(context: Context, fileReader: FileReader) {
   const imports: Import[] = [];
-  const graphHandler = new GraphHandler(context, new DependencyResolver(fileReader));
+  const dependencyResolver = new DependencyResolver(new SubgraphResolver(fileReader));
+  const graphHandler = new GraphHandler(context, dependencyResolver);
 
   return {
     ImportDeclaration(node: TSESTree.ImportDeclaration) {
