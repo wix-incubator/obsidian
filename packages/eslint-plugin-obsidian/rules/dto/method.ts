@@ -1,12 +1,17 @@
 import type { TSESTree } from '@typescript-eslint/types';
 import { Decorator } from './decorator';
+import { Parameter } from './parameter';
 
 export class Method {
 
-  constructor(private node: TSESTree.MethodDefinition) {}
+  constructor(public readonly node: TSESTree.MethodDefinition) {}
 
   get name() {
     return (this.node.key as TSESTree.Identifier).name;
+  }
+
+  get parameters() {
+    return this.node.value.params.map((param) => new Parameter(param));
   }
 
   isDecoratedWith(decoratorName: string): boolean {

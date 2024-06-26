@@ -21,6 +21,8 @@ export class DependencyResolver {
   }
 
   private getGraphDependencies({ clazz }: ClassWithImports) {
-    return clazz.getDecoratedMethods('Provides');
+    return clazz
+      .getDecoratedMethods('Provides')
+      .map((method) => method.name);
   }
 }
