@@ -10,10 +10,11 @@ import type { FileReader } from '../framework/fileReader';
 export class SubgraphResolver {
   constructor(private fileReader: FileReader) { }
 
-  public resolve(clazz: ClassWithImports) {
-    const importedGraphs = this.getImportedGraphs(clazz);
-    const localGraphs = this.getLocalGraphs(clazz);
-    return [...importedGraphs, ...localGraphs];
+  public resolve(clazz: ClassWithImports): ClassWithImports[] {
+    return [
+      ...this.getImportedGraphs(clazz),
+      ...this.getLocalGraphs(clazz),
+    ].flatMap((g) => [g, ...this.resolve(g)]);
   }
 
   private getImportedGraphs({ clazz, imports }: ClassWithImports) {
@@ -23,7 +24,7 @@ export class SubgraphResolver {
 
   private getImportedSubgraphClasses(subgraphs: Property | undefined, imports: Import[]) {
     if (!subgraphs) return [];
-    const subgraphNames = this.getSubgraphNames(subgraphs);
+    const subgraphNames = this.getSubgraphNamesFromDecoratorProperty(subgraphs);
     const classes: ClassWithImports[] = [];
     imports.forEach(($import) => {
       // TODO: convert this to a map with an inner for each?
@@ -48,16 +49,20 @@ export class SubgraphResolver {
 
   private getLocalSubgraphClasses(subgraphs: Property | undefined, { clazz, imports }: ClassWithImports) {
     if (!subgraphs) return [];
-    const subgraphNames = this.getSubgraphNames(subgraphs);
-    const localGraphNames = this.getLocalGraphNames(subgraphNames, imports);
+    const allSubgraphs = this.getSubgraphNamesFromDecoratorProperty(subgraphs);
+    const localGraphNames = this.getLocalGraphNames(allSubgraphs, imports);
+    return this.createLocalGraphClasses(clazz, localGraphNames, imports);
+  }
 
+  private createLocalGraphClasses(clazz: Clazz, localGraphNames: string[], imports: Import[]) {
+    if (localGraphNames.length === 0) return [];
     const parent = new File(requireProgram(clazz.node));
     return localGraphNames.map((localGraphName) => {
       return new ClassWithImports(parent.requireGraph(localGraphName), imports);
     });
   }
 
-  private getSubgraphNames(subgraphs: Property) {
+  private getSubgraphNamesFromDecoratorProperty(subgraphs: Property) {
     return mapArrayExpression(
       subgraphs.getValue<TSESTree.ArrayExpression>(),
       (el) => (el as TSESTree.Identifier).name,

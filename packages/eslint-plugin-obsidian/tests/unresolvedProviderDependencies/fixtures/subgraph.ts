@@ -12,4 +12,9 @@ export default class Subgraph extends ObjectGraph {
   instanceId(): string {
     return uniqueId('graph');
   }
+
+  @Provides()
+  foo(): string {
+    return 'foo';
+  }
 }

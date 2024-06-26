@@ -57,6 +57,22 @@ export default class SimpleGraphWithSubgraph extends ObjectGraph {
   }
 }`;
 
+export const validGraphWithNestedSubgraphs = `
+import {
+  Graph,
+  ObjectGraph,
+  Provides,
+}  from 'src';
+import GraphWithSubgraph from './graphWithSubgraph';
+
+@Graph({ subgraphs: [GraphWithSubgraph] })
+export default class GraphWithNestedSubgraphs extends ObjectGraph {
+  @Provides()
+  bar(foo: string): string {
+    return foo + 'bar';
+  }
+}`;
+
 export const validFileWithTwoGraphs = `
 import {
   Graph,

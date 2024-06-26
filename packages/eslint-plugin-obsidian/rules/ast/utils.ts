@@ -1,5 +1,6 @@
 import type { TSESTree } from '@typescript-eslint/types';
 import type { ArrayExpressionElement } from '../unresolvedProviderDependencies/types';
+import { assertDefined } from '../utils/assertions';
 
 export function isClassLike(node: TSESTree.Node): node is TSESTree.ClassDeclaration {
   switch (node.type) {
@@ -35,12 +36,13 @@ export function getClassDeclaration(node: TSESTree.Node): TSESTree.ClassDeclarat
   }
 }
 
-export function requireProgram(node: TSESTree.Node): TSESTree.Program {
+export function requireProgram(node: TSESTree.Node | undefined): TSESTree.Program {
+  assertDefined(node);
   switch (node.type) {
     case 'Program':
       return node;
     default:
-      return requireProgram(node.parent!);
+      return requireProgram(node.parent);
   }
 }
 
