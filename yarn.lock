@@ -4022,7 +4022,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-obsidian@2.5.0, eslint-plugin-obsidian@workspace:packages/eslint-plugin-obsidian":
+"eslint-plugin-obsidian@npm:2.5.0":
+  version: 2.5.0
+  resolution: "eslint-plugin-obsidian@npm:2.5.0"
+  dependencies:
+    "@typescript-eslint/parser": 6.6.x
+    "@typescript-eslint/utils": 6.6.x
+    lodash: ^4.17.21
+  peerDependencies:
+    eslint: 8.x.x
+  checksum: 5b62d7e835a2848c00a66479e1f209f934c84e4e17f407c144d27a849bc0c0148863df6e5fabb8f1cb3e067a73a7793c8b8e7133e14d965aa97f2669ad516b74
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-obsidian@workspace:packages/eslint-plugin-obsidian":
   version: 0.0.0-use.local
   resolution: "eslint-plugin-obsidian@workspace:packages/eslint-plugin-obsidian"
   dependencies:
