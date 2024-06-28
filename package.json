@@ -8,5 +8,20 @@
   "workspaces": [
     "packages/*"
   ],
+  "keywords": [
+    "dependency",
+    "dependency",
+    "react",
+    "react-native",
+    "react native",
+    "dependency-injection",
+    "dependency injection",
+    "dependency inversion",
+    "inversion of control container",
+    "typescript",
+    "ioc",
+    "di",
+    "injector"
+  ],
   "packageManager": "yarn@3.8.1"
 }
