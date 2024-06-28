@@ -24,5 +24,4 @@ jobs:
       - name: Install dependencies
         run: yarn --frozen-lockfile
       - name: Test build documentation
-        working-directory: ./documentation
-        run: yarn build
+        run: yarn workspace documentation build
