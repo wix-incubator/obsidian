@@ -1,7 +1,7 @@
 import type { Clazz } from './class';
 import type { Import } from './import';
 
-export class ClassWithImports {
+export class ClassFile {
 
   constructor(
     public readonly clazz: Clazz,
