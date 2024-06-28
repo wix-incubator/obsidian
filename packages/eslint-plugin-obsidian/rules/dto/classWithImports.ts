@@ -6,5 +6,6 @@ export class ClassWithImports {
   constructor(
     public readonly clazz: Clazz,
     public readonly imports: Import[],
+    public readonly path: string,
   ) {}
 }

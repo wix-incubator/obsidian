@@ -16,7 +16,7 @@ export class Clazz {
   }
 
   get decorators() {
-    return this.node.decorators.map((decorator: TSESTree.Decorator) => {
+    return (this.node.decorators ?? []).map((decorator: TSESTree.Decorator) => {
       return new Decorator(decorator);
     });
   }

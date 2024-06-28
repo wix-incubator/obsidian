@@ -1,8 +1,6 @@
 import type { TSESTree } from '@typescript-eslint/types';
 import { mapArrayExpression, requireProgram } from '../ast/utils';
-import type { Clazz } from '../dto/class';
 import { ClassWithImports } from '../dto/classWithImports';
-import type { Import } from '../dto/import';
 import type { Property } from '../dto/property';
 import { File } from '../dto/file';
 import type { FileReader } from '../framework/fileReader';
@@ -17,20 +15,19 @@ export class SubgraphResolver {
     ].flatMap((g) => [g, ...this.resolve(g)]);
   }
 
-  private getImportedGraphs({ clazz, imports }: ClassWithImports) {
+  private getImportedGraphs(clazz: ClassWithImports) {
     const subgraphs = this.getSubgraphsPropertyFromGraphDecorator(clazz);
-    return this.getImportedSubgraphClasses(subgraphs, imports);
+    return this.getImportedSubgraphClasses(clazz, subgraphs);
   }
 
-  private getImportedSubgraphClasses(subgraphs: Property | undefined, imports: Import[]) {
+  private getImportedSubgraphClasses(clazz: ClassWithImports, subgraphs: Property | undefined) {
     if (!subgraphs) return [];
     const subgraphNames = this.getSubgraphNamesFromDecoratorProperty(subgraphs);
     const classes: ClassWithImports[] = [];
-    imports.forEach(($import) => {
-      // TODO: convert this to a map with an inner for each?
+    clazz.imports.forEach(($import) => {
       subgraphNames.forEach((subgraphName: string) => {
         if ($import.includes(subgraphName)) {
-          classes.push(...this.fileReader.read($import.path).toClassWithImports());
+          classes.push(...this.fileReader.read(clazz.path, $import.path).toClassWithImports());
         }
       });
     });
@@ -38,27 +35,27 @@ export class SubgraphResolver {
   }
 
   private getLocalGraphs(clazzWithImports: ClassWithImports) {
-    const subgraphs = this.getSubgraphsPropertyFromGraphDecorator(clazzWithImports.clazz);
+    const subgraphs = this.getSubgraphsPropertyFromGraphDecorator(clazzWithImports);
     return this.getLocalSubgraphClasses(subgraphs, clazzWithImports);
   }
 
-  private getSubgraphsPropertyFromGraphDecorator(clazz: Clazz) {
+  private getSubgraphsPropertyFromGraphDecorator({clazz}: ClassWithImports) {
     const graphDecorator = clazz.requireDecorator('Graph');
     return graphDecorator.getProperty('subgraphs');
   }
 
-  private getLocalSubgraphClasses(subgraphs: Property | undefined, { clazz, imports }: ClassWithImports) {
+  private getLocalSubgraphClasses(subgraphs: Property | undefined, clazz: ClassWithImports) {
     if (!subgraphs) return [];
     const allSubgraphs = this.getSubgraphNamesFromDecoratorProperty(subgraphs);
-    const localGraphNames = this.getLocalGraphNames(allSubgraphs, imports);
-    return this.createLocalGraphClasses(clazz, localGraphNames, imports);
+    const localGraphNames = this.getLocalGraphNames(allSubgraphs, clazz);
+    return this.createLocalGraphClasses(clazz, localGraphNames);
   }
 
-  private createLocalGraphClasses(clazz: Clazz, localGraphNames: string[], imports: Import[]) {
+  private createLocalGraphClasses({clazz, imports, path}: ClassWithImports, localGraphNames: string[]) {
     if (localGraphNames.length === 0) return [];
-    const parent = new File(requireProgram(clazz.node));
+    const parent = new File(requireProgram(clazz.node), path);
     return localGraphNames.map((localGraphName) => {
-      return new ClassWithImports(parent.requireGraph(localGraphName), imports);
+      return new ClassWithImports(parent.requireGraph(localGraphName), imports, path);
     });
   }
 
@@ -69,7 +66,7 @@ export class SubgraphResolver {
     );
   }
 
-  private getLocalGraphNames(subgraphs: string[], imports: Import[]) {
+  private getLocalGraphNames(subgraphs: string[], {imports}: ClassWithImports) {
     return subgraphs.filter((subgraph) => {
       return imports.some(($import) => {
         return $import.includes(subgraph);
