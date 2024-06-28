@@ -1,4 +1,4 @@
-import { ClassFile } from '../dto/classWithImports';
+import { ClassFile } from '../dto/classFile';
 import type { Import } from '../dto/import';
 import type { Clazz } from '../dto/class';
 import type { SubgraphResolver } from './subgraphResolver';
