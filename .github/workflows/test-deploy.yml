@@ -19,11 +19,9 @@ jobs:
         with:
           node-version: 18
           cache: yarn
-          cache-dependency-path: documentation/yarn.lock
+          cache-dependency-path: yarn.lock
 
       - name: Install dependencies
-        working-directory: ./documentation
         run: yarn --frozen-lockfile
       - name: Test build documentation
-        working-directory: ./documentation
-        run: yarn build
+        run: yarn workspace documentation build
