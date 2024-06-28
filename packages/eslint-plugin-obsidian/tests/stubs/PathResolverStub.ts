@@ -1,15 +1,16 @@
-import type { RuleContext } from '@typescript-eslint/utils/ts-eslint';
 import { PathResolver } from '../../rules/framework/pathResolver';
 
 export class PathResolverStub implements PathResolver {
-  public resolve(context: RuleContext<any, any>, relativeFilePath: string): string {
+
+  public resolve(_baseFilePath: string, relativeFilePath: string): string {
+    const cwd = process.cwd();
     switch(relativeFilePath) {
       case './subgraph':
-        return `${context.cwd}/tests/unresolvedProviderDependencies/fixtures/subgraph.ts`;
+        return `${cwd}/tests/unresolvedProviderDependencies/fixtures/subgraph.ts`;
       case './graphWithSubgraph':
-        return `${context.cwd}/tests/unresolvedProviderDependencies/fixtures/graphWithSubgraph.ts`;
+        return `${cwd}/tests/unresolvedProviderDependencies/fixtures/graphWithSubgraph.ts`;
       case './namedExportSubgraph':
-        return `${context.cwd}/tests/unresolvedProviderDependencies/fixtures/namedExportSubgraph.ts`;
+        return `${cwd}/tests/unresolvedProviderDependencies/fixtures/namedExportSubgraph.ts`;
       default:
         throw new Error(`PathResolverStub: Unhandled relativeFilePath: ${relativeFilePath}`);
     }

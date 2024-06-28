@@ -14,7 +14,7 @@ export class GraphHandler {
 
   public handle(clazz: Clazz, imports: Import[]) {
     if (this.hasGraphDecorator(clazz)) {
-      const dependencies = this.dependencyResolver.resolve(clazz, imports);
+      const dependencies = this.dependencyResolver.resolve(this.context, clazz, imports);
       const resolvedDependenciesCheck = this.resolvedDependencyChecker.check(clazz, dependencies);
       reportErrorIfDependencyIsUnresolved(this.context, resolvedDependenciesCheck);
     }

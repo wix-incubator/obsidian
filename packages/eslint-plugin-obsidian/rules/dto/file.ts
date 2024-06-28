@@ -6,7 +6,10 @@ import { ClassWithImports } from './classWithImports';
 import { assertDefined } from '../utils/assertions';
 
 export class File {
-  constructor(private program: TSESTree.Program) { }
+  constructor(
+    private program: TSESTree.Program,
+    private path: string,
+  ) { }
 
   public requireGraph(name: string) {
     const graph = this.classNodes.find((node) => {
@@ -28,7 +31,7 @@ export class File {
 
   public toClassWithImports() {
     return this.graphs.map((graph) => {
-      return new ClassWithImports(graph, this.imports);
+      return new ClassWithImports(graph, this.imports, this.path);
     });
   }
 

@@ -15,7 +15,7 @@ export const unresolvedProviderDependenciesGenerator = (
 ) => {
   return createRule({
     create: (context: RuleContext<'unresolved-provider-dependencies', []>) => {
-      return create(context, new FileReader(context, pathResolver));
+      return create(context, new FileReader(pathResolver));
     },
     name: 'unresolved-provider-dependencies',
     meta: {

@@ -21,7 +21,7 @@ export class Method {
   }
 
   private get decorators() {
-    return this.node.decorators.map((decorator) => {
+    return (this.node.decorators ?? []).map((decorator) => {
       return new Decorator(decorator);
     }) || [];
   }
