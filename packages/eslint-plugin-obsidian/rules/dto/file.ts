@@ -2,7 +2,7 @@ import type { TSESTree } from '@typescript-eslint/types';
 import { Clazz } from './class';
 import { getClassDeclaration, isClassLike, isImportDeclaration } from '../ast/utils';
 import { Import } from './import';
-import { ClassWithImports } from './classWithImports';
+import { ClassFile } from './classWithImports';
 import { assertDefined } from '../utils/assertions';
 
 export class File {
@@ -31,7 +31,7 @@ export class File {
 
   public toClassWithImports() {
     return this.graphs.map((graph) => {
-      return new ClassWithImports(graph, this.imports, this.path);
+      return new ClassFile(graph, this.imports, this.path);
     });
   }
 
