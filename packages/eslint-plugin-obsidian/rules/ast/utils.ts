@@ -1,5 +1,5 @@
 import type { TSESTree } from '@typescript-eslint/types';
-import type { ArrayExpressionElement } from '../unresolvedProviderDependencies/types';
+import type { ArrayExpressionElement } from '../types';
 import { assertDefined } from '../utils/assertions';
 
 export function isClassLike(node: TSESTree.Node): node is TSESTree.ClassDeclaration {

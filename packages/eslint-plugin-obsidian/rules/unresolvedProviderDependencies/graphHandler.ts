@@ -1,5 +1,5 @@
 import type { Clazz } from '../dto/class';
-import type { Context } from './types';
+import type { Context } from '../dto/context';
 import { reportErrorIfDependencyIsUnresolved } from './errorReporter';
 import type { DependencyResolver } from './dependencyResolver';
 import type { Import } from '../dto/import';

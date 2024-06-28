@@ -1,6 +1,6 @@
 import type { TSESTree } from '@typescript-eslint/types';
 import { Clazz } from '../dto/class';
-import type { Context } from './types';
+import { Context } from '../dto/context';
 import { GraphHandler } from './graphHandler';
 import { FileReader } from '../framework/fileReader';
 import { DependencyResolver } from './dependencyResolver';
