@@ -1,9 +1,25 @@
 ---
 sidebar_position: 2
-title: "Lint rules"
+title: "ESLint plugin"
 ---
 
-## @obsidian/unresolved-dependencies
+## Installation
+#### Step 1: Install the plugin
+```bash
+yarn add -D eslint-plugin-obsidian
+```
+#### Step 2: Add the plugin to your ESLint configuration
+```json
+{
+  "plugins": ["obsidian"],
+  "rules": {
+    "obsidian/unresolved-provider-dependencies": "error"
+  }
+}
+```
+
+## Rules
+### unresolved-provider-dependencies
 Ensure dependencies requested by providers can be resolved.
 
 When a provider requests a dependency that is not provided by the graph or its subgraphs, this rule will trigger a lint error.
@@ -18,4 +34,3 @@ class SomeGraph extends ObjectGraph {
   }
 }
 ```
-
