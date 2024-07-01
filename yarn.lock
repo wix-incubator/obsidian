@@ -3188,26 +3188,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@docusaurus/module-type-aliases@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@docusaurus/module-type-aliases@npm:2.2.0"
-  dependencies:
-    "@docusaurus/react-loadable": 5.5.2
-    "@docusaurus/types": 2.2.0
-    "@types/history": ^4.7.11
-    "@types/react": "*"
-    "@types/react-router-config": "*"
-    "@types/react-router-dom": "*"
-    react-helmet-async: "*"
-    react-loadable: "npm:@docusaurus/react-loadable@5.5.2"
-  peerDependencies:
-    react: "*"
-    react-dom: "*"
-  checksum: ebcb9dff2f88b5962cd34aaa78b1a48531da4776229ef507665e3f053cccb185aadcc16c3703f21031e14ccb6c8312662a6eec1a2a06bc0a423221ad200e1e9e
-  languageName: node
-  linkType: hard
-
-"@docusaurus/module-type-aliases@npm:3.4.0":
+"@docusaurus/module-type-aliases@npm:3.4.0, @docusaurus/module-type-aliases@npm:^3.4.0":
   version: 3.4.0
   resolution: "@docusaurus/module-type-aliases@npm:3.4.0"
   dependencies:
@@ -3406,18 +3387,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@docusaurus/react-loadable@npm:5.5.2, react-loadable@npm:@docusaurus/react-loadable@5.5.2":
-  version: 5.5.2
-  resolution: "@docusaurus/react-loadable@npm:5.5.2"
-  dependencies:
-    "@types/react": "*"
-    prop-types: ^15.6.2
-  peerDependencies:
-    react: "*"
-  checksum: 930fb9e2936412a12461f210acdc154a433283921ca43ac3fc3b84cb6c12eb738b3a3719373022bf68004efeb1a928dbe36c467d7a1f86454ed6241576d936e7
-  languageName: node
-  linkType: hard
-
 "@docusaurus/theme-classic@npm:3.4.0":
   version: 3.4.0
   resolution: "@docusaurus/theme-classic@npm:3.4.0"
@@ -3521,25 +3490,6 @@ __metadata:
   version: 3.4.0
   resolution: "@docusaurus/tsconfig@npm:3.4.0"
   checksum: 96d0cee56186256f04405c7b1cc45103a7d13862a8e4f1fc083c2b8e46d03a654ff6ec58ff154141ba2b30cdc3f708130f7ac88749fc1e0a88bf37ded6defb97
-  languageName: node
-  linkType: hard
-
-"@docusaurus/types@npm:2.2.0":
-  version: 2.2.0
-  resolution: "@docusaurus/types@npm:2.2.0"
-  dependencies:
-    "@types/history": ^4.7.11
-    "@types/react": "*"
-    commander: ^5.1.0
-    joi: ^17.6.0
-    react-helmet-async: ^1.3.0
-    utility-types: ^3.10.0
-    webpack: ^5.73.0
-    webpack-merge: ^5.8.0
-  peerDependencies:
-    react: ^16.8.4 || ^17.0.0
-    react-dom: ^16.8.4 || ^17.0.0
-  checksum: 5166ca49bb9333e4d733e4bf8d49d65e11ea6b39e4d8eecc24e1de24d61d2459c52dd8bd27362b66b03e41df96acf1a449145211b3bf0c5a59a987c77102e8f1
   languageName: node
   linkType: hard
 
@@ -7763,7 +7713,7 @@ __metadata:
   resolution: "documentation@workspace:packages/documentation"
   dependencies:
     "@docusaurus/core": 3.4.0
-    "@docusaurus/module-type-aliases": 2.2.0
+    "@docusaurus/module-type-aliases": ^3.4.0
     "@docusaurus/preset-classic": 3.4.0
     "@docusaurus/tsconfig": ^3.0.0
     "@mdx-js/react": ^3.0.0
@@ -11314,7 +11264,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"joi@npm:^17.6.0, joi@npm:^17.9.2":
+"joi@npm:^17.9.2":
   version: 17.13.3
   resolution: "joi@npm:17.13.3"
   dependencies:
@@ -16784,7 +16734,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack-merge@npm:^5.8.0, webpack-merge@npm:^5.9.0":
+"webpack-merge@npm:^5.9.0":
   version: 5.10.0
   resolution: "webpack-merge@npm:5.10.0"
   dependencies:
@@ -16802,7 +16752,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webpack@npm:^5.73.0, webpack@npm:^5.88.1":
+"webpack@npm:^5.88.1":
   version: 5.92.1
   resolution: "webpack@npm:5.92.1"
   dependencies:
