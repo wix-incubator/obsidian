@@ -1,0 +1,143 @@
+---
+sidebar_position: 2
+title: ' Avoiding prop drilling'
+tags: [Architecture, Reactivity, Lifecycle-bound, Graph]
+---
+
+Prop Drilling is a common issue in React development where props are passed down multiple levels of the component hierarchy, making the code difficult to maintain and understand. This guide will show you how to use `@LifecycleBound` graphs to avoid Prop Drilling.
+
+## Understanding lifecycle-bound graphs
+
+Lifecycle-bound graphs are designed to provide dependencies that are shared between components and hooks **within a specific UI flow**. Dependencies provided by a lifecycle-bound graph are treated as singletons within the scope of the components or hooks that depend on that graph.
+
+A key feature of lifecycle-bound graphs is that it has access to the initial props of the component or hook that requested it. This will allow us to inject these props directly into any component, hook, or class that requires them without the need for Prop Drilling.
+
+You can read more about Lifecycle-bound Graphs [here](/docs/documentation/usage/Graphs#the-lifecycle-bound-graph).
+
+## Prop drilling example
+
+In this simple example, three components are rendered. `ComponentA` renders `ComponentB`, which in turn renders `ComponentC`. `ComponentC` needs to access a prop (`'userId`) that is passed down from `ComponentA`. This is a classic example of prop drilling.
+
+Here's how the code looks when using traditional prop drilling:
+
+```tsx title="Propagating props down the component tree"
+import React from 'react';
+
+const App = () => {
+  return <ComponentA userId="12345" />;
+};
+
+// Component A passes userId down to ComponentB
+const ComponentA = ({ userId }) => {
+  return <ComponentB userId={userId} />;
+};
+
+// Component B receives userId and passes it down to ComponentC
+const ComponentB = ({ userId }) => {
+  return <ComponentC userId={userId} />;
+};
+
+// Component C needs access to userId
+const ComponentC = ({ userId }) => {
+  return <div>User ID: {userId}</div>;
+};
+```
+
+In this example, the `userId` prop is drilled down from `ComponentA` to `ComponentC` through `ComponentB`. This approach can become cumbersome as the number of components and the depth of the hierarchy increase.
+
+## Avoiding prop drilling with `@LifecycleBound` graphs
+Let's refactor this code to use a `@LifecycleBound` graph to avoid prop drilling.
+
+#### Step 1: Define a lifecycle-bound graph
+
+First, define a lifecycle-bound graph that provides the `userId` as a dependency.
+
+:::important
+Notice how the graph receives `ComponentA`'s props in its constructor and provides `userId` as a dependency.
+:::
+
+```tsx title="UserGraph.ts"
+import { LifecycleBound, Graph, ObjectGraph, Provides } from 'react-obsidian';
+import {Props} from './ComponentA';
+
+@LifecycleBound() @Graph()
+export class UserGraph extends ObjectGraph<UserProps> {
+  private userId: string;
+
+  construct(props: Props) {
+    super(props);
+    this.userId = props.userId;
+  }
+
+  @Provides()
+  userId(): string {
+    return this.userId;
+  }
+}
+```
+
+#### Step 2: Inject dependencies into components
+
+Next, inject the `userId` dependency into `ComponentC`.
+
+```tsx title="ComponentC.tsx"
+import React from 'react';
+import { injectComponent, DependenciesOf } from 'react-obsidian';
+import { UserGraph } from './UserGraph';
+
+type Injected = DependenciesOf<UserGraph, 'userId'>;
+
+const ComponentC = ({ userId }: Injected) => {
+  return <div>User ID: {userId}</div>;
+};
+
+export default injectComponent(ComponentC, UserGraph);
+```
+
+#### Step 3: Use the components in a UI flow
+
+Finally, use the components within a UI flow. `ComponentB` and `ComponentA` don't need to pass down the `userId` prop anymore.
+
+```tsx title="ComponentB.tsx"
+import React from 'react';
+import ComponentC from './ComponentC';
+
+const ComponentB = () => {
+  return <ComponentC />;
+};
+
+export default ComponentB;
+```
+
+`ComponentA` is the entry point of the UI flow. Even though `ComponentA` doesn't require any dependencies from the `UserGraph`, we need to inject it by wrapping it with the `injectComponent` HOC. This is done to ensure that the `UserGraph` is initialized and the dependencies it provides are available to other components in the flow.
+
+```tsx title="ComponentA.tsx"
+import React from 'react';
+import { injectComponent, DependenciesOf } from 'react-obsidian';
+import { UserGraph } from './UserGraph';
+import ComponentB from './ComponentB';
+
+export type Props = {
+  userId: string;
+};
+
+const ComponentA = (props: Props) => {
+  return <ComponentB />;
+};
+
+export default injectComponent(ComponentA, UserGraph);
+```
+
+```tsx title="App.tsx"
+import React from 'react';
+import ComponentA from './ComponentA';
+
+const App = () => {
+  return <ComponentA userId="12345" />;
+};
+
+export default App;
+```
+
+## Conclusion
+By using `@LifecycleBound` graphs, we've eliminated the need for prop drilling. Dependencies like `userId` are automatically injected where needed, making the code cleaner and easier to maintain.
