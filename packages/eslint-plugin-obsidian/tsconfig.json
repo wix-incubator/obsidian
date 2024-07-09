@@ -1,8 +1,8 @@
 {
   "include": [
-    "rules/**/*",
+    "src/**/*",
     "tests/**/*",
-    ".eslintrc.js",
+    ".eslintrc.js", "src/ast", "src/dto", "src/framework", "src/utils", "src/index.ts", "src/types.ts",
   ],
   "exclude": [
     "node_modules",

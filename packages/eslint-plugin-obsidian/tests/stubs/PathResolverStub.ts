@@ -1,4 +1,4 @@
-import { PathResolver } from '../../rules/framework/pathResolver';
+import { PathResolver } from '../../src/framework/pathResolver';
 
 export class PathResolverStub implements PathResolver {
 

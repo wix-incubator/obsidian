@@ -1,5 +1,5 @@
 import { RuleTester } from '@typescript-eslint/rule-tester';
-import { unresolvedProviderDependenciesGenerator } from '../../rules/unresolvedProviderDependencies';
+import { unresolvedProviderDependenciesGenerator } from '../../src/rules/unresolvedProviderDependencies';
 import { PathResolverStub } from '../stubs/PathResolverStub';
 import {
   validFileWithTwoGraphs,
