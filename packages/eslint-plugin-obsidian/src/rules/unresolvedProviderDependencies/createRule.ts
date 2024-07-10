@@ -1,10 +1,10 @@
 import type { TSESTree } from '@typescript-eslint/types';
-import { Clazz } from '../dto/class';
-import { Context } from '../dto/context';
+import { Clazz } from '../../dto/class';
+import { Context } from '../../dto/context';
 import { GraphHandler } from './graphHandler';
-import { FileReader } from '../framework/fileReader';
+import { FileReader } from '../../framework/fileReader';
 import { DependencyResolver } from './dependencyResolver';
-import { Import } from '../dto/import';
+import { Import } from '../../dto/import';
 import { SubgraphResolver } from './subgraphResolver';
 
 export function create(context: Context, fileReader: FileReader) {

@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npx tsc --project tsconfig.prod.json",
     "test": "npx jest",
-    "lint": "eslint rules --ignore-pattern '*.d.ts' --ext .ts,.tsx,.js"
+    "lint": "eslint src --ignore-pattern '*.d.ts' --ext .ts,.tsx,.js"
   },
   "author": "Orly Dadashev",
   "files": [
@@ -57,7 +57,19 @@
     "ioc",
     "eslint",
     "eslintplugin",
-    "eslint-plugin"
+    "eslint-plugin",
+    "dependency",
+    "react",
+    "react-native",
+    "react native",
+    "dependency-injection",
+    "dependency injection",
+    "dependency inversion",
+    "inversion of control container",
+    "typescript",
+    "ioc",
+    "di",
+    "injector"
   ],
   "license": "ISC"
 }

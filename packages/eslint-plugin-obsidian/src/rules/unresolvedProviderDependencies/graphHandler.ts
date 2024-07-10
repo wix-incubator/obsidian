@@ -1,8 +1,8 @@
-import type { Clazz } from '../dto/class';
-import type { Context } from '../dto/context';
+import type { Clazz } from '../../dto/class';
+import type { Context } from '../../dto/context';
 import { reportErrorIfDependencyIsUnresolved } from './errorReporter';
 import type { DependencyResolver } from './dependencyResolver';
-import type { Import } from '../dto/import';
+import type { Import } from '../../dto/import';
 import { ResolvedDependencyChecker } from './resolvedDependencyChecker';
 
 export class GraphHandler {

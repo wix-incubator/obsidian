@@ -1,5 +1,5 @@
-import type { Clazz } from '../dto/class';
-import type { Parameter } from '../dto/parameter';
+import type { Clazz } from '../../dto/class';
+import type { Parameter } from '../../dto/parameter';
 
 type DependencyCheckResult = { error: boolean; param?: string; node?: any };
 

@@ -1,5 +1,5 @@
 import type { TSESTree } from '@typescript-eslint/types';
-import type { Context } from '../dto/context';
+import type { Context } from '../../dto/context';
 
 export function reportErrorIfDependencyIsUnresolved(
   context: Context,

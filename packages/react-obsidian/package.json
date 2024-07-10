@@ -67,11 +67,19 @@
     "url": "git+https://github.com/wix-incubator/react-obsidian.git"
   },
   "keywords": [
+    "dependency",
+    "dependency",
     "react",
     "react-native",
+    "react native",
     "dependency-injection",
+    "dependency injection",
+    "dependency inversion",
+    "inversion of control container",
     "typescript",
-    "ioc"
+    "ioc",
+    "di",
+    "injector"
   ],
   "contributors": [
     {

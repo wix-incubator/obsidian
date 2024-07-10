@@ -1,9 +1,9 @@
 import { ESLintUtils, type TSESLint } from '@typescript-eslint/utils';
 import type { RuleContext } from '@typescript-eslint/utils/ts-eslint';
 import { create } from './createRule';
-import { PathResolver } from '../framework/pathResolver';
-import { FileReader } from '../framework/fileReader';
-import {Context} from '../dto/context';
+import { PathResolver } from '../../framework/pathResolver';
+import { FileReader } from '../../framework/fileReader';
+import {Context} from '../../dto/context';
 
 type Rule = TSESLint.RuleModule<'unresolved-provider-dependencies', []>;
 
