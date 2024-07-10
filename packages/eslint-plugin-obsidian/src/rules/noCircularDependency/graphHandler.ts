@@ -11,7 +11,7 @@ export class GraphHandler {
   public handle(clazz: Clazz) {
     if (this.hasGraphDecorator(clazz)) {
       const result = this.circularDependenciesDetector.detect(clazz);
-      this.errorReporter.report({ error: result.hasCircularDependency, path: result.path, node: clazz.node });
+      this.errorReporter.report({ isError: result.hasCircularDependency, ...result });
     }
   }
 
