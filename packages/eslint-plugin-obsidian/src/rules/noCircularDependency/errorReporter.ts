@@ -10,7 +10,7 @@ export class ErrorReporter {
     if (error && node && path) {
       this.context.reportError(
         node,
-        'circular-dependencies',
+        'no-circular-dependencies',
         {
           firstDependency: path[0],
           path: path.join(' -> '),
