@@ -3,8 +3,8 @@ import type { Clazz } from '../../dto/class';
 import type { Method } from '../../dto/method';
 
 type DetectionResult =
-  { hasCircularDependency: true; path: string[], node: TSESTree.Node } |
-  { hasCircularDependency: false; path?: never, node?: never};
+  { hasCircularDependency: true; path: string[]; node: TSESTree.Node } |
+  { hasCircularDependency: false; path?: never; node?: never };
 
 export class CircularDependenciesDetector {
 

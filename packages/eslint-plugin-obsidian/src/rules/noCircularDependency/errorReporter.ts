@@ -5,7 +5,7 @@ type Report = {
   isError: boolean;
   path?: string[];
   node?: TSESTree.Node;
-}
+};
 
 export class ErrorReporter {
   constructor(private context: Context) { }
