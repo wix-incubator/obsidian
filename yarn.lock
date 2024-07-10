@@ -8300,7 +8300,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-obsidian@2.6.2, eslint-plugin-obsidian@workspace:packages/eslint-plugin-obsidian":
+"eslint-plugin-obsidian@npm:2.6.2":
+  version: 2.6.2
+  resolution: "eslint-plugin-obsidian@npm:2.6.2"
+  dependencies:
+    "@typescript-eslint/parser": 6.6.x
+    "@typescript-eslint/utils": 6.6.x
+    lodash: ^4.17.21
+  peerDependencies:
+    eslint: 8.x.x
+    react-obsidian: 2.x.x
+  checksum: 14223da49b95c6f83cc8070b249839e508947cdb858c5ac21617341461d7acda0257fa78b86ff4fb25a9ebe52edb6879d0920cfbd4e22c3028f75ead66728985
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-obsidian@workspace:packages/eslint-plugin-obsidian":
   version: 0.0.0-use.local
   resolution: "eslint-plugin-obsidian@workspace:packages/eslint-plugin-obsidian"
   dependencies:
