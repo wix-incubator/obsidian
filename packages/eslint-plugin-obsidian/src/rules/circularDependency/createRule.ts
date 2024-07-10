@@ -2,22 +2,18 @@ import type { TSESTree } from '@typescript-eslint/types';
 import { Clazz } from '../../dto/class';
 import { Context } from '../../dto/context';
 import { GraphHandler } from './graphHandler';
-import { FileReader } from '../../framework/fileReader';
-import { DependencyResolver } from './dependencyResolver';
-import { Import } from '../../dto/import';
-import { SubgraphResolver } from './subgraphResolver';
+import { CircularDependenciesDetector } from './circularDependenciesDetector';
+import { ErrorReporter } from './errorReporter';
 
-export function create(context: Context, fileReader: FileReader) {
-  const imports: Import[] = [];
-  const dependencyResolver = new DependencyResolver(new SubgraphResolver(fileReader));
-  const graphHandler = new GraphHandler(context, dependencyResolver);
+export function create(context: Context) {
+  const graphHandler = new GraphHandler(
+    new CircularDependenciesDetector(),
+    new ErrorReporter(context),
+  );
 
   return {
-    ImportDeclaration(node: TSESTree.ImportDeclaration) {
-      imports.push(new Import(node));
-    },
     ClassDeclaration(node: TSESTree.ClassDeclaration) {
-      graphHandler.handle(new Clazz(node), imports);
+      graphHandler.handle(new Clazz(node));
     },
   };
 }
