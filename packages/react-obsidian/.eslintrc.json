@@ -29,7 +29,8 @@
     ],
     "rules": {
       "no-console":"off",
-      "obsidian/unresolved-provider-dependencies": 2,
+      "obsidian/unresolved-provider-dependencies": "error",
+      "obsidian/no-circular-dependencies": "warn",
       "@stylistic/max-len": [
         "error",
         {
