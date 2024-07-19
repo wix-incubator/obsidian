@@ -1,54 +1,16 @@
-export const invalidGraph = `import { Graph, ObjectGraph, Provides } from 'src';
+export const invalidGraph = `
+import {injectComponent} from 'src';
 
-@Graph()
-class SimpleGraph extends ObjectGraph {
-  @Provides()
-  foo(bar: any): string {
-    return 'foo';
-  }
+type Own = {
+  name: string;
+};
 
-  @Provides()
-  bar(foo: any): string {
-    return 'bar';
-  }
-}`;
+type Injected = {
+  bar: Bar;
+};
 
-export const circularDependencyBetween3Providers = `import { Graph, ObjectGraph, Provides } from 'src';
+const _Foo = (props: Own & Injected) => {
+  return null;
+};
 
-@Graph()
-class SimpleGraph extends ObjectGraph {
-  @Provides()
-  foo(bar: any): string {
-    return 'foo';
-  }
-
-  @Provides()
-  bar(baz: any): string {
-    return 'bar';
-  }
-
-  @Provides()
-  baz(foo: any): string {
-    return 'baz';
-  }
-}`;
-
-export const circularDependencyBetweenSomeOfTheProviders = `import { Graph, ObjectGraph, Provides } from 'src';
-
-@Graph()
-class SimpleGraph extends ObjectGraph {
-  @Provides()
-  foo(bar: any): string {
-    return 'foo';
-  }
-
-  @Provides()
-  bar(baz: any): string {
-    return 'bar';
-  }
-
-  @Provides()
-  baz(bar: any): string {
-    return 'baz';
-  }
-}`;
+export const Foo = injectComponent(_Foo, SomeGraph);`;

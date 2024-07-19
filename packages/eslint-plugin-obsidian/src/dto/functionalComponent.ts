@@ -6,7 +6,7 @@ export class FunctionalComponent {
   constructor(private node: TSESTree.ArrowFunctionExpression) {}
 
   get propsType(): string[] {
-    const typeAnnotation = this.props.typeAnnotation?.typeAnnotation;
+    const typeAnnotation = this.props?.typeAnnotation?.typeAnnotation;
     if (isTypeIntersection(typeAnnotation)) {
       const types = typeAnnotation.types.map((type) => {
         const typeRef = type as TSESTree.TSTypeReference;
@@ -17,7 +17,7 @@ export class FunctionalComponent {
     return [];
   }
 
-  get props(): TSESTree.Identifier {
+  get props(): TSESTree.Identifier | undefined {
     return this.node.params[0] as TSESTree.Identifier;
   }
 }

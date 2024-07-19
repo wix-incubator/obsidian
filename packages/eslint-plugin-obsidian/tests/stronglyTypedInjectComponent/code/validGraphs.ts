@@ -15,3 +15,12 @@ const _Foo = (props: Own & Injected) => {
 
 export const Foo = injectComponent<Own, Injected>(_Foo, SomeGraph);`;
 
+export const validGraphWithoutProps = `
+import {injectComponent} from 'src';
+
+const _Foo = () => {
+  return null;
+};
+
+export const Foo = injectComponent<Own, Injected>(_Foo, SomeGraph);`;
+

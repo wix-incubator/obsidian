@@ -18,7 +18,7 @@ export class CallExpression {
     }
 
     get generics() {
-      return new Generics(this.node.typeArguments);
+      return this.node.typeArguments && new Generics(this.node.typeArguments);
     }
 
     private get callee(): TSESTree.Identifier {

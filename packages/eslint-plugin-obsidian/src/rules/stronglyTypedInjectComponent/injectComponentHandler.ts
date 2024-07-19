@@ -1,11 +1,13 @@
-import type { Context } from '../../dto/context';
+import { isEmpty } from 'lodash';
 import type { CallExpression } from '../../dto/callExpression';
 import { requireProgram } from '../../utils/ast';
 import { File } from '../../dto/file';
 import { FunctionalComponent } from '../../dto/functionalComponent';
+import type { ErrorReporter } from './errorReporter';
+import { equals } from '../../utils/array';
 
 export class InjectComponentHandler {
-  constructor(private context: Context) { }
+  constructor(private errorReporter: ErrorReporter) { }
 
   public handle(callExpression: CallExpression) {
     if (this.isInjectComponentCall(callExpression)) {
@@ -14,17 +16,19 @@ export class InjectComponentHandler {
         .filter((variable) => variable.isArrowFunction)
         .find((variable) => variable.name === this.getInjectedComponentName(callExpression));
 
-        if (injectedComponent) {
-          const functionalComponent = new FunctionalComponent(injectedComponent.arrowFunction);
-          const {propsType} = functionalComponent;
+      if (injectedComponent) {
+        const functionalComponent = new FunctionalComponent(injectedComponent.arrowFunction);
+        const componentProps = functionalComponent.propsType;
 
-          console.log(propsType);
-          console.log(callExpression.generics.types);
+        console.log(componentProps);
+        console.log(callExpression.generics?.types);
 
-          if (propsType !== callExpression.generics.types) {
-            // TODO: report error
-          }
-        }
+        if (isEmpty(componentProps) || equals(componentProps, callExpression.generics?.types)) return;
+        this.errorReporter.report({
+          types: componentProps,
+          node: callExpression.node,
+        });
+      }
     }
   }
 
