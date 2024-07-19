@@ -16,7 +16,8 @@
   ],
   "peerDependencies": {
     "eslint": "8.x.x",
-    "react-obsidian": "2.x.x"
+    "react-obsidian": "2.x.x",
+    "eslint-plugin-obsidian": "*"
   },
   "dependencies": {
     "@typescript-eslint/parser": "6.6.x",

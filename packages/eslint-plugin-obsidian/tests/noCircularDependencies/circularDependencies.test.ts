@@ -1,11 +1,11 @@
 import { RuleTester } from '@typescript-eslint/rule-tester';
-import { noCircularDependenciesGenerator } from '../../src/rules/noCircularDependency';
 import {
   circularDependencyBetween3Providers,
   circularDependencyBetweenSomeOfTheProviders,
   invalidGraph,
 } from 'eslint-plugin-obsidian/tests/noCircularDependencies/code/invalidGraphs';
 import { validGraph } from 'eslint-plugin-obsidian/tests/noCircularDependencies/code/validGraphs';
+import { noCircularDependenciesGenerator } from '../../src/rules/noCircularDependency';
 
 const ruleTester = new RuleTester();
 

@@ -32,7 +32,9 @@
       {
         "code": 115,
         "comments": 200,
-        "ignoreRegExpLiterals": true
+        "ignoreRegExpLiterals": true,
+        "ignoreStrings": true,
+        "ignoreTemplateLiterals": true
       }
     ],
     "@stylistic/no-extra-semi": "error",
