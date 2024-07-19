@@ -127,3 +127,4 @@ packages/react-obsidian/coverage/
 .yarn/install-state.gz
 documentation/.yarn/cache
 documentation/.yarn/install-state.gz
+.vscode/yw_helper_history.txt

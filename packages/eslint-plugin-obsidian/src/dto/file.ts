@@ -1,6 +1,11 @@
 import type { TSESTree } from '@typescript-eslint/types';
 import { Clazz } from './class';
-import { getClassDeclaration, isClassLike, isImportDeclaration } from '../utils/ast';
+import {
+getClassDeclaration,
+isClassLike,
+isImportDeclaration,
+isVariableDeclaration,
+} from '../utils/ast';
 import { Import } from './import';
 import { ClassFile } from './classFile';
 import { assertDefined } from '../utils/assertions';
@@ -54,7 +59,7 @@ export class File {
 
   get variables() {
     return this.body
-      .filter((node) => node.type === 'VariableDeclaration')
+      .filter(isVariableDeclaration)
       .map((node) => node.declarations)
       .flat()
       .map((node) => new Variable(node));

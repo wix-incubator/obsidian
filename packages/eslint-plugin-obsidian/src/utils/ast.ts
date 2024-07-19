@@ -79,3 +79,7 @@ export function mapArrayExpression<T>(array: TSESTree.ArrayExpression, map: (el:
 export function isTypeIntersection(node: TSESTree.Node | undefined): node is TSESTree.TSIntersectionType {
   return node?.type === 'TSIntersectionType';
 }
+
+export function isVariableDeclaration(node: TSESTree.Node): node is TSESTree.VariableDeclaration {
+  return node.type === 'VariableDeclaration';
+}
