@@ -1,6 +1,6 @@
 import type { TSESTree } from '@typescript-eslint/types';
 import type { ArrayExpressionElement } from '../types';
-import { assertDefined } from '../utils/assertions';
+import { assertDefined } from './assertions';
 
 export function isClassLike(node: TSESTree.Node): node is TSESTree.ClassDeclaration {
   switch (node.type) {
@@ -74,4 +74,8 @@ function getObjectProperty(obj: TSESTree.ObjectExpression, propertyName: string)
 
 export function mapArrayExpression<T>(array: TSESTree.ArrayExpression, map: (el: ArrayExpressionElement) => T) {
   return array.elements.map(map);
+}
+
+export function isTypeIntersection(node: TSESTree.Node | undefined): node is TSESTree.TSIntersectionType {
+  return node?.type === 'TSIntersectionType';
 }

@@ -1,7 +1,7 @@
 import type { TSESTree } from '@typescript-eslint/types';
 import { Decorator } from './decorator';
 import { assertDefined } from '../utils/assertions';
-import { isMethodDefinition } from '../ast/utils';
+import { isMethodDefinition } from '../utils/ast';
 import { Method } from './method';
 
 export class Clazz {

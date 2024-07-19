@@ -1,21 +1,17 @@
-export const validGraph = `import { uniqueId } from 'lodash';
-import { Graph, ObjectGraph, Provides } from 'src';
+export const validGraph = `
+import {injectComponent} from 'src';
 
-@Graph()
-export default class SimpleGraph extends ObjectGraph {
-  @Provides()
-  foo(): string {
-    return 'foo';
-  }
+type Own = {
+  name: string;
+};
 
-  @Provides()
-  bar(baz: any): string {
-    return 'foo';
-  }
+type Injected = {
+  bar: Bar;
+};
 
-  @Provides()
-  baz(qux: any): string {
-    return 'baz';
-  }
-}`;
+const _Foo = (props: Own & Injected) => {
+  return null;
+};
+
+export const Foo = injectComponent<Own, Injected>(_Foo, SomeGraph);`;
 

@@ -5,7 +5,7 @@ import { validGraph } from './code/validGraphs';
 const ruleTester = new RuleTester();
 
 ruleTester.run(
-  'no-circular-dependencies',
+  'strongly-typed-inject-component',
   stronglyTypedInjectComponentGenerator(),
   {
     valid: [
