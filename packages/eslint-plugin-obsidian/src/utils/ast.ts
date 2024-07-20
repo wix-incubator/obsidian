@@ -80,6 +80,10 @@ export function isTypeIntersection(node: TSESTree.Node | undefined): node is TSE
   return node?.type === 'TSIntersectionType';
 }
 
+export function isTypeAnnotation(node: TSESTree.Node | undefined): node is TSESTree.TSTypeAnnotation {
+  return node?.type === 'TSTypeAnnotation';
+}
+
 export function isVariableDeclaration(node: TSESTree.Node): node is TSESTree.VariableDeclaration {
   return node.type === 'VariableDeclaration';
 }

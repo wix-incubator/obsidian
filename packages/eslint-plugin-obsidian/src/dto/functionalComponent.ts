@@ -1,5 +1,5 @@
 import type { TSESTree } from '@typescript-eslint/types';
-import { isTypeIntersection } from '../utils/ast';
+import { isTypeAnnotation, isTypeIntersection } from '../utils/ast';
 import { Identifier } from './identifier';
 
 export class FunctionalComponent {
@@ -13,6 +13,10 @@ export class FunctionalComponent {
         return new Identifier(typeRef.typeName).name;
       });
       return types;
+    }
+    if (isTypeAnnotation(this.props?.typeAnnotation)) {
+      const typeRef = this.props?.typeAnnotation?.typeAnnotation as TSESTree.TSTypeReference;
+      return [new Identifier(typeRef.typeName).name];
     }
     return [];
   }

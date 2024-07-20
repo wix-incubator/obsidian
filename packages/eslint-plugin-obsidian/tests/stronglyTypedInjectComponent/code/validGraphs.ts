@@ -24,3 +24,15 @@ const _Foo = () => {
 
 export const Foo = injectComponent<Own, Injected>(_Foo, SomeGraph);`;
 
+export const validGraphWithOwnProps = `
+import {injectComponent} from 'src';
+
+type Own = {
+  name: string;
+};
+
+const _Foo = (props: Own) => {
+  return null;
+};
+
+export const Foo = injectComponent<Own>(_Foo, SomeGraph);`;

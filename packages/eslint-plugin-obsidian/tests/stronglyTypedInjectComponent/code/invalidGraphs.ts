@@ -14,3 +14,27 @@ const _Foo = (props: Own & Injected) => {
 };
 
 export const Foo = injectComponent(_Foo, SomeGraph);`;
+
+export const invalidGraphOnlyWithOwnProps = `
+import {injectComponent} from 'src';
+
+type Own = {
+  name: string;
+};
+
+const _Foo = (props: Own & Injected) => {
+  return null;
+};
+
+export const Foo = injectComponent(_Foo, SomeGraph);`;
+
+export const invalidGraphWithOwnPropsAndUnexpectedInjectedProps = `
+import {injectComponent} from 'src';
+
+type Own = { foo: any }
+
+const _Foo = (props: Own) => {
+  return null;
+};
+
+export const Foo = injectComponent<Own, Injected>(_Foo, SomeGraph);`;
