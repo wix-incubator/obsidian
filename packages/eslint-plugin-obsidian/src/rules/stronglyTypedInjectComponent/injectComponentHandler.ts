@@ -17,13 +17,14 @@ export class InjectComponentHandler {
         .find((variable) => variable.name === this.getInjectedComponentName(callExpression));
 
       if (injectedComponent) {
-        const functionalComponent = new FunctionalComponent(injectedComponent.arrowFunction);
-        const componentProps = functionalComponent.propsType;
+        const componentProps = new FunctionalComponent(injectedComponent.arrowFunction).propsType;
+        const injectComponentGenerics = callExpression.generics?.types;
 
-        console.log(componentProps);
-        console.log(callExpression.generics?.types);
+        if (
+          (isEmpty(componentProps) || equals(componentProps, injectComponentGenerics)) ||
+          (equals(componentProps, ['Injected']) && isEmpty(injectComponentGenerics))
+        ) return;
 
-        if (isEmpty(componentProps) || equals(componentProps, callExpression.generics?.types)) return;
         this.errorReporter.report({
           types: componentProps,
           node: callExpression.node,

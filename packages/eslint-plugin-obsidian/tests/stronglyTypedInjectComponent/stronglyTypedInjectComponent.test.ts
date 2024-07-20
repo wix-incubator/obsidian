@@ -1,6 +1,11 @@
 import { RuleTester } from '@typescript-eslint/rule-tester';
 import { stronglyTypedInjectComponentGenerator } from '../../src/rules/stronglyTypedInjectComponent';
-import { validGraph, validGraphWithoutProps, validGraphWithOwnProps } from './code/validGraphs';
+import {
+validGraph,
+validGraphWithInjectedProps,
+validGraphWithoutProps,
+validGraphWithOwnProps,
+} from './code/validGraphs';
 import {
 invalidGraph,
 invalidGraphOnlyWithOwnProps,
@@ -17,6 +22,7 @@ ruleTester.run(
       validGraph,
       validGraphWithoutProps,
       validGraphWithOwnProps,
+      validGraphWithInjectedProps,
     ],
     invalid: [
       {
