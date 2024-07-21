@@ -17,7 +17,7 @@ export class InjectComponentHandler {
         .find((variable) => variable.name === this.getInjectedComponentName(callExpression));
 
       if (injectedComponent) {
-        const componentProps = new FunctionalComponent(injectedComponent.arrowFunction).propsType;
+        const componentProps = new FunctionalComponent(injectedComponent.arrowFunction).props.type.asString();
         const injectComponentGenerics = callExpression.generics?.types;
 
         if (
