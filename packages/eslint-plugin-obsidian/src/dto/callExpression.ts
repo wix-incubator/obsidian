@@ -5,6 +5,10 @@ import { Generics } from './generics';
 export class CallExpression {
     constructor(readonly node: TSESTree.CallExpression) {}
 
+    public isExpression(name: string): boolean {
+        return this.name === name;
+    }
+
     get name(): string {
         return this.callee.name;
     }
