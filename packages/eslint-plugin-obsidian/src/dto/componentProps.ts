@@ -15,10 +15,8 @@ export class ComponentProps {
   }
 
   private getType(typeAnnotation: TSESTree.TypeNode | undefined, props: TSESTree.Identifier) {
-    switch (true) {
-      case isTypeIntersection(typeAnnotation): return new TypeIntersection(typeAnnotation);
-      case isTypeAnnotation(props?.typeAnnotation): return new SingleType(props);
-      default: return new MissingType();
-    }
+    if (isTypeIntersection(typeAnnotation)) return new TypeIntersection(typeAnnotation);
+    if (isTypeAnnotation(props?.typeAnnotation)) return new SingleType(props);
+    return new MissingType();
   }
 }
