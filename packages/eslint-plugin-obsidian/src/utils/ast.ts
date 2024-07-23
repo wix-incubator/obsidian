@@ -84,6 +84,10 @@ export function isTypeAnnotation(node: TSESTree.Node | undefined): node is TSEST
   return node?.type === 'TSTypeAnnotation';
 }
 
+export function isAnyType(node: TSESTree.Node | undefined): node is TSESTree.TSAnyKeyword {
+  return node?.type === 'TSAnyKeyword';
+}
+
 export function isVariableDeclaration(node: TSESTree.Node): node is TSESTree.VariableDeclaration {
   return node.type === 'VariableDeclaration';
 }

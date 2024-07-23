@@ -50,3 +50,12 @@ const _Foo = (props: Injected) => {
 
 export const Foo = injectComponent(_Foo, SomeGraph);`;
 
+export const validGraphWithUntypedProps = `
+import {injectComponent} from 'src';
+
+const _Foo = (props: any) => {
+  return null;
+};
+
+export const Foo = injectComponent(_Foo, SomeGraph);`;
+

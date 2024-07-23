@@ -1,5 +1,5 @@
 import type { TSESTree } from '@typescript-eslint/types';
-import { isTypeAnnotation, isTypeIntersection } from '../utils/ast';
+import { isAnyType, isTypeAnnotation, isTypeIntersection } from '../utils/ast';
 import { SingleType } from './singleType';
 import { TypeIntersection } from './typeIntersection';
 import { MissingType } from './missingType';
@@ -15,7 +15,9 @@ export class ComponentProps {
   }
 
   private getType(typeAnnotation: TSESTree.TypeNode | undefined, props: TSESTree.Identifier) {
+    if (!typeAnnotation) return new MissingType();
     if (isTypeIntersection(typeAnnotation)) return new TypeIntersection(typeAnnotation);
+    if (isAnyType(typeAnnotation)) return new MissingType();
     if (isTypeAnnotation(props?.typeAnnotation)) return new SingleType(props);
     return new MissingType();
   }
