@@ -31,6 +31,7 @@
       "no-console":"off",
       "obsidian/unresolved-provider-dependencies": "error",
       "obsidian/no-circular-dependencies": "warn",
+      "obsidian/strongly-typed-inject-component": "error",
       "@stylistic/max-len": [
         "error",
         {

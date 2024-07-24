@@ -6,20 +6,20 @@ import injectedValues from '../fixtures/injectedValues';
 import MainGraph from '../fixtures/MainGraph';
 import ThrowingMainGraph from '../fixtures/ThrowingMainGraph';
 
-interface InjectedComponentProps {
+interface Injected {
   someString: string;
   stringFromSubgraph: string;
 }
 
-const Component: React.FunctionComponent<InjectedComponentProps> = ({
+const Component: React.FunctionComponent<Injected> = ({
   someString,
   stringFromSubgraph,
-}: InjectedComponentProps) => {
+}: Injected) => {
   return <>{someString + stringFromSubgraph}</>;
 };
 
 describe('Property resolving precedence', () => {
-  let InjectedComponent: React.FunctionComponent<Partial<InjectedComponentProps>>;
+  let InjectedComponent: React.FunctionComponent<Partial<Injected>>;
 
   beforeEach(() => {
     InjectedComponent = injectComponent(Component, MainGraph);
