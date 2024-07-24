@@ -22,7 +22,7 @@ export class TypeValidator {
     );
   }
 
-  private hasInlineType(injectComponentGenerics: import('/Users/guyc/workspace1/obsidian/packages/eslint-plugin-obsidian/src/dto/type').Type[]) {
+  private hasInlineType(injectComponentGenerics: Type[]) {
     return injectComponentGenerics.some(TypeLiteral.isTypeLiteral);
   }
 }
