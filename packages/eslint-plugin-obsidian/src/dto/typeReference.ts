@@ -15,8 +15,6 @@ export class TypeReference implements Type {
   }
 
   equals(types: Type[]): boolean {
-    const a = this.toString();
-    const b = types.map((type) => type.toString()).flat();
-    return isEqual(a, b);
+    return isEqual(this.toString(), types.map((type) => type.toString()).flat());
   }
 }

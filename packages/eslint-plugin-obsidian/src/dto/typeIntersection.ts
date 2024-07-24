@@ -18,9 +18,6 @@ export class TypeIntersection implements Type {
   }
 
   equals(types: Type[]): boolean {
-    return isEqual(
-      this.toString(),
-      types.map((type) => type.toString()).flat(),
-    );
+    return isEqual(this.toString(),types.map((type) => type.toString()).flat());
   }
 }

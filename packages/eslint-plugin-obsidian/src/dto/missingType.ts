@@ -1,8 +1,6 @@
 import type { Type } from './type';
 
 export class MissingType implements Type {
-  constructor() {}
-
   toString(): string[] {
     return [];
   }
