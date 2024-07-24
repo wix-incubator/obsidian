@@ -3,6 +3,7 @@ import { stronglyTypedInjectComponentGenerator } from '../../src/rules/stronglyT
 import {
   validGraph,
   validGraphWithInjectedProps,
+  validGraphWithInlineTypes,
   validGraphWithoutProps,
   validGraphWithOwnProps,
   validGraphWithUntypedProps,
@@ -25,6 +26,7 @@ ruleTester.run(
       validGraphWithOwnProps,
       validGraphWithInjectedProps,
       validGraphWithUntypedProps,
+      validGraphWithInlineTypes,
     ],
     invalid: [
       {

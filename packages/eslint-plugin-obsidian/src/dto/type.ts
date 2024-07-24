@@ -1,3 +1,5 @@
 export interface Type {
-  asString(): string[];
+  toString(): string[];
+  isEmpty(): boolean;
+  equals(types: Type[]): boolean;
 }

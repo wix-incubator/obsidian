@@ -22,7 +22,7 @@ const _Foo = () => {
   return null;
 };
 
-export const Foo = injectComponent<Own, Injected>(_Foo, SomeGraph);`;
+export const Foo = injectComponent(_Foo, SomeGraph);`;
 
 export const validGraphWithOwnProps = `
 import {injectComponent} from 'src';
@@ -58,4 +58,12 @@ const _Foo = (props: any) => {
 };
 
 export const Foo = injectComponent(_Foo, SomeGraph);`;
+
+export const validGraphWithInlineTypes = `
+const Component = ({ computedFromProps }: DependenciesOf<LifecycleBoundGraph, 'computedFromProps'>) => {
+  return null;
+};
+
+const InjectedComponent = injectComponent<{ stringFromProps: string }>(Component, LifecycleBoundGraph);
+`;
 

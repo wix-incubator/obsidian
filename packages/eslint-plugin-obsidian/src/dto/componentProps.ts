@@ -1,24 +1,27 @@
 import type { TSESTree } from '@typescript-eslint/types';
-import { isAnyType, isTypeAnnotation, isTypeIntersection } from '../utils/ast';
+import {
+isAnyType,
+isTypeAnnotation,
+isTypeIntersection,
+isTypeReference,
+} from '../utils/ast';
 import { SingleType } from './singleType';
 import { TypeIntersection } from './typeIntersection';
 import { MissingType } from './missingType';
 import type { Type } from './type';
+import { TypeReference } from './typeReference';
 
 export class ComponentProps {
-  constructor(private node: TSESTree.ArrowFunctionExpression) { }
+  constructor(props: TSESTree.Parameter);
+  constructor(private props: TSESTree.Identifier) { }
 
   get type(): Type {
-    const props = this.node.params[0] as TSESTree.Identifier;
-    const typeAnnotation = props?.typeAnnotation?.typeAnnotation;
-    return this.getType(typeAnnotation, props);
-  }
-
-  private getType(typeAnnotation: TSESTree.TypeNode | undefined, props: TSESTree.Identifier) {
+    const typeAnnotation = this.props?.typeAnnotation?.typeAnnotation;
     if (!typeAnnotation) return new MissingType();
     if (isTypeIntersection(typeAnnotation)) return new TypeIntersection(typeAnnotation);
     if (isAnyType(typeAnnotation)) return new MissingType();
-    if (isTypeAnnotation(props?.typeAnnotation)) return new SingleType(props);
+    if (isTypeReference(typeAnnotation)) return new TypeReference(typeAnnotation);
+    if (isTypeAnnotation(this.props?.typeAnnotation)) return new SingleType(this.props);
     return new MissingType();
   }
 }

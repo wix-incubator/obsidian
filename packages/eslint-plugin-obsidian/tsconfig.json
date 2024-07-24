@@ -2,7 +2,7 @@
   "include": [
     "src/**/*",
     "tests/**/*",
-    ".eslintrc.js", "src/ast", "src/dto", "src/framework", "src/utils", "src/index.ts", "src/types.ts",
+    ".eslintrc.js",
   ],
   "exclude": [
     "node_modules",

@@ -15,6 +15,14 @@ export function isClassLike(node: TSESTree.Node): node is TSESTree.ClassDeclarat
   }
 }
 
+export function isTypeReference(node?: TSESTree.Node): node is TSESTree.TSTypeReference {
+  return node?.type === 'TSTypeReference';
+}
+
+export function isTypeLiteral(node: TSESTree.Node): node is TSESTree.TSTypeLiteral {
+  return node.type === 'TSTypeLiteral';
+}
+
 export function isImportDeclaration(node: TSESTree.Node): node is TSESTree.ImportDeclaration {
   return node.type === 'ImportDeclaration';
 }
@@ -43,16 +51,6 @@ export function requireProgram(node: TSESTree.Node | undefined): TSESTree.Progra
       return node;
     default:
       return requireProgram(node.parent);
-  }
-}
-
-export function isImportLike(node: TSESTree.Node): boolean {
-  switch (node.type) {
-    case 'ImportDeclaration':
-    case 'ImportDefaultSpecifier':
-      return true;
-    default:
-      return false;
   }
 }
 

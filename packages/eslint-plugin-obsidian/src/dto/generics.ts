@@ -1,6 +1,9 @@
 import type { TSESTree } from '@typescript-eslint/types';
 import { assertDefined } from '../utils/assertions';
-import { Identifier } from './identifier';
+import { isTypeLiteral } from '../utils/ast';
+import { TypeLiteral } from './typeLiteral';
+import type { Type } from './type';
+import { TypeReference } from './typeReference';
 
 export class Generics {
   constructor(node: TSESTree.TSTypeParameterInstantiation | undefined);
@@ -8,10 +11,10 @@ export class Generics {
     assertDefined(node);
   }
 
-  get types(): string[] {
+  get types(): Type[] {
     return this.params
       .map((param: TSESTree.TSTypeReference) => {
-        return new Identifier(param.typeName).name;
+        return isTypeLiteral(param) ? new TypeLiteral() : new TypeReference(param);
       });
   }
 
