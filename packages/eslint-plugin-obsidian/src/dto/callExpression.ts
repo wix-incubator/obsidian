@@ -3,29 +3,31 @@ import { Identifier } from './identifier';
 import { Generics } from './generics';
 
 export class CallExpression {
-    constructor(readonly node: TSESTree.CallExpression) {}
+  constructor(readonly node: TSESTree.CallExpression) { }
 
-    public isExpression(name: string): boolean {
-        return this.name === name;
-    }
+  public isExpression(name: string): boolean {
+    return this.name === name;
+  }
 
-    get name(): string {
-        return this.callee.name;
-    }
+  get name(): string {
+    return this.callee.name;
+  }
 
-    get parent(): TSESTree.Node {
-        return this.node.parent!;
-    }
+  get parent(): TSESTree.Node {
+    return this.node.parent!;
+  }
 
-    get arguments(): Identifier[] {
-        return this.node.arguments.map((arg) => new Identifier(arg));
-    }
+  get arguments(): Identifier[] {
+    return this.node.arguments.map((arg) => new Identifier(arg));
+  }
 
-    get generics() {
-      return this.node.typeArguments && new Generics(this.node.typeArguments);
-    }
+  get generics() {
+    return this.node.typeArguments ?
+      new Generics(this.node.typeArguments) :
+      this.node.typeParameters && new Generics(this.node.typeParameters);
+  }
 
-    private get callee(): TSESTree.Identifier {
-        return this.node.callee as TSESTree.Identifier;
-    }
+  private get callee(): TSESTree.Identifier {
+    return this.node.callee as TSESTree.Identifier;
+  }
 }
