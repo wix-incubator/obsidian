@@ -11,7 +11,7 @@ export class ErrorReporter {
         node,
         'strongly-typed-inject-component',
         {
-          expectation: `injectedComponent<${types.toString()}>`,
+          expectation: `injectComponent<${types.toString()}>`,
         },
       );
     }
