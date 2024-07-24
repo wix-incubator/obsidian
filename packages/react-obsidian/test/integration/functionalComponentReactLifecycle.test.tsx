@@ -32,6 +32,7 @@ describe('React lifecycle - functional component', () => {
   let InjectedComponent: React.FunctionComponent<Partial<InjectedComponentProps>>;
 
   beforeEach(() => {
+    // eslint-disable-next-line obsidian/strongly-typed-inject-component
     InjectedComponent = injectComponent(Component, MainGraph);
   });
 

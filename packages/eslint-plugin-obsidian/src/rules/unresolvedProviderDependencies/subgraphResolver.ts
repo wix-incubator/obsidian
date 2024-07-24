@@ -1,5 +1,5 @@
 import type { TSESTree } from '@typescript-eslint/types';
-import { mapArrayExpression, requireProgram } from '../../ast/utils';
+import { mapArrayExpression, requireProgram } from '../../utils/ast';
 import { ClassFile } from '../../dto/classFile';
 import type { Property } from '../../dto/property';
 import { File } from '../../dto/file';

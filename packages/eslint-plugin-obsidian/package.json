@@ -16,6 +16,7 @@
   ],
   "peerDependencies": {
     "eslint": "8.x.x",
+    "eslint-plugin-obsidian": "*",
     "react-obsidian": "2.x.x"
   },
   "dependencies": {

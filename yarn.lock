@@ -8335,6 +8335,7 @@ __metadata:
     typescript: ^4.5.4
   peerDependencies:
     eslint: 8.x.x
+    eslint-plugin-obsidian: "*"
     react-obsidian: 2.x.x
   languageName: unknown
   linkType: soft

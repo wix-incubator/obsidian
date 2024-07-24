@@ -1,5 +1,5 @@
 import type { TSESTree } from '@typescript-eslint/types';
-import { getDecoratorProperty } from '../ast/utils';
+import { getDecoratorProperty } from '../utils/ast';
 import { Property } from './property';
 
 interface CallExpression extends TSESTree.CallExpression {

@@ -1,15 +1,19 @@
 import type { TSESTree } from '@typescript-eslint/types';
 import { Clazz } from './class';
-import { getClassDeclaration, isClassLike, isImportDeclaration } from '../ast/utils';
+import {
+getClassDeclaration,
+isClassLike,
+isImportDeclaration,
+isVariableDeclaration,
+} from '../utils/ast';
 import { Import } from './import';
 import { ClassFile } from './classFile';
 import { assertDefined } from '../utils/assertions';
+import { Variable } from './variable';
 
 export class File {
-  constructor(
-    private program: TSESTree.Program,
-    private path: string,
-  ) { }
+  constructor(program: TSESTree.Program, path?: string);
+  constructor(private program: TSESTree.Program,private path: string) { }
 
   public requireGraph(name: string) {
     const graph = this.classNodes.find((node) => {
@@ -51,5 +55,13 @@ export class File {
       .filter((clazz: Clazz | undefined) => {
         return clazz ? clazz.decoratorNames.includes('Graph') : false;
       }) as Clazz[];
+  }
+
+  get variables() {
+    return this.body
+      .filter(isVariableDeclaration)
+      .map((node) => node.declarations)
+      .flat()
+      .map((node) => new Variable(node));
   }
 }

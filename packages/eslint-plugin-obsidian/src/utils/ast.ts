@@ -1,6 +1,6 @@
 import type { TSESTree } from '@typescript-eslint/types';
 import type { ArrayExpressionElement } from '../types';
-import { assertDefined } from '../utils/assertions';
+import { assertDefined } from './assertions';
 
 export function isClassLike(node: TSESTree.Node): node is TSESTree.ClassDeclaration {
   switch (node.type) {
@@ -13,6 +13,14 @@ export function isClassLike(node: TSESTree.Node): node is TSESTree.ClassDeclarat
     default:
       return false;
   }
+}
+
+export function isTypeReference(node?: TSESTree.Node): node is TSESTree.TSTypeReference {
+  return node?.type === 'TSTypeReference';
+}
+
+export function isTypeLiteral(node: TSESTree.Node): node is TSESTree.TSTypeLiteral {
+  return node.type === 'TSTypeLiteral';
 }
 
 export function isImportDeclaration(node: TSESTree.Node): node is TSESTree.ImportDeclaration {
@@ -46,16 +54,6 @@ export function requireProgram(node: TSESTree.Node | undefined): TSESTree.Progra
   }
 }
 
-export function isImportLike(node: TSESTree.Node): boolean {
-  switch (node.type) {
-    case 'ImportDeclaration':
-    case 'ImportDefaultSpecifier':
-      return true;
-    default:
-      return false;
-  }
-}
-
 export function getDecoratorProperty(decorator: TSESTree.Decorator, propertyName: string) {
   const expression = decorator.expression as TSESTree.CallExpression;
   const property = expression.arguments.map((argument) => {
@@ -74,4 +72,20 @@ function getObjectProperty(obj: TSESTree.ObjectExpression, propertyName: string)
 
 export function mapArrayExpression<T>(array: TSESTree.ArrayExpression, map: (el: ArrayExpressionElement) => T) {
   return array.elements.map(map);
+}
+
+export function isTypeIntersection(node: TSESTree.Node | undefined): node is TSESTree.TSIntersectionType {
+  return node?.type === 'TSIntersectionType';
+}
+
+export function isTypeAnnotation(node: TSESTree.Node | undefined): node is TSESTree.TSTypeAnnotation {
+  return node?.type === 'TSTypeAnnotation';
+}
+
+export function isAnyType(node: TSESTree.Node | undefined): node is TSESTree.TSAnyKeyword {
+  return node?.type === 'TSAnyKeyword';
+}
+
+export function isVariableDeclaration(node: TSESTree.Node): node is TSESTree.VariableDeclaration {
+  return node.type === 'VariableDeclaration';
 }

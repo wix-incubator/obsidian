@@ -2,12 +2,12 @@ import React from 'react';
 import { injectComponent } from '../../src';
 import MainGraph from './MainGraph';
 
-interface InjectedComponentProps {
+interface Injected {
   someString: string;
   stringFromSubgraph: string;
 }
 
-const InjectedComponent = ({ someString, stringFromSubgraph }: InjectedComponentProps) => (
+const InjectedComponent = ({ someString, stringFromSubgraph }: Injected) => (
   <>
     {`${someString}${stringFromSubgraph}`}
   </>
