@@ -7,7 +7,7 @@ import type { Identifier } from '../../dto/identifier';
 import type { TypeValidator } from './typeValidator';
 
 export class InjectComponentHandler {
-  constructor(private errorReporter: ErrorReporter, private typeValidator: TypeValidator) { }
+  constructor(private typeValidator: TypeValidator, private errorReporter: ErrorReporter) { }
 
   public handle(callExpression: CallExpression) {
     if (callExpression.isExpression('injectComponent')) {

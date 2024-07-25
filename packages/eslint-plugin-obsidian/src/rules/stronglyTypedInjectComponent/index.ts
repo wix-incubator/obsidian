@@ -3,7 +3,14 @@ import type { RuleContext } from '@typescript-eslint/utils/ts-eslint';
 import { create } from './createRule';
 import {Context} from '../../dto/context';
 
-type Rule = TSESLint.RuleModule<'strongly-typed-inject-component', []>;
+export type Options = readonly [
+  {
+    ownPropsPattern: string;
+    injectedPropsPattern: string;
+  },
+];
+
+type Rule = TSESLint.RuleModule<'strongly-typed-inject-component', Options>;
 
 const createRule = ESLintUtils.RuleCreator(
   (name) => `https://wix-incubator.github.io/obsidian/docs/documentation/meta/eslint#${name}`,
@@ -11,8 +18,8 @@ const createRule = ESLintUtils.RuleCreator(
 
 export const stronglyTypedInjectComponentGenerator = () => {
   return createRule({
-    create: (context: RuleContext<'strongly-typed-inject-component', []>) => {
-      return create(new Context(context));
+    create: (context: RuleContext<'strongly-typed-inject-component', Options>, options: Options) => {
+      return create(new Context<'strongly-typed-inject-component', Options>(context), options);
     },
     name: 'strongly-typed-inject-component',
     meta: {
@@ -26,6 +33,11 @@ export const stronglyTypedInjectComponentGenerator = () => {
       schema: [],
       type: 'problem',
     },
-    defaultOptions: [],
+    defaultOptions: [
+      {
+        ownPropsPattern: '/\b(Own|Props|OwnProps)\b/',
+        injectedPropsPattern: '/\\b(Injected|InjectedProps)\\b/',
+      },
+    ],
   }) satisfies Rule;
 };

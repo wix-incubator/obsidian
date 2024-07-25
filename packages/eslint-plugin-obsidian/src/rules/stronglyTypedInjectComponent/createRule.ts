@@ -4,11 +4,12 @@ import { InjectComponentHandler } from './injectComponentHandler';
 import { CallExpression } from '../../dto/callExpression';
 import { ErrorReporter } from './errorReporter';
 import { TypeValidator } from './typeValidator';
+import type { Options } from '.';
 
-export function create(context: Context) {
+export function create(context: Context, options: Options) {
   const injectComponentHandler = new InjectComponentHandler(
+    new TypeValidator(options),
     new ErrorReporter(context),
-    new TypeValidator(),
   );
 
   return {

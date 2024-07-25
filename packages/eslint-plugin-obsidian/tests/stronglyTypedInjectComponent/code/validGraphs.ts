@@ -5,15 +5,15 @@ type Own = {
   name: string;
 };
 
-type Injected = {
+type InjectedProps = {
   bar: Bar;
 };
 
-const _Foo = (props: Own & Injected) => {
+const _Foo = (props: Own & InjectedProps) => {
   return null;
 };
 
-export const Foo = injectComponent<Own, Injected>(_Foo, SomeGraph);`;
+export const Foo = injectComponent<Own, InjectedProps>(_Foo, SomeGraph);`;
 
 export const validGraphWithoutProps = `
 import {injectComponent} from 'src';
