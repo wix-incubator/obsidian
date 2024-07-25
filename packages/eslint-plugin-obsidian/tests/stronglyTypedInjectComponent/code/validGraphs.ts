@@ -15,6 +15,23 @@ const _Foo = (props: Own & InjectedProps) => {
 
 export const Foo = injectComponent<Own, InjectedProps>(_Foo, SomeGraph);`;
 
+export const validGraphWithPropsInWrongOrder = `
+import {injectComponent} from 'src';
+
+type Own = {
+  name: string;
+};
+
+type Injected = {
+  bar: Bar;
+};
+
+const _Foo = ({foo, bar}: Injected & Own) => {
+  return null;
+};
+
+export const Foo = injectComponent<Own, Injected>(_Foo, SomeGraph);`;
+
 export const validGraphWithoutProps = `
 import {injectComponent} from 'src';
 

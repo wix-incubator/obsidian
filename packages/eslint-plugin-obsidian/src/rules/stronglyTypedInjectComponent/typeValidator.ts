@@ -1,11 +1,11 @@
+import { isEmpty } from 'lodash';
 import { FunctionalComponent } from '../../dto/functionalComponent';
 import type { Generics } from '../../dto/generics';
-import { TypeLiteral } from '../../dto/typeLiteral';
 import type { Variable } from '../../dto/variable';
-import { isEmpty } from '../../utils/array';
 import type { Type } from '../../dto/type';
 import type { Options } from '.';
 import { stringToRegex } from '../../utils/regex';
+import { TypeLiteral } from '../../dto/typeLiteral';
 
 export class TypeValidator {
   constructor(private options: Options) { }
@@ -18,15 +18,35 @@ export class TypeValidator {
   }
 
   private areTypesValid(componentProps: Type, injectComponentGenerics: Type[]): boolean {
-    const injectedPattern = this.options[0].injectedPropsPattern;
     return (
       this.hasInlineType(injectComponentGenerics) ||
-      componentProps.equals(injectComponentGenerics) ||
-      isEmpty(injectComponentGenerics) && !!componentProps.toString()[0].match(stringToRegex(injectedPattern))
+      this.typesAreEqualAndNotInjected(componentProps, injectComponentGenerics) ||
+      (isEmpty(injectComponentGenerics) && this.isInjected(componentProps)) ||
+      this.typesAreInCorrectOrder(injectComponentGenerics, componentProps)
     );
   }
 
   private hasInlineType(injectComponentGenerics: Type[]) {
     return injectComponentGenerics.some(TypeLiteral.isTypeLiteral);
+  }
+
+  private typesAreEqualAndNotInjected(componentProps: Type, injectComponentGenerics: Type[]): boolean {
+    return componentProps.equals(injectComponentGenerics) && !this.isInjected(componentProps);
+  }
+
+  private isInjected(componentProps: Type) {
+    return componentProps.toString().length === 1 &&
+      !!componentProps.toString()[0].match(stringToRegex(this.injectedPattern));
+  }
+
+  private typesAreInCorrectOrder(injectComponentGenerics: Type[], componentProps: Type) {
+    const isInjectSecond = !!injectComponentGenerics[1]?.toString()[0].match(stringToRegex(this.injectedPattern));
+    return isInjectSecond &&
+      componentProps.size() === injectComponentGenerics.length &&
+      componentProps.includes(injectComponentGenerics);
+  }
+
+  private get injectedPattern() {
+    return this.options[0].injectedPropsPattern;
   }
 }

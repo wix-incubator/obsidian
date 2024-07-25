@@ -31,7 +31,7 @@
       "no-console":"off",
       "obsidian/unresolved-provider-dependencies": "error",
       "obsidian/no-circular-dependencies": "warn",
-      "obsidian/strongly-typed-inject-component": "error",
+      "obsidian/strongly-typed-inject-component": ["error", {"injectedPropsPattern": "/\b(Injected|InjectedProps)\b/"}],
       "@stylistic/max-len": [
         "error",
         {

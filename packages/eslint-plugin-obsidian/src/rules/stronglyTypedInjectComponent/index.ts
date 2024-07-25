@@ -5,7 +5,6 @@ import {Context} from '../../dto/context';
 
 export type Options = readonly [
   {
-    ownPropsPattern: string;
     injectedPropsPattern: string;
   },
 ];
@@ -30,12 +29,21 @@ export const stronglyTypedInjectComponentGenerator = () => {
       messages: {
         'strongly-typed-inject-component': 'The call to injectComponent is missing prop types. It should be typed as: {{expectation}}',
       },
-      schema: [],
+      schema: [
+        {
+          type: 'object',
+          properties: {
+            injectedPropsPattern: {
+              type: 'string',
+            },
+          },
+          additionalProperties: false,
+        },
+      ],
       type: 'problem',
     },
     defaultOptions: [
       {
-        ownPropsPattern: '/\b(Own|Props|OwnProps)\b/',
         injectedPropsPattern: '/\\b(Injected|InjectedProps)\\b/',
       },
     ],
