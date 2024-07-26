@@ -2,7 +2,7 @@ import type { TSESTree } from '@typescript-eslint/types';
 import { Context } from '../../dto/context';
 import { InjectComponentHandler } from './injectComponentHandler';
 import { CallExpression } from '../../dto/callExpression';
-import { ErrorReporter } from './errorReporter';
+import { ErrorReporter } from './result/errorReporter';
 import { TypeValidator } from './typeValidator';
 import type { Options } from '.';
 

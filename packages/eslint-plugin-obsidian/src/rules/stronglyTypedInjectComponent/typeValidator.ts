@@ -2,40 +2,53 @@ import { isEmpty } from 'lodash';
 import { FunctionalComponent } from '../../dto/functionalComponent';
 import type { Generics } from '../../dto/generics';
 import type { Variable } from '../../dto/variable';
-import type { Type } from '../../dto/type';
+import type { Type } from '../../dto/types/type';
 import type { Options } from '.';
 import { stringToRegex } from '../../utils/regex';
-import { TypeLiteral } from '../../dto/typeLiteral';
+import { TypeLiteral } from '../../dto/types/typeLiteral';
+import { RedundantTypeError } from './result/redundantTypeError';
+import type { Result } from './result/result';
+import { Success } from './result/success';
+import { MissingTypeError } from './result/missingTypeError';
 
 export class TypeValidator {
   constructor(private options: Options) { }
 
-  public validate(injectedComponent?: Variable, generics?: Generics) {
-    if (!injectedComponent) return { isError: false };
+  public validate(injectedComponent?: Variable, generics?: Generics): Result {
+    if (!injectedComponent) return new Success();
     const componentProps = new FunctionalComponent(injectedComponent.arrowFunction).props.type;
     const injectComponentGenerics = generics?.types || [];
-    return { isError: !this.areTypesValid(componentProps, injectComponentGenerics), componentProps };
+    return this.areTypesValid(componentProps, injectComponentGenerics);
   }
 
-  private areTypesValid(componentProps: Type, injectComponentGenerics: Type[]): boolean {
-    return (
+  private areTypesValid(componentProps: Type, injectComponentGenerics: Type[]): Result {
+    if ( this.typesAreEqual(componentProps, injectComponentGenerics) && this.isInjected(componentProps)) {
+      return new RedundantTypeError(injectComponentGenerics);
+    }
+
+    if (
       this.hasInlineType(injectComponentGenerics) ||
-      this.typesAreEqualAndNotInjected(componentProps, injectComponentGenerics) ||
+      (this.typesAreEqual(componentProps, injectComponentGenerics) && !this.isInjected(componentProps)) ||
       (isEmpty(injectComponentGenerics) && this.isInjected(componentProps)) ||
       this.typesAreInCorrectOrder(injectComponentGenerics, componentProps)
-    );
+    ) {
+      return new Success();
+    }
+
+    // TODO: Report the actual missing type
+    return new MissingTypeError(injectComponentGenerics);
   }
 
   private hasInlineType(injectComponentGenerics: Type[]) {
     return injectComponentGenerics.some(TypeLiteral.isTypeLiteral);
   }
 
-  private typesAreEqualAndNotInjected(componentProps: Type, injectComponentGenerics: Type[]): boolean {
-    return componentProps.equals(injectComponentGenerics) && !this.isInjected(componentProps);
+  private typesAreEqual(componentProps: Type, injectComponentGenerics: Type[]): boolean {
+    return componentProps.equals(injectComponentGenerics);
   }
 
   private isInjected(componentProps: Type) {
-    return componentProps.toString().length === 1 &&
+    return componentProps.size() === 1 &&
       !!componentProps.toString()[0].match(stringToRegex(this.injectedPattern));
   }
 

@@ -1,7 +1,7 @@
 import type { TSESTree } from '@typescript-eslint/types';
 import { isEqual } from 'lodash';
 import { Type } from './type';
-import { Identifier } from './identifier';
+import { Identifier } from '../identifier';
 import { TypeReference } from './typeReference';
 
 export class TypeIntersection implements Type {

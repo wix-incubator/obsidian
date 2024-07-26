@@ -1,7 +1,7 @@
 import type { TSESTree } from '@typescript-eslint/types';
 import { isEqual } from 'lodash';
 import type { Type } from './type';
-import { Identifier } from './identifier';
+import { Identifier } from '../identifier';
 
 export class SingleType implements Type {
   constructor(private props: TSESTree.Identifier) {}

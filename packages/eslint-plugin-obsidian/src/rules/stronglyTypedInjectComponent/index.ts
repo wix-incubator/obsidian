@@ -27,7 +27,7 @@ export const stronglyTypedInjectComponentGenerator = () => {
         recommended: 'strict',
       },
       messages: {
-        'strongly-typed-inject-component': 'The call to injectComponent is missing prop types. It should be typed as: {{expectation}}',
+        'strongly-typed-inject-component': '{{message}}',
       },
       schema: [
         {

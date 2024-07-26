@@ -1,7 +1,7 @@
 import type { TSESTree } from '@typescript-eslint/types';
 import { isEqual } from 'lodash';
 import type { Type } from './type';
-import { Identifier } from './identifier';
+import { Identifier } from '../identifier';
 
 export class TypeReference implements Type {
   constructor(private node: TSESTree.TSTypeReference) { }
