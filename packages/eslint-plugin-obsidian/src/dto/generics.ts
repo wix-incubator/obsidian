@@ -1,9 +1,9 @@
 import type { TSESTree } from '@typescript-eslint/types';
 import { assertDefined } from '../utils/assertions';
 import { isTypeLiteral } from '../utils/ast';
-import { TypeLiteral } from './typeLiteral';
-import type { Type } from './type';
-import { TypeReference } from './typeReference';
+import { TypeLiteral } from './types/typeLiteral';
+import type { Type } from './types/type';
+import { TypeReference } from './types/typeReference';
 
 export class Generics {
   constructor(node: TSESTree.TSTypeParameterInstantiation | undefined);

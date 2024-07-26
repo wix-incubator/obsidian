@@ -5,11 +5,28 @@ type Own = {
   name: string;
 };
 
+type InjectedProps = {
+  bar: Bar;
+};
+
+const _Foo = (props: Own & InjectedProps) => {
+  return null;
+};
+
+export const Foo = injectComponent<Own, InjectedProps>(_Foo, SomeGraph);`;
+
+export const validGraphWithPropsInWrongOrder = `
+import {injectComponent} from 'src';
+
+type Own = {
+  name: string;
+};
+
 type Injected = {
   bar: Bar;
 };
 
-const _Foo = (props: Own & Injected) => {
+const _Foo = ({foo, bar}: Injected & Own) => {
   return null;
 };
 

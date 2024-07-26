@@ -5,11 +5,11 @@ isTypeAnnotation,
 isTypeIntersection,
 isTypeReference,
 } from '../utils/ast';
-import { SingleType } from './singleType';
-import { TypeIntersection } from './typeIntersection';
-import { MissingType } from './missingType';
-import type { Type } from './type';
-import { TypeReference } from './typeReference';
+import { SingleType } from './types/singleType';
+import { TypeIntersection } from './types/typeIntersection';
+import { MissingType } from './types/missingType';
+import type { Type } from './types/type';
+import { TypeReference } from './types/typeReference';
 
 export class ComponentProps {
   constructor(props: TSESTree.Parameter);

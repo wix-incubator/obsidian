@@ -2,10 +2,10 @@ import React from 'react';
 import { injectComponent } from '../../src';
 import MainGraph from './MainGraph';
 
-interface Injected {
+type Injected = {
   someString: string;
   stringFromSubgraph: string;
-}
+};
 
 const InjectedComponent = ({ someString, stringFromSubgraph }: Injected) => (
   <>

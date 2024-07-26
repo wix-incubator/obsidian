@@ -38,3 +38,16 @@ const _Foo = (props: Own) => {
 };
 
 export const Foo = injectComponent<Own, Injected>(_Foo, SomeGraph);`;
+
+export const invalidGraphWithInjectedProps = `
+import {injectComponent} from 'src';
+
+type Injected = {
+  name: string;
+};
+
+const _Foo = (props: Injected) => {
+  return null;
+};
+
+export const Foo = injectComponent<Injected>(_Foo, SomeGraph);`;
