@@ -6,6 +6,7 @@ import {Context} from '../../dto/context';
 export type Options = readonly [
   {
     injectedPropsPattern: string;
+    ownPropsPattern: string;
   },
 ];
 
@@ -39,12 +40,22 @@ export const stronglyTypedInjectComponentGenerator = () => {
           },
           additionalProperties: false,
         },
+        {
+          type: 'object',
+          properties: {
+            ownPropsPattern: {
+              type: 'string',
+            },
+          },
+          additionalProperties: false,
+        },
       ],
       type: 'problem',
     },
     defaultOptions: [
       {
         injectedPropsPattern: '/\\b(Injected|InjectedProps)\\b/',
+        ownPropsPattern: '/\\b(Own|Props|OwnProps)\\b/',
       },
     ],
   }) satisfies Rule;

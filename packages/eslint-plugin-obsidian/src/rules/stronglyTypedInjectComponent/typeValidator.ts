@@ -17,7 +17,7 @@ export class TypeValidator {
   public validate(injectedComponent?: Variable, generics?: Generics): Result {
     if (!injectedComponent) return new Success();
     const componentProps = new FunctionalComponent(injectedComponent.arrowFunction).props.type;
-    const injectComponentGenerics = generics?.types || [];
+    const injectComponentGenerics = generics?.types ?? [];
     return this.areTypesValid(componentProps, injectComponentGenerics);
   }
 
@@ -35,8 +35,10 @@ export class TypeValidator {
       return new Success();
     }
 
-    // TODO: Report the actual missing type
-    return new MissingTypeError(injectComponentGenerics);
+    const injected = this.getInjectedTypes(componentProps);
+    const own = this.getOwnTypes(componentProps);
+    if (!own && !injected) return new Success();
+    return new MissingTypeError(own!, injected ?? []);
   }
 
   private hasInlineType(injectComponentGenerics: Type[]) {
@@ -48,8 +50,15 @@ export class TypeValidator {
   }
 
   private isInjected(componentProps: Type) {
-    return componentProps.size() === 1 &&
-      !!componentProps.toString()[0].match(stringToRegex(this.injectedPattern));
+    return componentProps.size() === 1 && !!this.getInjectedTypes(componentProps);
+  }
+
+  private getInjectedTypes(componentProps: Type) {
+    return componentProps.toString().join(',').match(stringToRegex(this.injectedPattern));
+  }
+
+  private getOwnTypes(componentProps: Type) {
+    return componentProps.toString().join(',').match(stringToRegex(this.ownPattern));
   }
 
   private typesAreInCorrectOrder(injectComponentGenerics: Type[], componentProps: Type) {
@@ -61,5 +70,9 @@ export class TypeValidator {
 
   private get injectedPattern() {
     return this.options[0].injectedPropsPattern;
+  }
+
+  private get ownPattern() {
+    return this.options[0].ownPropsPattern;
   }
 }
