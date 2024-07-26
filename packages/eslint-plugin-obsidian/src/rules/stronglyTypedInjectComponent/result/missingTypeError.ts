@@ -1,12 +1,18 @@
-import type { Type } from '../../../dto/types/type';
 import type { Result } from './result';
 
 export class MissingTypeError implements Result {
   readonly isError = true;
 
-  constructor(private readonly missingTypes: Type[]) { }
+  constructor(private readonly own: string[], private readonly injected: string[]) { }
 
   getMessage() {
-    return `The call to injectComponent is missing prop types. It should be typed as: injectComponent<${this.missingTypes.map(t => t.toString()).join(', ')}> `;
+    console.log(this.getGenerics());
+    return `The call to injectComponent is missing prop types. It should be typed as: injectComponent<${this.getGenerics()}> `;
+  }
+
+  private getGenerics(): string {
+    const own = this.own[0];
+    const injected = this.injected[0];
+    return own && injected ? `${own}, ${injected}` : own;
   }
 }
