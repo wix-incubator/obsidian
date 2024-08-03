@@ -56,12 +56,10 @@ class ScopedLifecycleBoundGraph extends ObjectGraph {
 
 type Props = {
   count: number;
-  injectionToken?: string;
   renderComponentC?: boolean;
 };
 
-const ComponentA = injectComponent<Props>(({renderComponentC, injectionToken}: Props) => {
-  console.log(injectionToken);
+const ComponentA = injectComponent<Props>(({renderComponentC}: Props) => {
   return (
     <>
       <ComponentB />
@@ -74,12 +72,10 @@ const ComponentA = injectComponent<Props>(({renderComponentC, injectionToken}: P
 type Injected = DependenciesOf<ScopedLifecycleBoundGraph, 'count' | 'id'>;
 type Own = {injectionToken: string};
 
-const ComponentB = injectComponent(({count, id, injectionToken}: Injected & Own) => {
-  console.log(injectionToken);
+const ComponentB = injectComponent(({count, id}: Injected & Own) => {
   return <>{`count: ${count} id: ${id}`}</>;
 }, ScopedLifecycleBoundGraph);
 
-const ComponentC = injectComponent(({count, id, injectionToken}: Injected & Own) => {
-  console.log(injectionToken);
+const ComponentC = injectComponent(({count, id}: Injected & Own) => {
   return <>{` from C: count: ${count} id: ${id}`}</>;
 }, ScopedLifecycleBoundGraph);
