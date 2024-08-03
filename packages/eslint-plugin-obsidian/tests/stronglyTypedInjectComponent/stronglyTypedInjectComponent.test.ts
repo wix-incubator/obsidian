@@ -8,6 +8,7 @@ import {
   validGraphWithoutProps,
   validGraphWithOwnProps,
   validGraphWithUntypedProps,
+  validGraphThatDoesNotUseOwnProps,
 } from './code/validGraphs';
 import {
   invalidGraph,
@@ -30,6 +31,7 @@ ruleTester.run(
       validGraphWithUntypedProps,
       validGraphWithInlineTypes,
       validGraphWithPropsInWrongOrder,
+      validGraphThatDoesNotUseOwnProps,
     ],
     invalid: [
       {

@@ -6,7 +6,6 @@ export class MissingTypeError implements Result {
   constructor(private readonly own: string[], private readonly injected: string[]) { }
 
   getMessage() {
-    console.log(this.getGenerics());
     return `The call to injectComponent is missing prop types. It should be typed as: injectComponent<${this.getGenerics()}> `;
   }
 
