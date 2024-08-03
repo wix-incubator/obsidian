@@ -2,6 +2,7 @@ import SingletonGraph from '../../../test/fixtures/SingletonGraph';
 import MainGraph from '../../../test/fixtures/MainGraph';
 import { GraphRegistry } from './GraphRegistry';
 import { LifecycleBoundGraph } from '../../../test/fixtures/LifecycleBoundGraph';
+import { ScopedLifecycleBoundGraph } from '../../../test/fixtures/ScopedLifecycleBoundGraph';
 
 describe('GraphRegistry', () => {
   let uut: GraphRegistry;
@@ -45,5 +46,17 @@ describe('GraphRegistry', () => {
     const graph = uut.resolve(SingletonGraph);
     uut.clear(graph);
     expect(uut.resolve(SingletonGraph)).toEqual(graph);
+  });
+
+  it.each([
+    ['clear', (graph: any) => uut.clear(graph)],
+    ['clearAll', () => uut.clearAll()],
+  ])('should %s scoped lifecycle bound graphs', (_, clearMethod) => {
+    uut.register(ScopedLifecycleBoundGraph);
+
+    const graph = uut.resolve(ScopedLifecycleBoundGraph, 'lifecycleOwner', undefined, 'token');
+    clearMethod(graph);
+
+    expect(uut.resolve(ScopedLifecycleBoundGraph, 'lifecycleOwner', undefined, 'token')).not.toBe(graph);
   });
 });

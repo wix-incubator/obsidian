@@ -112,6 +112,11 @@ export class GraphRegistry {
         this.instanceToConstructor.delete(graph);
         this.constructorToInstance.get(Graph)!.delete(graph);
         this.nameToInstance.delete(graph.name);
+        const token = this.instanceToInjectionToken.get(graph);
+        if (token) {
+          this.injectionTokenToInstance.delete(token);
+          this.instanceToInjectionToken.delete(graph);
+        }
       }
     }
   }
@@ -122,6 +127,11 @@ export class GraphRegistry {
     this.instanceToConstructor.delete(graph);
     this.constructorToInstance.get(Graph)!.delete(graph);
     this.nameToInstance.delete(graph.name);
+    const token = this.instanceToInjectionToken.get(graph);
+    if (token) {
+      this.injectionTokenToInstance.delete(token);
+      this.instanceToInjectionToken.delete(graph);
+    }
   }
 
   addGraphMiddleware(middleware: Middleware<Graph>) {
@@ -136,6 +146,8 @@ export class GraphRegistry {
     this.instanceToConstructor.clear();
     this.constructorToInstance.clear();
     this.nameToInstance.clear();
+    this.injectionTokenToInstance.clear();
+    this.instanceToInjectionToken.clear();
   }
 }
 
