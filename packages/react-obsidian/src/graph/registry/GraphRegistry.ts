@@ -7,6 +7,8 @@ import { ObtainLifecycleBoundGraphException } from './ObtainLifecycleBoundGraphE
 export class GraphRegistry {
   private readonly constructorToInstance = new Map<Constructable<Graph>, Set<Graph>>();
   private readonly instanceToConstructor = new Map<Graph, Constructable<Graph>>();
+  private readonly injectionTokenToInstance = new Map<string, Graph>();
+  private readonly instanceToInjectionToken = new Map<Graph, string>();
   private readonly nameToInstance = new Map<string, Graph>();
   private readonly graphToSubgraphs = new Map<Constructable<Graph>, Set<Constructable<Graph>>>();
   private readonly graphMiddlewares = new GraphMiddlewareChain();
@@ -34,19 +36,31 @@ export class GraphRegistry {
     Graph: Constructable<T>,
     source: 'lifecycleOwner' | 'classInjection' | 'serviceLocator' = 'lifecycleOwner',
     props: any = undefined,
+    injectionToken?: string,
   ): T {
-    if ((this.isSingleton(Graph) || this.isBoundToReactLifecycle(Graph)) && this.has(Graph)) {
-      return this.getFirst(Graph);
+    if ((this.isSingleton(Graph) || this.isBoundToReactLifecycle(Graph)) && this.has(Graph, injectionToken)) {
+      return this.isComponentScopedLifecycleBound(Graph) ?
+        this.getByInjectionToken(Graph, injectionToken) :
+        this.getFirst(Graph);
     }
     if (this.isBoundToReactLifecycle(Graph) && source !== 'lifecycleOwner') {
       throw new ObtainLifecycleBoundGraphException(Graph);
     }
     const graph = this.graphMiddlewares.resolve(Graph, props);
-    this.set(Graph, graph);
+    this.set(Graph, graph, injectionToken);
     return graph as T;
   }
 
-  private has(Graph: Constructable<Graph>): boolean {
+  private has(Graph: Constructable<Graph>, injectionToken?: string): boolean {
+    const instances = this.constructorToInstance.get(Graph);
+    if (!instances) return false;
+
+    if (this.isComponentScopedLifecycleBound(Graph)) {
+      return Array
+        .from(instances)
+        .some((graph) => this.instanceToInjectionToken.get(graph) === injectionToken);
+    }
+
     return (this.constructorToInstance.get(Graph)?.size ?? 0) > 0;
   }
 
@@ -54,8 +68,20 @@ export class GraphRegistry {
     return this.constructorToInstance.get(Graph)!.values().next().value;
   }
 
-  private set(Graph: Constructable<Graph>, graph: Graph) {
+  private getByInjectionToken<T extends Graph>(Graph: Constructable<T>, injectionToken?: string): T {
+    return Array
+      .from(this.constructorToInstance.get(Graph)!)
+      .find((graph) => {
+        return this.instanceToInjectionToken.get(graph) === injectionToken;
+      }) as T;
+  }
+
+  private set(Graph: Constructable<Graph>, graph: Graph, injectionToken?: string) {
     const graphs = this.constructorToInstance.get(Graph) ?? new Set();
+    if (injectionToken && this.isComponentScopedLifecycleBound(Graph)) {
+      this.injectionTokenToInstance.set(injectionToken, graph);
+      this.instanceToInjectionToken.set(graph, injectionToken);
+    }
     graphs.add(graph);
     this.constructorToInstance.set(Graph, graphs);
     this.instanceToConstructor.set(graph, Graph);
@@ -68,6 +94,10 @@ export class GraphRegistry {
 
   private isBoundToReactLifecycle(Graph: Constructable<Graph>): boolean {
     return Reflect.getMetadata('isLifecycleBound', Graph) ?? false;
+  }
+
+  private isComponentScopedLifecycleBound(Graph: Constructable<Graph>): boolean {
+    return Reflect.getMetadata('lifecycleScope', Graph) === 'component';
   }
 
   clearGraphAfterItWasMockedInTests(graphName: string) {

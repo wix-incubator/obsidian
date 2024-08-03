@@ -5,6 +5,8 @@ import PropsInjector from './PropsInjector';
 import useGraph from './useGraph';
 import { Constructable } from '../../types';
 import { genericMemo, isMemoizedComponent } from '../../utils/React';
+import { GraphContext } from './graphContext';
+import { useInjectionToken } from './useInjectionToken';
 
 export default class ComponentInjector {
   inject<P>(
@@ -25,10 +27,15 @@ export default class ComponentInjector {
     const compare = isMemoized ? InjectionCandidate.compare : undefined;
 
     return genericMemo((passedProps: P) => {
-      const graph = useGraph<P>(Graph, Target, passedProps);
+      const injectionToken = useInjectionToken(Graph);
+      const graph = useGraph<P>(Graph, Target, passedProps, injectionToken);
       const proxiedProps = new PropsInjector(graph).inject(passedProps);
 
-      return <>{Target(proxiedProps as unknown as PropsWithChildren<P>)}</>;
+      return (
+        <GraphContext.Provider value={{injectionToken}}>
+          {Target(proxiedProps as unknown as PropsWithChildren<P>)}
+        </GraphContext.Provider>
+      );
     }, compare);
   }
 }

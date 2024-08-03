@@ -4,9 +4,15 @@ import { ObjectGraph } from '../../graph/ObjectGraph';
 import graphRegistry from '../../graph/registry/GraphRegistry';
 import referenceCounter from '../../ReferenceCounter';
 
-export default <P>(Graph: Constructable<ObjectGraph>, target: any, props?: Partial<P>) => {
+export default <P>(
+  Graph: Constructable<ObjectGraph>,
+  target: any,
+  props?: Partial<P>,
+  injectionToken?: string,
+) => {
+
   const [graph] = useState(() => {
-    const resolvedGraph = graphRegistry.resolve(Graph, 'lifecycleOwner', props);
+    const resolvedGraph = graphRegistry.resolve(Graph, 'lifecycleOwner', props, injectionToken);
     resolvedGraph.onBind(target);
     return resolvedGraph;
   });
