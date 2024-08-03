@@ -84,3 +84,17 @@ const Component = ({ computedFromProps }: DependenciesOf<LifecycleBoundGraph, 'c
 const InjectedComponent = injectComponent<{ stringFromProps: string }>(Component, LifecycleBoundGraph);
 `;
 
+export const validGraphThatDoesNotUseOwnProps = `
+type Own = {
+  name: string;
+};
+
+type Injected = {
+  bar: Bar;
+};
+
+const _Foo = ({foo, bar}: Injected) => {
+  return null;
+};
+
+export const Foo = injectComponent<Own, Injected>(_Foo, SomeGraph);`;

@@ -30,10 +30,9 @@ export class TypeValidator {
       this.hasInlineType(injectComponentGenerics) ||
       (this.typesAreEqual(componentProps, injectComponentGenerics) && !this.isInjected(componentProps)) ||
       (isEmpty(injectComponentGenerics) && this.isInjected(componentProps)) ||
-      this.typesAreInCorrectOrder(injectComponentGenerics, componentProps)
-    ) {
-      return new Success();
-    }
+      this.typesAreInCorrectOrder(injectComponentGenerics, componentProps) ||
+      (this.isInjected(componentProps) && injectComponentGenerics.length === 2)
+    ) return new Success();
 
     const injected = this.getInjectedTypes(componentProps);
     const own = this.getOwnTypes(componentProps);
