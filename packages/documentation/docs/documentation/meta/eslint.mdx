@@ -63,29 +63,8 @@ class SomeGraph extends ObjectGraph {
 ### strongly-typed-inject-component
 Ensure injected components are strongly typed.
 
-When a component is injected using `injectComponent`, its props are typed with a combination of its `Own` props and the `Injected` props provided by the graph; `Own`, `Injected`, or `Own & Injected`. By default, `injectComponent` returns a component who's props are optional. This is correct if a component only depends on injected props. If a component also has its own props, then `Own` props should be required. This rule ensures that the `injectComponent` call is typed correctly.
+When a component is injected using `injectComponent`, its props are typed with a combination of its `Own` props and the `Injected` props; `Own`, `Injected`, or `Own & Injected`. By default, `injectComponent` returns a component who's props are optional. This is correct if a component only depends on injected props. If a component also has its own props, then `Own` props should be required. This rule ensures that the `injectComponent` call is typed correctly.
 
-
-```ts
-@Graph()
-class SomeGraph extends ObjectGraph {
-  @Provides()
-  foo(bar: Bar) {
-    return new Foo(bar);
-  }
-
-  @Provides()
-  bar(foo: Foo) {
-    // ^ Since Foo depends on Bar, this will trigger a lint error.
-    return new Bar(foo);
-  }
-}
-```
-
-### strongly-typed-inject-component
-Ensure injected components are strongly typed.
-
-When a component is injected using `injectComponent`, its props are typed with a combination of its `Own` props and the `Injected` props provided by the graph; `Own`, `Injected`, or `Own & Injected`. By default, `injectComponent` returns a component who's props are optional. This is correct if a component only depends on injected props. If a component also has its own props, then `Own` props should be required. This rule ensures that the `injectComponent` call is typed correctly.
 
 <table>
 <tr>
@@ -144,8 +123,3 @@ export default injectComponent<Own, Injected>(Foo, Graph);
 </td>
 </tr>
 </table>
-
-
-
-
-
