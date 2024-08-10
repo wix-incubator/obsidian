@@ -82,13 +82,37 @@ Applications typically have at least one singleton graph. These graphs are used 
 To declare a singleton graph, annotate the graph class with the `@Singleton` decorator.
 
 ### The lifecycle-bound graph
-Lifecycle-bound graphs are used to provide dependencies that are shared between components and hooks in a specific UI flow.
+Lifecycle-bound graphs are used to provide dependencies that are shared between components and hooks in a specific UI scope.
 
-Dependencies provided by a lifecycle-bound graph are treated as singletons within the scope of the components or hooks that depend on that graph. When a component or hook that depends on a lifecycle-bound graph is mounted, Obsidian will reuse an existing instance of the graph if one exists. If no instance of the graph exists, Obsidian will construct a new instance of the graph. Once all components or hooks that use the graph are unmounted, the graph is destroyed.
+Obsidian supports injecting two types of UI scopes:
+1. **Feature scope (default)**: A feature scope is a scope that is shared between multiple screens. For example, a user authentication flow might consist of multiple screens that share the same dependencies. In this case, you can use a lifecycle-bound graph to provide the dependencies for the entire flow. When declaring a feature-scoped graph, a single instance of the graph is created and shared between all the components and hooks that request it.
+```ts title="A feature-scoped lifecycle-bound graph"
+import {LifecycleBound, Graph, ObjectGraph, Provides} from 'react-obsidian';
 
-In other words, dependencies provided by lifecycle-bound graphs are:
-1. Constructed and destroyed when the flow starts and ends.
-2. Shared between all components and hooks that take part in the flow.
+@LifecycleBound({scope: 'feature'}) @Graph()
+class AuthGraph extends ObjectGraph {
+  @Provides()
+  userService(): UserService {
+    return new UserService();
+  }
+}
+```
+2. **Component scope**: A component scope is a scope that is shared between a component and its children. For example, a form component might have multiple input fields that share the same dependencies. In this case, you can use a component-scoped lifecycle-bound graph to provide the dependencies for the form.
+```ts title="A component-scoped lifecycle-bound graph"
+import {LifecycleBound, Graph, ObjectGraph, Provides} from 'react-obsidian';
+
+@LifecycleBound({scope: 'component'}) @Graph()
+class FormGraph extends ObjectGraph {
+  @Provides()
+  validationService(): ValidationService {
+    return new ValidationService();
+  }
+}
+```
+
+:::info
+Lifecycle-bound graphs are feature-scoped by default.
+:::
 
 #### Passing props to a lifecycle-bound graph
 When a graph is created, it receives the props of the component or hook that requested it. This means that the graph can use the props to construct the dependencies it provides. The `@LifecycleBound` in the example below graph provides a `userService` which requires a `userId`. The `userId` is obtained from props.
@@ -115,6 +139,9 @@ class HomeGraph extends ObjectGraph<HomeScreenProps> {
   }
 }
 ```
+
+#### The lifecycle of a lifecycle-bound graph
+Lifecycle-bound graphs are created when they are requested and are destroyed when the last component or hook that requested them is unmounted. This means that the dependencies provided by a lifecycle-bound graph are shared between components and hooks within the same UI scope and are destroyed when the UI scope is destroyed.
 
 ## Graph composition
 Graph composition is a powerful feature that allows you to create complex dependency graphs by combining smaller graphs. Composing graphs is useful when you want to reuse a graph in multiple places. For example, you might have a singleton graph that provides application-level dependencies. You might also have a lifecycle-bound graph that provides dependencies for a specific UI flow. You can compose these graphs together so that the lifecycle-bound graph can also inject the dependencies provided by the singleton graph.
