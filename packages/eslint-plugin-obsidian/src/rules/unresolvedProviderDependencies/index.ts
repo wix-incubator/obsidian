@@ -22,7 +22,6 @@ export const unresolvedProviderDependenciesGenerator = (
     meta: {
       docs: {
         description: 'Dependencies must be defined in the graph or its subgraphs.',
-        recommended: 'strict',
       },
       messages: {
         'unresolved-provider-dependencies': 'Dependency {{ dependencyName }} is unresolved.',

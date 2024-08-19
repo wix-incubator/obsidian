@@ -24,7 +24,8 @@ export class CallExpression {
   get generics() {
     return this.node.typeArguments ?
       new Generics(this.node.typeArguments) :
-      this.node.typeParameters && new Generics(this.node.typeParameters);
+      // @ts-ignore
+      this.node['typeParameters'] && new Generics(this.node['typeParameters']); // compatibility with typescript-eslint 8
   }
 
   private get callee(): TSESTree.Identifier {

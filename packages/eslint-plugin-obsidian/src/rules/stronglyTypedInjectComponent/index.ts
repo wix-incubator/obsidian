@@ -25,7 +25,6 @@ export const stronglyTypedInjectComponentGenerator = () => {
     meta: {
       docs: {
         description: 'Calling injectComponent without prop types is a bad practice and a common source of bugs.',
-        recommended: 'strict',
       },
       messages: {
         'strongly-typed-inject-component': '{{message}}',

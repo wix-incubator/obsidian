@@ -18,7 +18,6 @@ export const noCircularDependenciesGenerator = () => {
     meta: {
       docs: {
         description: 'Dependencies must be defined in the graph or its subgraphs.',
-        recommended: 'strict',
       },
       messages: {
         'no-circular-dependencies': 'Circular dependency detected starting from {{firstDependency}}: {{path}}',
