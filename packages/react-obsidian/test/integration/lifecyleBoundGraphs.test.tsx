@@ -17,7 +17,7 @@ describe('React lifecycle bound graphs', () => {
     LifecycleBoundGraph.timesCreated = 0;
   });
 
-  it('creates a bound graph only once', async () => {
+  it('creates a bound graph only once', () => {
     render(<Component />);
     render(<Component />);
     expect(LifecycleBoundGraph.timesCreated).toBe(1);
@@ -59,7 +59,7 @@ describe('React lifecycle bound graphs', () => {
         // @ts-ignore
         @Inject() private computedFromProps!: string;
       }
-      // eslint-disable-next-line no-new
+
       new Foo();
     }).toThrow(ObtainLifecycleBoundGraphException);
   });
@@ -92,7 +92,7 @@ describe('React lifecycle bound graphs', () => {
   }) {
     const useHook = injectHook(() => {
       if (instantiateInjectableClass) {
-        // eslint-disable-next-line no-new
+
         new Foo();
       }
     }, LifecycleBoundGraph);

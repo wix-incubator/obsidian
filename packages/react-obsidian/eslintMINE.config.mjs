@@ -1,41 +1,42 @@
+import eslint from '@eslint/js';
+import tseslint from 'typescript-eslint';
+
+import globals from "globals";
+import tsParser from "@typescript-eslint/parser";
 import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
 import stylistic from "@stylistic/eslint-plugin";
+import react from "eslint-plugin-react";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import importNewlines from "eslint-plugin-import-newlines";
 import unusedImports from "eslint-plugin-unused-imports";
 import jestFormatting from "eslint-plugin-jest-formatting";
-import globals from "globals";
-import tsParser from "@typescript-eslint/parser";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
+import obsidian from "eslint-plugin-obsidian";
 
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all
-});
 
-export default [
-  stylistic.configs.recommended,
-  ...fixupConfigRules(compat.extends(
-    "plugin:import/typescript",
-    "plugin:@stylistic/disable-legacy",
-    "plugin:jest-formatting/recommended",
-  )),
+export default tseslint.config(
+  eslint.configs.recommended,
+  ...tseslint.configs.recommended,
+)
+
+[
   {
+    files: [
+      "src/**/*.ts",
+      "src/**/*.tsx",
+      "transformers/**/*.ts",
+      "text/**/*.ts",
+      "text/**/*.tsx"
+    ],
     ignores: ["**/*.config.js", "dist/*,", "**/wallaby.js"],
-    plugins: {
-      "@stylistic": fixupPluginRules(stylistic),
-      "@typescript-eslint": typescriptEslint,
-      "import-newlines": importNewlines,
-      "unused-imports": unusedImports,
-      "jest-formatting": fixupPluginRules(jestFormatting),
-    },
+    ...fixupConfigRules(compat.extends(
+      "airbnb-base",
+      "airbnb-typescript",
+      "plugin:react/recommended",
+      "plugin:import/typescript",
+      "plugin:@stylistic/disable-legacy",
+      "plugin:jest-formatting/recommended",
+    )),
     languageOptions: {
       globals: {
         ...globals.jest,
@@ -47,32 +48,38 @@ export default [
         project: "tsconfig.json",
       },
     },
+    plugins: {
+      "@stylistic": fixupPluginRules(stylistic),
+      react: fixupPluginRules(react),
+      "@typescript-eslint": typescriptEslint,
+      "import-newlines": importNewlines,
+      "unused-imports": unusedImports,
+      "jest-formatting": fixupPluginRules(jestFormatting),
+      obsidian,
+    },
     settings: {
       "import/resolver": {
         node: {
-          extensions: [".js", ".ts"],
+          extensions: [".js", ".jsx", ".ts", ".tsx"],
         },
+      },
+      react: {
+        version: "detect",
       },
     },
     rules: {
       "no-console": "off",
+      "obsidian/unresolved-provider-dependencies": "error",
+      "obsidian/no-circular-dependencies": "warn",
 
-      "no-empty-function": ["error", {
-        allow: ["constructors"],
-      }],
-
-      "no-multi-spaces": "error",
-
-      "no-multiple-empty-lines": ["error", {
-        max: 1,
+      "obsidian/strongly-typed-inject-component": ["error", {
+        injectedPropsPattern: "/\\b(Injected|InjectedProps)\\b/",
       }],
 
       "@stylistic/max-len": ["error", {
         code: 115,
         comments: 200,
         ignoreRegExpLiterals: true,
-        ignoreStrings: true,
-        ignoreTemplateLiterals: true,
       }],
 
       "@stylistic/no-extra-semi": "error",
@@ -87,6 +94,12 @@ export default [
       "@stylistic/member-delimiter-style": "error",
       "import/no-unresolved": "off",
       "class-methods-use-this": "off",
+
+      "react/jsx-filename-extension": ["error", {
+        extensions: [".js", ".ts", ".jsx", ".tsx"],
+      }],
+
+      "react/jsx-props-no-spreading": "off",
       "no-use-before-define": "off",
       "@typescript-eslint/no-use-before-define": ["off"],
       "no-restricted-syntax": "off",
@@ -124,6 +137,7 @@ export default [
         semi: false,
       }],
 
+      "react/display-name": "off",
       "no-plusplus": "off",
       "@stylistic/no-trailing-spaces": "error",
       "no-shadow": "off",
@@ -132,6 +146,8 @@ export default [
         allow: ["Graph"],
       }],
 
+      "react/button-has-type": "off",
+      "react/jsx-one-expression-per-line": ["off"],
       "arrow-body-style": ["off"],
 
       "@stylistic/quotes": ["error", "single", {
@@ -153,5 +169,6 @@ export default [
       }],
 
       "@typescript-eslint/ban-ts-comment": "off",
-    },
-  }];
+    }
+  }
+]

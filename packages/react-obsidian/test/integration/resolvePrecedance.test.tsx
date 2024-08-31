@@ -1,4 +1,4 @@
-/* eslint-disable arrow-body-style */
+
 import { render } from '@testing-library/react';
 import React from 'react';
 import { injectComponent } from '../../src';
@@ -25,7 +25,7 @@ describe('Property resolving precedence', () => {
     InjectedComponent = injectComponent(Component, MainGraph);
   });
 
-  it('Injects dependencies from subgraphs', async () => {
+  it('Injects dependencies from subgraphs', () => {
     const { container } = render(<InjectedComponent />);
     expect(container.textContent).toBe(`${injectedValues.fromStringProvider}${injectedValues.fromSubgraph}`);
   });

@@ -6,6 +6,7 @@
     "MVVM",
     "preconfigured",
     "TSES",
+    "tseslint",
     "unimported",
     "unmagler",
     "unsubscribers"
