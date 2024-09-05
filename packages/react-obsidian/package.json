@@ -46,8 +46,6 @@
     "babel-plugin-parameter-decorator": "1.x.x",
     "cross-env": "^7.0.3",
     "eslint": "^9.9.1",
-    "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-import-newlines": "^1.4.0",
     "eslint-plugin-jest": "^28.8.1",
     "eslint-plugin-obsidian": "2.11.0",
     "eslint-plugin-react": "^7.35.0",
