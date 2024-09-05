@@ -4,6 +4,7 @@
     "estree",
     "Middlewares",
     "MVVM",
+    "plusplus",
     "preconfigured",
     "TSES",
     "tseslint",

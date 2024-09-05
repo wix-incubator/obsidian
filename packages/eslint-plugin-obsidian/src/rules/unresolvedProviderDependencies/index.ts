@@ -3,12 +3,12 @@ import type { RuleContext } from '@typescript-eslint/utils/ts-eslint';
 import { create } from './createRule';
 import { PathResolver } from '../../framework/pathResolver';
 import { FileReader } from '../../framework/fileReader';
-import {Context} from '../../dto/context';
+import { Context } from '../../dto/context';
 
 type Rule = TSESLint.RuleModule<'unresolved-provider-dependencies', []>;
 
 const createRule = ESLintUtils.RuleCreator(
-  (name) => `https://wix-incubator.github.io/obsidian/docs/documentation/meta/eslint#${name}`,
+  name => `https://wix-incubator.github.io/obsidian/docs/documentation/meta/eslint#${name}`,
 );
 
 export const unresolvedProviderDependenciesGenerator = (

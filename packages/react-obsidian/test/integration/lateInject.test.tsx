@@ -46,6 +46,7 @@ class LateProperty {
 @Injectable(MainGraph)
 class LatePropertyConstructorInjection {
   @LateInject() someString!: string;
+
   constructor() {
     Obsidian.inject(this);
   }

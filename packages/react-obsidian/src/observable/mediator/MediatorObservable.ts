@@ -67,7 +67,7 @@ export class MediatorObservable<T> extends Observable<T> {
             values[index] = next;
           } else {
             values[index] = next;
-            this.value = mapNext(values, this.value) as T;
+            this.value = mapNext(values, this.value);
           }
         });
       });

@@ -1,35 +1,18 @@
-import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
 import stylistic from "@stylistic/eslint-plugin";
-import react from "eslint-plugin-react";
-import typescriptEslint from "@typescript-eslint/eslint-plugin";
-import importNewlines from "eslint-plugin-import-newlines";
-import unusedImports from "eslint-plugin-unused-imports";
-import importPlugin from 'eslint-plugin-import';
-import jestFormatting from "eslint-plugin-jest-formatting";
+import eslintJest from "eslint-plugin-jest";
 import obsidian from "eslint-plugin-obsidian";
 import globals from "globals";
 import tsParser from "@typescript-eslint/parser";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
 import eslintTs from "typescript-eslint";
 import eslintJs from "@eslint/js";
 
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all
-});
-
 export default eslintTs.config(
-  eslintJs.configs.recommended,
-  ...eslintTs.configs.recommendedTypeChecked,
-  ...compat.extends("plugin:import/typescript"),
   {
+    ignores: ["**/*.d.ts", "**/*.js"],
+  },
+  {
+    files: ["**/*.ts", "**/*.tsx"],
     name: "ReactObsidian",
     languageOptions: {
       globals: {
@@ -52,61 +35,67 @@ export default eslintTs.config(
         version: "detect",
       },
     },
+    extends: [
+      eslintJs.configs.recommended,
+      ...eslintTs.configs.recommendedTypeChecked,
+      eslintJest.configs['flat/recommended'],
+      stylistic.configs["recommended-flat"],
+    ],
     plugins: {
-      "@stylistic": fixupPluginRules(stylistic),
-      react: fixupPluginRules(react),
-      "@typescript-eslint": typescriptEslint,
-      "import-newlines": importNewlines,
-      // "import": fixupPluginRules(importPlugin),
-      "unused-imports": unusedImports,
-      "jest-formatting": fixupPluginRules(jestFormatting),
       obsidian,
     },
     rules: {
-      "no-console": "off",
-      "no-multi-spaces": "error",
-      "obsidian/unresolved-provider-dependencies": "error",
-      "obsidian/no-circular-dependencies": "warn",
-
-      "obsidian/strongly-typed-inject-component": ["error", {
-        injectedPropsPattern: "/\\b(Injected|InjectedProps)\\b/",
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unsafe-member-access": "off",
+      "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-unsafe-assignment": "off",
+      "@typescript-eslint/no-unsafe-argument": "off",
+      "@typescript-eslint/no-unsafe-return": "off",
+      "@typescript-eslint/no-unsafe-function-type": "off",
+      "@typescript-eslint/no-unsafe-call": "off",
+      "@typescript-eslint/unbound-method": "off",
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        {
+          "args": "all",
+          "argsIgnorePattern": "^_",
+          "caughtErrors": "all",
+          "caughtErrorsIgnorePattern": "^_",
+          "destructuredArrayIgnorePattern": "^_",
+          "varsIgnorePattern": "^_",
+          "ignoreRestSiblings": true
+        }
+      ],
+      "no-empty-function": ["error", {
+        allow: ["constructors"],
       }],
-
+      "no-multiple-empty-lines": ["error", {
+        max: 1,
+      }],
+      "no-multi-spaces": "error",
+      "@stylistic/brace-style": ["error", "1tbs", { allowSingleLine: true }],
+      "@stylistic/jsx-one-expression-per-line": ["error", {
+        "allow": "non-jsx"
+      }],
       "@stylistic/max-len": ["error", {
         code: 115,
         comments: 200,
         ignoreRegExpLiterals: true,
+        ignoreStrings: true,
+        ignoreTemplateLiterals: true,
       }],
-
+      "@stylistic/max-statements-per-line": ["error", { "max": 2 }],
       "@stylistic/no-extra-semi": "error",
 
       "@stylistic/lines-between-class-members": ["error", "always", {
         exceptAfterSingleLine: true,
       }],
-
-      "import/extensions": "off",
-      "@typescript-eslint/no-non-null-assertion": "off",
-      "no-useless-constructor": "off",
-      "@stylistic/member-delimiter-style": "error",
-      "import/no-unresolved": "off",
-      "class-methods-use-this": "off",
-
-      "react/jsx-filename-extension": ["error", {
-        extensions: [".js", ".ts", ".jsx", ".tsx"],
+      "lines-between-class-members": ["error", {
+        enforce: [
+          { blankLine: "always", prev: "method", next: "method" },
+          { blankLine: "never", prev: "field", next: "field" },
+        ]
       }],
-
-      "react/jsx-props-no-spreading": "off",
-      "no-use-before-define": "off",
-      "@typescript-eslint/no-use-before-define": ["off"],
-      "no-restricted-syntax": "off",
-      "import/no-named-as-default": "off",
-      "@typescript-eslint/ban-types": ["off"],
-
-      // "import/no-extraneous-dependencies": ["error", {
-      //   devDependencies: true,
-      // }],
-
-      "max-classes-per-file": ["off"],
       curly: ["error", "multi-line"],
       "@stylistic/semi": ["error", "always"],
       "@stylistic/comma-dangle": ["error", "always-multiline"],
@@ -126,202 +115,23 @@ export default eslintTs.config(
       }],
 
       "@stylistic/no-whitespace-before-property": "error",
-
-      "import-newlines/enforce": ["error", {
-        items: 3,
-        "max-len": 115,
-        semi: false,
-      }],
-
-      "react/display-name": "off",
-      "no-plusplus": "off",
       "@stylistic/no-trailing-spaces": "error",
-      "no-shadow": "off",
-
-      "@typescript-eslint/no-shadow": ["error", {
-        allow: ["Graph"],
+      "@stylistic/member-delimiter-style": ["error", {
+        "multiline": {
+          "delimiter": "semi",
+          "requireLast": true
+        },
+        "singleline": {
+          "delimiter": "semi",
+          "requireLast": false
+        },
+        "multilineDetection": "brackets"
       }],
-
-      "react/button-has-type": "off",
-      "react/jsx-one-expression-per-line": ["off"],
-      "arrow-body-style": ["off"],
-
       "@stylistic/quotes": ["error", "single", {
         avoidEscape: true,
         allowTemplateLiterals: true,
       }],
-
-      "@typescript-eslint/lines-between-class-members": "off",
-      "@typescript-eslint/no-explicit-any": "off",
-      "import/prefer-default-export": "off",
-      "@typescript-eslint/no-unused-vars": "off",
-      "unused-imports/no-unused-imports": "error",
-
-      "unused-imports/no-unused-vars": ["error", {
-        vars: "all",
-        varsIgnorePattern: "^_",
-        args: "after-used",
-        argsIgnorePattern: "^_",
-      }],
-
-      "@typescript-eslint/ban-ts-comment": "off",
-    }
+      "@typescript-eslint/no-base-to-string": "off",
+    },
   }
-)
-
-// [
-//   {
-//     name: "React Obsidian",
-//     ignores: ["**/dist/*,", "**/wallaby.js"],
-//     files: [
-//       "src/**/*.ts",
-//       "src/**/*.tsx",
-//       "transformers/**/*.ts",
-//       "test/**/*.ts",
-//       "test/**/*.tsx"
-//     ],
-//   }, ...fixupConfigRules(compat.extends(
-//     "plugin:react/recommended",
-//     // "plugin:import/typescript",
-//     "plugin:import/recommended",
-//     "plugin:@stylistic/disable-legacy",
-//     "plugin:jest-formatting/recommended",
-//   )), {
-//     plugins: {
-//       "@stylistic": fixupPluginRules(stylistic),
-//       react: fixupPluginRules(react),
-//       "@typescript-eslint": typescriptEslint,
-//       "import-newlines": importNewlines,
-//       "unused-imports": unusedImports,
-//       "jest-formatting": fixupPluginRules(jestFormatting),
-//       obsidian,
-//     },
-
-//     languageOptions: {
-//       globals: {
-//         ...globals.jest,
-//       },
-//       parser: tsParser,
-//       ecmaVersion: 5,
-//       sourceType: "module",
-//       parserOptions: {
-//         project: "tsconfig.json",
-//       },
-//     },
-
-//     settings: {
-//       "import/resolver": {
-//         node: {
-//           extensions: [".js", ".jsx", ".ts", ".tsx"],
-//         },
-//       },
-//       react: {
-//         version: "detect",
-//       },
-//     },
-
-//     rules: {
-//       "no-console": "off",
-//       "obsidian/unresolved-provider-dependencies": "error",
-//       "obsidian/no-circular-dependencies": "warn",
-
-//       "obsidian/strongly-typed-inject-component": ["error", {
-//         injectedPropsPattern: "/\\b(Injected|InjectedProps)\\b/",
-//       }],
-
-//       "@stylistic/max-len": ["error", {
-//         code: 115,
-//         comments: 200,
-//         ignoreRegExpLiterals: true,
-//       }],
-
-//       "@stylistic/no-extra-semi": "error",
-
-//       "@stylistic/lines-between-class-members": ["error", "always", {
-//         exceptAfterSingleLine: true,
-//       }],
-
-//       "import/extensions": "off",
-//       "@typescript-eslint/no-non-null-assertion": "off",
-//       "no-useless-constructor": "off",
-//       "@stylistic/member-delimiter-style": "error",
-//       "import/no-unresolved": "off",
-//       "class-methods-use-this": "off",
-
-//       "react/jsx-filename-extension": ["error", {
-//         extensions: [".js", ".ts", ".jsx", ".tsx"],
-//       }],
-
-//       "react/jsx-props-no-spreading": "off",
-//       "no-use-before-define": "off",
-//       "@typescript-eslint/no-use-before-define": ["off"],
-//       "no-restricted-syntax": "off",
-//       "import/no-named-as-default": "off",
-//       "@typescript-eslint/ban-types": ["off"],
-
-//       "import/no-extraneous-dependencies": ["error", {
-//         devDependencies: true,
-//       }],
-
-//       "max-classes-per-file": ["off"],
-//       curly: ["error", "multi-line"],
-//       "@stylistic/semi": ["error", "always"],
-//       "@stylistic/comma-dangle": ["error", "always-multiline"],
-//       "@stylistic/function-call-argument-newline": ["error", "consistent"],
-//       "@stylistic/function-paren-newline": ["error", "multiline-arguments"],
-
-//       "@stylistic/object-curly-newline": ["error", {
-//         ObjectExpression: {
-//           multiline: true,
-//           consistent: true,
-//         },
-
-//         ObjectPattern: {
-//           multiline: true,
-//           consistent: true,
-//         },
-//       }],
-
-//       "@stylistic/no-whitespace-before-property": "error",
-
-//       "import-newlines/enforce": ["error", {
-//         items: 3,
-//         "max-len": 115,
-//         semi: false,
-//       }],
-
-//       "react/display-name": "off",
-//       "no-plusplus": "off",
-//       "@stylistic/no-trailing-spaces": "error",
-//       "no-shadow": "off",
-
-//       "@typescript-eslint/no-shadow": ["error", {
-//         allow: ["Graph"],
-//       }],
-
-//       "react/button-has-type": "off",
-//       "react/jsx-one-expression-per-line": ["off"],
-//       "arrow-body-style": ["off"],
-
-//       "@stylistic/quotes": ["error", "single", {
-//         avoidEscape: true,
-//         allowTemplateLiterals: true,
-//       }],
-
-//       "@typescript-eslint/lines-between-class-members": "off",
-//       "@typescript-eslint/no-explicit-any": "off",
-//       "import/prefer-default-export": "off",
-//       "@typescript-eslint/no-unused-vars": "off",
-//       "unused-imports/no-unused-imports": "error",
-
-//       "unused-imports/no-unused-vars": ["error", {
-//         vars: "all",
-//         varsIgnorePattern: "^_",
-//         args: "after-used",
-//         argsIgnorePattern: "^_",
-//       }],
-
-//       "@typescript-eslint/ban-ts-comment": "off",
-//     },
-//   }
-// ];
+);

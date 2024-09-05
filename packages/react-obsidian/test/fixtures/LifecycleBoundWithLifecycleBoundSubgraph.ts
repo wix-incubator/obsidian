@@ -4,9 +4,8 @@ import { LifecycleBoundGraph } from './LifecycleBoundGraph';
 
 export type Props = Record<string, any> & { stringFromProps: string };
 
-@LifecycleBound() @Graph({subgraphs: [LifecycleBoundGraph]})
+@LifecycleBound() @Graph({ subgraphs: [LifecycleBoundGraph] })
 export class LifecycleBoundGraphWithLifecycleBoundSubgraph extends ObjectGraph {
-
   @Provides()
   aString(computedFromProps: string): string {
     return `A string that requires props from a lifecycle bound subgraph: ${computedFromProps}`;

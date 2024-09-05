@@ -1,62 +1,44 @@
 import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
 import stylistic from "@stylistic/eslint-plugin";
-import typescriptEslint from "@typescript-eslint/eslint-plugin";
-import importNewlines from "eslint-plugin-import-newlines";
-import unusedImports from "eslint-plugin-unused-imports";
-import jestFormatting from "eslint-plugin-jest-formatting";
+import eslintTs from "typescript-eslint";
+import eslintJs from "@eslint/js";
+import eslintJest from "eslint-plugin-jest";
 import globals from "globals";
 import tsParser from "@typescript-eslint/parser";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
 
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-  recommendedConfig: js.configs.recommended,
-  allConfig: js.configs.all
-});
-
-export default [
-  stylistic.configs.recommended,
-  ...fixupConfigRules(compat.extends(
-    "plugin:import/typescript",
-    "plugin:@stylistic/disable-legacy",
-    "plugin:jest-formatting/recommended",
-  )),
+export default eslintTs.config(
   {
-    ignores: ["**/*.config.js", "dist/*,", "**/wallaby.js"],
-    plugins: {
-      "@stylistic": fixupPluginRules(stylistic),
-      "@typescript-eslint": typescriptEslint,
-      "import-newlines": importNewlines,
-      "unused-imports": unusedImports,
-      "jest-formatting": fixupPluginRules(jestFormatting),
-    },
+    ignores: ["**/*.d.ts", "**/*.js"],
+  },
+  {
+    files: ["**/*.ts", "**/*.tsx"],
+    name: "EslintPluginObsidian",
     languageOptions: {
       globals: {
         ...globals.jest,
       },
-      parser: tsParser,
-      ecmaVersion: 5,
       sourceType: "module",
+      parser: tsParser,
       parserOptions: {
         project: "tsconfig.json",
+        tsconfigRootDir: import.meta.dirname,
       },
     },
     settings: {
       "import/resolver": {
         node: {
-          extensions: [".js", ".ts"],
+          extensions: [".js", ".jsx", ".ts", ".tsx"],
         },
       },
     },
+    extends: [
+      eslintJs.configs.recommended,
+      ...eslintTs.configs.recommendedTypeChecked,
+      eslintJest.configs['flat/recommended'],
+      stylistic.configs["recommended-flat"],
+    ],
     rules: {
       "no-console": "off",
-
       "no-empty-function": ["error", {
         allow: ["constructors"],
       }],
@@ -93,9 +75,9 @@ export default [
       "import/no-named-as-default": "off",
       "@typescript-eslint/ban-types": ["off"],
 
-      "import/no-extraneous-dependencies": ["error", {
-        devDependencies: true,
-      }],
+      // "import/no-extraneous-dependencies": ["error", {
+      //   devDependencies: true,
+      // }],
 
       "max-classes-per-file": ["off"],
       curly: ["error", "multi-line"],
@@ -118,11 +100,11 @@ export default [
 
       "@stylistic/no-whitespace-before-property": "error",
 
-      "import-newlines/enforce": ["error", {
-        items: 3,
-        "max-len": 115,
-        semi: false,
-      }],
+      // "import-newlines/enforce": ["error", {
+      //   items: 3,
+      //   "max-len": 115,
+      //   semi: false,
+      // }],
 
       "no-plusplus": "off",
       "@stylistic/no-trailing-spaces": "error",
@@ -133,25 +115,40 @@ export default [
       }],
 
       "arrow-body-style": ["off"],
-
+      "@stylistic/member-delimiter-style": ["error", {
+        "multiline": {
+          "delimiter": "semi",
+          "requireLast": true
+        },
+        "singleline": {
+          "delimiter": "semi",
+          "requireLast": false
+        },
+        "multilineDetection": "brackets"
+      }],
       "@stylistic/quotes": ["error", "single", {
         avoidEscape: true,
         allowTemplateLiterals: true,
       }],
+      "@typescript-eslint/no-base-to-string": "off",
 
       "@typescript-eslint/lines-between-class-members": "off",
       "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-require-imports": ["error", {
+        allow: ["path"]
+      }],
       "import/prefer-default-export": "off",
       "@typescript-eslint/no-unused-vars": "off",
-      "unused-imports/no-unused-imports": "error",
+      // "unused-imports/no-unused-imports": "error",
 
-      "unused-imports/no-unused-vars": ["error", {
-        vars: "all",
-        varsIgnorePattern: "^_",
-        args: "after-used",
-        argsIgnorePattern: "^_",
-      }],
+      // "unused-imports/no-unused-vars": ["error", {
+      //   vars: "all",
+      //   varsIgnorePattern: "^_",
+      //   args: "after-used",
+      //   argsIgnorePattern: "^_",
+      // }],
 
       "@typescript-eslint/ban-ts-comment": "off",
     },
-  }];
+  }
+);

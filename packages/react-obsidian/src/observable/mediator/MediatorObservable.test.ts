@@ -1,7 +1,7 @@
 import { Observable } from '../Observable';
 import { MediatorObservable } from './MediatorObservable';
 
-const NOOP = () => {};
+const NOOP = () => { void 0; };
 
 describe('MediatorObservable', () => {
   let uut!: MediatorObservable<number>;
@@ -83,9 +83,9 @@ describe('MediatorObservable', () => {
   });
 
   it('should throw an error if a subscriber is already subscribed', () => {
-    const subscriber = () => {};
+    const subscriber = () => { void 0; };
     uut.subscribe(subscriber);
-    expect(() => uut.subscribe(subscriber)).toThrowError(
+    expect(() => uut.subscribe(subscriber)).toThrow(
       'Subscriber already subscribed',
     );
   });
@@ -108,10 +108,20 @@ describe('MediatorObservable', () => {
   });
 
   it('should support chaining addSource calls', () => {
-    const a = new Observable();
-    const b = new Observable();
+    const a = new Observable(0);
+    const b = new Observable(0);
 
-    uut.addSource(a, NOOP).addSource(b, NOOP);
+    uut
+      .addSource(a, (nextA) => {
+        uut.value = (uut.value ?? 0) + nextA;
+      })
+      .addSource(b, (nextB) => {
+        uut.value = (uut.value ?? 0) + nextB * 10;
+      });
+
+    a.value = 2;
+    b.value = 3;
+    expect(uut.value).toEqual(32);
   });
 
   it('supports passing initial value in through the constructor', () => {

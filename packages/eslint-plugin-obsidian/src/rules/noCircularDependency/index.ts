@@ -1,12 +1,12 @@
 import { ESLintUtils, type TSESLint } from '@typescript-eslint/utils';
 import type { RuleContext } from '@typescript-eslint/utils/ts-eslint';
 import { create } from './createRule';
-import {Context} from '../../dto/context';
+import { Context } from '../../dto/context';
 
 type Rule = TSESLint.RuleModule<'no-circular-dependencies', []>;
 
 const createRule = ESLintUtils.RuleCreator(
-  (name) => `https://wix-incubator.github.io/obsidian/docs/documentation/meta/eslint#${name}`,
+  name => `https://wix-incubator.github.io/obsidian/docs/documentation/meta/eslint#${name}`,
 );
 
 export const noCircularDependenciesGenerator = () => {

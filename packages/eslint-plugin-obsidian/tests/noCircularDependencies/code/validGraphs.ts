@@ -18,4 +18,3 @@ export default class SimpleGraph extends ObjectGraph {
     return 'baz';
   }
 }`;
-
