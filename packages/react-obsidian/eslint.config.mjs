@@ -132,6 +132,9 @@ export default eslintTs.config(
         allowTemplateLiterals: true,
       }],
       "@typescript-eslint/no-base-to-string": "off",
+      "obsidian/unresolved-provider-dependencies": "error",
+      "obsidian/no-circular-dependencies": "error",
+      "obsidian/strongly-typed-inject-component": "error",
     },
   }
 );
