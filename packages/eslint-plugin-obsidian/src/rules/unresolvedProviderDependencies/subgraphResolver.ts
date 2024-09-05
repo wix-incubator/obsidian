@@ -12,7 +12,7 @@ export class SubgraphResolver {
     return [
       ...this.getImportedGraphs(clazz),
       ...this.getLocalGraphs(clazz),
-    ].flatMap((g) => [g, ...this.resolve(g)]);
+    ].flatMap(g => [g, ...this.resolve(g)]);
   }
 
   private getImportedGraphs(clazz: ClassFile) {
@@ -39,7 +39,7 @@ export class SubgraphResolver {
     return this.getLocalSubgraphClasses(subgraphs, clazz);
   }
 
-  private getSubgraphsPropertyFromGraphDecorator({clazz}: ClassFile) {
+  private getSubgraphsPropertyFromGraphDecorator({ clazz }: ClassFile) {
     const graphDecorator = clazz.requireDecorator('Graph');
     return graphDecorator.getProperty('subgraphs');
   }
@@ -51,7 +51,7 @@ export class SubgraphResolver {
     return this.createLocalGraphClasses(clazz, localGraphNames);
   }
 
-  private createLocalGraphClasses({clazz, imports, path}: ClassFile, localGraphNames: string[]) {
+  private createLocalGraphClasses({ clazz, imports, path }: ClassFile, localGraphNames: string[]) {
     if (localGraphNames.length === 0) return [];
     const parent = new File(requireProgram(clazz.node), path);
     return localGraphNames.map((localGraphName) => {
@@ -62,11 +62,11 @@ export class SubgraphResolver {
   private getSubgraphNamesFromDecoratorProperty(subgraphs: Property) {
     return mapArrayExpression(
       subgraphs.getValue<TSESTree.ArrayExpression>(),
-      (el) => (el as TSESTree.Identifier).name,
+      el => (el as TSESTree.Identifier).name,
     );
   }
 
-  private getLocalGraphNames(subgraphs: string[], {imports}: ClassFile) {
+  private getLocalGraphNames(subgraphs: string[], { imports }: ClassFile) {
     return subgraphs.filter((subgraph) => {
       return imports.some(($import) => {
         return $import.includes(subgraph);

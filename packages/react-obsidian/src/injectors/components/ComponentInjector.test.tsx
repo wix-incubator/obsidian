@@ -16,17 +16,17 @@ describe('ComponentInjector', () => {
 
   it('Rerenders on props change', () => {
     const InjectedComponent = injectComponent(Component, MainGraph);
-    const { container, rerender } = render(<InjectedComponent count={0}/>);
+    const { container, rerender } = render(<InjectedComponent count={0} />);
     expect(container.textContent).toBe('0 - Fear kills progress');
 
-    rerender(<InjectedComponent count={1}/>);
+    rerender(<InjectedComponent count={1} />);
     expect(container.textContent).toBe('1 - Fear kills progress');
   });
 
   it('Injects memoized component', () => {
     const MemoizedComponent = React.memo(Component);
     const InjectedComponent = injectComponent(MemoizedComponent, MainGraph);
-    const { container } = render(<InjectedComponent count={0}/>);
+    const { container } = render(<InjectedComponent count={0} />);
 
     expect(container.textContent).toBe('0 - Fear kills progress');
   });
@@ -34,10 +34,10 @@ describe('ComponentInjector', () => {
   it('Rerenders memoized components on props change', () => {
     const MemoizedComponent = React.memo(Component);
     const InjectedComponent = injectComponent(MemoizedComponent, MainGraph);
-    const { container, rerender } = render(<InjectedComponent count={0}/>);
+    const { container, rerender } = render(<InjectedComponent count={0} />);
     expect(container.textContent).toBe('0 - Fear kills progress');
 
-    rerender(<InjectedComponent count={1}/>);
+    rerender(<InjectedComponent count={1} />);
     expect(container.textContent).toBe('1 - Fear kills progress');
   });
 
@@ -45,7 +45,7 @@ describe('ComponentInjector', () => {
     let arePropsEqual = true;
     const MemoizedComponent = React.memo(Component, () => arePropsEqual);
     const InjectedComponent = injectComponent(MemoizedComponent, MainGraph);
-    const { container, rerender } = render(<InjectedComponent count={0}/>);
+    const { container, rerender } = render(<InjectedComponent count={0} />);
     expect(container.textContent).toBe('0 - Fear kills progress');
 
     rerender(<InjectedComponent count={1} />);

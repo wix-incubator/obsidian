@@ -15,11 +15,11 @@ export class TypeReference implements Type {
   }
 
   equals(types: Type[]): boolean {
-    return isEqual(this.toString(), types.map((type) => type.toString()).flat());
+    return isEqual(this.toString(), types.map(type => type.toString()).flat());
   }
 
   includes(type: Type[]): boolean {
-    return type.some((t) => isEqual(this.toString(), t.toString()));
+    return type.some(t => isEqual(this.toString(), t.toString()));
   }
 
   size(): number {

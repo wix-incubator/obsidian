@@ -7,7 +7,6 @@ type DetectionResult =
   { hasCircularDependency: false; path?: never; node?: never };
 
 export class CircularDependenciesDetector {
-
   detect(clazz: Clazz): DetectionResult {
     const providers = clazz.getDecoratedMethods('Provides');
     const visited = new Set<string>();

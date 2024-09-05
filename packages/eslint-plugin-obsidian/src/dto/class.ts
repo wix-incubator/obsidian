@@ -28,8 +28,8 @@ export class Clazz {
   public getDecoratedMethods(decoratorName: string): Method[] {
     return this.body
       .filter(isMethodDefinition)
-      .map((node) => new Method(node))
-      .filter((method) => method.isDecoratedWith(decoratorName));
+      .map(node => new Method(node))
+      .filter(method => method.isDecoratedWith(decoratorName));
   }
 
   public requireDecorator(name: string) {

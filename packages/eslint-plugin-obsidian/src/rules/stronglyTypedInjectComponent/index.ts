@@ -1,7 +1,7 @@
 import { ESLintUtils, type TSESLint } from '@typescript-eslint/utils';
 import type { RuleContext } from '@typescript-eslint/utils/ts-eslint';
 import { create } from './createRule';
-import {Context} from '../../dto/context';
+import { Context } from '../../dto/context';
 
 export type Options = readonly [
   {
@@ -13,7 +13,7 @@ export type Options = readonly [
 type Rule = TSESLint.RuleModule<'strongly-typed-inject-component', Options>;
 
 const createRule = ESLintUtils.RuleCreator(
-  (name) => `https://wix-incubator.github.io/obsidian/docs/documentation/meta/eslint#${name}`,
+  name => `https://wix-incubator.github.io/obsidian/docs/documentation/meta/eslint#${name}`,
 );
 
 export const stronglyTypedInjectComponentGenerator = () => {
@@ -25,7 +25,6 @@ export const stronglyTypedInjectComponentGenerator = () => {
     meta: {
       docs: {
         description: 'Calling injectComponent without prop types is a bad practice and a common source of bugs.',
-        recommended: 'strict',
       },
       messages: {
         'strongly-typed-inject-component': '{{message}}',

@@ -1,14 +1,14 @@
-import type { TSESTree } from '@typescript-eslint/types';
+import { AST_NODE_TYPES, type TSESTree } from '@typescript-eslint/types';
 import type { ArrayExpressionElement } from '../types';
 import { assertDefined } from './assertions';
 
 export function isClassLike(node: TSESTree.Node): node is TSESTree.ClassDeclaration {
   switch (node.type) {
-    case 'ClassDeclaration':
+    case AST_NODE_TYPES.ClassDeclaration:
       return true;
-    case 'ExportDefaultDeclaration':
+    case AST_NODE_TYPES.ExportDefaultDeclaration:
       return isClassLike(node.declaration);
-    case 'ExportNamedDeclaration':
+    case AST_NODE_TYPES.ExportNamedDeclaration:
       return isClassLike(node.declaration!);
     default:
       return false;
@@ -16,28 +16,28 @@ export function isClassLike(node: TSESTree.Node): node is TSESTree.ClassDeclarat
 }
 
 export function isTypeReference(node?: TSESTree.Node): node is TSESTree.TSTypeReference {
-  return node?.type === 'TSTypeReference';
+  return node?.type === AST_NODE_TYPES.TSTypeReference;
 }
 
 export function isTypeLiteral(node: TSESTree.Node): node is TSESTree.TSTypeLiteral {
-  return node.type === 'TSTypeLiteral';
+  return node.type === AST_NODE_TYPES.TSTypeLiteral;
 }
 
 export function isImportDeclaration(node: TSESTree.Node): node is TSESTree.ImportDeclaration {
-  return node.type === 'ImportDeclaration';
+  return node.type === AST_NODE_TYPES.ImportDeclaration;
 }
 
 export function isMethodDefinition(node: TSESTree.Node): node is TSESTree.MethodDefinition {
-  return node.type === 'MethodDefinition';
+  return node.type === AST_NODE_TYPES.MethodDefinition;
 }
 
 export function getClassDeclaration(node: TSESTree.Node): TSESTree.ClassDeclaration | undefined {
   switch (node.type) {
-    case 'ClassDeclaration':
+    case AST_NODE_TYPES.ClassDeclaration:
       return node;
-    case 'ExportDefaultDeclaration':
+    case AST_NODE_TYPES.ExportDefaultDeclaration:
       return getClassDeclaration(node.declaration);
-    case 'ExportNamedDeclaration':
+    case AST_NODE_TYPES.ExportNamedDeclaration:
       return getClassDeclaration(node.declaration!);
     default:
       return undefined;
@@ -47,7 +47,7 @@ export function getClassDeclaration(node: TSESTree.Node): TSESTree.ClassDeclarat
 export function requireProgram(node: TSESTree.Node | undefined): TSESTree.Program {
   assertDefined(node);
   switch (node.type) {
-    case 'Program':
+    case AST_NODE_TYPES.Program:
       return node;
     default:
       return requireProgram(node.parent);
@@ -64,8 +64,8 @@ export function getDecoratorProperty(decorator: TSESTree.Decorator, propertyName
 
 function getObjectProperty(obj: TSESTree.ObjectExpression, propertyName: string) {
   return obj.properties.find((property) => {
-    return property.type === 'Property'
-      && property.key.type === 'Identifier'
+    return property.type === AST_NODE_TYPES.Property
+      && property.key.type === AST_NODE_TYPES.Identifier
       && property.key.name === propertyName;
   }) as TSESTree.Property | undefined;
 }
@@ -75,17 +75,17 @@ export function mapArrayExpression<T>(array: TSESTree.ArrayExpression, map: (el:
 }
 
 export function isTypeIntersection(node: TSESTree.Node | undefined): node is TSESTree.TSIntersectionType {
-  return node?.type === 'TSIntersectionType';
+  return node?.type === AST_NODE_TYPES.TSIntersectionType;
 }
 
 export function isTypeAnnotation(node: TSESTree.Node | undefined): node is TSESTree.TSTypeAnnotation {
-  return node?.type === 'TSTypeAnnotation';
+  return node?.type === AST_NODE_TYPES.TSTypeAnnotation;
 }
 
 export function isAnyType(node: TSESTree.Node | undefined): node is TSESTree.TSAnyKeyword {
-  return node?.type === 'TSAnyKeyword';
+  return node?.type === AST_NODE_TYPES.TSAnyKeyword;
 }
 
 export function isVariableDeclaration(node: TSESTree.Node): node is TSESTree.VariableDeclaration {
-  return node.type === 'VariableDeclaration';
+  return node.type === AST_NODE_TYPES.VariableDeclaration;
 }

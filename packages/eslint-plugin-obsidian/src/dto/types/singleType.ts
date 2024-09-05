@@ -20,7 +20,7 @@ export class SingleType implements Type {
   }
 
   includes(type: Type[]): boolean {
-    return type.some((t) => isEqual(t.toString(), this.toString()));
+    return type.some(t => isEqual(t.toString(), this.toString()));
   }
 
   size(): number {

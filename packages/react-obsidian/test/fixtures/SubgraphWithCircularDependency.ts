@@ -1,3 +1,4 @@
+/* eslint-disable obsidian/no-circular-dependencies */
 import {
   Graph,
   ObjectGraph,

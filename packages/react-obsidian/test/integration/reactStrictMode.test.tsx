@@ -5,7 +5,7 @@ import { LifecycleBoundGraph } from '../fixtures/LifecycleBoundGraph';
 
 describe('React Strict Mode', () => {
   it('should render without crashing', () => {
-    const { container } = render(<InjectedComponent stringFromProps={'foo'}/>, {
+    const { container } = render(<InjectedComponent stringFromProps="foo" />, {
       wrapper: React.StrictMode,
     });
     expect(container.textContent).toBe('A string passed via props: foo');

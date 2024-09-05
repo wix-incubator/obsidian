@@ -14,17 +14,24 @@ export class CallExpression {
   }
 
   get parent(): TSESTree.Node {
-    return this.node.parent!;
+    return this.node.parent;
   }
 
   get arguments(): Identifier[] {
-    return this.node.arguments.map((arg) => new Identifier(arg));
+    return this.node.arguments.map(arg => new Identifier(arg));
   }
 
   get generics() {
-    return this.node.typeArguments ?
-      new Generics(this.node.typeArguments) :
-      this.node.typeParameters && new Generics(this.node.typeParameters);
+    if (this.node.typeArguments) {
+      return new Generics(this.node.typeArguments);
+    }
+    // @ts-expect-error - compatibility with typescript-eslint 8
+    const typeParametersESLint8 = this.node['typeParameters'] as unknown;
+    if (typeParametersESLint8) {
+      return new Generics(typeParametersESLint8 as TSESTree.TSTypeParameterInstantiation);
+    }
+
+    return Generics.EMPTY;
   }
 
   private get callee(): TSESTree.Identifier {

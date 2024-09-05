@@ -1,10 +1,9 @@
 import { PathResolver } from '../../src/framework/pathResolver';
 
 export class PathResolverStub implements PathResolver {
-
   public resolve(_baseFilePath: string, relativeFilePath: string): string {
     const cwd = process.cwd();
-    switch(relativeFilePath) {
+    switch (relativeFilePath) {
       case './subgraph':
         return `${cwd}/tests/unresolvedProviderDependencies/fixtures/subgraph.ts`;
       case './graphWithSubgraph':

@@ -26,13 +26,11 @@ export abstract class ObjectGraph<T = unknown> implements Graph {
     return this.propertyRetriever.retrieve(property, receiver, detector) as Dependency | undefined;
   }
 
-  onBind(_target: any) {
-
-  }
+  onBind(_target: any) { void 0; }
 }
 
 Reflect.set(ObjectGraph, 'typeDiscriminator', 'ObjectGraph');
 
-export function isGraph(object: Constructable<ObjectGraph> | any): object is Constructable<ObjectGraph> {
+export function isGraph(object: any): object is Constructable<ObjectGraph> {
   return Reflect.get(object, 'typeDiscriminator') === 'ObjectGraph';
 }

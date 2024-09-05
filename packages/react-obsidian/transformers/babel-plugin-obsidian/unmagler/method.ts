@@ -16,9 +16,8 @@ function saveMethod(name: string, node: ClassMethod) {
 }
 
 function convertProviderParamsToDestructuringAssignment(node: ClassMethod) {
-  if (node.params.length === 0) { return; }
+  if (node.params.length === 0) return;
   const destructuredParams = paramsToDestructuringAssignment(node.params);
-  // eslint-disable-next-line no-param-reassign
   node.params.length = 0;
   node.params.push(destructuredParams);
 }
