@@ -6,6 +6,8 @@ import type { Type } from './types/type';
 import { TypeReference } from './types/typeReference';
 
 export class Generics {
+  static EMPTY = new Generics({ params: [] } as unknown as TSESTree.TSTypeParameterInstantiation);
+
   constructor(node: TSESTree.TSTypeParameterInstantiation | undefined);
   constructor(readonly node: TSESTree.TSTypeParameterInstantiation) {
     assertDefined(node);

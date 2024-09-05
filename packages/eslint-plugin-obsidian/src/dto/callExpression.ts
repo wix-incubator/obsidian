@@ -22,10 +22,16 @@ export class CallExpression {
   }
 
   get generics() {
-    return this.node.typeArguments
-      ? new Generics(this.node.typeArguments)
-      // @ts-expect-error - compatibility with typescript-eslint 8
-      : new Generics(this.node['typeParameters'] as TSESTree.TSTypeParameterInstantiation);
+    if (this.node.typeArguments) {
+      return new Generics(this.node.typeArguments);
+    }
+    // @ts-expect-error - compatibility with typescript-eslint 8
+    const typeParametersESLint8 = this.node['typeParameters'] as unknown;
+    if (typeParametersESLint8) {
+      return new Generics(typeParametersESLint8 as TSESTree.TSTypeParameterInstantiation);
+    }
+
+    return Generics.EMPTY;
   }
 
   private get callee(): TSESTree.Identifier {
