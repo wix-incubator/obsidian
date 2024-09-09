@@ -4,7 +4,7 @@ import { SubgraphWithCircularDependency } from './SubgraphWithCircularDependency
 @Graph({ subgraphs: [SubgraphWithCircularDependency] })
 export class CircularDependencyFromSubgraph extends ObjectGraph {
   @Provides()
-  dep1(dep2: unknown) {
+  dep1(dep2: any) {
     return dep2;
   }
 }

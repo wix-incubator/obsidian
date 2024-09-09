@@ -1,4 +1,4 @@
-import { TSESTree } from '@typescript-eslint/types';
+import type { TSESTree } from '@typescript-eslint/types';
 import assert from 'assert';
 
 export class Variable {
@@ -9,7 +9,7 @@ export class Variable {
   }
 
   get isArrowFunction(): boolean {
-    return this.node.init?.type === TSESTree.AST_NODE_TYPES.ArrowFunctionExpression;
+    return this.node.init?.type === 'ArrowFunctionExpression';
   }
 
   get arrowFunction(): TSESTree.ArrowFunctionExpression {

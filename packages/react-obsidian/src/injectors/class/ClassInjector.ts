@@ -35,10 +35,10 @@ export default class ClassInjector {
         graph.onBind(target);
         const createdObject = Reflect.construct(target, argsToInject, newTarget);
         this.injectProperties(target, createdObject, graph);
-        const originalComponentWillUnmount: () => void | undefined = createdObject.componentWillUnmount;
+        const originalComponentWillUnmount = createdObject.componentWillUnmount;
         createdObject.componentWillUnmount = () => {
           originalComponentWillUnmount?.();
-          referenceCounter.release(graph, g => graphRegistry.clear(g));
+          referenceCounter.release(graph, (g) => graphRegistry.clear(g));
         };
         return createdObject;
       }

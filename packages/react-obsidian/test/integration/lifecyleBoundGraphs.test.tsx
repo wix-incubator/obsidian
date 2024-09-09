@@ -17,7 +17,7 @@ describe('React lifecycle bound graphs', () => {
     LifecycleBoundGraph.timesCreated = 0;
   });
 
-  it('creates a bound graph only once', () => {
+  it('creates a bound graph only once', async () => {
     render(<Component />);
     render(<Component />);
     expect(LifecycleBoundGraph.timesCreated).toBe(1);
@@ -32,7 +32,7 @@ describe('React lifecycle bound graphs', () => {
   });
 
   it('clears a bound graph after dependent components are unmounted when it was used for class injection', () => {
-    const Component2 = createFunctionalComponent({ instantiateInjectableClass: true });
+    const Component2 = createFunctionalComponent({ instantiateInjectableClass: true});
     const { unmount } = render(<Component2 />);
     unmount();
     render(<Component2 />);
@@ -41,7 +41,7 @@ describe('React lifecycle bound graphs', () => {
   });
 
   it('passes props to the component', () => {
-    const { container } = render(<ClassComponent stringFromProps="Obsidian is cool" />);
+    const { container } = render(<ClassComponent stringFromProps='Obsidian is cool' />);
     expect(container.textContent).toBe('A string passed via props: Obsidian is cool');
   });
 
@@ -56,10 +56,10 @@ describe('React lifecycle bound graphs', () => {
     expect(() => {
       @Injectable(LifecycleBoundGraph)
       class Foo {
-        // @ts-expect-error - This is used to inject the class
+        // @ts-ignore
         @Inject() private computedFromProps!: string;
       }
-
+      // eslint-disable-next-line no-new
       new Foo();
     }).toThrow(ObtainLifecycleBoundGraphException);
   });
@@ -79,19 +79,20 @@ describe('React lifecycle bound graphs', () => {
   });
 
   it('clears a bound graph when all dependent class components are unmounted', () => {
-    const { unmount } = render(<ClassComponent stringFromProps="foo" />);
+    const { unmount } = render(<ClassComponent stringFromProps='foo'/>);
     unmount();
     render(<Component />);
 
     expect(LifecycleBoundGraph.timesCreated).toBe(2);
   });
 
-  type CreateOptions = { instantiateInjectableClass: boolean };
-  function createFunctionalComponent({ instantiateInjectableClass }: CreateOptions = {
+  type CreateOptions = {instantiateInjectableClass: boolean};
+  function createFunctionalComponent({instantiateInjectableClass}: CreateOptions = {
     instantiateInjectableClass: false,
   }) {
     const useHook = injectHook(() => {
       if (instantiateInjectableClass) {
+        // eslint-disable-next-line no-new
         new Foo();
       }
     }, LifecycleBoundGraph);
