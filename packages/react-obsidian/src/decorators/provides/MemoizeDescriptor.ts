@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 export function memoizeDescriptor(propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor {
   const originalValue = descriptor.value;
   descriptor.value = function value(...args: any[]) {

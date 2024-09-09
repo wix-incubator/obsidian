@@ -6,7 +6,6 @@ const config = {
     'tests'
   ],
   testEnvironment: 'jsdom',
-  setupFiles: ['./jest.setup.js'],
 };
 
 module.exports = config;

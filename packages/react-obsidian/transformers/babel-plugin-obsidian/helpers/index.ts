@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { types as t } from '@babel/core';
 import {
   CallExpression,
@@ -8,7 +9,6 @@ import {
   ObjectExpression,
   ObjectPattern,
   TSParameterProperty,
-  Node,
 } from '@babel/types';
 
 const never = '';
@@ -39,7 +39,7 @@ export function addNameToProviderArguments(node: ClassMethod, decorator: Decorat
 
 export function getDecoratorArgument(decorator: Decorator): ObjectExpression | undefined {
   if (t.isCallExpression(decorator.expression)) {
-    return decorator.expression.arguments.find(a => t.isObjectExpression(a)) as ObjectExpression;
+    return decorator.expression.arguments.find((a) => t.isObjectExpression(a)) as ObjectExpression;
   }
   return undefined;
 }
@@ -53,17 +53,17 @@ export function getDecoratorByName(
   decorators: Array<Decorator> | undefined | null,
   decoratorName: string,
 ): Decorator | undefined {
-  return decorators?.find(decorator => get(decorator, 'expression.callee.name') === decoratorName);
+  return decorators?.find((decorator) => get(decorator, 'expression.callee.name') === decoratorName);
 }
 
 export function getDecoratorName(decorator?: Decorator): string | undefined {
   return get(decorator, 'expression.callee.name');
 }
 
-export function paramsToDestructuringAssignment(params: Node[]): ObjectPattern {
+export function paramsToDestructuringAssignment(params: (Identifier | any)[]): ObjectPattern {
   return t.objectPattern(params
-    .filter(p => t.isIdentifier(p))
-    .map(p => t.objectProperty(t.identifier(p.name), t.identifier(p.name))));
+    .filter((p) => t.isIdentifier(p))
+    .map((p) => t.objectProperty(t.identifier(p.name), t.identifier(p.name))));
 }
 
 export function passParamNameAsInjectArgument(
@@ -93,9 +93,9 @@ function getNodeName(node: AcceptedNodeType): string {
   return node.name;
 }
 
-function get<T>(node: any, path: string): T | undefined {
+function get(node: any, path: string): any {
   if (node === undefined || node === null) return undefined;
   const [key, ...rest] = path.split('.');
-  if (rest.length === 0) return node[key] as T;
+  if (rest.length === 0) return node[key];
   return get(node[key], rest.join('.'));
 }

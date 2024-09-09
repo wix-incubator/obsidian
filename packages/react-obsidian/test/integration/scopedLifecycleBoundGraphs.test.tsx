@@ -59,22 +59,23 @@ type Props = {
   renderComponentC?: boolean;
 };
 
-const ComponentA = injectComponent<Props>(({ renderComponentC }: Props) => {
+const ComponentA = injectComponent<Props>(({renderComponentC}: Props) => {
   return (
     <>
       <ComponentB />
       {renderComponentC && <ComponentC />}
     </>
   );
+
 }, ScopedLifecycleBoundGraph);
 
 type Injected = DependenciesOf<ScopedLifecycleBoundGraph, 'count' | 'id'>;
-type Own = { injectionToken: string };
+type Own = {injectionToken: string};
 
-const ComponentB = injectComponent(({ count, id }: Injected & Own) => {
+const ComponentB = injectComponent(({count, id}: Injected & Own) => {
   return <>{`count: ${count} id: ${id}`}</>;
 }, ScopedLifecycleBoundGraph);
 
-const ComponentC = injectComponent(({ count, id }: Injected & Own) => {
+const ComponentC = injectComponent(({count, id}: Injected & Own) => {
   return <>{` from C: count: ${count} id: ${id}`}</>;
 }, ScopedLifecycleBoundGraph);

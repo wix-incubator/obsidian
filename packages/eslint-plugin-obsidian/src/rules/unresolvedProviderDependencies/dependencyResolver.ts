@@ -21,9 +21,9 @@ export class DependencyResolver {
       .flatMap(this.getGraphDependencies);
   }
 
-  private getGraphDependencies(this: void, { clazz }: ClassFile) {
+  private getGraphDependencies({ clazz }: ClassFile) {
     return clazz
       .getDecoratedMethods('Provides')
-      .map(method => method.name);
+      .map((method) => method.name);
   }
 }

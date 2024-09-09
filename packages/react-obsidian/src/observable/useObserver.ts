@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import {
   useCallback,
   useEffect,
@@ -25,6 +26,6 @@ export function useObserver<T>(observableOrGenerator: ObservableOrGenerator<T>):
   return [value, onNext];
 }
 
-function getOrGenerateObservable<T>(observableOrGenerator: ObservableOrGenerator<T>): Observable<T> {
+function getOrGenerateObservable(observableOrGenerator: ObservableOrGenerator<any>) {
   return observableOrGenerator instanceof Observable ? observableOrGenerator : observableOrGenerator();
 }

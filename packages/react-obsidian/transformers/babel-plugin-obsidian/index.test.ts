@@ -43,7 +43,7 @@ const namedLateInject = `class MainGraph {
 }`;
 
 describe('Provider Arguments Transformer', () => {
-  const uut = providerArgumentsTransformer;
+  const uut: Function = providerArgumentsTransformer;
 
   it('Adds method name to provider arguments (@Provider() -> @Provider({name: "myProvidedDependency"})', () => {
     const result = transformSync(unnamedProvider);

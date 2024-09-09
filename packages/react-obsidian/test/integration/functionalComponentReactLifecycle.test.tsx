@@ -3,8 +3,7 @@ import { fireEvent, render } from '@testing-library/react';
 import { injectComponent } from '../../src';
 import MainGraph from '../fixtures/MainGraph';
 
-enum Lifecycle { Mounted, Unmounted }
-
+enum Lifecycle {Mounted, Unmounted}
 const componentLifecycle: Lifecycle[] = [];
 
 interface InjectedComponentProps {
@@ -14,10 +13,10 @@ interface InjectedComponentProps {
 const Component: React.FunctionComponent<InjectedComponentProps> = ({ someString }: InjectedComponentProps) => {
   useEffect(() => {
     componentLifecycle.push(Lifecycle.Mounted);
-    return () => void componentLifecycle.push(Lifecycle.Unmounted);
+    return () => { componentLifecycle.push(Lifecycle.Unmounted); };
   }, []);
 
-  const onClick = useCallback(() => setCounter(counter + 1), []);
+  const onClick = useCallback(() => { setCounter(counter + 1); }, []);
   const [counter, setCounter] = useState(0);
 
   return (
@@ -33,6 +32,7 @@ describe('React lifecycle - functional component', () => {
   let InjectedComponent: React.FunctionComponent<Partial<InjectedComponentProps>>;
 
   beforeEach(() => {
+    // eslint-disable-next-line obsidian/strongly-typed-inject-component
     InjectedComponent = injectComponent(Component, MainGraph);
   });
 

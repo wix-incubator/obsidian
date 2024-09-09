@@ -25,7 +25,7 @@ export class GraphRegistry {
   getSubgraphs(graph: Graph): Graph[] {
     const Graph = this.instanceToConstructor.get(graph)!;
     const subgraphs = this.graphToSubgraphs.get(Graph) ?? new Set();
-    return Array.from(subgraphs).map(G => this.resolve(G));
+    return Array.from(subgraphs).map((G) => this.resolve(G));
   }
 
   getGraphInstance(name: string): Graph {
@@ -39,9 +39,9 @@ export class GraphRegistry {
     injectionToken?: string,
   ): T {
     if ((this.isSingleton(Graph) || this.isBoundToReactLifecycle(Graph)) && this.has(Graph, injectionToken)) {
-      return this.isComponentScopedLifecycleBound(Graph)
-        ? this.getByInjectionToken(Graph, injectionToken)
-        : this.getFirst(Graph);
+      return this.isComponentScopedLifecycleBound(Graph) ?
+        this.getByInjectionToken(Graph, injectionToken) :
+        this.getFirst(Graph);
     }
     if (this.isBoundToReactLifecycle(Graph) && source !== 'lifecycleOwner') {
       throw new ObtainLifecycleBoundGraphException(Graph);
@@ -58,7 +58,7 @@ export class GraphRegistry {
     if (this.isComponentScopedLifecycleBound(Graph)) {
       return Array
         .from(instances)
-        .some(graph => this.instanceToInjectionToken.get(graph) === injectionToken);
+        .some((graph) => this.instanceToInjectionToken.get(graph) === injectionToken);
     }
 
     return (this.constructorToInstance.get(Graph)?.size ?? 0) > 0;
@@ -151,7 +151,7 @@ export class GraphRegistry {
   }
 }
 
-// @ts-expect-error - workaround an issue in jest tests where the registry was created multiple times
+// @ts-ignore
 global.graphRegistry = global.graphRegistry || new GraphRegistry();
-// @ts-expect-error - see above
+// @ts-ignore
 export default global.graphRegistry as GraphRegistry;

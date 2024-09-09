@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import { ObjectGraph } from '../../graph/ObjectGraph';
 import { Constructable } from '../../types';
 import HookInjector from './HookInjector';

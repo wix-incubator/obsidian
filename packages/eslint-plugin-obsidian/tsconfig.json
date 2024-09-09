@@ -2,13 +2,14 @@
   "include": [
     "src/**/*",
     "tests/**/*",
+    ".eslintrc.js",
   ],
   "exclude": [
     "node_modules",
     "dist"
   ],
   "compilerOptions": {
-    "target": "es2023",
+    "target": "es2018",
     "module": "Node16",
     "lib": [
       "ES6",

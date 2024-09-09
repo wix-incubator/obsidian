@@ -4,12 +4,12 @@ import { Graph, ObjectGraph, Provides } from '../../src';
 export class GraphWithOnBind extends ObjectGraph {
   private target!: any;
 
-  override onBind(target: unknown) {
+  override onBind(target: any) {
     this.target = target;
   }
 
   @Provides()
   targetName(): string {
-    return this.target.name as string;
+    return this.target.name;
   }
 }

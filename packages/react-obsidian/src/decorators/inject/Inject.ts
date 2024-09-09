@@ -3,7 +3,7 @@ import InjectionMetadata from '../../injectors/class/InjectionMetadata';
 
 export function Inject(name?: string) {
   return (
-    target: any,
+    target: Object | any,
     _propertyKey?: string,
     indexOrPropertyDescriptor?: number | PropertyDescriptor,
   ) => {
