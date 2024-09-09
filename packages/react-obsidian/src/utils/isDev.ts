@@ -7,6 +7,7 @@ function isNodeDev(): boolean {
 }
 
 function isReactNativeDev(): boolean {
-  // @ts-expect-error __DEV__ is a global variable in React Native
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   return __DEV__ as boolean ?? false;
 }
