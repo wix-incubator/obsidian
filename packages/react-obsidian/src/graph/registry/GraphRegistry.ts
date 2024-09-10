@@ -65,7 +65,7 @@ export class GraphRegistry {
   }
 
   private getFirst<T extends Graph>(Graph: Constructable<T>): T {
-    return this.constructorToInstance.get(Graph)!.values().next().value;
+    return this.constructorToInstance.get(Graph)!.values().next().value as T;
   }
 
   private getByInjectionToken<T extends Graph>(Graph: Constructable<T>, injectionToken?: string): T {

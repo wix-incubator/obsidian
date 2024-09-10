@@ -15,9 +15,9 @@
     "LICENSE"
   ],
   "peerDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.0.0 || ^7.0.0 || ^8.0.0",
     "eslint": "^8.0.0 || ^9.9.0",
-    "react-obsidian": "2.x.x",
-    "@typescript-eslint/eslint-plugin": "^6.0.0 || ^7.0.0 || ^8.0.0"
+    "react-obsidian": "2.x.x"
   },
   "dependencies": {
     "lodash": "^4.17.21"
