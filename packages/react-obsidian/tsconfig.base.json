@@ -12,7 +12,7 @@
     "dist"
   ],
   "compilerOptions": {
-    "target": "es2023",
+    "target": "ESNext",
     "module": "commonjs",
     "lib": [
       "ES6",
@@ -35,8 +35,6 @@
     "jsx": "react",
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "types": ["reflect-metadata", "jest", "node"],
     "baseUrl": "./"
   }

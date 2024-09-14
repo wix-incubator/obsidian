@@ -3,7 +3,7 @@
 exports[`Provider Arguments Transformer Adds method name to provider arguments (@Provider() -> @Provider({name: "myProvidedDependency"}) 1`] = `
 "var _dec, _class;
 function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
-let MainGraph = (_dec = Provides({
+let MainGraph = (_dec = provides({
   name: "someString"
 }), _class = class MainGraph {
   someString({
@@ -19,7 +19,7 @@ exports[`Provider Arguments Transformer Adds property name to @Inject arguments 
 "var _dec, _class, _descriptor;
 function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
 function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
-let MainGraph = (_dec = Inject("someString"), _class = class MainGraph {
+let MainGraph = (_dec = inject("someString"), _class = class MainGraph {
   someString = _initializerWarningHelper(_descriptor, this);
 }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "someString", [_dec], {
   configurable: true,
@@ -33,7 +33,7 @@ exports[`Provider Arguments Transformer Adds property name to @LateInject argume
 "var _dec, _class, _descriptor;
 function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
 function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
-let MainGraph = (_dec = LateInject("someString"), _class = class MainGraph {
+let MainGraph = (_dec = lateInject("someString"), _class = class MainGraph {
   someString = _initializerWarningHelper(_descriptor, this);
 }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "someString", [_dec], {
   configurable: true,
@@ -46,7 +46,7 @@ let MainGraph = (_dec = LateInject("someString"), _class = class MainGraph {
 exports[`Provider Arguments Transformer Does not add name if name is provided by the user 1`] = `
 "var _dec, _class;
 function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
-let MainGraph = (_dec = Provides({
+let MainGraph = (_dec = provides({
   name: 'myDependency'
 }), _class = class MainGraph {
   someString({
@@ -61,7 +61,7 @@ exports[`Provider Arguments Transformer Does not add property name to @Inject if
 "var _dec, _class, _descriptor;
 function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
 function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
-let MainGraph = (_dec = Inject("someString"), _class = class MainGraph {
+let MainGraph = (_dec = inject("someString"), _class = class MainGraph {
   someString = _initializerWarningHelper(_descriptor, this);
 }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "someString", [_dec], {
   configurable: true,
@@ -75,7 +75,7 @@ exports[`Provider Arguments Transformer Does not add property name to @LateInjec
 "var _dec, _class, _descriptor;
 function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
 function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
-let MainGraph = (_dec = LateInject("someString"), _class = class MainGraph {
+let MainGraph = (_dec = lateInject("someString"), _class = class MainGraph {
   someString = _initializerWarningHelper(_descriptor, this);
 }, _descriptor = _applyDecoratedDescriptor(_class.prototype, "someString", [_dec], {
   configurable: true,
@@ -88,18 +88,11 @@ let MainGraph = (_dec = LateInject("someString"), _class = class MainGraph {
 exports[`Provider Arguments Transformer handles providers that have no arguments 1`] = `
 "var _dec, _class;
 function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
-let MainGraph = (_dec = Provides({
+let MainGraph = (_dec = provides({
   name: "someString"
 }), _class = class MainGraph {
   someString() {
     return 'someString';
   }
 }, _applyDecoratedDescriptor(_class.prototype, "someString", [_dec], Object.getOwnPropertyDescriptor(_class.prototype, "someString"), _class.prototype), _class);"
-`;
-
-exports[`Provider Arguments Transformer saves constructor argument name in Inject - @Inject -> @Inject(arg) 1`] = `
-"class MainGraph {
-  constructor(@Inject("arg")
-  arg) {}
-}"
 `;

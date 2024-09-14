@@ -1,9 +1,9 @@
-import { Graph, ObjectGraph, Provides } from '../../src';
+import { graph, ObjectGraph, provides } from '../../src';
 import { SubgraphWithCircularDependency } from './SubgraphWithCircularDependency';
 
-@Graph({ subgraphs: [SubgraphWithCircularDependency] })
+@graph({ subgraphs: [SubgraphWithCircularDependency] })
 export class CircularDependencyFromSubgraph extends ObjectGraph {
-  @Provides()
+  @provides()
   dep1(dep2: unknown) {
     return dep2;
   }

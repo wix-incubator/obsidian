@@ -1,5 +1,5 @@
 import { uniqueId } from '../utils/uniqueId';
-import Memoize from '../decorators/Memoize';
+import memoize from '../decorators/Memoize';
 import { bindProviders } from './ProviderBinder';
 import { Graph } from './Graph';
 import PropertyRetriever from './PropertyRetriever';
@@ -9,7 +9,7 @@ import { CircularDependenciesDetector } from './CircularDependenciesDetector';
 export abstract class ObjectGraph<T = unknown> implements Graph {
   private propertyRetriever = new PropertyRetriever(this);
 
-  @Memoize()
+  @memoize
   get name(): string {
     return uniqueId(this.constructor.name);
   }

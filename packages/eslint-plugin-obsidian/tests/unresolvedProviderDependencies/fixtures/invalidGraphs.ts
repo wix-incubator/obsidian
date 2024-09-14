@@ -1,23 +1,23 @@
-export const invalidGraph = `import { Graph, ObjectGraph, Provides } from 'src';
+export const invalidGraph = `import { graph, ObjectGraph, provides } from 'src';
 
-@Graph()
+@graph()
 export default class SimpleGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   instanceId(id:string): string {
     return id;
   }
 }`;
 
 export const invalidGraphWithSubgraph = `import {
-  Graph,
+  graph,
   ObjectGraph,
-  Provides,
+  provides,
 }  from 'src';
 import Subgraph from './subgraph';
 
-@Graph({ subgraphs: [Subgraph] })
+@graph({ subgraphs: [Subgraph] })
 export default class SimpleGraphWithSubgraph extends ObjectGraph {
-  @Provides()
+  @provides()
   someClass(wrongDep:string): string {
     return wrongDep;
   }

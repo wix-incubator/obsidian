@@ -1,11 +1,11 @@
 import { act, renderHook } from '@testing-library/react';
 import {
   DependenciesOf,
-  Graph,
+  graph,
   Model,
   ObjectGraph,
   Observable,
-  Provides,
+  provides,
   injectHook,
 } from '../../src';
 
@@ -47,9 +47,9 @@ describe('Model', () => {
     public readonly unusedObservable = new Observable(true);
   }
 
-  @Graph()
+  @graph()
   class FooGraph extends ObjectGraph {
-    @Provides()
+    @provides()
     fooModel() {
       return model;
     }

@@ -19,23 +19,23 @@ const providerArgumentsTransformer: PluginObj = {
 const internalVisitor = {
   ClassMethod: {
     enter({ node }: NodePath<ClassMethod>) {
-      unmagler.saveClassMethod('Provides', node);
+      unmagler.saveClassMethod('provides', node);
     },
   },
   ClassProperty: {
     enter({ node }: NodePath<ClassProperty>) {
-      unmagler.saveClassProperty('Inject', node);
-      unmagler.saveClassProperty('LateInject', node);
+      unmagler.saveClassProperty('inject', node);
+      unmagler.saveClassProperty('lateInject', node);
     },
   },
   Identifier: {
     enter({ node }: NodePath<Identifier>) {
-      unmagler.saveIdentifier('Inject', node);
+      unmagler.saveIdentifier('inject', node);
     },
   },
   TSParameterProperty: {
     enter({ node }: NodePath<TSParameterProperty>) {
-      unmagler.saveTSParameterProperty('Inject', node);
+      unmagler.saveTSParameterProperty('inject', node);
     },
   },
 };

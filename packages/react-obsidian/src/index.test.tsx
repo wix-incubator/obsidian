@@ -1,26 +1,26 @@
 import {
-  Graph,
+  graph,
   injectComponent,
   injectHook,
-  Injectable,
-  Inject,
+  injectable,
+  inject,
   ObjectGraph,
   Obsidian,
-  Provides,
-  Singleton,
+  provides,
+  singleton,
   GraphMiddleware,
 } from './index';
 
 describe('Sanity', () => {
   it('Exports the API', () => {
-    expect(Graph).toBeDefined();
+    expect(graph).toBeDefined();
     expect(ObjectGraph).toBeDefined();
-    expect(Singleton).toBeDefined();
+    expect(singleton).toBeDefined();
     expect(injectHook).toBeDefined();
     expect(injectComponent).toBeDefined();
-    expect(Provides).toBeDefined();
-    expect(Injectable).toBeDefined();
-    expect(Inject).toBeDefined();
+    expect(provides).toBeDefined();
+    expect(injectable).toBeDefined();
+    expect(inject).toBeDefined();
     expect(Obsidian.obtain).toBeDefined();
     expect(Obsidian.inject).toBeDefined();
     expect(GraphMiddleware).toBeDefined();

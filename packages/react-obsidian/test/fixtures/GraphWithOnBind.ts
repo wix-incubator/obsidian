@@ -1,6 +1,6 @@
-import { Graph, ObjectGraph, Provides } from '../../src';
+import { graph, ObjectGraph, provides } from '../../src';
 
-@Graph()
+@graph()
 export class GraphWithOnBind extends ObjectGraph {
   private target!: any;
 
@@ -8,7 +8,7 @@ export class GraphWithOnBind extends ObjectGraph {
     this.target = target;
   }
 
-  @Provides()
+  @provides()
   targetName(): string {
     return this.target.name as string;
   }

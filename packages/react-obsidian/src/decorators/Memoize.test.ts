@@ -1,4 +1,4 @@
-import Memoize from './Memoize';
+import memoize from './Memoize';
 
 class Uut {
   private propertyCount = 1;
@@ -9,12 +9,12 @@ class Uut {
     return `property${this.propertyCount++}`;
   }
 
-  @Memoize()
+  @memoize
   get memoizedPropertyA(): string {
     return `propertyA${this.countA++}`;
   }
 
-  @Memoize()
+  @memoize
   get memoizedPropertyB(): string {
     return `propertyB${this.countB++}`;
   }

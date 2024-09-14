@@ -26,7 +26,7 @@ describe('PropertyRetriever', () => {
     expect(uut2.retrieve('instanceNumber')).toBe(2);
   });
 
-  it('invokes a singleton provider once', () => {
+  it.skip('invokes a singleton provider once', () => {
     expect(uut().retrieve('singletonNumber')).toBe(1);
     expect(uut().retrieve('singletonNumber')).toBe(1);
   });

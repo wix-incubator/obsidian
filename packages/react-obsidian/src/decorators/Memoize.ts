@@ -1,17 +1,13 @@
 import 'reflect-metadata';
 
-export default function Memoize() {
-  return function provide(_Clazz: any, propertyKey: string, descriptor: PropertyDescriptor) {
-    const originalGet = descriptor.get!;
-    descriptor.get = function get() {
-      const key = `memoized${propertyKey}`;
-      if (Reflect.hasMetadata(key, this)) {
-        return Reflect.getMetadata(key, this);
-      }
-      const value = originalGet.call(this);
-      Reflect.defineMetadata(key, value, this);
-      return value;
-    };
-    return descriptor;
-  };
+export default function memoize<This, Return>(
+  target: (this: This) => Return,
+  context: ClassGetterDecoratorContext,
+) {
+  function memoizer(this: This): Return {
+    const value = target.call(this);
+    Object.defineProperty(this, context.name, { value, enumerable: true });
+    return value;
+  }
+  return memoizer;
 }

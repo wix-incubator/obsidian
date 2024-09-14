@@ -15,7 +15,7 @@ export class Method {
 
   isDecoratedWith(decoratorName: string): boolean {
     return this.decorators.some((decorator) => {
-      return decorator.expression.callee.name === decoratorName;
+      return decorator.expression.callee.name.toLowerCase() === decoratorName.toLowerCase();
     });
   }
 

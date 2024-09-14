@@ -1,8 +1,8 @@
 import { render } from '@testing-library/react';
 import React from 'react';
 import {
-  Inject,
-  Injectable,
+  inject,
+  injectable,
   Obsidian,
   injectComponent,
   injectHook,
@@ -54,10 +54,10 @@ describe('React lifecycle bound graphs', () => {
 
   it('throws when a lifecycle bound graph is used to inject a class before it was created', () => {
     expect(() => {
-      @Injectable(LifecycleBoundGraph)
+      @injectable(LifecycleBoundGraph)
       class Foo {
         // @ts-expect-error - This is used to inject the class
-        @Inject() private computedFromProps!: string;
+        @inject() private computedFromProps!: string;
       }
 
       new Foo();
@@ -102,18 +102,18 @@ describe('React lifecycle bound graphs', () => {
     }, LifecycleBoundGraph);
   }
 
-  @Injectable(LifecycleBoundGraph)
+  @injectable(LifecycleBoundGraph)
   class ClassComponent extends React.Component<{ stringFromProps: string }> {
-    @Inject() private computedFromProps!: string;
+    @inject() private computedFromProps!: string;
 
     override render() {
       return <>{this.computedFromProps}</>;
     }
   }
 
-  @Injectable(LifecycleBoundGraph)
+  @injectable(LifecycleBoundGraph)
   class Foo {
-    @Inject() private computedFromProps!: string;
+    @inject() private computedFromProps!: string;
 
     log() {
       console.log(this.computedFromProps);

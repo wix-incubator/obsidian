@@ -2,15 +2,15 @@ import _Obsidian from './Obsidian';
 
 export * from './types';
 
-export { Graph } from './decorators/Graph';
-export { Singleton } from './decorators/Singleton';
+export { graph } from './decorators/Graph';
+export { singleton } from './decorators/Singleton';
 export { ObjectGraph } from './graph/ObjectGraph';
 export { Graph as IGraph } from './graph/Graph';
-export { Provides } from './decorators/provides/Provides';
-export { Injectable } from './decorators/inject/Injectable';
-export { Inject } from './decorators/inject/Inject';
-export { LateInject } from './decorators/inject/LateInject';
-export { LifecycleBound } from './decorators/LifecycleBound';
+export { provides } from './decorators/provides/Provides';
+export { injectable } from './decorators/inject/Injectable';
+export { inject } from './decorators/inject/Inject';
+export { lateInject } from './decorators/inject/LateInject';
+export { lifecycleBound } from './decorators/LifecycleBound';
 export { GraphMiddleware } from './graph/registry/GraphMiddleware';
 export { GraphResolveChain as ResolveChain } from './graph/registry/GraphResolveChain';
 

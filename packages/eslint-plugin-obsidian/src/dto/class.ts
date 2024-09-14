@@ -9,6 +9,10 @@ export class Clazz {
     assertDefined(this.node);
   }
 
+  public isDecoratedWith(decoratorName: string) {
+    return this.decoratorNames.some(name => name.toLowerCase() === decoratorName.toLowerCase());
+  }
+
   get decoratorNames() {
     return this.decorators.map((decorator: Decorator) => {
       return decorator.expression.callee.name;
@@ -34,7 +38,7 @@ export class Clazz {
 
   public requireDecorator(name: string) {
     const decorator = this.decorators.find(($decorator: Decorator) => {
-      return $decorator.expression.callee.name === name;
+      return $decorator.expression.callee.name.toLowerCase() === name.toLowerCase();
     });
     assertDefined(decorator, `Decorator ${name} not found on class ${this.name}`);
     return decorator;

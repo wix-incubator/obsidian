@@ -1,3 +1,4 @@
+import React from 'react';
 import { ObjectGraph } from '../../graph/ObjectGraph';
 import { Constructable } from '../../types';
 import ComponentInjector from './ComponentInjector';

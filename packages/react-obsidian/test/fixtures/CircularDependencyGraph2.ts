@@ -1,19 +1,18 @@
-/* eslint-disable obsidian/no-circular-dependencies */
-import { Graph, ObjectGraph, Provides } from '../../src';
+import { graph, ObjectGraph, provides } from '../../src';
 
-@Graph()
+@graph()
 export class CircularDependencyGraph2 extends ObjectGraph {
-  @Provides()
+  @provides()
   dep1(dep2: any) {
     return dep2;
   }
 
-  @Provides()
+  @provides()
   dep2(dep3: any): any {
     return dep3;
   }
 
-  @Provides()
+  @provides()
   dep3(dep1: any): any {
     return dep1;
   }

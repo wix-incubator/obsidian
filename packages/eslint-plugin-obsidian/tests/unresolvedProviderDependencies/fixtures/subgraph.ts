@@ -1,19 +1,19 @@
 import { uniqueId } from 'lodash';
-import { Graph, ObjectGraph, Provides } from 'react-obsidian';
+import { graph, ObjectGraph, provides } from 'react-obsidian';
 
-@Graph()
+@graph()
 export default class Subgraph extends ObjectGraph {
-  @Provides()
+  @provides()
   unusedDependency(): string {
     throw Error('This dependency should not have been resolved since it is not required by anyone.');
   }
 
-  @Provides()
+  @provides()
   instanceId(): string {
     return uniqueId('graph');
   }
 
-  @Provides()
+  @provides()
   foo(): string {
     return 'foo';
   }

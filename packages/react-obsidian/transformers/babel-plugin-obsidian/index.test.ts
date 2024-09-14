@@ -2,44 +2,40 @@ import * as babel from '@babel/core';
 import providerArgumentsTransformer from './index';
 
 const unnamedProvider = `class MainGraph {
-  @Provides()
+  @provides()
   someString(stringProvider, emptyString) {
     return stringProvider.theString + emptyString;
   }
 }`;
 
 const namedProvider = `class MainGraph {
-  @Provides({name: 'myDependency'})
+  @provides({name: 'myDependency'})
   someString(stringProvider) {
     return stringProvider.theString;
   }
 }`;
 
 const noArgsProvider = `class MainGraph {
-  @Provides()
+  @provides()
   someString() {
     return 'someString';
   }
 }`;
 
-const unnamedConstructorInject = `class MainGraph {
-  constructor(@Inject() arg) {}
-}`;
-
 const unnamedInject = `class MainGraph {
-  @Inject() someString;
+  @inject() someString;
 }`;
 
 const namedInject = `class MainGraph {
-  @Inject('myDependency') someString;
+  @inject('myDependency') someString;
 }`;
 
 const unnamedLateInject = `class MainGraph {
-  @LateInject() someString;
+  @lateInject() someString;
 }`;
 
 const namedLateInject = `class MainGraph {
-  @LateInject('myDependency') someString;
+  @lateInject('myDependency') someString;
 }`;
 
 describe('Provider Arguments Transformer', () => {
@@ -57,11 +53,6 @@ describe('Provider Arguments Transformer', () => {
 
   it('handles providers that have no arguments', () => {
     const result = transformSync(noArgsProvider);
-    expect(result?.code).toMatchSnapshot();
-  });
-
-  it('saves constructor argument name in Inject - @Inject -> @Inject(arg)', () => {
-    const result = transformSync(unnamedConstructorInject);
     expect(result?.code).toMatchSnapshot();
   });
 

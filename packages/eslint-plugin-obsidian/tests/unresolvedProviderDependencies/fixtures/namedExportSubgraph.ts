@@ -1,9 +1,9 @@
 import { uniqueId } from 'lodash';
-import { Graph, ObjectGraph, Provides } from 'react-obsidian';
+import { graph, ObjectGraph, provides } from 'react-obsidian';
 
-@Graph()
+@graph()
 export class Subgraph extends ObjectGraph {
-  @Provides()
+  @provides()
   instanceId(): string {
     return uniqueId('graph');
   }

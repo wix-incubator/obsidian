@@ -1,5 +1,5 @@
 import providedPropertiesStore from './ProvidedPropertiesStore';
-import { Graph, ObjectGraph, Provides } from './index';
+import { graph, ObjectGraph, provides } from './index';
 
 class MockDataProvider {
   get data(): string {
@@ -11,9 +11,9 @@ interface TestProps {
   mockDataProvider: MockDataProvider;
 }
 
-@Graph()
+@graph()
 class TestGraph extends ObjectGraph<TestProps> {
-  @Provides()
+  @provides()
   mockDataProvider(): MockDataProvider {
     return new MockDataProvider();
   }

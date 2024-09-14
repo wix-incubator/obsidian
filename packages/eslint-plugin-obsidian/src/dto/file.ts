@@ -53,7 +53,7 @@ export class File {
         return clazz && new Clazz(clazz);
       })
       .filter((clazz: Clazz | undefined) => {
-        return clazz ? clazz.decoratorNames.includes('Graph') : false;
+        return clazz ? clazz.isDecoratedWith('Graph') : false;
       }) as Clazz[];
   }
 

@@ -1,7 +1,7 @@
 import {
-  Graph,
+  graph,
   ObjectGraph,
-  Provides,
+  provides,
   DependenciesOf,
 } from '../../src';
 import injectedValues from './injectedValues';
@@ -10,14 +10,14 @@ import Subgraph from './Subgraph';
 
 export type Dependencies = DependenciesOf<[MainGraph, Subgraph]>;
 
-@Graph({ subgraphs: [Subgraph] })
+@graph({ subgraphs: [Subgraph] })
 export default class MainGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   someString(stringProvider: StringProvider): string {
     return stringProvider.theString;
   }
 
-  @Provides()
+  @provides()
   anotherString(): string {
     return injectedValues.anotherString;
   }
