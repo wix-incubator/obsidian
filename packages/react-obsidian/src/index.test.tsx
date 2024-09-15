@@ -9,6 +9,12 @@ import {
   provides,
   singleton,
   GraphMiddleware,
+  Graph,
+  LifecycleBound,
+  Singleton,
+  Injectable,
+  LateInject,
+  Inject,
 } from './index';
 
 describe('Sanity', () => {
@@ -24,5 +30,11 @@ describe('Sanity', () => {
     expect(Obsidian.obtain).toBeDefined();
     expect(Obsidian.inject).toBeDefined();
     expect(GraphMiddleware).toBeDefined();
+    expect(Graph).toBeDefined();
+    expect(LifecycleBound).toBeDefined();
+    expect(Singleton).toBeDefined();
+    expect(Injectable).toBeDefined();
+    expect(LateInject).toBeDefined();
+    expect(Inject).toBeDefined();
   });
 });
