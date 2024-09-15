@@ -40,7 +40,7 @@ export class SubgraphResolver {
   }
 
   private getSubgraphsPropertyFromGraphDecorator({ clazz }: ClassFile) {
-    const graphDecorator = clazz.requireDecorator('Graph');
+    const graphDecorator = clazz.requireDecoratorIgnoreCase('Graph');
     return graphDecorator.getProperty('subgraphs');
   }
 

@@ -9,7 +9,7 @@ export class Clazz {
     assertDefined(this.node);
   }
 
-  public isDecoratedWith(decoratorName: string) {
+  public isDecoratedWithIgnoreCase(decoratorName: string) {
     return this.decoratorNames.some(name => name.toLowerCase() === decoratorName.toLowerCase());
   }
 
@@ -33,10 +33,10 @@ export class Clazz {
     return this.body
       .filter(isMethodDefinition)
       .map(node => new Method(node))
-      .filter(method => method.isDecoratedWith(decoratorName));
+      .filter(method => method.isDecoratedWithIgnoreCase(decoratorName));
   }
 
-  public requireDecorator(name: string) {
+  public requireDecoratorIgnoreCase(name: string) {
     const decorator = this.decorators.find(($decorator: Decorator) => {
       return $decorator.expression.callee.name.toLowerCase() === name.toLowerCase();
     });
