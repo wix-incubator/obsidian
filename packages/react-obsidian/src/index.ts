@@ -16,12 +16,40 @@ export { injectable } from './decorators/inject/Injectable';
 export { inject } from './decorators/inject/Inject';
 export { lateInject } from './decorators/inject/LateInject';
 export { lifecycleBound } from './decorators/LifecycleBound';
+
+/**
+ * @deprecated Uppercase decorators are deprecated in favor of lowercase decorators to align with common naming conventions. Please use inject instead.
+ */
 export const Graph = graph;
+
+/**
+ * @deprecated Uppercase decorators are deprecated in favor of lowercase decorators to align with common naming convention. Please use `singleton` instead.
+ */
 export const Singleton = singleton;
+
+/**
+ * @deprecated Uppercase decorators are deprecated in favor of lowercase decorators to align with common naming convention. Please use `provides` instead.
+ */
 export const Provides = provides;
+
+/**
+ * @deprecated Uppercase decorators are deprecated in favor of lowercase decorators to align with common naming convention. Please use `injectable` instead.
+ */
 export const Injectable = injectable;
+
+/**
+ * @deprecated Uppercase decorators are deprecated in favor of lowercase decorators to align with common naming convention. Please use `inject` instead.
+ */
 export const Inject = inject;
+
+/**
+ * @deprecated Uppercase decorators are deprecated in favor of lowercase decorators to align with common naming convention. Please use `lateInject` instead.
+ */
 export const LateInject = lateInject;
+
+/**
+ * @deprecated Uppercase decorators are deprecated in favor of lowercase decorators to align with common naming convention. Please use `lifecycleBound` instead.
+ */
 export const LifecycleBound = lifecycleBound;
 
 export { ObjectGraph } from './graph/ObjectGraph';
