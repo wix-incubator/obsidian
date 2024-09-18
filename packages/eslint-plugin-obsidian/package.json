@@ -2,7 +2,7 @@
   "name": "eslint-plugin-obsidian",
   "description": "ESLint rules for Obsidian",
   "main": "dist/index.js",
-  "version": "3.0.0-alpha.1",
+  "version": "3.0.0-alpha.2",
   "scripts": {
     "build": "npx tsc --project tsconfig.prod.json",
     "test": "npx jest",
@@ -17,7 +17,7 @@
   "peerDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.0.0 || ^7.0.0 || ^8.0.0",
     "eslint": "^8.0.0 || ^9.9.0",
-    "react-obsidian": "2.x.x"
+    "react-obsidian": "3.x.x"
   },
   "dependencies": {
     "lodash": "^4.17.21"

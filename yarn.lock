@@ -8723,7 +8723,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-obsidian@3.0.0-alpha.1, eslint-plugin-obsidian@workspace:packages/eslint-plugin-obsidian":
+"eslint-plugin-obsidian@3.0.0-alpha.2, eslint-plugin-obsidian@workspace:packages/eslint-plugin-obsidian":
   version: 0.0.0-use.local
   resolution: "eslint-plugin-obsidian@workspace:packages/eslint-plugin-obsidian"
   dependencies:
@@ -8760,7 +8760,7 @@ __metadata:
   peerDependencies:
     "@typescript-eslint/eslint-plugin": ^6.0.0 || ^7.0.0 || ^8.0.0
     eslint: ^8.0.0 || ^9.9.0
-    react-obsidian: 2.x.x
+    react-obsidian: 3.x.x
   languageName: unknown
   linkType: soft
 
@@ -14796,7 +14796,7 @@ __metadata:
     cross-env: ^7.0.3
     eslint: ^9.9.1
     eslint-plugin-jest: ^28.8.3
-    eslint-plugin-obsidian: 3.0.0-alpha.1
+    eslint-plugin-obsidian: 3.0.0-alpha.2
     eslint-plugin-react: ^7.35.0
     eslint-plugin-react-hooks: ^4.6.2
     eslint-plugin-unused-imports: ^4.1.3
