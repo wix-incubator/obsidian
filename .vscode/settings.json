@@ -3,6 +3,7 @@
     "Descriminator",
     "esmodules",
     "estree",
+    "memoizer",
     "Middlewares",
     "MVVM",
     "plusplus",

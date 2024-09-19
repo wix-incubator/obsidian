@@ -1,5 +1,3 @@
-import 'reflect-metadata';
-
 export default function memoize<This, Return>(
   target: (this: This) => Return,
   context: ClassGetterDecoratorContext,

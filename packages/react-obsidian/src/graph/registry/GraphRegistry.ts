@@ -3,6 +3,7 @@ import { Graph } from '../Graph';
 import { Middleware } from './Middleware';
 import GraphMiddlewareChain from './GraphMiddlewareChain';
 import { ObtainLifecycleBoundGraphException } from './ObtainLifecycleBoundGraphException';
+import { getMetadata } from '../../utils/reflect';
 
 export class GraphRegistry {
   private readonly constructorToInstance = new Map<Constructable<Graph>, Set<Graph>>();
@@ -89,15 +90,15 @@ export class GraphRegistry {
   }
 
   private isSingleton(Graph: Constructable<Graph>): boolean {
-    return Reflect.getMetadata('isSingleton', Graph) ?? false;
+    return getMetadata(Graph, 'isSingleton') ?? false;
   }
 
   private isBoundToReactLifecycle(Graph: Constructable<Graph>): boolean {
-    return Reflect.getMetadata('isLifecycleBound', Graph) ?? false;
+    return getMetadata(Graph, 'isLifecycleBound') ?? false;
   }
 
   private isComponentScopedLifecycleBound(Graph: Constructable<Graph>): boolean {
-    return Reflect.getMetadata('lifecycleScope', Graph) === 'component';
+    return getMetadata(Graph, 'lifecycleScope') === 'component';
   }
 
   clearGraphAfterItWasMockedInTests(graphName: string) {
