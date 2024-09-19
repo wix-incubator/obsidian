@@ -1,4 +1,4 @@
-import { defineMetadata } from "../utils/reflect";
+import { defineMetadata } from '../utils/reflect';
 
 export function singleton() {
   return function singleton(
@@ -8,4 +8,3 @@ export function singleton() {
     return target;
   };
 }
-

@@ -34,8 +34,7 @@ describe('Test doubles', () => {
     expect(stringToCompare).toBe('Mocked');
   });
 
-  it('Mocks graphs when using Obsidian.obtain on a Singleton graph'
-  + 'even after the singleton graph was already registered in graph registry', () => {
+  it('Mocks graphs when using Obsidian.obtain on a Singleton graph even after the singleton graph was already registered in graph registry', () => {
     registerSingletonGraphBeforeMocking();
 
     const stringToCompare = Obsidian.obtain(SingletonGraph).instanceId();

@@ -1,4 +1,4 @@
-import { defineMetadata } from "../utils/reflect";
+import { defineMetadata } from '../utils/reflect';
 
 type Options = {
   scope?: 'component' | 'feature';
