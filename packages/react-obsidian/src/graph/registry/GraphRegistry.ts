@@ -152,6 +152,6 @@ export class GraphRegistry {
   }
 }
 
-const _global = getGlobal();
-_global.graphRegistry = _global.graphRegistry || new GraphRegistry();
-export default _global.graphRegistry as GraphRegistry;
+const globalObject = getGlobal();
+globalObject.graphRegistry = globalObject.graphRegistry || new GraphRegistry();
+export default globalObject.graphRegistry as GraphRegistry;
