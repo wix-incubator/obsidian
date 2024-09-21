@@ -4,6 +4,7 @@ import { Middleware } from './Middleware';
 import GraphMiddlewareChain from './GraphMiddlewareChain';
 import { ObtainLifecycleBoundGraphException } from './ObtainLifecycleBoundGraphException';
 import { getMetadata } from '../../utils/reflect';
+import { getGlobal } from '../../utils/getGlobal';
 
 export class GraphRegistry {
   private readonly constructorToInstance = new Map<Constructable<Graph>, Set<Graph>>();
@@ -152,7 +153,8 @@ export class GraphRegistry {
   }
 }
 
-// @ts-expect-error - workaround an issue in jest tests where the registry was created multiple times
-global.graphRegistry = global.graphRegistry || new GraphRegistry();
-// @ts-expect-error - see above
-export default global.graphRegistry as GraphRegistry;
+// // @ts-expect-error - workaround an issue in jest tests where the registry was created multiple times
+const _global = getGlobal();
+_global.graphRegistry = _global.graphRegistry || new GraphRegistry();
+// // @ts-expect-error - see above
+export default _global.graphRegistry as GraphRegistry;
