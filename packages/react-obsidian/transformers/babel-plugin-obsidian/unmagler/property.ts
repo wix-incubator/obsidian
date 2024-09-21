@@ -3,8 +3,8 @@ import {
   getDecoratorName,
   getDecoratorByName,
   passParamNameAsInjectArgument,
-  getDecoratorArgument,
   AcceptedNodeType,
+  getDecoratorStringArgument,
 } from '../helpers';
 
 function savePropertyName(name: string, node: AcceptedNodeType) {
@@ -15,7 +15,7 @@ function savePropertyName(name: string, node: AcceptedNodeType) {
 }
 
 function injectIsNotNamed(decorator: Decorator): boolean {
-  return getDecoratorArgument(decorator) === undefined;
+  return getDecoratorStringArgument(decorator) === undefined;
 }
 
 export default savePropertyName;

@@ -78,7 +78,7 @@ describe('Provider Arguments Transformer', () => {
 
   const transformSync = (snippet: string) => babel.transformSync(snippet, {
     plugins: [
-      ['@babel/plugin-proposal-decorators', { legacy: true }],
+      ['@babel/plugin-proposal-decorators', { version: '2023-11' }],
       uut,
     ],
     ast: true,
