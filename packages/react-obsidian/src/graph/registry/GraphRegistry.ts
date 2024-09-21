@@ -3,6 +3,7 @@ import { Graph } from '../Graph';
 import { Middleware } from './Middleware';
 import GraphMiddlewareChain from './GraphMiddlewareChain';
 import { ObtainLifecycleBoundGraphException } from './ObtainLifecycleBoundGraphException';
+import { getGlobal } from '../../utils/getGlobal';
 
 export class GraphRegistry {
   private readonly constructorToInstance = new Map<Constructable<Graph>, Set<Graph>>();
@@ -151,7 +152,6 @@ export class GraphRegistry {
   }
 }
 
-// @ts-ignore
-global.graphRegistry = global.graphRegistry || new GraphRegistry();
-// @ts-ignore
-export default global.graphRegistry as GraphRegistry;
+const globalObject = getGlobal();
+globalObject.graphRegistry = globalObject.graphRegistry || new GraphRegistry();
+export default globalObject.graphRegistry as GraphRegistry;
