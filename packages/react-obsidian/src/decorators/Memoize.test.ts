@@ -1,4 +1,4 @@
-import memoize from './Memoize';
+import { memoize } from './Memoize';
 
 class Uut {
   private propertyCount = 1;

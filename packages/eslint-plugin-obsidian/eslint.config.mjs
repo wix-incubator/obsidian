@@ -1,4 +1,3 @@
-import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
 import stylistic from "@stylistic/eslint-plugin";
 import eslintTs from "typescript-eslint";
 import eslintJs from "@eslint/js";

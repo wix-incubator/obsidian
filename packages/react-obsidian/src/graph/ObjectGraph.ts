@@ -1,5 +1,5 @@
 import { uniqueId } from '../utils/uniqueId';
-import memoize from '../decorators/Memoize';
+import { memoize } from '../decorators/Memoize';
 import { bindProviders } from './ProviderBinder';
 import { Graph } from './Graph';
 import PropertyRetriever from './PropertyRetriever';
