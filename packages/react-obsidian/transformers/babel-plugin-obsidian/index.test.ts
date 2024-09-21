@@ -38,42 +38,72 @@ const namedLateInject = `class MainGraph {
   @lateInject('myDependency') someString;
 }`;
 
+const v3Syntax = {
+  unnamedProvider,
+  namedProvider,
+  noArgsProvider,
+  unnamedInject,
+  namedInject,
+  unnamedLateInject,
+  namedLateInject,
+};
+
+const v2Syntax = {
+  unnamedProvider: unnamedProvider.replace('@provides', '@Provides'),
+  namedProvider: namedProvider.replace('@provides', '@Provides'),
+  noArgsProvider: noArgsProvider.replace('@provides', '@Provides'),
+  unnamedInject: unnamedInject.replace('@inject', '@Inject'),
+  namedInject: namedInject.replace('@inject', '@Inject'),
+  unnamedLateInject: unnamedLateInject.replace('@lateInject', '@LateInject'),
+  namedLateInject: namedLateInject.replace('@lateInject', '@LateInject'),
+};
+
+const testCases = [
+  {
+    description: 'Adds method name to provider arguments (@Provider() -> @Provider({name: "myProvidedDependency"})',
+    testCase: 'unnamedProvider',
+  },
+  {
+    description: 'Does not add name if name is provided by the user',
+    testCase: 'namedProvider',
+  },
+  {
+    description: 'handles providers that have no arguments',
+    testCase: 'noArgsProvider',
+  },
+  {
+    description: 'Adds property name to @Inject arguments @Inject -> @Inject("myDependency")',
+    testCase: 'unnamedInject',
+  },
+  {
+    description: 'Does not add property name to @Inject if name is provided by the user',
+    testCase: 'namedInject',
+  },
+  {
+    description: 'Adds property name to @LateInject arguments @LateInject -> @LateInject("myDependency")',
+    testCase: 'unnamedLateInject',
+  },
+  {
+    description: 'Does not add property name to @LateInject if name is provided by the user',
+    testCase: 'namedLateInject',
+  },
+] as const;
+
+const versions = [
+  { version: 'v2', syntax: v2Syntax },
+  { version: 'v3', syntax: v3Syntax },
+];
+
 describe('Provider Arguments Transformer', () => {
   const uut = providerArgumentsTransformer;
 
-  it('Adds method name to provider arguments (@Provider() -> @Provider({name: "myProvidedDependency"})', () => {
-    const result = transformSync(unnamedProvider);
-    expect(result?.code).toMatchSnapshot();
-  });
-
-  it('Does not add name if name is provided by the user', () => {
-    const result = transformSync(namedProvider);
-    expect(result?.code).toMatchSnapshot();
-  });
-
-  it('handles providers that have no arguments', () => {
-    const result = transformSync(noArgsProvider);
-    expect(result?.code).toMatchSnapshot();
-  });
-
-  it('Adds property name to @Inject arguments @Inject -> @Inject("myDependency")', () => {
-    const result = transformSync(unnamedInject);
-    expect(result?.code).toMatchSnapshot();
-  });
-
-  it('Does not add property name to @Inject if name is provided by the user', () => {
-    const result = transformSync(namedInject);
-    expect(result?.code).toMatchSnapshot();
-  });
-
-  it('Adds property name to @LateInject arguments @LateInject -> @LateInject("myDependency")', () => {
-    const result = transformSync(unnamedLateInject);
-    expect(result?.code).toMatchSnapshot();
-  });
-
-  it('Does not add property name to @LateInject if name is provided by the user', () => {
-    const result = transformSync(namedLateInject);
-    expect(result?.code).toMatchSnapshot();
+  versions.forEach(({ version, syntax }) => {
+    describe(`Testing with ${version} syntax`, () => {
+      it.each(testCases)('$description', ({ testCase }) => {
+        const result = transformSync(syntax[testCase]);
+        expect(result?.code).toMatchSnapshot();
+      });
+    });
   });
 
   const transformSync = (snippet: string) => babel.transformSync(snippet, {
