@@ -1,5 +1,4 @@
 import { uniqueId } from '../utils/uniqueId';
-import { memoize } from '../decorators/Memoize';
 import { bindProviders } from './ProviderBinder';
 import { Graph } from './Graph';
 import PropertyRetriever from './PropertyRetriever';
@@ -8,14 +7,11 @@ import { CircularDependenciesDetector } from './CircularDependenciesDetector';
 
 export abstract class ObjectGraph<T = unknown> implements Graph {
   private propertyRetriever = new PropertyRetriever(this);
-
-  @memoize
-  get name(): string {
-    return uniqueId(this.constructor.name);
-  }
+  public readonly name: string;
 
   constructor(protected _props?: T) {
     bindProviders(this);
+    this.name = uniqueId(this.constructor.name);
   }
 
   retrieve<Dependency>(
