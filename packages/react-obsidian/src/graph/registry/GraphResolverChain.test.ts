@@ -6,7 +6,6 @@ import GraphResolversChain from './GraphMiddlewareChain';
 import { ObjectGraph } from '../ObjectGraph';
 import { GraphMiddleware } from './GraphMiddleware';
 
-
 describe('GraphResolverChain', () => {
   let uut: GraphResolversChain<ObjectGraph>;
   let defaultGraphResolver: GraphMiddleware;

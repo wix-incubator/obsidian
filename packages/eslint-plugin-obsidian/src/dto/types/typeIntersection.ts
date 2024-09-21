@@ -19,11 +19,11 @@ export class TypeIntersection implements Type {
   }
 
   equals(types: Type[]): boolean {
-    return isEqual(this.toString(),types.map((type) => type.toString()).flat());
+    return isEqual(this.toString(), types.map(type => type.toString()).flat());
   }
 
   includes(type: Type[]): boolean {
-    return this.types.every((t) => t.includes(type));
+    return this.types.every(t => t.includes(type));
   }
 
   private get types(): Type[] {

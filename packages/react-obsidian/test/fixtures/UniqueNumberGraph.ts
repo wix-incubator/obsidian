@@ -1,23 +1,22 @@
 import {
-  Graph,
+  graph,
   ObjectGraph,
-  Provides,
-  Singleton,
+  provides,
+  singleton,
 } from '../../src';
 
-@Graph()
+@graph()
 export class UniqueNumberGraph extends ObjectGraph {
-  // eslint-disable-next-line unused-imports/no-unused-vars, no-unused-vars
   constructor(private uniqueNumberGenerator: () => number) {
     super();
   }
 
-  @Provides() @Singleton()
+  @provides() @singleton()
   singletonNumber(): number {
     return this.uniqueNumberGenerator();
   }
 
-  @Provides()
+  @provides()
   instanceNumber(): number {
     return this.uniqueNumberGenerator();
   }

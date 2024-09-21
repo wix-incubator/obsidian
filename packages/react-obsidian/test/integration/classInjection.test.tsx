@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '../../src';
+import { inject, injectable } from '../../src';
 import { GraphWithOnBind } from '../fixtures/GraphWithOnBind';
 import injectedValues from '../fixtures/injectedValues';
 import MainGraph from '../fixtures/MainGraph';
@@ -37,14 +37,14 @@ describe('Class injection', () => {
   //   expect(uut.anotherString).toBe(injectedValues.anotherString);
   // });
 
-  @Injectable(GraphWithOnBind)
+  @injectable(GraphWithOnBind)
   class ClassToTestOnBind {
-    @Inject() public readonly targetName!: string;
+    @inject() public readonly targetName!: string;
   }
 
-  @Injectable(MainGraph)
+  @injectable(MainGraph)
   class SingleArg {
-    @Inject() public readonly someString!: string;
+    @inject() public readonly someString!: string;
 
     // constructor(anotherString?: string);
     // public constructor(@Inject() public anotherString: string) { }

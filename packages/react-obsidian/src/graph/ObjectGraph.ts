@@ -1,5 +1,4 @@
 import { uniqueId } from '../utils/uniqueId';
-import Memoize from '../decorators/Memoize';
 import { bindProviders } from './ProviderBinder';
 import { Graph } from './Graph';
 import PropertyRetriever from './PropertyRetriever';
@@ -8,14 +7,11 @@ import { CircularDependenciesDetector } from './CircularDependenciesDetector';
 
 export abstract class ObjectGraph<T = unknown> implements Graph {
   private propertyRetriever = new PropertyRetriever(this);
-
-  @Memoize()
-  get name(): string {
-    return uniqueId(this.constructor.name);
-  }
+  public readonly name: string;
 
   constructor(protected _props?: T) {
     bindProviders(this);
+    this.name = uniqueId(this.constructor.name);
   }
 
   retrieve<Dependency>(
@@ -26,13 +22,11 @@ export abstract class ObjectGraph<T = unknown> implements Graph {
     return this.propertyRetriever.retrieve(property, receiver, detector) as Dependency | undefined;
   }
 
-  onBind(_target: any) {
-
-  }
+  onBind(_target: any) { void 0; }
 }
 
 Reflect.set(ObjectGraph, 'typeDiscriminator', 'ObjectGraph');
 
-export function isGraph(object: Constructable<ObjectGraph> | any): object is Constructable<ObjectGraph> {
+export function isGraph(object: any): object is Constructable<ObjectGraph> {
   return Reflect.get(object, 'typeDiscriminator') === 'ObjectGraph';
 }

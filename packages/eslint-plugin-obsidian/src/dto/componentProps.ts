@@ -1,9 +1,9 @@
 import type { TSESTree } from '@typescript-eslint/types';
 import {
-isAnyType,
-isTypeAnnotation,
-isTypeIntersection,
-isTypeReference,
+  isAnyType,
+  isTypeAnnotation,
+  isTypeIntersection,
+  isTypeReference,
 } from '../utils/ast';
 import { SingleType } from './types/singleType';
 import { TypeIntersection } from './types/typeIntersection';

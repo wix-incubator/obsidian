@@ -10,7 +10,7 @@ export function useColdObservables<T extends Record<string, any>>(observables: T
   const [values, setValues] = useState(() => mediator.value as ObservedValues<T>);
 
   useEffect(() => {
-    Object.keys(observables as {}).forEach((key) => {
+    Object.keys(observables).forEach((key) => {
       mediator.addSource(observables[key], (value) => {
         mediator.setValue(key, value);
       });

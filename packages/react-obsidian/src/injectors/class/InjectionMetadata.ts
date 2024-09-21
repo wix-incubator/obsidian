@@ -1,3 +1,4 @@
+import { defineMetadata, getMetadata } from '../../utils/reflect';
 import { ConstructorArgs } from './ConstructorArgs';
 
 export default class InjectionMetadata {
@@ -6,7 +7,7 @@ export default class InjectionMetadata {
   private readonly lateInjectionMetadataKey = 'lateInjectionMetadataKey';
 
   getConstructorArgsToInject(target: any): ConstructorArgs {
-    return Reflect.getMetadata(this.injectedConstructorArgsKey, target) ?? new ConstructorArgs();
+    return getMetadata(target, this.injectedConstructorArgsKey) ?? new ConstructorArgs();
   }
 
   getPropertiesToInject(target: any): Set<string> {
@@ -20,10 +21,10 @@ export default class InjectionMetadata {
   saveConstructorParamMetadata(target: any, paramName: string, index: number) {
     const argsToInject = this.getConstructorArgsToInject(target);
     argsToInject.add(paramName, index);
-    Reflect.defineMetadata(
+    defineMetadata(
+      target,
       this.injectedConstructorArgsKey,
       argsToInject,
-      target,
     );
   }
 
@@ -44,14 +45,14 @@ export default class InjectionMetadata {
   }
 
   private saveProperties(key: string, properties: Set<string>, target: any) {
-    Reflect.defineMetadata(
+    defineMetadata(
+      target,
       key,
       properties,
-      target,
     );
   }
 
   private getProperties(key: string, target: any): Set<string> {
-    return Reflect.getMetadata(key, target) ?? new Set();
+    return getMetadata(target, key) ?? new Set();
   }
 }

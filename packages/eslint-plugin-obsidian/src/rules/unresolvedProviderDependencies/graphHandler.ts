@@ -21,6 +21,6 @@ export class GraphHandler {
   }
 
   private hasGraphDecorator(clazz: Clazz) {
-    return clazz.decoratorNames.includes('Graph');
+    return clazz.isDecoratedWithIgnoreCase('Graph');
   }
 }

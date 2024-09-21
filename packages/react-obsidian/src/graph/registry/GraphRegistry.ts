@@ -3,6 +3,8 @@ import { Graph } from '../Graph';
 import { Middleware } from './Middleware';
 import GraphMiddlewareChain from './GraphMiddlewareChain';
 import { ObtainLifecycleBoundGraphException } from './ObtainLifecycleBoundGraphException';
+import { getMetadata } from '../../utils/reflect';
+import { getGlobal } from '../../utils/getGlobal';
 
 export class GraphRegistry {
   private readonly constructorToInstance = new Map<Constructable<Graph>, Set<Graph>>();
@@ -25,7 +27,7 @@ export class GraphRegistry {
   getSubgraphs(graph: Graph): Graph[] {
     const Graph = this.instanceToConstructor.get(graph)!;
     const subgraphs = this.graphToSubgraphs.get(Graph) ?? new Set();
-    return Array.from(subgraphs).map((G) => this.resolve(G));
+    return Array.from(subgraphs).map(G => this.resolve(G));
   }
 
   getGraphInstance(name: string): Graph {
@@ -39,9 +41,9 @@ export class GraphRegistry {
     injectionToken?: string,
   ): T {
     if ((this.isSingleton(Graph) || this.isBoundToReactLifecycle(Graph)) && this.has(Graph, injectionToken)) {
-      return this.isComponentScopedLifecycleBound(Graph) ?
-        this.getByInjectionToken(Graph, injectionToken) :
-        this.getFirst(Graph);
+      return this.isComponentScopedLifecycleBound(Graph)
+        ? this.getByInjectionToken(Graph, injectionToken)
+        : this.getFirst(Graph);
     }
     if (this.isBoundToReactLifecycle(Graph) && source !== 'lifecycleOwner') {
       throw new ObtainLifecycleBoundGraphException(Graph);
@@ -58,7 +60,7 @@ export class GraphRegistry {
     if (this.isComponentScopedLifecycleBound(Graph)) {
       return Array
         .from(instances)
-        .some((graph) => this.instanceToInjectionToken.get(graph) === injectionToken);
+        .some(graph => this.instanceToInjectionToken.get(graph) === injectionToken);
     }
 
     return (this.constructorToInstance.get(Graph)?.size ?? 0) > 0;
@@ -89,15 +91,15 @@ export class GraphRegistry {
   }
 
   private isSingleton(Graph: Constructable<Graph>): boolean {
-    return Reflect.getMetadata('isSingleton', Graph) ?? false;
+    return getMetadata(Graph, 'isSingleton') ?? false;
   }
 
   private isBoundToReactLifecycle(Graph: Constructable<Graph>): boolean {
-    return Reflect.getMetadata('isLifecycleBound', Graph) ?? false;
+    return getMetadata(Graph, 'isLifecycleBound') ?? false;
   }
 
   private isComponentScopedLifecycleBound(Graph: Constructable<Graph>): boolean {
-    return Reflect.getMetadata('lifecycleScope', Graph) === 'component';
+    return getMetadata(Graph, 'lifecycleScope') === 'component';
   }
 
   clearGraphAfterItWasMockedInTests(graphName: string) {
@@ -151,7 +153,8 @@ export class GraphRegistry {
   }
 }
 
-// @ts-ignore
-global.graphRegistry = global.graphRegistry || new GraphRegistry();
-// @ts-ignore
-export default global.graphRegistry as GraphRegistry;
+// // @ts-expect-error - workaround an issue in jest tests where the registry was created multiple times
+const _global = getGlobal();
+_global.graphRegistry = _global.graphRegistry || new GraphRegistry();
+// // @ts-expect-error - see above
+export default _global.graphRegistry as GraphRegistry;

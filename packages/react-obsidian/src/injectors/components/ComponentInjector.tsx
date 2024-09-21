@@ -32,7 +32,7 @@ export default class ComponentInjector {
       const proxiedProps = new PropsInjector(graph).inject(passedProps);
 
       return (
-        <GraphContext.Provider value={{injectionToken}}>
+        <GraphContext.Provider value={{ injectionToken }}>
           {Target(proxiedProps as unknown as PropsWithChildren<P>)}
         </GraphContext.Provider>
       );

@@ -1,26 +1,26 @@
 import { uniqueId } from 'lodash';
-import { Graph, ObjectGraph, Provides } from '../../src';
+import { graph, ObjectGraph, provides } from '../../src';
 import injectedValues from './injectedValues';
 import StringProvider from './StringProvider';
 
-@Graph()
+@graph()
 export default class Subgraph extends ObjectGraph {
-  @Provides()
+  @provides()
   stringProvider(): StringProvider {
     return new StringProvider();
   }
 
-  @Provides()
+  @provides()
   stringFromSubgraph(): string {
     return injectedValues.fromSubgraph;
   }
 
-  @Provides()
+  @provides()
   unusedDependency(): string {
     throw Error('This dependency should not have been resolved since it is not required by anyone.');
   }
 
-  @Provides()
+  @provides()
   instanceId(): string {
     return uniqueId('graph');
   }

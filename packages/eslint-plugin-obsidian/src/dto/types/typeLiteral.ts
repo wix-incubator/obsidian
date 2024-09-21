@@ -4,7 +4,7 @@ import type { Type } from './type';
 export class TypeLiteral implements Type {
   private readonly name = uniqueId('TypeLiteral');
 
-  static isTypeLiteral(type: Type): type is TypeLiteral {
+  static isTypeLiteral(this: void, type: Type): type is TypeLiteral {
     return type instanceof TypeLiteral;
   }
 
@@ -21,7 +21,7 @@ export class TypeLiteral implements Type {
   }
 
   includes(type: Type[]): boolean {
-    return type.every((t) => isEqual(t.toString(), this.toString()));
+    return type.every(t => isEqual(t.toString(), this.toString()));
   }
 
   size(): number {

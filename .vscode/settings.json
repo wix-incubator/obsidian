@@ -1,11 +1,15 @@
 {
   "cSpell.words": [
     "Descriminator",
+    "esmodules",
     "estree",
+    "memoizer",
     "Middlewares",
     "MVVM",
+    "plusplus",
     "preconfigured",
     "TSES",
+    "tseslint",
     "unimported",
     "unmagler",
     "unsubscribers"

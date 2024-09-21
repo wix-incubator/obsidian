@@ -4,6 +4,7 @@ import { Graph } from '../../graph/Graph';
 import InjectionMetadata from './InjectionMetadata';
 import { GRAPH_INSTANCE_NAME_KEY } from './LateInjector';
 import referenceCounter from '../../ReferenceCounter';
+import { defineMetadata } from '../../utils/reflect';
 
 export default class ClassInjector {
   constructor(
@@ -30,15 +31,15 @@ export default class ClassInjector {
         if (isReactClassComponent) {
           referenceCounter.retain(graph);
         }
-        Reflect.defineMetadata(GRAPH_INSTANCE_NAME_KEY, graph.name, target);
+        defineMetadata(target, GRAPH_INSTANCE_NAME_KEY, graph.name);
         const argsToInject = this.injectConstructorArgs(args, graph, target);
         graph.onBind(target);
         const createdObject = Reflect.construct(target, argsToInject, newTarget);
         this.injectProperties(target, createdObject, graph);
-        const originalComponentWillUnmount = createdObject.componentWillUnmount;
+        const originalComponentWillUnmount: () => void | undefined = createdObject.componentWillUnmount;
         createdObject.componentWillUnmount = () => {
           originalComponentWillUnmount?.();
-          referenceCounter.release(graph, (g) => graphRegistry.clear(g));
+          referenceCounter.release(graph, g => graphRegistry.clear(g));
         };
         return createdObject;
       }

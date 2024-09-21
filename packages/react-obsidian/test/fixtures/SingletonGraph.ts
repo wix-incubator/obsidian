@@ -1,12 +1,12 @@
 import { uniqueId } from 'lodash';
-import { Singleton } from '../../src/decorators/Singleton';
-import { Graph, ObjectGraph, Provides } from '../../src';
+import { singleton } from '../../src/decorators/Singleton';
+import { graph, ObjectGraph, provides } from '../../src';
 
-@Singleton() @Graph()
+@singleton() @graph()
 export default class SingletonGraph extends ObjectGraph {
   private id = uniqueId();
 
-  @Provides()
+  @provides()
   instanceId(): string {
     return `graph${this.id}`;
   }

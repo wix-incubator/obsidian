@@ -1,21 +1,20 @@
 export const validGraph = `import { uniqueId } from 'lodash';
-import { Graph, ObjectGraph, Provides } from 'src';
+import { graph, ObjectGraph, provides } from 'src';
 
-@Graph()
+@graph()
 export default class SimpleGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   foo(): string {
     return 'foo';
   }
 
-  @Provides()
+  @provides()
   bar(baz: any): string {
     return 'foo';
   }
 
-  @Provides()
+  @provides()
   baz(qux: any): string {
     return 'baz';
   }
 }`;
-
