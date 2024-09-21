@@ -9,7 +9,7 @@ import {
 
 function savePropertyName(name: string, node: AcceptedNodeType) {
   const decorator = getDecoratorByName(node.decorators, name);
-  if (getDecoratorName(decorator) === name && injectIsNotNamed(decorator!)) {
+  if ((getDecoratorName(decorator) === name) && injectIsNotNamed(decorator!)) {
     passParamNameAsInjectArgument(node, decorator!);
   }
 }
