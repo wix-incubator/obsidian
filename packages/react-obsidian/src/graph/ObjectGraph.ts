@@ -8,10 +8,6 @@ import { CircularDependenciesDetector } from './CircularDependenciesDetector';
 export abstract class ObjectGraph<T = unknown> implements Graph {
   private propertyRetriever = new PropertyRetriever(this);
 
-  constructor(protected _props?: T) {
-    bindProviders(this);
-  }
-
   get name(): string {
     if (Reflect.hasMetadata('memoizedName', this)) {
       return Reflect.getMetadata('memoizedName', this);
@@ -19,6 +15,10 @@ export abstract class ObjectGraph<T = unknown> implements Graph {
     const name = uniqueId(this.constructor.name);
     Reflect.defineMetadata('memoizedName', name, this);
     return name;
+  }
+
+  constructor(protected _props?: T) {
+    bindProviders(this);
   }
 
   retrieve<Dependency>(
