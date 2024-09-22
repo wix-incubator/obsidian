@@ -18,7 +18,7 @@ export abstract class ObjectGraph<T = unknown> implements Graph {
     if (Reflect.hasMetadata(key, this)) {
       name = Reflect.getMetadata(key, this);
     } else {
-      name = uniqueId(this.constructor.name)
+      name = uniqueId(this.constructor.name);
       Reflect.defineMetadata(key, name, this);
     }
     return name;
