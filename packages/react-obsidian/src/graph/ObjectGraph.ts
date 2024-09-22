@@ -13,14 +13,11 @@ export abstract class ObjectGraph<T = unknown> implements Graph {
   }
 
   get name(): string {
-    const key = `memoizedName`;
-    let name: string;
-    if (Reflect.hasMetadata(key, this)) {
-      name = Reflect.getMetadata(key, this);
-    } else {
-      name = uniqueId(this.constructor.name);
-      Reflect.defineMetadata(key, name, this);
+    if (Reflect.hasMetadata('memoizedName', this)) {
+      return Reflect.getMetadata('memoizedName', this);
     }
+    const name = uniqueId(this.constructor.name);
+    Reflect.defineMetadata('memoizedName', name, this);
     return name;
   }
 
