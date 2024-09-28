@@ -158,12 +158,12 @@ const config = {
             block: { start: 'highlight-start', end: 'highlight-end' },
           },
           {
-            className: 'theme-code-block-highlighted-line',
+            className: 'code-block-removed-line',
             line: 'Remove this line',
             block: { start: 'Removed lines start', end: 'Removed lines end' },
           },
           {
-            className: 'theme-code-block-highlighted-line',
+            className: 'code-block-added-line',
             line: 'Add this line',
             block: { start: 'Added lines start', end: 'Added lines end' },
           },
