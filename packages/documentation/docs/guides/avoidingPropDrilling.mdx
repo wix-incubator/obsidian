@@ -4,7 +4,7 @@ title: ' Avoiding prop drilling'
 tags: [Architecture, Reactivity, Lifecycle-bound, Graph]
 ---
 
-Prop Drilling is a common issue in React development where props are passed down multiple levels of the component hierarchy, making the code difficult to maintain and understand. This guide will show you how to use `@LifecycleBound` graphs to avoid Prop Drilling.
+Prop Drilling is a common issue in React development where props are passed down multiple levels of the component hierarchy, making the code difficult to maintain and understand. This guide will show you how to use `@lifecycleBound` graphs to avoid Prop Drilling.
 
 ## Understanding lifecycle-bound graphs
 
@@ -45,8 +45,8 @@ const ComponentC = ({ userId }) => {
 
 In this example, the `userId` prop is drilled down from `ComponentA` to `ComponentC` through `ComponentB`. This approach can become cumbersome as the number of components and the depth of the hierarchy increase.
 
-## Avoiding prop drilling with `@LifecycleBound` graphs
-Let's refactor this code to use a `@LifecycleBound` graph to avoid prop drilling.
+## Avoiding prop drilling with `@lifecycleBound` graphs
+Let's refactor this code to use a `@lifecycleBound` graph to avoid prop drilling.
 
 #### Step 1: Define a lifecycle-bound graph
 
@@ -60,7 +60,7 @@ Notice how the graph receives `ComponentA`'s props in its constructor and provid
 import { LifecycleBound, Graph, ObjectGraph, Provides } from 'react-obsidian';
 import {Props} from './ComponentA';
 
-@LifecycleBound() @Graph()
+@lifecycleBound() @graph()
 export class UserGraph extends ObjectGraph<UserProps> {
   private userId: string;
 
@@ -140,4 +140,4 @@ export default App;
 ```
 
 ## Conclusion
-By using `@LifecycleBound` graphs, we've eliminated the need for prop drilling. Dependencies like `userId` are automatically injected where needed, making the code cleaner and easier to maintain.
+By using `@lifecycleBound` graphs, we've eliminated the need for prop drilling. Dependencies like `userId` are automatically injected where needed, making the code cleaner and easier to maintain.

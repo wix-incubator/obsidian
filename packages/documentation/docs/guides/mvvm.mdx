@@ -94,7 +94,7 @@ At this point we have our Model, View, and View Model written. However, we still
 ```ts title="CounterGraph.ts"
 import { Graph, ObjectGraph, Provides } from "react-obsidian";
 
-@Singleton() @Graph()
+@singleton() @graph()
 export class CounterGraph {
   @Provides()
   model(): CounterModel {

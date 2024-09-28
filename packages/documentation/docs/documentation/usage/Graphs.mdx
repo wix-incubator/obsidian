@@ -15,7 +15,7 @@ The snippet below shows a basic example of a Graph. It defines two dependencies,
 ```ts title="ApplicationGraph.ts"
 import {Singleton, Graph, ObjectGraph, Provides} from 'react-obsidian';
 
-@Singleton() @Graph()
+@singleton() @graph()
 export class ApplicationGraph extends ObjectGraph {
   @Provides()
   httpClient(): HttpClient {
@@ -29,7 +29,7 @@ export class ApplicationGraph extends ObjectGraph {
 }
 ```
 
-Graphs must be annotated with the `@Graph` decorator. In this example we chose to annotate the class with the `@Singleton` decorator as well, which means that the graph and the dependencies it provides will only be constructed once.
+Graphs must be annotated with the `@graph` decorator. In this example we chose to annotate the class with the `@singleton` decorator as well, which means that the graph and the dependencies it provides will only be constructed once.
 
 Dependencies are constructed in methods annotated with the `@Provides` annotation. The `@Provides` annotation is used to tell Obsidian that the method is a dependency provider. From now on we'll refer to these methods as providers. Obsidian uses the provider's method name as the dependency's name. In this example, the `httpClient` provider method provides the `httpClient` dependency. The `databaseService` provider method provides the `databaseService` dependency.
 
@@ -49,7 +49,7 @@ Some of the services defined in your graphs may be independent, meaning they don
 ```ts title="A graph that provides a service that depends on other services"
 import {Singleton, Graph, ObjectGraph, Provides} from 'react-obsidian';
 
-@Singleton() @Graph()
+@singleton() @graph()
 export class ApplicationGraph extends ObjectGraph {
   @Provides()
   httpClient(): HttpClient {
@@ -79,7 +79,7 @@ There are two types of graphs in Obsidian: A singleton graph and a lifecycle-bou
 ### The singleton graph
 Applications typically have at least one singleton graph. These graphs are used to provide dependencies that are used throughout the application. These dependencies are usually singletons, which means they should only be constructed once. The `ApplicationGraph` in the [example above](/docs/documentation/usage/Graphs#specifying-relationships-between-dependencies) is a singleton graph.
 
-To declare a singleton graph, annotate the graph class with the `@Singleton` decorator.
+To declare a singleton graph, annotate the graph class with the `@singleton` decorator.
 
 ### The lifecycle-bound graph
 Lifecycle-bound graphs are used to provide dependencies that are shared between components and hooks in a specific UI scope.
@@ -89,7 +89,7 @@ Obsidian supports injecting two types of UI scopes:
 ```ts title="A feature-scoped lifecycle-bound graph"
 import {LifecycleBound, Graph, ObjectGraph, Provides} from 'react-obsidian';
 
-@LifecycleBound({scope: 'feature'}) @Graph()
+@lifecycleBound({scope: 'feature'}) @graph()
 class AuthGraph extends ObjectGraph {
   @Provides()
   userService(): UserService {
@@ -101,7 +101,7 @@ class AuthGraph extends ObjectGraph {
 ```ts title="A component-scoped lifecycle-bound graph"
 import {LifecycleBound, Graph, ObjectGraph, Provides} from 'react-obsidian';
 
-@LifecycleBound({scope: 'component'}) @Graph()
+@lifecycleBound({scope: 'component'}) @graph()
 class FormGraph extends ObjectGraph {
   @Provides()
   validationService(): ValidationService {
@@ -115,7 +115,7 @@ Lifecycle-bound graphs are feature-scoped by default.
 :::
 
 #### Passing props to a lifecycle-bound graph
-When a graph is created, it receives the props of the component or hook that requested it. This means that the graph can use the props to construct the dependencies it provides. The `@LifecycleBound` in the example below graph provides a `userService` which requires a `userId`. The `userId` is obtained from props.
+When a graph is created, it receives the props of the component or hook that requested it. This means that the graph can use the props to construct the dependencies it provides. The `@lifecycleBound` in the example below graph provides a `userService` which requires a `userId`. The `userId` is obtained from props.
 
 ```ts title="A lifecycle-bound graph"
 import {LifecycleBound, Graph, ObjectGraph, Provides} from 'react-obsidian';
@@ -124,7 +124,7 @@ type HomeScreenProps {
   userId: string;
 }
 
-@LifecycleBound() @Graph()
+@lifecycleBound() @graph()
 class HomeGraph extends ObjectGraph<HomeScreenProps> {
   private userId: string;
 
@@ -146,7 +146,7 @@ Lifecycle-bound graphs are created when they are requested and are destroyed whe
 ## Graph composition
 Graph composition is a powerful feature that allows you to create complex dependency graphs by combining smaller graphs. Composing graphs is useful when you want to reuse a graph in multiple places. For example, you might have a singleton graph that provides application-level dependencies. You might also have a lifecycle-bound graph that provides dependencies for a specific UI flow. You can compose these graphs together so that the lifecycle-bound graph can also inject the dependencies provided by the singleton graph.
 
-To compose graphs, pass a `subgraphs` array to the `@Graph` decorator. The `subgraphs` array contains the graphs you want to "include" in your graph.
+To compose graphs, pass a `subgraphs` array to the `@graph` decorator. The `subgraphs` array contains the graphs you want to "include" in your graph.
 
 In the example below we declared a lifecycle-bound graph called `LoginGraph`. This graph provides a single dependency called `loginService` which has a dependency on `httpClient`. Since `httpClient` is exposed via the `ApplicationGraph`, we included it in the `subgraphs` array of our graph.
 
@@ -155,7 +155,7 @@ In the example below we declared a lifecycle-bound graph called `LoginGraph`. Th
 import {Graph, ObjectGraph, Provides} from 'react-obsidian';
 import {ApplicationGraph} from './ApplicationGraph';
 
-@LifecycleBound() @Graph({subgraphs: [ApplicationGraph]}) 
+@lifecycleBound() @graph({subgraphs: [ApplicationGraph]}) 
 export class LoginGraph extends ObjectGraph {
   @Provides()
   loginService(httpClient: HttpClient): LoginService {
