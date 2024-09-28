@@ -1,7 +1,7 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const {themes} = require('prism-react-renderer');
+const { themes } = require('prism-react-renderer');
 const lightTheme = themes.github;
 const darkTheme = themes.dracula;
 
@@ -151,6 +151,23 @@ const config = {
       prism: {
         theme: lightTheme,
         darkTheme,
+        magicComments: [
+          {
+            className: 'theme-code-block-highlighted-line',
+            line: 'highlight-next-line',
+            block: { start: 'highlight-start', end: 'highlight-end' },
+          },
+          {
+            className: 'theme-code-block-highlighted-line',
+            line: 'Remove this line',
+            block: { start: 'Removed lines start', end: 'Removed lines end' },
+          },
+          {
+            className: 'theme-code-block-highlighted-line',
+            line: 'Add this line',
+            block: { start: 'Added lines start', end: 'Added lines end' },
+          },
+        ],
       },
     }),
 };

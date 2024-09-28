@@ -7,73 +7,53 @@ import TabItem from '@theme/TabItem';
 
 # Installation
 
-Like most Dependency Injection frameworks, Obsidian uses automatic code generation to create the bindings necessary for resolving dependencies. This approach helps reduce the amount of boilerplate code required by developers. Obsidian relies on Babel for code generation, so you'll need to have Babel configured in your project.
+Like most Dependency Injection frameworks, Obsidian uses automatic code generation to create the bindings necessary for resolving dependencies. This approach helps reduce the amount of boilerplate code required by developers. Obsidian relies on [Babel](https://babeljs.io/) for code generation, so you'll need to have Babel configured in your project.
 
 :::important
 If your project uses either **Vite** or **Create React App**, please refer to the [Integration with third-party front-end environments](#integration-with-third-party-front-end-environments) section before following the steps below.
 :::
 
 ## 1. Install Obsidian
-
-```bash
-npm install react-obsidian
-```
-
-## 2. Install Reflect-metadata
-First, install and enable the reflect-metadata polyfill.
-```bash
-npm install reflect-metadata
-```
-
-Then, add the following line to the top of your application's entry point (usually index.js or index.ts):
-```js
-import 'reflect-metadata';
-```
-
-## 3. Enable experimental decorators
-Obsidian uses the Decorators feature whose proposal is at stage 3.
-
-Add the following options to your tsconfig.json file.
-
-```js
-{
-  "compilerOptions": {
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
-  }
-}
-```
-
-## 4. Add the required Babel plugins
-[BabelJS](https://babeljs.io/) is a JavaScript compiler that is used to transpile modern JavaScript code into code that is compatible with older browsers. Obsidian uses a Babel transformer to generate code that is used to resolve dependencies.
-
-### 4.1. Install the required Babel plugins
-
-You will need to install these plugins if you don't have them already:
 <Tabs>
   <TabItem value="yarn" label="Yarn" default>
 
+  ```bash
+  yarn add react-obsidian
+  ```
+  </TabItem>
+  <TabItem value="npm" label="NPM" default>
+
+  ```bash
+  npm install react-obsidian
+  ```
+  </TabItem>
+</Tabs>
+
+## 2. Add the required Babel plugins
+[BabelJS](https://babeljs.io/) is a JavaScript compiler that is used to transpile modern JavaScript code into code that is compatible with older browsers. Obsidian uses a Babel transformer to generate code that is used to resolve dependencies.
+
+### 2.1. Install the required Babel plugins
+
+Install the [@babel/plugin-proposal-decorators](https://babeljs.io/docs/babel-plugin-proposal-decorators) plugin if you don't have it already:
+<Tabs>
+  <TabItem value="yarn" label="Yarn" default>
 
   ```shell
-  yarn add @babel/plugin-proposal-decorators @babel/plugin-transform-class-properties babel-plugin-parameter-decorator @babel/core @babel/preset-env @babel/preset-typescript
+  yarn add @babel/plugin-proposal-decorators
   ```
-
 
   </TabItem>
   <TabItem value="npm" label="NPM" default>
 
-
   ```shell
-  npm install @babel/plugin-proposal-decorators @babel/plugin-transform-class-properties babel-plugin-parameter-decorator @babel/core @babel/preset-env
+  npm install @babel/plugin-proposal-decorators
   ```
-
 
   </TabItem>
 
 </Tabs>
 
 If this is your first time using Babel, you will also need to install Babel's core packages:
-
 <Tabs>
   <TabItem value="yarn" label="Yarn" default>
 
@@ -92,26 +72,41 @@ If this is your first time using Babel, you will also need to install Babel's co
 
 </Tabs>
 
-### 4.2. Update your Babel configuration
+### 2.2. Update your Babel configuration
 
-Add the transformer and the required plugins to the list of plugins in your `babel.config.js` file or `.babelrc` file:
+Add the transformer and the required plugin to the list of plugins in your `babel.config.js` file or `.babelrc` file:
 
-```diff
+```js title="babel.config.js"
 module.exports = {
   presets: [
-    'module:metro-react-native-babel-preset',
-+    ['@babel/preset-typescript', {'onlyRemoveTypeImports': true}]
+      // Add this line
+    '@babel/preset-typescript'
   ],
   plugins: [
-+    react-obsidian/dist/transformers/babel-plugin-obsidian,
-+    ['@babel/plugin-proposal-decorators', {legacy: true}],
-+    '@babel/plugin-transform-class-properties',
-+    'babel-plugin-parameter-decorator'
+    // Added lines start
+    react-obsidian/dist/transformers/babel-plugin-obsidian,
+    ['@babel/plugin-proposal-decorators', {version: '2023-11'}],
+    // Added lines end
   ]
 };
 ```
 
-## 5. Optional - Add Obsidian's ESLint plugin
+## 3. Configure TypeScript (Optional)
+Obsidian supports the latest version of the decorators proposal available in TypeScript 5.0 and later. You might need to disable the legacy decorators in your tsconfig.json file. To do this, remove both `experimentalDecorators` and `emitDecoratorMetadata` from the `compilerOptions` section.
+
+```js title="tsconfig.json"
+{
+  "compilerOptions": {
+    // Removed lines start
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+    // Removed lines end
+  }
+}
+```
+
+
+## 4. Add Obsidian's ESLint plugin (Recommended)
 Obsidian provides an ESLint plugin that can help you find errors in your code related to dependency injection. See the [ESLint plugin](/docs/documentation/meta/eslint) documentation for more information.
 
 
@@ -131,8 +126,10 @@ export default defineConfig({
     react({
       babel: {
         plugins: [
+          // Added lines start
           'react-obsidian/dist/transformers/babel-plugin-obsidian',
           ['@babel/plugin-proposal-decorators', { legacy: true }],
+          // Added lines end
         ],
       },
     }),
@@ -151,16 +148,22 @@ When integrating Obsidian in a CRA application, follow steps **1-4 that are list
 ```diff title="package.json"
 {
   "devDependencies": {
-+    "customize-cra": "1.0.0",
-+    "react-app-rewired": "2.2.1"
+    // Added lines start
+    "customize-cra": "1.0.0",
+    "react-app-rewired": "2.2.1"
+    // Added lines end
   },
   "scripts": {
-+    "start": "react-app-rewired start",
-+    "build": "react-app-rewired build",
-+    "test": "npx jest",
--    "start": "react-scripts start",
--    "build": "react-scripts build",
--    "test": "react-scripts test --env=jsdom",
+    // Added lines start
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "npx jest",
+    // Added lines end
+    // Removed lines start
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    // Removed lines end
   }
 }
 ```
