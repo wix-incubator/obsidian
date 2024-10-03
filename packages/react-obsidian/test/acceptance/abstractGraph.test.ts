@@ -1,4 +1,9 @@
-import { Graph, ObjectGraph, Obsidian, Provides } from "../../src";
+import {
+  Graph,
+  ObjectGraph,
+  Obsidian,
+  Provides,  
+} from '../../src';
 
 describe("abstract graph", () => {
   it('should be able to create a graph', () => {
