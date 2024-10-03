@@ -2,10 +2,10 @@ import {
   Graph,
   ObjectGraph,
   Obsidian,
-  Provides,  
+  Provides,
 } from '../../src';
 
-describe("abstract graph", () => {
+describe('abstract graph', () => {
   it('should be able to create a graph', () => {
     expect(new FooGraph()).toBeInstanceOf(FooGraph);
   });
