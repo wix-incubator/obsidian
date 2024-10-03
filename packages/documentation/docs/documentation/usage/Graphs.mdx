@@ -3,6 +3,9 @@ sidebar_position: 1
 tags: [Graph, Lifecycle-bound]
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 ## Introduction
 
 In Object Oriented Programming, programs are organized around objects, where each object has a specific purpose. These objects can require other objects to perform their responsibilities. The required objects are called dependencies. Providing these dependencies manually is a tedious and error-prone process. The dependency injection pattern is a way to automate this process so you can focus on the logic of your application instead of writing boilerplate code.
@@ -146,7 +149,8 @@ Lifecycle-bound graphs are created when they are requested and are destroyed whe
 ## Graph composition
 Graph composition is a powerful feature that allows you to create complex dependency graphs by combining smaller graphs. Composing graphs is useful when you want to reuse a graph in multiple places. For example, you might have a singleton graph that provides application-level dependencies. You might also have a lifecycle-bound graph that provides dependencies for a specific UI flow. You can compose these graphs together so that the lifecycle-bound graph can also inject the dependencies provided by the singleton graph.
 
-To compose graphs, pass a `subgraphs` array to the `@Graph` decorator. The `subgraphs` array contains the graphs you want to "include" in your graph.
+### Subgraphs
+The most common method to compose graphs is to pass a `subgraphs` array to the `@Graph` decorator. The `subgraphs` array contains the graphs you want to "include" in your graph.
 
 In the example below we declared a lifecycle-bound graph called `LoginGraph`. This graph provides a single dependency called `loginService` which has a dependency on `httpClient`. Since `httpClient` is exposed via the `ApplicationGraph`, we included it in the `subgraphs` array of our graph.
 
@@ -163,6 +167,74 @@ export class LoginGraph extends ObjectGraph {
   }
 }
 ```
+
+### Abstract graphs
+Abstract graphs are graphs that are not instantiated directly. Instead, they are used as a base for other graphs. Abstract graphs are useful when you want to define a set of dependencies that are shared between multiple graphs.
+
+In the example below we declared an abstract graph called `ScreenGraph`. This graph provides a single dependency called `screenLogger` which is used to log messages from the screen. We want to show the name of the screen in the log messages, so the `ScreenLogger` requires the name of the screen as a constructor argument.
+
+The `screenName` provider method is marked as `abstract` which means that it must be implemented by the parent class. This allows us to create multiple graphs that extend the `ScreenGraph` and provide the screen name.
+
+```ts title="AbstractGraph.ts"
+import {Graph, ObjectGraph, Provides} from 'react-obsidian';
+
+export abstract class ScreenGraph extends ObjectGraph {
+  @Provides()
+  screenLogger(screenName: string) {
+    return new ScreenLogger(screenName);
+  }
+
+  // highlight-next-line
+  abstract screenName(): string; // This method must be implemented by the parent graphs
+}
+```
+
+The following two graphs extend the base `ScreenGraph`. Each graph provides a different screen name and a service that is specific to that screen.
+
+<Tabs>
+  <TabItem value="HomeGraph" label="HomeGraph">
+
+```ts title="HomeGraph.ts"
+import {Graph, ObjectGraph, Provides} from 'react-obsidian';
+
+@Graph()
+export class HomeGraph extends ScreenGraph {
+  @Provides()
+  override screenName() {
+    return 'HomeScreen';
+  }
+
+  @Provides()
+  homeService(screenLogger: ScreenLogger): HomeService {
+    return new HomeService(screenLogger);
+  }
+}
+```
+  </TabItem>
+  <TabItem value="ProfileGraph" label="ProfileGraph">
+
+```ts title="ProfileGraph.ts"
+import {Graph, ObjectGraph, Provides} from 'react-obsidian';
+
+@Graph()
+export class ProfileGraph extends ScreenGraph {
+  @Provides()
+  override screenName() {
+    return 'ProfileScreen';
+  }
+
+  @Provides()
+  profileService(screenLogger: ScreenLogger): ProfileService {
+    return new ProfileService(screenLogger);
+  }
+}
+```
+</TabItem>
+</Tabs>
+
+:::note
+Because abstract graphs aren't instantiated directly, they don't need to be annotated with the `@Graph` decorator. Abstract providers aren't annotated with the `@Provides` decorator for the same reason.
+:::
 
 ## Typed dependencies
 The `DependenciesOf` utility type creates a new type consisting the dependencies provided by a graph. This type can be used to type the dependencies of hooks or props required by components. This utility type takes two arguments: the graph and a union of the keys of the dependencies we want to inject.
