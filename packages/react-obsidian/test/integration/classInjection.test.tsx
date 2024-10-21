@@ -14,29 +14,6 @@ describe('Class injection', () => {
     expect(uut.targetName).toBe('ClassToTestOnBind');
   });
 
-  // it('injects constructor arguments', () => {
-  //   const uut = new SingleArg();
-  //   expect(uut.anotherString).toBe(injectedValues.anotherString);
-  // });
-
-  // it('injects multiple constructor arguments', () => {
-  //   const uut = new MultiArg();
-  //   expect(uut.someString).toBe(injectedValues.fromStringProvider);
-  //   expect(uut.anotherString).toBe(injectedValues.anotherString);
-  // });
-
-  // it('only injects if constructor arg is undefined', () => {
-  //   const uut = new MultiArg('override');
-  //   expect(uut.someString).toBe('override');
-  //   expect(uut.anotherString).toBe(injectedValues.anotherString);
-  // });
-
-  // it('injects simple constructor args', () => {
-  //   const uut = new SimpleArgs();
-  //   expect(uut.someString).toBe(injectedValues.fromStringProvider);
-  //   expect(uut.anotherString).toBe(injectedValues.anotherString);
-  // });
-
   @injectable(GraphWithOnBind)
   class ClassToTestOnBind {
     @inject() public readonly targetName!: string;
@@ -45,27 +22,5 @@ describe('Class injection', () => {
   @injectable(MainGraph)
   class SingleArg {
     @inject() public readonly someString!: string;
-
-    // constructor(anotherString?: string);
-    // public constructor(@Inject() public anotherString: string) { }
   }
-
-  // @Injectable(MainGraph)
-  // class MultiArg {
-  //   constructor(anotherString?: string, someString?: string);
-  //   public constructor(
-  //     @Inject() public someString: string,
-  //     @Inject() public anotherString: string,
-  //   ) { }
-  // }
-
-  // @Injectable(MainGraph)
-  // class SimpleArgs {
-  //   readonly someString: string;
-
-  //   constructor(anotherString?: string, someString?: string);
-  //   public constructor(@Inject() someString: string, @Inject() public anotherString: string) {
-  //     this.someString = someString;
-  //   }
-  // }
 });
