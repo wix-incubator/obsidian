@@ -1,11 +1,7 @@
 {
   "include": [
     "src/**/*",
-    "transformers/**/*",
-    "test/**/*",
-    "./clearGraphs.ts",
-    "global.d.ts",
-    "testkit/**/*",
+    "global.d.ts"
   ],
   "exclude": [
     "node_modules",
@@ -36,6 +32,10 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "types": ["jest", "node"],
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "paths": {
+      // workaround for: https://github.com/vitest-dev/vitest/issues/4567
+      "rollup/parseAst": ["../../node_modules/rollup/dist/parseAst"]
+    }
   }
 }
