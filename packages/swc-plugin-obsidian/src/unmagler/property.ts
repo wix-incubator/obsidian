@@ -18,8 +18,6 @@ function savePropertyName(name: string, node: AcceptedNodeType) {
 }
 
 function injectIsNotNamed(decorator: Decorator): boolean {
-  console.log('injectIsNotNamed');
-  console.log(getDecoratorArgument(decorator));
   return getDecoratorArgument(decorator) === undefined;
 }
 

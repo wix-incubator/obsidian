@@ -19,18 +19,21 @@ export class ObsidianSWCPlugin extends Visitor {
       if (node.type === "ClassDeclaration") {
         if (node.identifier.type === "Identifier") {
           unmagler.saveIdentifier('Inject', node.identifier);
+          unmagler.saveIdentifier('inject', node.identifier);
         } else if (node.identifier.type === "TsParameterProperty") {
           unmagler.saveTSParameterProperty('Inject', node.identifier);
+          unmagler.saveTSParameterProperty('inject', node.identifier);
         }
 
         for (const classMember of node.body) {
           if (classMember.type === "ClassMethod") {
-            console.log("ClassMethod", classMember)
             unmagler.saveClassMethod('Provides', classMember);
+            unmagler.saveClassMethod('provides', classMember);
           } else if (classMember.type === "ClassProperty") {
-            console.log("ClassProperty", classMember)
             unmagler.saveClassProperty('Inject', classMember);
+            unmagler.saveClassProperty('inject', classMember);
             unmagler.saveClassProperty('LateInject', classMember);
+            unmagler.saveClassProperty('lateInject', classMember);
           }
         }
       }

@@ -1,95 +1,107 @@
 import * as swc from '@swc/core';
 import { ObsidianSWCPlugin } from './index';
 
-// const unnamedProvider = `class MainGraph {
-//   @Provides()
-//   someString(stringProvider, emptyString) {
-//     return stringProvider.theString + emptyString;
-//   }
-// }`;
+const unnamedProvider = `class MainGraph {
+  @provides()
+  someString(stringProvider, emptyString) {
+    return stringProvider.theString + emptyString;
+  }
+}`;
 
-// const namedProvider = `class MainGraph {
-//   @Provides({name: 'myDependency'})
-//   someString(stringProvider) {
-//     return stringProvider.theString;
-//   }
-// }`;
+const namedProvider = `class MainGraph {
+  @provides({name: 'myDependency'})
+  someString(stringProvider) {
+    return stringProvider.theString;
+  }
+}`;
 
 const noArgsProvider = `class MainGraph {
-  @Provides()
+  @provides()
   someString() {
     return 'someString';
   }
 }`;
 
-// const unnamedConstructorInject = `class MainGraph {
-//   constructor(@Inject() arg) {}
-// }`;
+const unnamedInject = `class MainGraph {
+  @inject() someString;
+}`;
 
-// const unnamedInject = `class MainGraph {
-//   @Inject() someString;
-// }`;
+const namedInject = `class MainGraph {
+  @inject('myDependency') someString;
+}`;
 
-// const namedInject = `class MainGraph {
-//   @Inject('myDependency') someString;
-// }`;
+const unnamedLateInject = `class MainGraph {
+  @lateInject() someString;
+}`;
 
-// const unnamedLateInject = `class MainGraph {
-//   @LateInject() someString;
-// }`;
+const namedLateInject = `class MainGraph {
+  @lateInject('myDependency') someString;
+}`;
 
-// const namedLateInject = `class MainGraph {
-//   @LateInject('myDependency') someString;
-// }`;
+const v3Syntax = {
+  unnamedProvider,
+  namedProvider,
+  noArgsProvider,
+  unnamedInject,
+  namedInject,
+  unnamedLateInject,
+  namedLateInject,
+};
+
+const v2Syntax = {
+  unnamedProvider: unnamedProvider.replace('@provides', '@Provides'),
+  namedProvider: namedProvider.replace('@provides', '@Provides'),
+  noArgsProvider: noArgsProvider.replace('@provides', '@Provides'),
+  unnamedInject: unnamedInject.replace('@inject', '@Inject'),
+  namedInject: namedInject.replace('@inject', '@Inject'),
+  unnamedLateInject: unnamedLateInject.replace('@lateInject', '@LateInject'),
+  namedLateInject: namedLateInject.replace('@lateInject', '@LateInject'),
+};
+
+const testCases = [
+  {
+    description: 'Adds method name to provider arguments (@Provider() -> @Provider({name: "myProvidedDependency"})',
+    testCase: 'unnamedProvider',
+  },
+  {
+    description: 'Does not add name if name is provided by the user',
+    testCase: 'namedProvider',
+  },
+  {
+    description: 'handles providers that have no arguments',
+    testCase: 'noArgsProvider',
+  },
+  {
+    description: 'Adds property name to @Inject arguments @Inject -> @Inject("myDependency")',
+    testCase: 'unnamedInject',
+  },
+  {
+    description: 'Does not add property name to @Inject if name is provided by the user',
+    testCase: 'namedInject',
+  },
+  {
+    description: 'Adds property name to @LateInject arguments @LateInject -> @LateInject("myDependency")',
+    testCase: 'unnamedLateInject',
+  },
+  {
+    description: 'Does not add property name to @LateInject if name is provided by the user',
+    testCase: 'namedLateInject',
+  },
+] as const;
+
+const versions = [
+  { version: 'v2', syntax: v2Syntax },
+  { version: 'v3', syntax: v3Syntax },
+];
 
 describe('Provider Arguments Transformer', () => {
-  // const uut: Function = providerArgumentsTransformer;
-
-  // it('Adds method name to provider arguments (@Provider() -> @Provider({name: "myProvidedDependency"})', () => {
-  //   const result = transformSync(unnamedProvider);
-  //   expect(result?.code).toMatchSnapshot();
-  // });
-
-  // it('Does not add name if name is provided by the user', () => {
-  //   const result = transformSync(namedProvider);
-  //   expect(result?.code).toMatchSnapshot();
-  // });
-
-  // it('handles providers that have no arguments', () => {
-  //   const result = transformSync(noArgsProvider);
-  //   expect(result?.code).toMatchSnapshot();
-  // });
-
-  // it('saves constructor argument name in Inject - @Inject -> @Inject(arg)', () => {
-  //   const result = transformSync(unnamedConstructorInject);
-  //   expect(result?.code).toMatchSnapshot();
-  // });
-
-  // it('Adds property name to @Inject arguments @Inject -> @Inject("myDependency")', () => {
-  //   const result = transformSync(unnamedInject);
-  //   expect(result?.code).toMatchSnapshot();
-  // });
-
-  // it('Does not add property name to @Inject if name is provided by the user', () => {
-  //   const result = transformSync(namedInject);
-  //   expect(result?.code).toMatchSnapshot();
-  // });
-
-  // it('Adds property name to @LateInject arguments @LateInject -> @LateInject("myDependency")', () => {
-  //   const result = transformSync(unnamedLateInject);
-  //   expect(result?.code).toMatchSnapshot();
-  // });
-
-  // it('Does not add property name to @LateInject if name is provided by the user', () => {
-  //   const result = transformSync(namedLateInject);
-  //   expect(result?.code).toMatchSnapshot();
-  // });
-
-  it.only('Provides a dependency from an unnamed provider', () => {
-    const result = transformSync(noArgsProvider);
-    // console.log(result?.code);
-    const parsedProvider = eval(result?.code!);
-    console.log(parsedProvider);
+  versions.forEach(({ version, syntax }) => {
+    describe(`Testing with ${version} syntax`, () => {
+      it.each(testCases)('$description', ({ testCase }) => {
+        const result = transformSync(syntax[testCase]);
+        expect(result?.code).toMatchSnapshot();
+      });
+    });
   });
 
   const transformSync = (snippet: string) => swc.transformSync(snippet, {
@@ -98,7 +110,7 @@ describe('Provider Arguments Transformer', () => {
     parser: {
       syntax: "typescript",
       decorators: true
-    }
+    },
   },
     plugin(m) {
       return new ObsidianSWCPlugin().visitProgram(m);

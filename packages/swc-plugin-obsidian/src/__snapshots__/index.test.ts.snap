@@ -1,105 +1,613 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Provider Arguments Transformer Adds method name to provider arguments (@Provider() -> @Provider({name: "myProvidedDependency"}) 1`] = `
-"var _dec, _class;
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-let MainGraph = (_dec = Provides({
-  name: "someString"
-}), (_class = class MainGraph {
-  someString({
-    stringProvider: stringProvider,
-    emptyString: emptyString
-  }) {
-    return stringProvider.theString + emptyString;
-  }
-}, (_applyDecoratedDescriptor(_class.prototype, "someString", [_dec], Object.getOwnPropertyDescriptor(_class.prototype, "someString"), _class.prototype)), _class));"
+exports[`Provider Arguments Transformer Testing with v2 syntax Adds method name to provider arguments (@Provider() -> @Provider({name: "myProvidedDependency"}) 1`] = `
+"function _class_call_check(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+function _defineProperties(target, props) {
+    for(var i = 0; i < props.length; i++){
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+    }
+}
+function _create_class(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+}
+function _ts_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+var MainGraph = /*#__PURE__*/ function() {
+    "use strict";
+    function MainGraph() {
+        _class_call_check(this, MainGraph);
+    }
+    _create_class(MainGraph, [
+        {
+            key: "someString",
+            value: function someString(param) {
+                var stringProvider = param.stringProvider, emptyString = param.emptyString;
+                return stringProvider.theString + emptyString;
+            }
+        }
+    ]);
+    return MainGraph;
+}();
+_ts_decorate([
+    Provides({
+        name: "someString"
+    })
+], MainGraph.prototype, "someString", null);
+"
 `;
 
-exports[`Provider Arguments Transformer Adds property name to @Inject arguments @Inject -> @Inject("myDependency") 1`] = `
-"var _dec, _class, _descriptor;
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
-let MainGraph = (_dec = Inject("someString"), (_class = class MainGraph {
-  someString = _initializerWarningHelper(_descriptor, this);
-}, (_descriptor = _applyDecoratedDescriptor(_class.prototype, "someString", [_dec], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: null
-})), _class));"
+exports[`Provider Arguments Transformer Testing with v2 syntax Adds property name to @Inject arguments @Inject -> @Inject("myDependency") 1`] = `
+"function _class_call_check(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _ts_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+var MainGraph = function MainGraph() {
+    "use strict";
+    _class_call_check(this, MainGraph);
+    _define_property(this, "someString", void 0);
+};
+_ts_decorate([
+    Inject("someString")
+], MainGraph.prototype, "someString", void 0);
+"
 `;
 
-exports[`Provider Arguments Transformer Adds property name to @LateInject arguments @LateInject -> @LateInject("myDependency") 1`] = `
-"var _dec, _class, _descriptor;
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
-let MainGraph = (_dec = LateInject("someString"), (_class = class MainGraph {
-  someString = _initializerWarningHelper(_descriptor, this);
-}, (_descriptor = _applyDecoratedDescriptor(_class.prototype, "someString", [_dec], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: null
-})), _class));"
+exports[`Provider Arguments Transformer Testing with v2 syntax Adds property name to @LateInject arguments @LateInject -> @LateInject("myDependency") 1`] = `
+"function _class_call_check(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _ts_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+var MainGraph = function MainGraph() {
+    "use strict";
+    _class_call_check(this, MainGraph);
+    _define_property(this, "someString", void 0);
+};
+_ts_decorate([
+    LateInject("someString")
+], MainGraph.prototype, "someString", void 0);
+"
 `;
 
-exports[`Provider Arguments Transformer Does not add name if name is provided by the user 1`] = `
-"var _dec, _class;
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-let MainGraph = (_dec = Provides({
-  name: 'myDependency'
-}), (_class = class MainGraph {
-  someString({
-    stringProvider: stringProvider
-  }) {
-    return stringProvider.theString;
-  }
-}, (_applyDecoratedDescriptor(_class.prototype, "someString", [_dec], Object.getOwnPropertyDescriptor(_class.prototype, "someString"), _class.prototype)), _class));"
+exports[`Provider Arguments Transformer Testing with v2 syntax Does not add name if name is provided by the user 1`] = `
+"function _class_call_check(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+function _defineProperties(target, props) {
+    for(var i = 0; i < props.length; i++){
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+    }
+}
+function _create_class(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+}
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _ts_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+var MainGraph = /*#__PURE__*/ function() {
+    "use strict";
+    function MainGraph() {
+        _class_call_check(this, MainGraph);
+    }
+    _create_class(MainGraph, [
+        {
+            key: "someString",
+            value: function someString(param) {
+                var stringProvider = param.stringProvider;
+                return stringProvider.theString;
+            }
+        }
+    ]);
+    return MainGraph;
+}();
+_ts_decorate([
+    Provides(_define_property({
+        name: 'myDependency'
+    }, "name", "someString"))
+], MainGraph.prototype, "someString", null);
+"
 `;
 
-exports[`Provider Arguments Transformer Does not add property name to @Inject if name is provided by the user 1`] = `
-"var _dec, _class, _descriptor;
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
-let MainGraph = (_dec = Inject("someString"), (_class = class MainGraph {
-  someString = _initializerWarningHelper(_descriptor, this);
-}, (_descriptor = _applyDecoratedDescriptor(_class.prototype, "someString", [_dec], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: null
-})), _class));"
+exports[`Provider Arguments Transformer Testing with v2 syntax Does not add property name to @Inject if name is provided by the user 1`] = `
+"function _class_call_check(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _ts_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+var MainGraph = function MainGraph() {
+    "use strict";
+    _class_call_check(this, MainGraph);
+    _define_property(this, "someString", void 0);
+};
+_ts_decorate([
+    Inject("someString")
+], MainGraph.prototype, "someString", void 0);
+"
 `;
 
-exports[`Provider Arguments Transformer Does not add property name to @LateInject if name is provided by the user 1`] = `
-"var _dec, _class, _descriptor;
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
-let MainGraph = (_dec = LateInject("someString"), (_class = class MainGraph {
-  someString = _initializerWarningHelper(_descriptor, this);
-}, (_descriptor = _applyDecoratedDescriptor(_class.prototype, "someString", [_dec], {
-  configurable: true,
-  enumerable: true,
-  writable: true,
-  initializer: null
-})), _class));"
+exports[`Provider Arguments Transformer Testing with v2 syntax Does not add property name to @LateInject if name is provided by the user 1`] = `
+"function _class_call_check(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _ts_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+var MainGraph = function MainGraph() {
+    "use strict";
+    _class_call_check(this, MainGraph);
+    _define_property(this, "someString", void 0);
+};
+_ts_decorate([
+    LateInject("someString")
+], MainGraph.prototype, "someString", void 0);
+"
 `;
 
-exports[`Provider Arguments Transformer handles providers that have no arguments 1`] = `
-"var _dec, _class;
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-let MainGraph = (_dec = Provides({
-  name: "someString"
-}), (_class = class MainGraph {
-  someString() {
-    return 'someString';
-  }
-}, (_applyDecoratedDescriptor(_class.prototype, "someString", [_dec], Object.getOwnPropertyDescriptor(_class.prototype, "someString"), _class.prototype)), _class));"
+exports[`Provider Arguments Transformer Testing with v2 syntax handles providers that have no arguments 1`] = `
+"function _class_call_check(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+function _defineProperties(target, props) {
+    for(var i = 0; i < props.length; i++){
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+    }
+}
+function _create_class(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+}
+function _ts_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+var MainGraph = /*#__PURE__*/ function() {
+    "use strict";
+    function MainGraph() {
+        _class_call_check(this, MainGraph);
+    }
+    _create_class(MainGraph, [
+        {
+            key: "someString",
+            value: function someString() {
+                return 'someString';
+            }
+        }
+    ]);
+    return MainGraph;
+}();
+_ts_decorate([
+    Provides({
+        name: "someString"
+    })
+], MainGraph.prototype, "someString", null);
+"
 `;
 
-exports[`Provider Arguments Transformer saves constructor argument name in Inject - @Inject -> @Inject(arg) 1`] = `
-"class MainGraph {
-  constructor(@Inject("arg")
-  arg) {}
-}"
+exports[`Provider Arguments Transformer Testing with v3 syntax Adds method name to provider arguments (@Provider() -> @Provider({name: "myProvidedDependency"}) 1`] = `
+"function _class_call_check(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+function _defineProperties(target, props) {
+    for(var i = 0; i < props.length; i++){
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+    }
+}
+function _create_class(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+}
+function _ts_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+var MainGraph = /*#__PURE__*/ function() {
+    "use strict";
+    function MainGraph() {
+        _class_call_check(this, MainGraph);
+    }
+    _create_class(MainGraph, [
+        {
+            key: "someString",
+            value: function someString(param) {
+                var stringProvider = param.stringProvider, emptyString = param.emptyString;
+                return stringProvider.theString + emptyString;
+            }
+        }
+    ]);
+    return MainGraph;
+}();
+_ts_decorate([
+    provides({
+        name: "someString"
+    })
+], MainGraph.prototype, "someString", null);
+"
+`;
+
+exports[`Provider Arguments Transformer Testing with v3 syntax Adds property name to @Inject arguments @Inject -> @Inject("myDependency") 1`] = `
+"function _class_call_check(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _ts_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+var MainGraph = function MainGraph() {
+    "use strict";
+    _class_call_check(this, MainGraph);
+    _define_property(this, "someString", void 0);
+};
+_ts_decorate([
+    inject("someString")
+], MainGraph.prototype, "someString", void 0);
+"
+`;
+
+exports[`Provider Arguments Transformer Testing with v3 syntax Adds property name to @LateInject arguments @LateInject -> @LateInject("myDependency") 1`] = `
+"function _class_call_check(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _ts_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+var MainGraph = function MainGraph() {
+    "use strict";
+    _class_call_check(this, MainGraph);
+    _define_property(this, "someString", void 0);
+};
+_ts_decorate([
+    lateInject("someString")
+], MainGraph.prototype, "someString", void 0);
+"
+`;
+
+exports[`Provider Arguments Transformer Testing with v3 syntax Does not add name if name is provided by the user 1`] = `
+"function _class_call_check(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+function _defineProperties(target, props) {
+    for(var i = 0; i < props.length; i++){
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+    }
+}
+function _create_class(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+}
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _ts_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+var MainGraph = /*#__PURE__*/ function() {
+    "use strict";
+    function MainGraph() {
+        _class_call_check(this, MainGraph);
+    }
+    _create_class(MainGraph, [
+        {
+            key: "someString",
+            value: function someString(param) {
+                var stringProvider = param.stringProvider;
+                return stringProvider.theString;
+            }
+        }
+    ]);
+    return MainGraph;
+}();
+_ts_decorate([
+    provides(_define_property({
+        name: 'myDependency'
+    }, "name", "someString"))
+], MainGraph.prototype, "someString", null);
+"
+`;
+
+exports[`Provider Arguments Transformer Testing with v3 syntax Does not add property name to @Inject if name is provided by the user 1`] = `
+"function _class_call_check(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _ts_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+var MainGraph = function MainGraph() {
+    "use strict";
+    _class_call_check(this, MainGraph);
+    _define_property(this, "someString", void 0);
+};
+_ts_decorate([
+    inject("someString")
+], MainGraph.prototype, "someString", void 0);
+"
+`;
+
+exports[`Provider Arguments Transformer Testing with v3 syntax Does not add property name to @LateInject if name is provided by the user 1`] = `
+"function _class_call_check(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+function _define_property(obj, key, value) {
+    if (key in obj) {
+        Object.defineProperty(obj, key, {
+            value: value,
+            enumerable: true,
+            configurable: true,
+            writable: true
+        });
+    } else {
+        obj[key] = value;
+    }
+    return obj;
+}
+function _ts_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+var MainGraph = function MainGraph() {
+    "use strict";
+    _class_call_check(this, MainGraph);
+    _define_property(this, "someString", void 0);
+};
+_ts_decorate([
+    lateInject("someString")
+], MainGraph.prototype, "someString", void 0);
+"
+`;
+
+exports[`Provider Arguments Transformer Testing with v3 syntax handles providers that have no arguments 1`] = `
+"function _class_call_check(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+        throw new TypeError("Cannot call a class as a function");
+    }
+}
+function _defineProperties(target, props) {
+    for(var i = 0; i < props.length; i++){
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+    }
+}
+function _create_class(Constructor, protoProps, staticProps) {
+    if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+    if (staticProps) _defineProperties(Constructor, staticProps);
+    return Constructor;
+}
+function _ts_decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for(var i = decorators.length - 1; i >= 0; i--)if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
+var MainGraph = /*#__PURE__*/ function() {
+    "use strict";
+    function MainGraph() {
+        _class_call_check(this, MainGraph);
+    }
+    _create_class(MainGraph, [
+        {
+            key: "someString",
+            value: function someString() {
+                return 'someString';
+            }
+        }
+    ]);
+    return MainGraph;
+}();
+_ts_decorate([
+    provides({
+        name: "someString"
+    })
+], MainGraph.prototype, "someString", null);
+"
 `;

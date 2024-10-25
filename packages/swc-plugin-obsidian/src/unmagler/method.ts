@@ -8,7 +8,6 @@ import {
 } from '../helpers';
 
 function saveMethod(name: string, node: ClassMethod) {
-
   const decorator = getDecoratorByName(node.function.decorators, name);
   if (getDecoratorName(decorator) === name) {
     convertProviderParamsToDestructuringAssignment(node);
@@ -18,10 +17,10 @@ function saveMethod(name: string, node: ClassMethod) {
 
 function convertProviderParamsToDestructuringAssignment(node: ClassMethod) {
   if (node.function.params.length === 0) { return; }
-  const destructuredParams = paramsToDestructuringAssignment(node.function.params);
+  const destructuredParam = paramsToDestructuringAssignment(node.function.params);
   // eslint-disable-next-line no-param-reassign
   node.function.params.length = 0;
-  node.function.params.push(destructuredParams);
+  node.function.params.push(destructuredParam);
 }
 
 function saveUnmangledMethodNameInProviderArguments(node: ClassMethod, decorator: Decorator) {
