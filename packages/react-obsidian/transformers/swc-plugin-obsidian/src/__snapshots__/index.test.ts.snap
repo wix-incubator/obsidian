@@ -1,0 +1,105 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Provider Arguments Transformer Adds method name to provider arguments (@Provider() -> @Provider({name: "myProvidedDependency"}) 1`] = `
+"var _dec, _class;
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+let MainGraph = (_dec = Provides({
+  name: "someString"
+}), (_class = class MainGraph {
+  someString({
+    stringProvider: stringProvider,
+    emptyString: emptyString
+  }) {
+    return stringProvider.theString + emptyString;
+  }
+}, (_applyDecoratedDescriptor(_class.prototype, "someString", [_dec], Object.getOwnPropertyDescriptor(_class.prototype, "someString"), _class.prototype)), _class));"
+`;
+
+exports[`Provider Arguments Transformer Adds property name to @Inject arguments @Inject -> @Inject("myDependency") 1`] = `
+"var _dec, _class, _descriptor;
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
+let MainGraph = (_dec = Inject("someString"), (_class = class MainGraph {
+  someString = _initializerWarningHelper(_descriptor, this);
+}, (_descriptor = _applyDecoratedDescriptor(_class.prototype, "someString", [_dec], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: null
+})), _class));"
+`;
+
+exports[`Provider Arguments Transformer Adds property name to @LateInject arguments @LateInject -> @LateInject("myDependency") 1`] = `
+"var _dec, _class, _descriptor;
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
+let MainGraph = (_dec = LateInject("someString"), (_class = class MainGraph {
+  someString = _initializerWarningHelper(_descriptor, this);
+}, (_descriptor = _applyDecoratedDescriptor(_class.prototype, "someString", [_dec], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: null
+})), _class));"
+`;
+
+exports[`Provider Arguments Transformer Does not add name if name is provided by the user 1`] = `
+"var _dec, _class;
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+let MainGraph = (_dec = Provides({
+  name: 'myDependency'
+}), (_class = class MainGraph {
+  someString({
+    stringProvider: stringProvider
+  }) {
+    return stringProvider.theString;
+  }
+}, (_applyDecoratedDescriptor(_class.prototype, "someString", [_dec], Object.getOwnPropertyDescriptor(_class.prototype, "someString"), _class.prototype)), _class));"
+`;
+
+exports[`Provider Arguments Transformer Does not add property name to @Inject if name is provided by the user 1`] = `
+"var _dec, _class, _descriptor;
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
+let MainGraph = (_dec = Inject("someString"), (_class = class MainGraph {
+  someString = _initializerWarningHelper(_descriptor, this);
+}, (_descriptor = _applyDecoratedDescriptor(_class.prototype, "someString", [_dec], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: null
+})), _class));"
+`;
+
+exports[`Provider Arguments Transformer Does not add property name to @LateInject if name is provided by the user 1`] = `
+"var _dec, _class, _descriptor;
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
+let MainGraph = (_dec = LateInject("someString"), (_class = class MainGraph {
+  someString = _initializerWarningHelper(_descriptor, this);
+}, (_descriptor = _applyDecoratedDescriptor(_class.prototype, "someString", [_dec], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: null
+})), _class));"
+`;
+
+exports[`Provider Arguments Transformer handles providers that have no arguments 1`] = `
+"var _dec, _class;
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+let MainGraph = (_dec = Provides({
+  name: "someString"
+}), (_class = class MainGraph {
+  someString() {
+    return 'someString';
+  }
+}, (_applyDecoratedDescriptor(_class.prototype, "someString", [_dec], Object.getOwnPropertyDescriptor(_class.prototype, "someString"), _class.prototype)), _class));"
+`;
+
+exports[`Provider Arguments Transformer saves constructor argument name in Inject - @Inject -> @Inject(arg) 1`] = `
+"class MainGraph {
+  constructor(@Inject("arg")
+  arg) {}
+}"
+`;
