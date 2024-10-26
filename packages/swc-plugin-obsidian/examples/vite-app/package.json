@@ -17,7 +17,8 @@
     "eslint-plugin-obsidian": "^2.11.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-obsidian": "^2.11.4"
+    "react-obsidian": "^2.11.4",
+    "swc-plugin-obsidian": "file:.yalc/swc-plugin-obsidian"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",
@@ -37,6 +38,7 @@
     "prettier": "^3.2.5",
     "typescript": "^5.2.2",
     "vite": "^5.4.9",
+    "vite-plugin-inspect": "^0.8.7",
     "vitest": "^1.6.0"
   }
 }

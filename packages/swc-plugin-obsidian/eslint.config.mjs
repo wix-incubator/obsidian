@@ -8,7 +8,7 @@ import eslintJs from "@eslint/js";
 
 export default eslintTs.config(
   {
-    ignores: ["**/*.d.ts", "**/*.js"],
+    ignores: ["**/*.d.ts", "**/*.js", "examples/**"],
   },
   {
     files: ["**/*.ts", "**/*.tsx"],

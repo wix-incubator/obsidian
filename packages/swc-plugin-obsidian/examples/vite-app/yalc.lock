@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "swc-plugin-obsidian": {
+      "version": "3.0.0-alpha.6",
+      "signature": "70a941eb23810477cdffee2925ec60e6",
+      "file": true
+    }
+  }
+}
