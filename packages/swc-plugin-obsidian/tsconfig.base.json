@@ -1,0 +1,41 @@
+{
+  "include": [
+    "src/**/*",
+    "global.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "commonjs",
+    "lib": [
+      "ES6",
+      "DOM",
+      "esnext"
+    ],
+    "moduleResolution": "node",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "react",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "types": ["jest", "node"],
+    "baseUrl": "./",
+    "paths": {
+      // workaround for: https://github.com/vitest-dev/vitest/issues/4567
+      "rollup/parseAst": ["../../node_modules/rollup/dist/parseAst"]
+    }
+  }
+}
