@@ -1,4 +1,3 @@
-
 import { Decorator } from '@swc/core';
 import {
   getDecoratorName,
@@ -9,7 +8,7 @@ import {
 } from '../helpers';
 
 function savePropertyName(name: string, node: AcceptedNodeType) {
-  if (node.type === "ClassProperty") {
+  if (node.type === 'ClassProperty') {
     const decorator = getDecoratorByName(node.decorators, name);
     if (getDecoratorName(decorator) === name && injectIsNotNamed(decorator!)) {
       passParamNameAsInjectArgument(node, decorator!);

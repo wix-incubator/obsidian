@@ -105,13 +105,13 @@ describe('Provider Arguments Transformer', () => {
   });
 
   const transformSync = (snippet: string) => swc.transformSync(snippet, {
-    filename: "input.js",
+    filename: 'input.js',
     jsc: {
-    parser: {
-      syntax: "typescript",
-      decorators: true
+      parser: {
+        syntax: 'typescript',
+        decorators: true,
+      },
     },
-  },
     plugin(m) {
       return new ObsidianSWCPlugin().visitProgram(m);
     },

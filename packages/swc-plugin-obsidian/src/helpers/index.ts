@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import {
   Argument,
   ClassMethod,
@@ -11,7 +10,7 @@ import {
   KeyValueProperty,
   BindingIdentifier,
   KeyValuePatternProperty,
-  ObjectPattern
+  ObjectPattern,
 } from '@swc/types';
 
 const never = '';
@@ -33,29 +32,29 @@ export function providerIsNotNamed(decorator: Decorator): boolean {
 
 export function addNameToProviderArguments(node: ClassMethod, decorator: Decorator) {
   const fallbackArgument: Argument = {
-   expression: {
-      type: "ObjectExpression",
+    expression: {
+      type: 'ObjectExpression',
       properties: [],
       span: node.function.span,
-   }
+    },
   };
-  
+
   const argument = getDecoratorArgument(decorator) ?? fallbackArgument;
 
   const identifierProperty: KeyValueProperty = {
-    type: "KeyValueProperty",
+    type: 'KeyValueProperty',
     key: {
-      type: "Identifier",
-      value: "name",
+      type: 'Identifier',
+      value: 'name',
       optional: false,
       span: decorator.span,
     },
     value: {
-      type: "StringLiteral",
+      type: 'StringLiteral',
       value: getMethodName(node),
       span: decorator.span,
-    }
-  }
+    },
+  };
 
   if (argument.expression.type === 'ObjectExpression') {
     argument.expression.properties.push(identifierProperty);
@@ -68,14 +67,13 @@ export function addNameToProviderArguments(node: ClassMethod, decorator: Decorat
 
 export function getDecoratorArgument(decorator: Decorator): Argument | undefined {
   if (decorator.expression.type === 'CallExpression') {
-    return decorator.expression.arguments.find((a) => a.expression.type === "ObjectExpression");
-
+    return decorator.expression.arguments.find(a => a.expression.type === 'ObjectExpression');
   }
   return undefined;
 }
 
 export function getMethodName(node: ClassMethod): string {
-  if (node.key.type === "Identifier") return node.key.value;
+  if (node.key.type === 'Identifier') return node.key.value;
   throw new Error(`Tried to get class name but encountered unexpected key of type: ${node.key.type}`);
 }
 
@@ -94,28 +92,28 @@ export function getDecoratorName(decorator?: Decorator): string | undefined {
 
 export function paramsToDestructuringAssignment(params: Param[]): Param {
   return {
-    type: "Parameter",
+    type: 'Parameter',
     span: params[0].span,
     decorators: [],
     pat: {
-      type: "ObjectPattern",
+      type: 'ObjectPattern',
       span: params[0].span,
       properties: params.map((p): KeyValuePatternProperty => ({
-        type: "KeyValuePatternProperty",
+        type: 'KeyValuePatternProperty',
         key: {
-          type: "Identifier",
+          type: 'Identifier',
           value: (p.pat as BindingIdentifier).value,
           optional: false,
           ctxt: (params[0].pat as any).ctxt,
           span: (p.pat as BindingIdentifier).span,
         } as BindingIdentifier,
         value: {
-          type: "Identifier",
+          type: 'Identifier',
           value: (p.pat as BindingIdentifier).value,
           optional: false,
           ctxt: (params[0].pat as any).ctxt,
           span: (p.pat as BindingIdentifier).span,
-        } as BindingIdentifier
+        } as BindingIdentifier,
       })),
       optional: false,
     } as ObjectPattern,
@@ -128,13 +126,13 @@ export function passParamNameAsInjectArgument(
 ) {
   if (decorator.expression.type === 'CallExpression') {
     const stringLiteral: StringLiteral = {
-      type: "StringLiteral",
+      type: 'StringLiteral',
       value: getNodeName(node),
       span: node.span,
-    }
+    };
     const argument: Argument = {
       expression: stringLiteral,
-    }
+    };
     decorator.expression.arguments = [argument];
   }
 }
