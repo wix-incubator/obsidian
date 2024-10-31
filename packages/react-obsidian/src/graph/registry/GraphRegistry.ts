@@ -26,7 +26,9 @@ export class GraphRegistry {
     this.keyToGenerator.set(key, generator);
   }
 
-  ensureRegistered(graph: Graph) {
+  ensureRegistered(keyOrGraph: string | Graph) {
+    if (isString(keyOrGraph)) return;
+    const graph = keyOrGraph;
     if (this.instanceToConstructor.get(graph)) return;
     this.set(graph.constructor as any, graph);
   }

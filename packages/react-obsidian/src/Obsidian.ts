@@ -17,8 +17,8 @@ export default class Obsidian {
     return serviceLocatorFactory.fromGraph(keyOrGraph, props);
   }
 
-  inject<T extends object>(target: T, graph?: ObjectGraph) {
-    return lateInjector.inject(target, graph);
+  inject<T extends object>(target: T, keyOrGraph?: string | ObjectGraph) {
+    return lateInjector.inject(target, keyOrGraph);
   }
 
   addGraphMiddleware(middleware: GraphMiddleware) {
