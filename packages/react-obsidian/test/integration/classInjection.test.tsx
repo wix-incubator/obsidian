@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '../../src';
+import { Inject, Injectable, Obsidian } from '../../src';
 import { GraphWithOnBind } from '../fixtures/GraphWithOnBind';
 import injectedValues from '../fixtures/injectedValues';
 import MainGraph from '../fixtures/MainGraph';
@@ -36,6 +36,17 @@ describe('Class injection', () => {
   //   expect(uut.someString).toBe(injectedValues.fromStringProvider);
   //   expect(uut.anotherString).toBe(injectedValues.anotherString);
   // });
+
+  it('injects properties from a registered graph', () => {
+    Obsidian.registerGraph('main', () => MainGraph);
+    const uut = new ClassToTestRegisteredGraph();
+    expect(uut.someString).toBe(injectedValues.fromStringProvider);
+  });
+
+  @Injectable('main')
+  class ClassToTestRegisteredGraph {
+    @Inject() public readonly someString!: string;
+  }
 
   @Injectable(GraphWithOnBind)
   class ClassToTestOnBind {
