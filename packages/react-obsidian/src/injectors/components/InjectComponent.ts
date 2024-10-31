@@ -1,5 +1,6 @@
 import { ObjectGraph } from '../../graph/ObjectGraph';
 import { Constructable } from '../../types';
+import { isString } from '../../utils/isString';
 import ComponentInjector from './ComponentInjector';
 
 interface Discriminator {
@@ -13,18 +14,18 @@ export const injectComponent = <OwnProps = Discriminator, InjectedProps = Discri
   (OwnProps extends infer P ? OwnProps extends Discriminator ? P : OwnProps : never) &
   (InjectedProps extends Discriminator ? any : InjectedProps)
   >,
-  Graph: Constructable<ObjectGraph>,
+  keyOrGraph: string | Constructable<ObjectGraph>,
 ) => {
-  assertGraph(Graph, Target);
+  assertGraph(keyOrGraph, Target);
 
-  return componentInjector.inject(Target, Graph) as React.FunctionComponent<
+  return componentInjector.inject(Target, keyOrGraph) as React.FunctionComponent<
   InjectedProps extends Discriminator ?
     OwnProps extends Discriminator ? Partial<OwnProps> : OwnProps :
     OwnProps extends InjectedProps ? Partial<OwnProps> : OwnProps & Partial<InjectedProps>
   >;
 };
-function assertGraph(Graph: Constructable<ObjectGraph<unknown>>, Target: any) {
-  if (!Graph) {
+function assertGraph(keyOrGraph: string | Constructable<ObjectGraph>, Target: any) {
+  if (!isString(keyOrGraph) && !keyOrGraph) {
     throw new Error(
       `injectComponent was called with an undefined Graph.`
       + `This is probably not an issue with Obsidian.`
