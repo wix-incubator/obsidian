@@ -39,7 +39,7 @@
           "code": 115,
           "comments": 200,
           "ignoreRegExpLiterals": true,
-          "ignorePattern": "throw new Error\\(.*\\);"
+          "ignorePattern": "throw new Error\\(.*\\);|expect\\(\\(\\) => uut\\.resolve\\('main'\\)\\)\\.toThrow\\(.*\\);"
         }
       ],
       "@stylistic/no-extra-semi": "error",
