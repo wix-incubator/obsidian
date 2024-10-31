@@ -1,0 +1,39 @@
+---
+sidebar_position: 1
+title: 'Obsidian'
+---
+
+`Obsidian` **exposes a set of functions that allow you to interact with the Obsidian framework imperatively.**
+
+* [Reference](#reference)
+  * [obtain(keyOrGraph, props?)](#obtainkeyorgraph-props)
+  * [registerGraph(key, graphGenerator)](#registergraphkey-graphgenerator)
+  * [inject(target, keyOrGraph)](#injecttarget-keyorgraph)
+* [Usage](#usage)
+  * [Conditional rendering of a component](#conditional-rendering-of-a-component)
+___
+
+## Reference
+### obtain(keyOrGraph, props?): ServiceLocator
+The `obtain` function is used to obtain a graph instance to be used as a [service locator](https://en.wikipedia.org/wiki/Service_locator_pattern).
+
+#### Arguments
+* `keyOrGraph?` - The class reference of the graph or its corresponding key if it was registered with a key.
+* `props?` - An object containing props to be passed to the graph's constructor if this is the first time the graph is being instantiated.
+
+#### Returns
+* `ServiceLocator` - A service locator instance that can be used to resolve dependencies from the graph.
+
+### registerGraph(key, graphGenerator)
+The `registerGraph` function is used to register a graph generator function with a key. This allows the graph to be instantiated using the key instead of the class reference. This is useful when you want to decouple the graph's instantiation from its usage.
+
+#### Arguments
+* `key` - The key to register the graph with.
+* `graphGenerator` - A function that returns the graph class reference. The generator function is called only when the graph is being instantiated. It's recommended to retrieve the class reference using inline require to delay side effects until the graph is actually used.
+
+### inject(target, keyOrGraph)
+The `inject` function is used to inject dependencies annotated with the `@LateInject` decorator into a class instance. 
+
+#### Arguments
+* `target` - The class instance to inject the dependencies into.
+* `keyOrGraph` - The class reference of the graph or its corresponding key if it was registered with a key.
