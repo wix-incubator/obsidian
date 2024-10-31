@@ -1,3 +1,4 @@
+import { mock } from 'jest-mock-extended';
 import SingletonGraph from '../../../test/fixtures/SingletonGraph';
 import MainGraph from '../../../test/fixtures/MainGraph';
 import { GraphRegistry } from './GraphRegistry';
@@ -81,5 +82,12 @@ describe('GraphRegistry', () => {
 
     uut.clear(graph);
     expect(() => uut.resolve('main')).toThrow();
+  });
+
+  it('throws when registering a graph generator with the same key', () => {
+    uut.registerGraphGenerator('main', () => mock());
+    expect(
+      () => uut.registerGraphGenerator('main', () => mock()),
+    ).toThrow('Attempted to register a graph generator for key "main" that is already registered.');
   });
 });

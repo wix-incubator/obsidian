@@ -22,6 +22,7 @@ export class GraphRegistry {
   }
 
   registerGraphGenerator(key: string, generator: () => Constructable<Graph>) {
+    if (this.keyToGenerator.has(key)) throw new Error(`Attempted to register a graph generator for key "${key}" that is already registered.`);
     this.keyToGenerator.set(key, generator);
   }
 
