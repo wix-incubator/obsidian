@@ -16,9 +16,9 @@ export class LifecycleBoundGraph extends ObjectGraph<Props> {
 
   @provides()
   computedFromProps(): string {
-    return this.props.stringFromProps
-      ? `A string passed via props: ${this.props.stringFromProps}`
-      : 'stringFromProps does not exist';
+    return this.props.stringFromProps ?
+      `A string passed via props: ${this.props.stringFromProps}` :
+      'stringFromProps does not exist';
   }
 
   @provides()

@@ -48,6 +48,7 @@ export default eslintTs.config(
       "@typescript-eslint/no-explicit-any": "off",
       "@typescript-eslint/no-unsafe-member-access": "off",
       "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/no-require-imports": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/no-unsafe-argument": "off",
       "@typescript-eslint/no-unsafe-return": "off",
@@ -86,7 +87,7 @@ export default eslintTs.config(
       }],
       "@stylistic/max-statements-per-line": ["error", { "max": 2 }],
       "@stylistic/no-extra-semi": "error",
-
+      "@stylistic/operator-linebreak": ["error", "before", { "overrides": { "?": "after", ":": "after" } }],
       "@stylistic/lines-between-class-members": ["error", "always", {
         exceptAfterSingleLine: true,
       }],
