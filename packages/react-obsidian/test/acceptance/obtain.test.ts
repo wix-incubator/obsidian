@@ -31,4 +31,9 @@ describe('obtain', () => {
       /Could not resolve dep1 from CircularDependencyFromSubgraph\d because of a circular dependency: dep1 -> dep2 -> dep3 -> dep2/,
     );
   });
+
+  it('should be able to obtain a graph by key', () => {
+    Obsidian.registerGraph('MainGraph', () => require('../fixtures/MainGraph').default);
+    expect(Obsidian.obtain<MainGraph>('MainGraph').someString()).toBe(injectedValues.fromStringProvider);
+  });
 });

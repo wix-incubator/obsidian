@@ -2,11 +2,13 @@
 
 <p align="center">
   </br><img width="300px" src=".github/logo.svg"></br></br>
-    <a href="https://npmjs.com/package/react-obsidian"><img src="https://img.shields.io/npm/v/react-obsidian.svg" alt="npm package"></a>
     <a href="https://npmjs.com/package/react-obsidian"><img src="https://raw.githubusercontent.com/wix-incubator/obsidian/gh-pages/badges/coverage-jest%20coverage.svg" alt="coverage"></a>
     <a href="https://www.npmjs.com/package/react-obsidian"><img src="https://img.shields.io/npm/dm/react-obsidian.svg" alt="NPM downloads"></a>
     <a href="https://github.com/wix-incubator/react-obsidian/actions/workflows/ci.yml"><img src="https://github.com/wix-incubator/react-obsidian/actions/workflows/ci.yml/badge.svg?branch=master" alt="build status"></a>
     <a href="https://discord.gg/MDH2axwaPy"><img src="https://img.shields.io/badge/chat-discord-blue?style=flat&logo=discord" alt="discord chat"></a>
+    </br>
+    <a href="https://npmjs.com/package/react-obsidian"><img src="https://img.shields.io/npm/v/react-obsidian.svg" alt="npm package"></a>
+    <a href="https://github.com/wix-incubator/obsidian/pull/175"><img src="https://img.shields.io/npm/v/react-obsidian/next.svg" alt="npm package"></a>
     <h1 align="center">Obsidian</h1>
 </p>
 

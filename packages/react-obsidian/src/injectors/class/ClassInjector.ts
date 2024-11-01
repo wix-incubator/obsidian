@@ -12,14 +12,14 @@ export default class ClassInjector {
     private injectionMetadata: InjectionMetadata = new InjectionMetadata(),
   ) {}
 
-  inject(Graph: Constructable<Graph>) {
+  inject(keyOrGraph: string | Constructable<Graph>) {
     return (Target: Constructable<any>) => {
-      return new Proxy(Target, this.createProxyHandler(Graph, this.graphRegistry, this.injectionMetadata));
+      return new Proxy(Target, this.createProxyHandler(keyOrGraph, this.graphRegistry, this.injectionMetadata));
     };
   }
 
   private createProxyHandler(
-    Graph: Constructable<Graph>,
+    keyOrGraph: string | Constructable<Graph>,
     graphRegistry: GraphRegistry,
     injectionMetadata: InjectionMetadata,
   ): ProxyHandler<any> {
@@ -27,7 +27,7 @@ export default class ClassInjector {
       construct(target: any, args: any[], newTarget: Function): any {
         const isReactClassComponent = target.prototype?.isReactComponent;
         const source = isReactClassComponent ? 'lifecycleOwner' : 'classInjection';
-        const graph = graphRegistry.resolve(Graph, source, args.length > 0 ? args[0] : undefined);
+        const graph = graphRegistry.resolve(keyOrGraph, source, args.length > 0 ? args[0] : undefined);
         if (isReactClassComponent) {
           referenceCounter.retain(graph);
         }

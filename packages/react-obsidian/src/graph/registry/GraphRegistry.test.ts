@@ -1,3 +1,4 @@
+import { mock } from 'jest-mock-extended';
 import SingletonGraph from '../../../test/fixtures/SingletonGraph';
 import MainGraph from '../../../test/fixtures/MainGraph';
 import { GraphRegistry } from './GraphRegistry';
@@ -58,5 +59,35 @@ describe('GraphRegistry', () => {
     clearMethod(graph);
 
     expect(uut.resolve(ScopedLifecycleBoundGraph, 'lifecycleOwner', undefined, 'token')).not.toBe(graph);
+  });
+
+  it('resolves graph by key', () => {
+    uut.registerGraphGenerator('main', () => MainGraph);
+    expect(uut.resolve('main')).toBeInstanceOf(MainGraph);
+  });
+
+  it('throws an error when resolving a graph by key that is not registered', () => {
+    expect(() => uut.resolve('main')).toThrow('Attempted to resolve a graph by key "main" that is not registered. Did you forget to call Obsidian.registerGraph?');
+  });
+
+  it('clears graph generators', () => {
+    uut.registerGraphGenerator('main', () => MainGraph);
+    uut.clearAll();
+    expect(() => uut.resolve('main')).toThrow();
+  });
+
+  it('clears graph generator for a specific graph', () => {
+    uut.registerGraphGenerator('main', () => MainGraph);
+    const graph = uut.resolve('main');
+
+    uut.clear(graph);
+    expect(() => uut.resolve('main')).toThrow();
+  });
+
+  it('throws when registering a graph generator with the same key', () => {
+    uut.registerGraphGenerator('main', () => mock());
+    expect(
+      () => uut.registerGraphGenerator('main', () => mock()),
+    ).toThrow('Attempted to register a graph generator for key "main" that is already registered.');
   });
 });
