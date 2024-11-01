@@ -1,8 +1,8 @@
 import {
-  Graph,
+  graph,
   ObjectGraph,
   Obsidian,
-  Provides,
+  provides,
 } from '../../src';
 
 describe('abstract graph', () => {
@@ -23,19 +23,18 @@ describe('abstract graph', () => {
   });
 });
 
-
 abstract class AbstractGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   compositeDependency(atomicDependency: string, bar: string) {
     return atomicDependency + bar;
   }
 
-  @Provides()
+  @provides()
   atomicDependency() {
     return 'foo';
   }
 
-  @Provides()
+  @provides()
   dependsOnAbstractDependency(baz: string) {
     return `depends on ${baz}`;
   }
@@ -43,14 +42,14 @@ abstract class AbstractGraph extends ObjectGraph {
   abstract baz(): string;
 }
 
-@Graph()
+@graph()
 class FooGraph extends AbstractGraph {
-  @Provides()
+  @provides()
   bar() {
     return 'bar';
   }
 
-  @Provides()
+  @provides()
   override baz() {
     return 'baz';
   }

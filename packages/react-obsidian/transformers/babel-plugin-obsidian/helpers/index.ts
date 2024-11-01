@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { types as t } from '@babel/core';
 import {
   CallExpression,
@@ -9,6 +8,8 @@ import {
   ObjectExpression,
   ObjectPattern,
   TSParameterProperty,
+  Node,
+  type StringLiteral,
 } from '@babel/types';
 
 const never = '';
@@ -16,7 +17,7 @@ const never = '';
 export type AcceptedNodeType = Identifier | TSParameterProperty | ClassProperty;
 
 export function providerIsNotNamed(decorator: Decorator): boolean {
-  const argument = getDecoratorArgument(decorator);
+  const argument = getDecoratorObjectArgument(decorator);
   if (t.isObjectExpression(argument)) {
     return argument.properties.find((p) => {
       if (t.isObjectProperty(p)) {
@@ -29,7 +30,7 @@ export function providerIsNotNamed(decorator: Decorator): boolean {
 }
 
 export function addNameToProviderArguments(node: ClassMethod, decorator: Decorator) {
-  const argument = getDecoratorArgument(decorator) ?? t.objectExpression([]);
+  const argument = getDecoratorObjectArgument(decorator) ?? t.objectExpression([]);
   argument.properties.push(t.objectProperty(
     t.identifier('name'),
     t.stringLiteral(getMethodName(node)),
@@ -37,9 +38,16 @@ export function addNameToProviderArguments(node: ClassMethod, decorator: Decorat
   (decorator.expression as CallExpression).arguments = [argument];
 }
 
-export function getDecoratorArgument(decorator: Decorator): ObjectExpression | undefined {
+export function getDecoratorObjectArgument(decorator: Decorator): ObjectExpression | undefined {
   if (t.isCallExpression(decorator.expression)) {
-    return decorator.expression.arguments.find((a) => t.isObjectExpression(a)) as ObjectExpression;
+    return decorator.expression.arguments.find(a => t.isObjectExpression(a)) as ObjectExpression;
+  }
+  return undefined;
+}
+
+export function getDecoratorStringArgument(decorator: Decorator): StringLiteral | undefined {
+  if (t.isCallExpression(decorator.expression)) {
+    return decorator.expression.arguments.find(a => t.isStringLiteral(a)) as StringLiteral;
   }
   return undefined;
 }
@@ -53,17 +61,17 @@ export function getDecoratorByName(
   decorators: Array<Decorator> | undefined | null,
   decoratorName: string,
 ): Decorator | undefined {
-  return decorators?.find((decorator) => get(decorator, 'expression.callee.name') === decoratorName);
+  return decorators?.find(decorator => get(decorator, 'expression.callee.name') === decoratorName);
 }
 
 export function getDecoratorName(decorator?: Decorator): string | undefined {
   return get(decorator, 'expression.callee.name');
 }
 
-export function paramsToDestructuringAssignment(params: (Identifier | any)[]): ObjectPattern {
+export function paramsToDestructuringAssignment(params: Node[]): ObjectPattern {
   return t.objectPattern(params
-    .filter((p) => t.isIdentifier(p))
-    .map((p) => t.objectProperty(t.identifier(p.name), t.identifier(p.name))));
+    .filter(p => t.isIdentifier(p))
+    .map(p => t.objectProperty(t.identifier(p.name), t.identifier(p.name))));
 }
 
 export function passParamNameAsInjectArgument(
@@ -93,9 +101,9 @@ function getNodeName(node: AcceptedNodeType): string {
   return node.name;
 }
 
-function get(node: any, path: string): any {
+function get<T>(node: any, path: string): T | undefined {
   if (node === undefined || node === null) return undefined;
   const [key, ...rest] = path.split('.');
-  if (rest.length === 0) return node[key];
+  if (rest.length === 0) return node[key] as T;
   return get(node[key], rest.join('.'));
 }

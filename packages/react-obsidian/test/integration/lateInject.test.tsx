@@ -1,4 +1,4 @@
-import { Injectable, LateInject, Obsidian } from '../../src';
+import { injectable, lateInject, Obsidian } from '../../src';
 import injectedValues from '../fixtures/injectedValues';
 import lateInjector from '../../src/injectors/class/LateInjector';
 import MainGraph from '../fixtures/MainGraph';
@@ -38,14 +38,15 @@ describe('Class late injection', () => {
   });
 });
 
-@Injectable(MainGraph)
+@injectable(MainGraph)
 class LateProperty {
-  @LateInject() someString!: string;
+  @lateInject() someString!: string;
 }
 
-@Injectable(MainGraph)
+@injectable(MainGraph)
 class LatePropertyConstructorInjection {
-  @LateInject() someString!: string;
+  @lateInject() someString!: string;
+
   constructor() {
     Obsidian.inject(this);
   }

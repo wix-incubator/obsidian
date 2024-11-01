@@ -22,16 +22,16 @@ export class TypeValidator {
   }
 
   private areTypesValid(componentProps: Type, injectComponentGenerics: Type[]): Result {
-    if ( this.typesAreEqual(componentProps, injectComponentGenerics) && this.isInjected(componentProps)) {
+    if (this.typesAreEqual(componentProps, injectComponentGenerics) && this.isInjected(componentProps)) {
       return new RedundantTypeError(injectComponentGenerics);
     }
 
     if (
-      this.hasInlineType(injectComponentGenerics) ||
-      (this.typesAreEqual(componentProps, injectComponentGenerics) && !this.isInjected(componentProps)) ||
-      (isEmpty(injectComponentGenerics) && this.isInjected(componentProps)) ||
-      this.typesAreInCorrectOrder(injectComponentGenerics, componentProps) ||
-      (this.isInjected(componentProps) && injectComponentGenerics.length === 2)
+      this.hasInlineType(injectComponentGenerics)
+      || (this.typesAreEqual(componentProps, injectComponentGenerics) && !this.isInjected(componentProps))
+      || (isEmpty(injectComponentGenerics) && this.isInjected(componentProps))
+      || this.typesAreInCorrectOrder(injectComponentGenerics, componentProps)
+      || (this.isInjected(componentProps) && injectComponentGenerics.length === 2)
     ) return new Success();
 
     const injected = this.getInjectedTypes(componentProps);
@@ -62,9 +62,9 @@ export class TypeValidator {
 
   private typesAreInCorrectOrder(injectComponentGenerics: Type[], componentProps: Type) {
     const isInjectSecond = !!injectComponentGenerics[1]?.toString()[0].match(stringToRegex(this.injectedPattern));
-    return isInjectSecond &&
-      componentProps.size() === injectComponentGenerics.length &&
-      componentProps.includes(injectComponentGenerics);
+    return isInjectSecond
+      && componentProps.size() === injectComponentGenerics.length
+      && componentProps.includes(injectComponentGenerics);
   }
 
   private get injectedPattern() {

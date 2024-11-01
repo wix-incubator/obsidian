@@ -3,7 +3,6 @@ import { Decorator } from './decorator';
 import { Parameter } from './parameter';
 
 export class Method {
-
   constructor(public readonly node: TSESTree.MethodDefinition) {}
 
   get name() {
@@ -11,12 +10,12 @@ export class Method {
   }
 
   get parameters() {
-    return this.node.value.params.map((param) => new Parameter(param));
+    return this.node.value.params.map(param => new Parameter(param));
   }
 
-  isDecoratedWith(decoratorName: string): boolean {
+  isDecoratedWithIgnoreCase(decoratorName: string): boolean {
     return this.decorators.some((decorator) => {
-      return decorator.expression.callee.name === decoratorName;
+      return decorator.expression.callee.name.toLowerCase() === decoratorName.toLowerCase();
     });
   }
 

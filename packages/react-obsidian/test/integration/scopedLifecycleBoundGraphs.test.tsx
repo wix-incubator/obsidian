@@ -1,11 +1,11 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import {
-  Graph,
+  graph,
   injectComponent,
-  LifecycleBound,
+  lifecycleBound,
   ObjectGraph,
-  Provides,
+  provides,
   type DependenciesOf,
 } from '../../src';
 
@@ -34,7 +34,7 @@ describe('Scoped lifecycle bound graphs', () => {
   });
 });
 
-@LifecycleBound({ scope: 'component' }) @Graph()
+@lifecycleBound({ scope: 'component' }) @graph()
 class ScopedLifecycleBoundGraph extends ObjectGraph {
   private instanceId: string;
 
@@ -43,12 +43,12 @@ class ScopedLifecycleBoundGraph extends ObjectGraph {
     this.instanceId = `id${++instanceCounter}`;
   }
 
-  @Provides()
+  @provides()
   count() {
     return this.props.count;
   }
 
-  @Provides()
+  @provides()
   id() {
     return this.instanceId;
   }
@@ -59,23 +59,22 @@ type Props = {
   renderComponentC?: boolean;
 };
 
-const ComponentA = injectComponent<Props>(({renderComponentC}: Props) => {
+const ComponentA = injectComponent<Props>(({ renderComponentC }: Props) => {
   return (
     <>
       <ComponentB />
       {renderComponentC && <ComponentC />}
     </>
   );
-
 }, ScopedLifecycleBoundGraph);
 
 type Injected = DependenciesOf<ScopedLifecycleBoundGraph, 'count' | 'id'>;
-type Own = {injectionToken: string};
+type Own = { injectionToken: string };
 
-const ComponentB = injectComponent(({count, id}: Injected & Own) => {
+const ComponentB = injectComponent(({ count, id }: Injected & Own) => {
   return <>{`count: ${count} id: ${id}`}</>;
 }, ScopedLifecycleBoundGraph);
 
-const ComponentC = injectComponent(({count, id}: Injected & Own) => {
+const ComponentC = injectComponent(({ count, id }: Injected & Own) => {
   return <>{` from C: count: ${count} id: ${id}`}</>;
 }, ScopedLifecycleBoundGraph);

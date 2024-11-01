@@ -1,10 +1,10 @@
 import {
-  Graph,
-  Injectable,
-  LateInject,
+  graph,
+  injectable,
+  lateInject,
   ObjectGraph,
   Obsidian,
-  Provides,
+  provides,
   mockGraphs,
 } from '../../src';
 
@@ -13,7 +13,7 @@ describe('Late inject', () => {
     mockGraphs({ Subgraph: MockedSubgraph });
 
     class Injected {
-      @LateInject() graphString!: string;
+      @lateInject() graphString!: string;
 
       constructor() {
         Obsidian.inject(this, new MockedMainGraph());
@@ -26,9 +26,9 @@ describe('Late inject', () => {
   it('injects from a graph class', () => {
     mockGraphs({ Subgraph: MockedSubgraph });
 
-    @Injectable(MockedMainGraph)
+    @injectable(MockedMainGraph)
     class Injected {
-      @LateInject() graphString!: string;
+      @lateInject() graphString!: string;
 
       constructor() {
         Obsidian.inject(this);
@@ -42,7 +42,7 @@ describe('Late inject', () => {
     Obsidian.registerGraph('main', () => MainGraph);
 
     class Injected {
-      @LateInject() graphString!: string;
+      @lateInject() graphString!: string;
 
       constructor() {
         Obsidian.inject(this, 'main');
@@ -54,7 +54,7 @@ describe('Late inject', () => {
 
   it('throws an error if the graph is not registered', () => {
     class Injected {
-      @LateInject() graphString!: string;
+      @lateInject() graphString!: string;
 
       constructor() {
         Obsidian.inject(this, 'main');
@@ -65,33 +65,33 @@ describe('Late inject', () => {
   });
 });
 
-@Graph()
+@graph()
 class Subgraph extends ObjectGraph {
-  @Provides()
+  @provides()
   subgraphString(): string {
     return 'from subgraph';
   }
 }
 
-@Graph({ subgraphs: [Subgraph] })
+@graph({ subgraphs: [Subgraph] })
 class MainGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   graphString(subgraphString: string): string {
     return `from main ${subgraphString}`;
   }
 }
 
-@Graph()
+@graph()
 class MockedSubgraph extends Subgraph {
-  @Provides()
+  @provides()
   override subgraphString(): string {
     return 'from mocked subgraph';
   }
 }
 
-@Graph({ subgraphs: [MockedSubgraph] })
+@graph({ subgraphs: [MockedSubgraph] })
 class MockedMainGraph extends MainGraph {
-  @Provides()
+  @provides()
   override graphString(subgraphString: string): string {
     return `from mocked main ${subgraphString}`;
   }

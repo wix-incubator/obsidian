@@ -9,7 +9,7 @@ export class Import {
 
   public includes(name: string) {
     return this.node.specifiers
-      .map((specifier) => specifier.local.name)
+      .map(specifier => specifier.local.name)
       .includes(name);
   }
 }

@@ -21,7 +21,7 @@ Replaces the implementation of the given graphs with mock implementations.
 ### Mocking a graph
 Lets say we have a graph that looks like this:
 ```ts
-@Singleton() @Graph()
+@singleton() @graph()
 class AppGraph {
   @Provides()
   storage(): Storage {
@@ -49,7 +49,7 @@ class FakeStorage extends Storage {
 Next, we'll create a graph that provides a fake implementation of Storage.
 
 ```ts
-@Singleton() @Graph()
+@singleton() @graph()
 class AppGraphForIntegrationTests {
   @Provides()
   override storage(): Storage {

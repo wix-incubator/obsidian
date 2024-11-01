@@ -20,7 +20,7 @@ export class InjectComponentHandler {
   private getInjectedComponent(node: TSESTree.CallExpression, args: Identifier[]) {
     return new File(requireProgram(node))
       .variables
-      .filter((variable) => variable.isArrowFunction)
-      .find((variable) => variable.name === args[0].name);
+      .filter(variable => variable.isArrowFunction)
+      .find(variable => variable.name === args[0].name);
   }
 }

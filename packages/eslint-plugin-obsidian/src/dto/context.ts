@@ -8,10 +8,10 @@ export class Context<MessageId extends string = any, Options extends readonly un
    * Returns the fully qualified path to the current file being linted.
    */
   public get currentFilePath() {
-    return this.context.getPhysicalFilename?.()!;
+    return this.context.getPhysicalFilename?.();
   }
 
-  public reportError(node: TSESTree.Node, messageId: MessageId, data: any) {
+  public reportError(node: TSESTree.Node, messageId: MessageId, data: Record<string, unknown>) {
     this.context.report({ messageId, node, data });
   }
 }

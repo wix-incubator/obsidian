@@ -7,7 +7,7 @@ import { isString } from '../../utils/isString';
 export const useInjectionToken = (keyOrGraph: string | Constructable<ObjectGraph>) => {
   const ctx = useContext(GraphContext);
   const [injectionToken] = useState(() => {
-    return ctx?.injectionToken ?? uniqueId(isString(keyOrGraph)? keyOrGraph : keyOrGraph.name);
+    return ctx?.injectionToken ?? uniqueId(isString(keyOrGraph) ? keyOrGraph : keyOrGraph.name);
   });
   return injectionToken;
 };

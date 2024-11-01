@@ -4,7 +4,7 @@ title: "Classes"
 ---
 
 ## Injecting classes
-Injecting classes is a two step process. First, annotate the class with the `@Injectable` annotation and pass the graph from which dependencies should be resolve. Then, declare the dependencies as class members and annotate them with the `@Inject` annotation.
+Injecting classes is a two step process. First, annotate the class with the `@Injectable` annotation and pass the graph from which dependencies should be resolve. Then, declare the dependencies as class members and annotate them with the `@inject` annotation.
 
 ```ts
 import {Injectable, Inject} from 'react-obsidian';
@@ -12,7 +12,7 @@ import {ApplicationGraph} from './ApplicationGraph';
 
 @Injectable(ApplicationGraph)
 export class MyClass {
-  @Inject() private httpClient!: HttpClient;
+  @inject() private httpClient!: HttpClient;
   
 }
 ```
@@ -22,7 +22,7 @@ Constructor injection is the preferred way to inject dependencies. It is more ex
 :::
 
 ## Delayed injection
-Dependencies annotated with the `@Inject` annotation are resolved immediately **after** the constructor is called. If you want to inject a class at a later point in time, you can use the `@LateInject` annotation instead, and inject the dependencies by manually with the `Obsidian.inject()` function.
+Dependencies annotated with the `@inject` annotation are resolved immediately **after** the constructor is called. If you want to inject a class at a later point in time, you can use the `@lateInject` annotation instead, and inject the dependencies by manually with the `Obsidian.inject()` function.
 
 ```ts
 import {Injectable, LateInject} from 'react-obsidian';
@@ -30,7 +30,7 @@ import {ApplicationGraph} from './ApplicationGraph';
 
 @Injectable(ApplicationGraph)
 export class MyClass {
-  @LateInject() private httpClient!: HttpClient;
+  @lateInject() private httpClient!: HttpClient;
 
   public init() {
     console.log(this.httpClient === undefined); // true

@@ -1,57 +1,57 @@
 export const validGraph = `import { uniqueId } from 'lodash';
-import { Graph, ObjectGraph, Provides } from 'src';
+import { graph, ObjectGraph, provides } from 'src';
 
-@Graph()
+@graph()
 export default class SimpleGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   instanceId(): string {
     return 'graph';
   }
 }`;
 
 export const validGraphWithSubgraph = `import {
-  Graph,
+  graph,
   ObjectGraph,
-  Provides,
+  provides,
 }  from 'src';
 import Subgraph from './subgraph';
 
 
-@Graph({ subgraphs: [Subgraph] })
+@graph({ subgraphs: [Subgraph] })
 export default class SimpleGraphWithSubgraph extends ObjectGraph {
-  @Provides()
+  @provides()
   someDep(instanceId:string): string {
     return instanceId;
   }
 }`;
 
 export const validGraphWithNamedExportSubgraph = `import {
-  Graph,
+  graph,
   ObjectGraph,
-  Provides,
+  provides,
 }  from 'src';
 import { Subgraph } from './namedExportSubgraph';
 
 
-@Graph({ subgraphs: [Subgraph] })
+@graph({ subgraphs: [Subgraph] })
 export default class SimpleGraphWithNamedExportSubgraph extends ObjectGraph {
-  @Provides()
+  @provides()
   someDep(instanceId:string): string {
     return instanceId;
   }
 }`;
 
 export const validLifecycleBoundGraphWithSubgraph = `import {
-  Graph,
+  graph,
   ObjectGraph,
-  Provides,
+  provides,
 }  from 'src';
 import Subgraph from './subgraph';
 
 
-@LifecycleBound() @Graph({ subgraphs: [Subgraph] })
+@lifecycleBound() @graph({ subgraphs: [Subgraph] })
 export default class SimpleGraphWithSubgraph extends ObjectGraph {
-  @Provides()
+  @provides()
   someClass(instanceId:string): string {
     return instanceId;
   }
@@ -59,15 +59,15 @@ export default class SimpleGraphWithSubgraph extends ObjectGraph {
 
 export const validGraphWithNestedSubgraphs = `
 import {
-  Graph,
+  graph,
   ObjectGraph,
-  Provides,
+  provides,
 }  from 'src';
 import GraphWithSubgraph from './graphWithSubgraph';
 
-@Graph({ subgraphs: [GraphWithSubgraph] })
+@graph({ subgraphs: [GraphWithSubgraph] })
 export default class GraphWithNestedSubgraphs extends ObjectGraph {
-  @Provides()
+  @provides()
   bar(foo: string): string {
     return foo + 'bar';
   }
@@ -75,37 +75,37 @@ export default class GraphWithNestedSubgraphs extends ObjectGraph {
 
 export const validFileWithTwoGraphs = `
 import {
-  Graph,
+  graph,
   ObjectGraph,
-  Provides,
+  provides,
 }  from 'src';
 
-@Graph()
+@graph()
 class Subgraph extends ObjectGraph {
-  @Provides()
+  @provides()
   subgraphString(): string {
     return 'from subgraph';
   }
 }
 
-@Graph({ subgraphs: [Subgraph] })
+@graph({ subgraphs: [Subgraph] })
 class MainGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   graphString(subgraphString: string): string {
     return 'from main ' + subgraphString;
   }
 }`;
 
 export const validGraphWithRegularMethod = `
-import { Graph, ObjectGraph, Provides } from 'src';
+import { graph, ObjectGraph, provides } from 'src';
 
-@Graph()
+@graph()
 export default class SimpleGraph extends ObjectGraph {
   override onBind(target: any) {
     this.target = target;
   }
 
-  @Provides()
+  @provides()
   foo(): string {
     return 'foo';
   }

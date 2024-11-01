@@ -16,7 +16,7 @@ Consider the following graph which provides two dependencies: `fooService` and `
 ```ts
 import {Singleton, Graph, ObjectGraph, Provides} from 'react-obsidian';
 
-@Singleton() @Graph()
+@singleton() @graph()
 export class SomeGraph extends ObjectGraph {
   @Provides()
   fooService(): FooService {

@@ -1,3 +1,4 @@
+import React from 'react';
 import { ObjectGraph } from '../../graph/ObjectGraph';
 import { Constructable } from '../../types';
 import { isString } from '../../utils/isString';
@@ -19,9 +20,9 @@ export const injectComponent = <OwnProps = Discriminator, InjectedProps = Discri
   assertGraph(keyOrGraph, Target);
 
   return componentInjector.inject(Target, keyOrGraph) as React.FunctionComponent<
-  InjectedProps extends Discriminator ?
-    OwnProps extends Discriminator ? Partial<OwnProps> : OwnProps :
-    OwnProps extends InjectedProps ? Partial<OwnProps> : OwnProps & Partial<InjectedProps>
+    InjectedProps extends Discriminator ?
+      OwnProps extends Discriminator ? Partial<OwnProps> : OwnProps :
+      OwnProps extends InjectedProps ? Partial<OwnProps> : OwnProps & Partial<InjectedProps>
   >;
 };
 function assertGraph(keyOrGraph: string | Constructable<ObjectGraph>, Target: any) {
