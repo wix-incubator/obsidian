@@ -58,7 +58,7 @@ export class File {
   }
 
   findClass(byName: string) {
-    const clazz = this.classes.find((clazz) => clazz.name === byName);
+    const clazz = this.classes.find(($clazz) => $clazz.name === byName);
     return clazz && new ClassFile(clazz, this.imports, this.path);
   }
 
