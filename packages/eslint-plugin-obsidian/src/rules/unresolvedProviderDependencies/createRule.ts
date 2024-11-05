@@ -6,10 +6,14 @@ import { FileReader } from '../../framework/fileReader';
 import { DependencyResolver } from './dependencyResolver';
 import { Import } from '../../dto/import';
 import { SubgraphResolver } from './subgraphResolver';
+import { ClassResolver } from './classResolver';
 
 export function create(context: Context, fileReader: FileReader) {
   const imports: Import[] = [];
-  const dependencyResolver = new DependencyResolver(new SubgraphResolver(fileReader));
+  const dependencyResolver = new DependencyResolver(
+    new SubgraphResolver(fileReader),
+    new ClassResolver(fileReader),
+  );
   const graphHandler = new GraphHandler(context, dependencyResolver);
 
   return {
