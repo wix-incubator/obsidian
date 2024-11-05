@@ -57,6 +57,21 @@ export class File {
       }) as Clazz[];
   }
 
+  findClass(byName: string) {
+    const clazz = this.classes.find((clazz) => clazz.name === byName);
+    return clazz && new ClassFile(clazz, this.imports, this.path);
+  }
+
+  private get classes() {
+    return this.body
+      .filter(isClassLike)
+      .map((node) => {
+        const clazz = getClassDeclaration(node);
+        return clazz && new Clazz(clazz);
+      })
+      .filter(Boolean) as Clazz[];
+  }
+
   get variables() {
     return this.body
       .filter(isVariableDeclaration)

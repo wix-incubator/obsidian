@@ -110,3 +110,16 @@ export default class SimpleGraph extends ObjectGraph {
     return 'foo';
   }
 }`;
+
+export const validGraphThatExtendsAnotherGraph = `
+import { Graph, ObjectGraph, Provides } from 'src';
+import {AbstractGraph}  from './abstractGraph';
+
+@Graph()
+export default class GraphA extends AbstractGraph {
+  @Provides()
+  foo(bar: string): string {
+    return 'foo' + bar;
+  }
+}
+`;
