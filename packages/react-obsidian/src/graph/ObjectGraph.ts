@@ -7,18 +7,11 @@ import { CircularDependenciesDetector } from './CircularDependenciesDetector';
 
 export abstract class ObjectGraph<T = unknown> implements Graph {
   private propertyRetriever = new PropertyRetriever(this);
-
-  get name(): string {
-    if (Reflect.hasMetadata('memoizedName', this)) {
-      return Reflect.getMetadata('memoizedName', this);
-    }
-    const name = uniqueId(this.constructor.name);
-    Reflect.defineMetadata('memoizedName', name, this);
-    return name;
-  }
+  public readonly name: string;
 
   constructor(protected _props?: T) {
     bindProviders(this);
+    this.name = uniqueId(this.constructor.name);
   }
 
   retrieve<Dependency>(
@@ -29,13 +22,11 @@ export abstract class ObjectGraph<T = unknown> implements Graph {
     return this.propertyRetriever.retrieve(property, receiver, detector) as Dependency | undefined;
   }
 
-  onBind(_target: any) {
-
-  }
+  onBind(_target: any) { void 0; }
 }
 
 Reflect.set(ObjectGraph, 'typeDiscriminator', 'ObjectGraph');
 
-export function isGraph(object: Constructable<ObjectGraph> | any): object is Constructable<ObjectGraph> {
+export function isGraph(object: any): object is Constructable<ObjectGraph> {
   return Reflect.get(object, 'typeDiscriminator') === 'ObjectGraph';
 }

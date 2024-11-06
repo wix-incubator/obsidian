@@ -1,23 +1,23 @@
-import { Graph, ObjectGraph, Provides } from '../../src';
+import { graph, ObjectGraph, provides } from '../../src';
 
-@Graph()
+@graph()
 export class GraphWithMultipleDependencies extends ObjectGraph {
-  @Provides()
+  @provides()
   theDep(prefix: string, suffix: string) {
     return prefix + suffix;
   }
 
-  @Provides()
+  @provides()
   prefix(noopDep: string) {
     return `prefix${noopDep}`;
   }
 
-  @Provides()
+  @provides()
   suffix(noopDep: string) {
     return `Suffix${noopDep}`;
   }
 
-  @Provides()
+  @provides()
   noopDep(): string {
     return '';
   }

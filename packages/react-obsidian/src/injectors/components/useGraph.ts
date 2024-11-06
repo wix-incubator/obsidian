@@ -10,7 +10,6 @@ export default <P>(
   props?: Partial<P>,
   injectionToken?: string,
 ) => {
-
   const [graph] = useState(() => {
     const resolvedGraph = graphRegistry.resolve(keyOrGraph, 'lifecycleOwner', props, injectionToken);
     resolvedGraph.onBind(target);
@@ -18,7 +17,7 @@ export default <P>(
   });
   useEffect(() => {
     referenceCounter.retain(graph);
-    return () => referenceCounter.release(graph, (g) => graphRegistry.clear(g));
+    return () => referenceCounter.release(graph, g => graphRegistry.clear(g));
   }, [graph]);
   return graph;
 };

@@ -43,7 +43,7 @@ describe('injectHook', () => {
       Obsidian.registerGraph('mainGraph', () => MainGraph);
       const injectedHook = injectHook<InjectedProps & OwnProps, Result>(hook, 'mainGraph');
       const { result } = renderHook(injectedHook, { initialProps: { ownProp: expectedResult.ownProp } });
-        expect(result.current).toStrictEqual(expectedResult);
+      expect(result.current).toStrictEqual(expectedResult);
     });
   });
 

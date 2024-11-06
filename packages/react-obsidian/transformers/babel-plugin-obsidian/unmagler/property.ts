@@ -3,19 +3,19 @@ import {
   getDecoratorName,
   getDecoratorByName,
   passParamNameAsInjectArgument,
-  getDecoratorArgument,
   AcceptedNodeType,
+  getDecoratorStringArgument,
 } from '../helpers';
 
 function savePropertyName(name: string, node: AcceptedNodeType) {
   const decorator = getDecoratorByName(node.decorators, name);
-  if (getDecoratorName(decorator) === name && injectIsNotNamed(decorator!)) {
+  if ((getDecoratorName(decorator) === name) && injectIsNotNamed(decorator!)) {
     passParamNameAsInjectArgument(node, decorator!);
   }
 }
 
 function injectIsNotNamed(decorator: Decorator): boolean {
-  return getDecoratorArgument(decorator) === undefined;
+  return getDecoratorStringArgument(decorator) === undefined;
 }
 
 export default savePropertyName;

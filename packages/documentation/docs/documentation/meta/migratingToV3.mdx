@@ -1,0 +1,39 @@
+---
+sidebar_position: 4
+title: "Migrate to v3.x"
+---
+
+Migrating from v2.x to v3.x is a straightforward process. This guide will help you migrate your existing codebase to the latest version of Obsidian.
+
+## Breaking changes
+1. **Minimum supported version of TypeScript is now v5.0.0.** If you are using an older version of TypeScript, you will need to upgrade to v5.0.0 or later.
+2. **Legacy decorators are no longer supported.** Starting from v3.x, Obsidian uses the stage 3 decorators proposal which is enabled by default in TypeScript v5.0.0. To use the new decorators proposal, you will need to remove the `experimentalDecorators` and `emitDecoratorMetadata` options from your `tsconfig.json` file:
+
+```js title="tsconfig.json"
+{
+  "compilerOptions": {
+    // Removed lines start
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+    // Removed lines end
+  }
+}
+```
+
+Additionally, update your Babel configurations file to use the new decorators proposal:
+
+```js title="babel.config.js"
+module.exports = {
+  plugins: [
+// Add this line
+    ['@babel/plugin-proposal-decorators', {version: '2023-11'}], 
+    // Remove this line
+    ['@babel/plugin-proposal-decorators', {legacy: true}],
+  ]
+};
+```
+
+## Deprecations
+With the release of v3.x, we're aligning our API with the community standards. All decorators that were previously capitalized are now camel-cased. For example, the `@Graph` decorator is now `@graph` and the `@LifecycleBound` decorator is now `@lifecycleBound`.
+
+The capitalized decorators will continue to work in v3.x, but they will be removed in the next major release. We recommend updating your codebase to use the camel-cased decorators to avoid any breaking changes in the future.

@@ -1,17 +1,14 @@
-import { isNumber } from '../../utils/isNumber';
 import InjectionMetadata from '../../injectors/class/InjectionMetadata';
 
-export function Inject(name?: string) {
-  return (
-    target: Object | any,
-    _propertyKey?: string,
-    indexOrPropertyDescriptor?: number | PropertyDescriptor,
-  ) => {
-    const metadata = new InjectionMetadata();
-    if (isNumber(indexOrPropertyDescriptor)) {
-      metadata.saveConstructorParamMetadata(target, name!, indexOrPropertyDescriptor);
-    } else {
-      metadata.savePropertyMetadata(target.constructor, name!);
-    }
+export function inject<This, Return>(name?: string) {
+  return (_target: undefined, context: ClassFieldDecoratorContext<This, Return>) => {
+    context.addInitializer(function (this: This) {
+      const metadata = new InjectionMetadata();
+      metadata.savePropertyMetadata((this as object).constructor, name!);
+    });
+
+    return function (this: This, value: Return) {
+      return value;
+    };
   };
 }

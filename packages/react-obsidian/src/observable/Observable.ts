@@ -14,7 +14,7 @@ export class Observable<T> implements IObservable<T> {
 
   public set value(value: T) {
     this.currentValue = value;
-    this.subscribers.forEach((subscriber) => subscriber(value));
+    this.subscribers.forEach(subscriber => subscriber(value));
   }
 
   async first(): Promise<T> {
@@ -35,7 +35,7 @@ export class Observable<T> implements IObservable<T> {
     return () => this.subscribers.delete(onNext);
   }
 
-  public unsubscribe(onNext:OnNext<T>) {
+  public unsubscribe(onNext: OnNext<T>) {
     if (!this.subscribers.has(onNext)) {
       throw new Error(`Can't unsubscribe, subscriber doesn't exist`);
     }

@@ -1,36 +1,36 @@
 import {
   ObjectGraph,
-  Graph,
-  Provides,
-  Inject,
-  Injectable,
+  graph,
+  provides,
+  inject,
+  injectable,
 } from '..';
 
-@Graph()
+@graph()
 class GraphA extends ObjectGraph {
   fromGraphA = 'from GraphA';
 
-  @Provides()
+  @provides()
   firstDep(): string {
     return `only ${this.fromGraphA}`;
   }
 
-  @Provides()
+  @provides()
   secondDep(): string {
     return this.fromGraphA;
   }
 }
 
-@Graph()
+@graph()
 class GraphB extends GraphA {
   private fromGraphB = 'from GraphB';
 
-  @Provides()
+  @provides()
   override secondDep(): string {
     return `overriding ${this.fromGraphB}`;
   }
 
-  @Provides()
+  @provides()
   thirdDep(): string {
     return this.fromGraphB;
   }
@@ -48,11 +48,11 @@ describe('ProviderBinder', () => {
   });
 
   it('injects classes', () => {
-    @Injectable(GraphB)
+    @injectable(GraphB)
     class Uut {
-      @Inject() firstDep!: string;
-      @Inject() secondDep!: string;
-      @Inject() thirdDep!: string;
+      @inject() firstDep!: string;
+      @inject() secondDep!: string;
+      @inject() thirdDep!: string;
     }
 
     const uut = new Uut();

@@ -1,53 +1,53 @@
-export const invalidGraph = `import { Graph, ObjectGraph, Provides } from 'src';
+export const invalidGraph = `import { graph, ObjectGraph, provides } from 'src';
 
-@Graph()
+@graph()
 class SimpleGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   foo(bar: any): string {
     return 'foo';
   }
 
-  @Provides()
+  @provides()
   bar(foo: any): string {
     return 'bar';
   }
 }`;
 
-export const circularDependencyBetween3Providers = `import { Graph, ObjectGraph, Provides } from 'src';
+export const circularDependencyBetween3Providers = `import { graph, ObjectGraph, provides } from 'src';
 
-@Graph()
+@graph()
 class SimpleGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   foo(bar: any): string {
     return 'foo';
   }
 
-  @Provides()
+  @provides()
   bar(baz: any): string {
     return 'bar';
   }
 
-  @Provides()
+  @provides()
   baz(foo: any): string {
     return 'baz';
   }
 }`;
 
-export const circularDependencyBetweenSomeOfTheProviders = `import { Graph, ObjectGraph, Provides } from 'src';
+export const circularDependencyBetweenSomeOfTheProviders = `import { graph, ObjectGraph, provides } from 'src';
 
-@Graph()
+@graph()
 class SimpleGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   foo(bar: any): string {
     return 'foo';
   }
 
-  @Provides()
+  @provides()
   bar(baz: any): string {
     return 'bar';
   }
 
-  @Provides()
+  @provides()
   baz(bar: any): string {
     return 'baz';
   }

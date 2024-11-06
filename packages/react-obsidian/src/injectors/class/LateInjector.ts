@@ -1,6 +1,7 @@
 import { isString } from 'lodash';
 import { ObjectGraph } from '../../graph/ObjectGraph';
 import graphRegistry from '../../graph/registry/GraphRegistry';
+import { getMetadata } from '../../utils/reflect';
 import InjectionMetadata from './InjectionMetadata';
 
 export const GRAPH_INSTANCE_NAME_KEY = 'GRAPH_INSTANCE_NAME';
@@ -23,7 +24,7 @@ class LateInjector<T extends object> {
   }
 
   private getGraphInstance(target: T) {
-    const graphInstanceName = Reflect.getMetadata(GRAPH_INSTANCE_NAME_KEY, target.constructor);
+    const graphInstanceName = getMetadata(target.constructor, GRAPH_INSTANCE_NAME_KEY);
     return graphRegistry.getGraphInstance(graphInstanceName);
   }
 }

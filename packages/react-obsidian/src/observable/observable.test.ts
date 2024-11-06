@@ -46,9 +46,9 @@ describe('makeObservable', () => {
 
   it('should subscribe only once', () => {
     const observable = new Observable({});
-    const subscriber = () => {};
+    const subscriber = () => { void 0; };
     observable.subscribe(subscriber);
-    expect(() => observable.subscribe(subscriber)).toThrowError('Subscriber already subscribed');
+    expect(() => observable.subscribe(subscriber)).toThrow('Subscriber already subscribed');
   });
 
   it('should unsubscribe', () => {
@@ -70,8 +70,8 @@ describe('makeObservable', () => {
 
   it('should throw error because the subscriber is not subscribed', () => {
     const observable = new Observable({});
-    const subscriber = () => { };
-    expect(() => observable.unsubscribe(subscriber)).toThrowError(`Can't unsubscribe, subscriber doesn't exist`);
+    const subscriber = () => { void 0; };
+    expect(() => observable.unsubscribe(subscriber)).toThrow(`Can't unsubscribe, subscriber doesn't exist`);
   });
 
   it('should await the current value', async () => {

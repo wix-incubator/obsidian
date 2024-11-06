@@ -3,6 +3,7 @@ import { Graph } from '../Graph';
 import { Middleware } from './Middleware';
 import GraphMiddlewareChain from './GraphMiddlewareChain';
 import { ObtainLifecycleBoundGraphException } from './ObtainLifecycleBoundGraphException';
+import { getMetadata } from '../../utils/reflect';
 import { getGlobal } from '../../utils/getGlobal';
 import { isString } from '../../utils/isString';
 
@@ -14,7 +15,7 @@ export class GraphRegistry {
   private readonly nameToInstance = new Map<string, Graph>();
   private readonly graphToSubgraphs = new Map<Constructable<Graph>, Set<Constructable<Graph>>>();
   private readonly graphMiddlewares = new GraphMiddlewareChain();
-  private readonly keyToGenerator = new Map<string,() => Constructable<Graph>>();
+  private readonly keyToGenerator = new Map<string, () => Constructable<Graph>>();
   private readonly keyToGraph = new Map<string, Constructable<Graph>>();
 
   register(constructor: Constructable<Graph>, subgraphs: Constructable<Graph>[] = []) {
@@ -36,7 +37,7 @@ export class GraphRegistry {
   getSubgraphs(graph: Graph): Graph[] {
     const Graph = this.instanceToConstructor.get(graph)!;
     const subgraphs = this.graphToSubgraphs.get(Graph) ?? new Set();
-    return Array.from(subgraphs).map((G) => this.resolve(G));
+    return Array.from(subgraphs).map(G => this.resolve(G));
   }
 
   getGraphInstance(name: string): Graph {
@@ -44,15 +45,15 @@ export class GraphRegistry {
   }
 
   resolve<T extends Graph>(
-    keyOrGraph: String | Constructable<T>,
+    keyOrGraph: string | Constructable<T>,
     source: 'lifecycleOwner' | 'classInjection' | 'serviceLocator' = 'lifecycleOwner',
     props: any = undefined,
     injectionToken?: string,
   ): T {
     const Graph = isString(keyOrGraph) ?
       this.getGraphConstructorByKey<T>(keyOrGraph) :
-      keyOrGraph as Constructable<T>;
-    if (( this.isSingleton(Graph) || this.isBoundToReactLifecycle(Graph)) && this.has(Graph, injectionToken)) {
+      keyOrGraph;
+    if ((this.isSingleton(Graph) || this.isBoundToReactLifecycle(Graph)) && this.has(Graph, injectionToken)) {
       return this.isComponentScopedLifecycleBound(Graph) ?
         this.getByInjectionToken(Graph, injectionToken) :
         this.getFirst(Graph);
@@ -81,7 +82,7 @@ export class GraphRegistry {
     if (this.isComponentScopedLifecycleBound(Graph)) {
       return Array
         .from(instances)
-        .some((graph) => this.instanceToInjectionToken.get(graph) === injectionToken);
+        .some(graph => this.instanceToInjectionToken.get(graph) === injectionToken);
     }
 
     return (this.constructorToInstance.get(Graph)?.size ?? 0) > 0;
@@ -112,15 +113,15 @@ export class GraphRegistry {
   }
 
   private isSingleton(Graph: Constructable<Graph>): boolean {
-    return Reflect.getMetadata('isSingleton', Graph) ?? false;
+    return getMetadata(Graph, 'isSingleton') ?? false;
   }
 
   private isBoundToReactLifecycle(Graph: Constructable<Graph>): boolean {
-    return Reflect.getMetadata('isLifecycleBound', Graph) ?? false;
+    return getMetadata(Graph, 'isLifecycleBound') ?? false;
   }
 
   private isComponentScopedLifecycleBound(Graph: Constructable<Graph>): boolean {
-    return Reflect.getMetadata('lifecycleScope', Graph) === 'component';
+    return getMetadata(Graph, 'lifecycleScope') === 'component';
   }
 
   clearGraphAfterItWasMockedInTests(graphName: string) {
@@ -161,7 +162,7 @@ export class GraphRegistry {
 
   private clearGraphsRegisteredByKey(Graph: Constructable<Graph>) {
     [...this.keyToGraph.keys()]
-      .map((key) => [key, this.keyToGraph.get(key)!] as [string, Constructable<Graph>])
+      .map(key => [key, this.keyToGraph.get(key)!] as [string, Constructable<Graph>])
       .filter(([_, $Graph]) => $Graph === Graph)
       .forEach(([key, _]) => {
         this.keyToGraph.delete(key);

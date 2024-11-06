@@ -4,6 +4,7 @@ import { Graph } from '../../graph/Graph';
 import InjectionMetadata from './InjectionMetadata';
 import { GRAPH_INSTANCE_NAME_KEY } from './LateInjector';
 import referenceCounter from '../../ReferenceCounter';
+import { defineMetadata } from '../../utils/reflect';
 
 export default class ClassInjector {
   constructor(
@@ -30,25 +31,17 @@ export default class ClassInjector {
         if (isReactClassComponent) {
           referenceCounter.retain(graph);
         }
-        Reflect.defineMetadata(GRAPH_INSTANCE_NAME_KEY, graph.name, target);
-        const argsToInject = this.injectConstructorArgs(args, graph, target);
+        defineMetadata(target, GRAPH_INSTANCE_NAME_KEY, graph.name);
+
         graph.onBind(target);
-        const createdObject = Reflect.construct(target, argsToInject, newTarget);
+        const createdObject = Reflect.construct(target, args, newTarget);
         this.injectProperties(target, createdObject, graph);
-        const originalComponentWillUnmount = createdObject.componentWillUnmount;
+        const originalComponentWillUnmount: () => void | undefined = createdObject.componentWillUnmount;
         createdObject.componentWillUnmount = () => {
           originalComponentWillUnmount?.();
-          referenceCounter.release(graph, (g) => graphRegistry.clear(g));
+          referenceCounter.release(graph, g => graphRegistry.clear(g));
         };
         return createdObject;
-      }
-
-      private injectConstructorArgs(args: any[], graph: Graph, target: any): any[] {
-        const argsToInject = injectionMetadata.getConstructorArgsToInject(target);
-        if (!argsToInject.hasArgs()) return args;
-        return [...args, ...new Array(Math.abs(args.length - argsToInject.size()))].map((value, idx): any => {
-          return value ?? graph.retrieve(argsToInject.getProperty(idx));
-        });
       }
 
       private injectProperties(target: any, createdObject: any, graph: Graph) {
