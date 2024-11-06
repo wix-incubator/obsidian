@@ -4,6 +4,7 @@ import { PathResolverStub } from '../stubs/PathResolverStub';
 import {
   validFileWithTwoGraphs,
   validGraph,
+  validGraphThatExtendsAnotherGraph,
   validGraphWithNamedExportSubgraph,
   validGraphWithNestedSubgraphs,
   validGraphWithRegularMethod,
@@ -26,6 +27,7 @@ ruleTester.run(
       validGraphWithNamedExportSubgraph,
       validGraphWithRegularMethod,
       validGraphWithNestedSubgraphs,
+      validGraphThatExtendsAnotherGraph,
     ],
     invalid: [
       {

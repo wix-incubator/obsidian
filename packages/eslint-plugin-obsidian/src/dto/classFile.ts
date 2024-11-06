@@ -7,4 +7,8 @@ export class ClassFile {
     public readonly imports: Import[],
     public readonly path: string,
   ) {}
+
+  get superClass() {
+    return this.clazz.superClass;
+  }
 }

@@ -3,6 +3,7 @@ import { Decorator } from './decorator';
 import { assertDefined } from '../utils/assertions';
 import { isMethodDefinition } from '../utils/ast';
 import { Method } from './method';
+import { Identifier } from './identifier';
 
 export class Clazz {
   constructor(public node: TSESTree.ClassDeclaration) {
@@ -25,6 +26,10 @@ export class Clazz {
     });
   }
 
+  get superClass() {
+    return this.node.superClass && new Identifier(this.node.superClass).name;
+  }
+
   get body() {
     return this.node.body.body;
   }
@@ -44,7 +49,7 @@ export class Clazz {
     return decorator;
   }
 
-  private get name() {
+  public get name() {
     return this.node.id?.name;
   }
 }
