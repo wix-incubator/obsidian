@@ -779,92 +779,92 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/core-darwin-arm64@npm:1.7.40":
-  version: 1.7.40
-  resolution: "@swc/core-darwin-arm64@npm:1.7.40"
+"@swc/core-darwin-arm64@npm:1.9.1":
+  version: 1.9.1
+  resolution: "@swc/core-darwin-arm64@npm:1.9.1"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@swc/core-darwin-x64@npm:1.7.40":
-  version: 1.7.40
-  resolution: "@swc/core-darwin-x64@npm:1.7.40"
+"@swc/core-darwin-x64@npm:1.9.1":
+  version: 1.9.1
+  resolution: "@swc/core-darwin-x64@npm:1.9.1"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm-gnueabihf@npm:1.7.40":
-  version: 1.7.40
-  resolution: "@swc/core-linux-arm-gnueabihf@npm:1.7.40"
+"@swc/core-linux-arm-gnueabihf@npm:1.9.1":
+  version: 1.9.1
+  resolution: "@swc/core-linux-arm-gnueabihf@npm:1.9.1"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm64-gnu@npm:1.7.40":
-  version: 1.7.40
-  resolution: "@swc/core-linux-arm64-gnu@npm:1.7.40"
+"@swc/core-linux-arm64-gnu@npm:1.9.1":
+  version: 1.9.1
+  resolution: "@swc/core-linux-arm64-gnu@npm:1.9.1"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@swc/core-linux-arm64-musl@npm:1.7.40":
-  version: 1.7.40
-  resolution: "@swc/core-linux-arm64-musl@npm:1.7.40"
+"@swc/core-linux-arm64-musl@npm:1.9.1":
+  version: 1.9.1
+  resolution: "@swc/core-linux-arm64-musl@npm:1.9.1"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@swc/core-linux-x64-gnu@npm:1.7.40":
-  version: 1.7.40
-  resolution: "@swc/core-linux-x64-gnu@npm:1.7.40"
+"@swc/core-linux-x64-gnu@npm:1.9.1":
+  version: 1.9.1
+  resolution: "@swc/core-linux-x64-gnu@npm:1.9.1"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@swc/core-linux-x64-musl@npm:1.7.40":
-  version: 1.7.40
-  resolution: "@swc/core-linux-x64-musl@npm:1.7.40"
+"@swc/core-linux-x64-musl@npm:1.9.1":
+  version: 1.9.1
+  resolution: "@swc/core-linux-x64-musl@npm:1.9.1"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@swc/core-win32-arm64-msvc@npm:1.7.40":
-  version: 1.7.40
-  resolution: "@swc/core-win32-arm64-msvc@npm:1.7.40"
+"@swc/core-win32-arm64-msvc@npm:1.9.1":
+  version: 1.9.1
+  resolution: "@swc/core-win32-arm64-msvc@npm:1.9.1"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@swc/core-win32-ia32-msvc@npm:1.7.40":
-  version: 1.7.40
-  resolution: "@swc/core-win32-ia32-msvc@npm:1.7.40"
+"@swc/core-win32-ia32-msvc@npm:1.9.1":
+  version: 1.9.1
+  resolution: "@swc/core-win32-ia32-msvc@npm:1.9.1"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"@swc/core-win32-x64-msvc@npm:1.7.40":
-  version: 1.7.40
-  resolution: "@swc/core-win32-x64-msvc@npm:1.7.40"
+"@swc/core-win32-x64-msvc@npm:1.9.1":
+  version: 1.9.1
+  resolution: "@swc/core-win32-x64-msvc@npm:1.9.1"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"@swc/core@npm:^1.7.39":
-  version: 1.7.40
-  resolution: "@swc/core@npm:1.7.40"
+"@swc/core@npm:^1.7.26":
+  version: 1.9.1
+  resolution: "@swc/core@npm:1.9.1"
   dependencies:
-    "@swc/core-darwin-arm64": 1.7.40
-    "@swc/core-darwin-x64": 1.7.40
-    "@swc/core-linux-arm-gnueabihf": 1.7.40
-    "@swc/core-linux-arm64-gnu": 1.7.40
-    "@swc/core-linux-arm64-musl": 1.7.40
-    "@swc/core-linux-x64-gnu": 1.7.40
-    "@swc/core-linux-x64-musl": 1.7.40
-    "@swc/core-win32-arm64-msvc": 1.7.40
-    "@swc/core-win32-ia32-msvc": 1.7.40
-    "@swc/core-win32-x64-msvc": 1.7.40
+    "@swc/core-darwin-arm64": 1.9.1
+    "@swc/core-darwin-x64": 1.9.1
+    "@swc/core-linux-arm-gnueabihf": 1.9.1
+    "@swc/core-linux-arm64-gnu": 1.9.1
+    "@swc/core-linux-arm64-musl": 1.9.1
+    "@swc/core-linux-x64-gnu": 1.9.1
+    "@swc/core-linux-x64-musl": 1.9.1
+    "@swc/core-win32-arm64-msvc": 1.9.1
+    "@swc/core-win32-ia32-msvc": 1.9.1
+    "@swc/core-win32-x64-msvc": 1.9.1
     "@swc/counter": ^0.1.3
-    "@swc/types": ^0.1.13
+    "@swc/types": ^0.1.14
   peerDependencies:
     "@swc/helpers": "*"
   dependenciesMeta:
@@ -891,7 +891,7 @@ __metadata:
   peerDependenciesMeta:
     "@swc/helpers":
       optional: true
-  checksum: edd6554056b7fc8931d82327201c615d7b51d281f51da92ca807d9e2aa45a3f7e52be4b7c77d0913ac3b20703f21e2c430d3537b92e684688e21a0c02622160c
+  checksum: 6387922bf4e145fd64e224a6a6c01cee21215cc7470c6ef545a3230c9799ee10cfd28acdc4fef4f5bb0cb98db8d430f49599dcfbdb0dcf945bfdba7559583c7e
   languageName: node
   linkType: hard
 
@@ -902,12 +902,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/types@npm:^0.1.13":
-  version: 0.1.13
-  resolution: "@swc/types@npm:0.1.13"
+"@swc/types@npm:^0.1.14":
+  version: 0.1.14
+  resolution: "@swc/types@npm:0.1.14"
   dependencies:
     "@swc/counter": ^0.1.3
-  checksum: 4d9ef0fba20e410bee38b20b60eeb284a1284c1cf6b5f84754b6f5e467e5e0621e2db67dc31e22c524a8d63f36d0a1d530126cd97752a85f140d91bf53553e01
+  checksum: d7f198e1a07f4dbcff62a9823dfa81703e0029a908a02f9e9bfb9f18bc259c05b780f3385d36ec220e86a107dd6908f96bdc50319699bd34bf04b01d9adb5d5b
   languageName: node
   linkType: hard
 
@@ -1454,6 +1454,17 @@ __metadata:
   version: 1.2.0
   resolution: "@ungap/structured-clone@npm:1.2.0"
   checksum: 4f656b7b4672f2ce6e272f2427d8b0824ed11546a601d8d5412b9d7704e83db38a8d9f402ecdf2b9063fc164af842ad0ec4a55819f621ed7e7ea4d1efcc74524
+  languageName: node
+  linkType: hard
+
+"@vitejs/plugin-react-swc@npm:^3.7.1":
+  version: 3.7.1
+  resolution: "@vitejs/plugin-react-swc@npm:3.7.1"
+  dependencies:
+    "@swc/core": ^1.7.26
+  peerDependencies:
+    vite: ^4 || ^5
+  checksum: 64f7e5d3136d5080956ca1b8fcce4c76237cc1981b67c6812db8d03dc7cbaac1f85b7c9eec95066cea9e68e7e64768fc8d3f055f81f24626334a4e1c28e2333a
   languageName: node
   linkType: hard
 
@@ -2907,6 +2918,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^7.11.0
     "@typescript-eslint/parser": ^7.2.0
     "@vitejs/plugin-react": ^4.3.2
+    "@vitejs/plugin-react-swc": ^3.7.1
     eslint: ^8.57.0
     eslint-config-next: ^14.2.3
     eslint-plugin-obsidian: ^2.11.4
@@ -2917,7 +2929,6 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-obsidian: ^2.11.4
-    swc-plugin-obsidian: "file:.yalc/swc-plugin-obsidian"
     typescript: ^5.2.2
     vite: ^5.4.9
     vite-plugin-inspect: ^0.8.7
@@ -5584,15 +5595,6 @@ __metadata:
   version: 1.0.0
   resolution: "supports-preserve-symlinks-flag@npm:1.0.0"
   checksum: 53b1e247e68e05db7b3808b99b892bd36fb096e6fba213a06da7fab22045e97597db425c724f2bbd6c99a3c295e1e73f3e4de78592289f38431049e1277ca0ae
-  languageName: node
-  linkType: hard
-
-"swc-plugin-obsidian@file:.yalc/swc-plugin-obsidian::locator=example-vite-app%40workspace%3A.":
-  version: 3.0.0-alpha.7
-  resolution: "swc-plugin-obsidian@file:.yalc/swc-plugin-obsidian#.yalc/swc-plugin-obsidian::hash=ef48c1&locator=example-vite-app%40workspace%3A."
-  dependencies:
-    "@swc/core": ^1.7.39
-  checksum: 1e354bbd0c5fcb527bef3ed9b504e6af27c6f1e4d856dc94a226c9deaee4261925a20cf8e47b28addc4582edfe52b27577fe8ea1188ef6f03fa5d3d3b21f8b19
   languageName: node
   linkType: hard
 

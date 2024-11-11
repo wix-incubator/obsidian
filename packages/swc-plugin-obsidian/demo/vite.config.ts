@@ -1,14 +1,17 @@
-import { defineConfig } from 'vitest/config.js';
-import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react-swc';
 import Inspect from 'vite-plugin-inspect'
-import obsidian from 'swc-plugin-obsidian'
+import path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react(),
-    // (obsidian as any).default(), // UNCOMMENT TO TROUBLESHOOT
-    obsidian.default(),
+    react({
+      plugins: [
+        [path.resolve('../target/wasm32-wasi/release/swc_plugin_obsidian.wasm'), {}]
+      ],
+      tsDecorators: true,
+    }),
     Inspect(),
   ],
   resolve: {
@@ -17,9 +20,4 @@ export default defineConfig({
     },
   },
   base: '/',
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: './setupTests.ts',
-  },
 });

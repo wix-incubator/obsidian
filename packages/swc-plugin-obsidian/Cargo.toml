@@ -7,9 +7,11 @@ edition = "2021"
 crate-type = ["cdylib"]
 
 [dependencies]
-swc_core = { version = "5.0.0", features = ["ecma_plugin_transform"] }
+swc_core = { version = "4.0.0", features = ["ecma_plugin_transform"] }
 
 [profile.release]
 lto = true
 codegen-units = 1
 opt-level = 3
+strip = true  # Strip symbols from binary
+panic = "abort"  # Remove panic unwinding code

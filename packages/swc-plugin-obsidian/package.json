@@ -5,8 +5,10 @@
     "author": "Guy Carmeli",
     "main": "target/wasm32-wasi/release/swc_plugin_obsidian.wasm",
     "scripts": {
-      "build": "tsc",
-      "test": "jest"
+      "build": "RUSTFLAGS=\"-C debuginfo=2\" cargo build --release --target wasm32-wasi",
+      "copyBinary": "mkdir -p demo/node_modules/.swc & cp target/wasm32-wasi/release/swc_plugin_obsidian.wasm demo/node_modules/.swc/",
+      "cleanBuildAndCopy": "cargo clean & yarn build & yarn copyBinary",
+      "test": "echo \"Error: test command not implemented yet\" && exit 1"
     },
     "dependencies": {
       "@swc/core": "^1.3.96"

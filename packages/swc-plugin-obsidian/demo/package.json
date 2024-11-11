@@ -14,11 +14,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "eslint-plugin-obsidian": "^2.11.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-obsidian": "^2.11.4",
-    "swc-plugin-obsidian": "file:.yalc/swc-plugin-obsidian"
+    "react-obsidian": "^2.11.4"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",
@@ -30,8 +28,10 @@
     "@typescript-eslint/eslint-plugin": "^7.11.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.3.2",
+    "@vitejs/plugin-react-swc": "^3.7.1",
     "eslint": "^8.57.0",
     "eslint-config-next": "^14.2.3",
+    "eslint-plugin-obsidian": "^2.11.4",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
     "jsdom": "^24.1.0",

@@ -1,12 +1,11 @@
 #[cfg(test)]
 mod tests {
     use super::*;
-    use swc_core::common::{chain, Mark};
     use swc_core::ecma::transforms::testing::test;
     use swc_core::ecma::visit::as_folder;
 
     test!(
-        Default::default(),
+        syntax(),
         |_| as_folder(DiTransformer),
         provides_decorator,
         r#"
@@ -28,7 +27,7 @@ mod tests {
     );
 
     test!(
-        Default::default(),
+        syntax(),
         |_| as_folder(DiTransformer),
         inject_decorator,
         r#"
@@ -44,4 +43,11 @@ mod tests {
         }
         "#
     );
+
+    fn syntax() -> swc_core::ecma::parser::Syntax {
+        swc_core::ecma::parser::Syntax::Typescript(swc_core::ecma::parser::TsConfig {
+            decorators: true,
+            ..Default::default()
+        })
+    }
 }
