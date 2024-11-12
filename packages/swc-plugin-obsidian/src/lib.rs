@@ -37,7 +37,7 @@ impl VisitMut for DiTransformer {
 }
 
 fn find_decorator(decorators: &[Decorator], name: &str) -> Option<usize> {
-  println!("[OBSIDIAN-SWC] 🔍 Searching for decorator: {} in {:?}", name, decorators);
+  println!("[OBSIDIAN-SWC] 🔍 Searching for decorator: {}", name);
   decorators.iter().position(|dec| {
       matches!(
           &*dec.expr,
@@ -73,22 +73,12 @@ fn get_prop_name(key: &PropName) -> Option<String> {
 }
 
 fn transform_provides_decorator(decorator: &mut Decorator, method_name: &str) {
-  println!("[OBSIDIAN-SWC] 🔍 Transforming Provides decorator for method: {}", method_name);
-  let span = decorator.span;
-  decorator.expr = Box::new(Expr::Call(CallExpr {
-      span,
-      callee: Callee::Expr(Box::new(Expr::Ident(Ident::new(
-          method_name.into(),
-          span,
-          Default::default(),
-      )))),
-      args: vec![ExprOrSpread {
+  if let Expr::Call(call_expr) = &mut *decorator.expr {
+      call_expr.args = vec![ExprOrSpread {
           spread: None,
-          expr: Box::new(create_name_object(method_name, span)),
-      }],
-      type_args: None,
-      ctxt: Default::default(),
-  }));
+          expr: Box::new(create_name_object(method_name, decorator.span)),
+      }];
+  }
 }
 
 fn transform_inject_decorator(decorator: &mut Decorator, prop_name: &str) {

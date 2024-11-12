@@ -6,6 +6,6 @@ export class DependencyGraph extends ObjectGraph {
   // @Provides({ name: 'hello' })
   @Provides()
   hello(): string {
-    return 'hello';
+    return 'hello from provider';
   }
 }
