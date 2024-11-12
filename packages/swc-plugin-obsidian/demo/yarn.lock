@@ -2929,6 +2929,7 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-obsidian: ^2.11.4
+    reflect-metadata: ^0.2.2
     typescript: ^5.2.2
     vite: ^5.4.9
     vite-plugin-inspect: ^0.8.7
@@ -4974,6 +4975,13 @@ __metadata:
     indent-string: ^4.0.0
     strip-indent: ^3.0.0
   checksum: fa1ef20404a2d399235e83cc80bd55a956642e37dd197b4b612ba7327bf87fa32745aeb4a1634b2bab25467164ab4ed9c15be2c307923dd08b0fe7c52431ae6b
+  languageName: node
+  linkType: hard
+
+"reflect-metadata@npm:^0.2.2":
+  version: 0.2.2
+  resolution: "reflect-metadata@npm:0.2.2"
+  checksum: a66c7b583e4efdd8f3c3124fbff33da2d0c86d8280617516308b32b2159af7a3698c961db3246387f56f6316b1d33a608f39bb2b49d813316dfc58f6d3bf3210
   languageName: node
   linkType: hard
 

@@ -16,7 +16,8 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-obsidian": "^2.11.4"
+    "react-obsidian": "^2.11.4",
+    "reflect-metadata": "^0.2.2"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.5",

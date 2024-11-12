@@ -15,7 +15,9 @@ impl VisitMut for DiTransformer {
 
       match member {
           ClassMember::Method(method) => {
+              println!("[OBSIDIAN-SWC] 🔍 Visiting method: {:?} with decorators: {:?}", get_method_name(&method.key), method.function.decorators.len());
               if let Some(provides_idx) = find_decorator(&method.function.decorators, "Provides") {
+                  println!("[OBSIDIAN-SWC] 🔍 Found Provides decorator...");
                   if let Some(method_name) = get_method_name(&method.key) {
                       transform_provides_decorator(&mut method.function.decorators[provides_idx], &method_name);
                       transform_method_params(&mut method.function);
@@ -35,6 +37,7 @@ impl VisitMut for DiTransformer {
 }
 
 fn find_decorator(decorators: &[Decorator], name: &str) -> Option<usize> {
+  println!("[OBSIDIAN-SWC] 🔍 Searching for decorator: {} in {:?}", name, decorators);
   decorators.iter().position(|dec| {
       matches!(
           &*dec.expr,
@@ -70,6 +73,7 @@ fn get_prop_name(key: &PropName) -> Option<String> {
 }
 
 fn transform_provides_decorator(decorator: &mut Decorator, method_name: &str) {
+  println!("[OBSIDIAN-SWC] 🔍 Transforming Provides decorator for method: {}", method_name);
   let span = decorator.span;
   decorator.expr = Box::new(Expr::Call(CallExpr {
       span,
@@ -154,6 +158,8 @@ fn transform_method_params(function: &mut Function) {
 
 #[plugin_transform]
 pub fn process_transform(program: Program, _config: TransformPluginProgramMetadata) -> Program {
-//   program.fold_with(&mut visit_mut_pass(DiTransformer))
-  return program.apply(visit_mut_pass(DiTransformer));
+  println!("[OBSIDIAN-SWC] 🔍 Starting DI transformation");
+  let result =  program.apply(visit_mut_pass(DiTransformer));
+  println!("[OBSIDIAN-SWC] ✅ Finished DI transformation");
+  result
 }
