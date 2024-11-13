@@ -81,22 +81,17 @@ fn transform_provides_decorator(decorator: &mut Decorator, method_name: &str) {
   }
 }
 
-fn transform_inject_decorator(decorator: &mut Decorator, prop_name: &str) {
-  let span = decorator.span;
-  decorator.expr = Box::new(Expr::Call(CallExpr {
-      span,
-      callee: Callee::Expr(Box::new(Expr::Ident(Ident::new(
-          "Inject".into(),
-          span,
-          Default::default(),
-      )))),
-      args: vec![ExprOrSpread {
+fn transform_inject_decorator(decorator: &mut Decorator, property_name: &str) {
+  if let Expr::Call(call_expr) = &mut *decorator.expr {
+      call_expr.args = vec![ExprOrSpread {
           spread: None,
-          expr: Box::new(Expr::Lit(Lit::Str(Str::from(prop_name)))),
-      }],
-      type_args: None,
-      ctxt: Default::default(),
-  }));
+          expr: Box::new(Expr::Lit(Lit::Str(Str {
+              span: decorator.span,
+              value: property_name.into(),
+              raw: None,
+          }))),
+      }];
+  }
 }
 
 fn create_name_object(name: &str, span: Span) -> Expr {
