@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "test": "yarn workspaces foreach run test --colors",
+    "test": "yarn workspaces foreach --exclude swc-plugin-obsidian run test --colors && yarn workspace swc-plugin-obsidian test",
     "lint": "yarn workspaces foreach run lint",
     "build": "yarn workspace react-obsidian build && yarn workspace eslint-plugin-obsidian build"
   },
