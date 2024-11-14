@@ -2,5 +2,7 @@
   "cSpell.words": [
     "debuginfo",
     "RUSTFLAGS"
-  ]
+  ],
+  "editor.bracketPairColorization.independentColorPoolPerBracketType": false,
+  "editor.tabSize": 2
 }

@@ -14549,7 +14549,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-obsidian@workspace:packages/react-obsidian":
+"react-obsidian@workspace:*, react-obsidian@workspace:packages/react-obsidian":
   version: 0.0.0-use.local
   resolution: "react-obsidian@workspace:packages/react-obsidian"
   dependencies:
@@ -16065,6 +16065,7 @@ __metadata:
     "@types/jest": ^29.5.8
     "@types/node": ^20.8.10
     jest: ^29.7.0
+    react-obsidian: "workspace:*"
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
