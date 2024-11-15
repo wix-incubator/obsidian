@@ -21,14 +21,8 @@ impl VisitMut for DiTransformer {
 
         match member {
             ClassMember::Method(method) => {
-                println!(
-                    "[OBSIDIAN-SWC] 🔍 Visiting method: {:?} with decorators: {:?}",
-                    get_method_name(&method.key),
-                    method.function.decorators.len()
-                );
                 if let Some(provides_idx) = find_decorator(&method.function.decorators, "Provides")
                 {
-                    println!("[OBSIDIAN-SWC] 🔍 Found Provides decorator...");
                     if let Some(method_name) = get_method_name(&method.key) {
                         transform_provides_decorator(
                             &mut method.function.decorators[provides_idx],
@@ -51,7 +45,6 @@ impl VisitMut for DiTransformer {
 }
 
 fn find_decorator(decorators: &[Decorator], name: &str) -> Option<usize> {
-    println!("[OBSIDIAN-SWC] 🔍 Searching for decorator: {}", name);
     decorators.iter().position(|dec| {
         matches!(
             &*dec.expr,
@@ -157,8 +150,5 @@ fn transform_method_params(function: &mut Function) {
 
 #[plugin_transform]
 pub fn process_transform(program: Program, _config: TransformPluginProgramMetadata) -> Program {
-    println!("[OBSIDIAN-SWC] 🔍 Starting DI transformation");
-    let result = program.apply(visit_mut_pass(DiTransformer));
-    println!("[OBSIDIAN-SWC] ✅ Finished DI transformation");
-    result
+    program.apply(visit_mut_pass(DiTransformer))
 }
