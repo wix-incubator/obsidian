@@ -21,8 +21,7 @@ impl VisitMut for DiTransformer {
 
         match member {
             ClassMember::Method(method) => {
-                if let Some(provides_idx) = find_decorator(&method.function.decorators, "Provides")
-                {
+                if let Some(provides_idx) = find_decorator(&method.function.decorators, "Provides") {
                     if let Some(method_name) = get_method_name(&method.key) {
                         transform_provides_decorator(
                             &mut method.function.decorators[provides_idx],
