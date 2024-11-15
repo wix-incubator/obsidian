@@ -5,11 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build --base=/react-todo-app-ddd-service",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "test": "vitest",
-    "test:ci": "vitest run",
-    "preview": "vite preview"
+    "test": "vitest"
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -24,16 +20,10 @@
     "@types/jest": "^29.5.12",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
-    "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^7.11.0",
     "@typescript-eslint/parser": "^7.2.0",
     "@vitejs/plugin-react": "^4.3.2",
     "@vitejs/plugin-react-swc": "^3.7.1",
-    "eslint": "^8.57.0",
-    "eslint-config-next": "^14.2.3",
-    "eslint-plugin-obsidian": "^2.11.4",
-    "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.6",
     "jsdom": "^24.1.0",
     "typescript": "^5.2.2",
     "unplugin-swc": "^1.5.1",
