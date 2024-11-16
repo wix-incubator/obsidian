@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite';
 // import react from '@vitejs/plugin-react-swc';
 import Inspect from 'vite-plugin-inspect'
-import path from 'path'
 import swc from 'unplugin-swc'
+const obsidian = require('../src').default;
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -21,7 +21,7 @@ export default defineConfig({
         experimental: {
           runPluginFirst: true,
           plugins: [
-            [path.resolve('../target/wasm32-wasi/release/swc_plugin_obsidian.wasm'), {}]
+            obsidian()
           ]
         }
       },
