@@ -6,7 +6,7 @@
   "main": "src/index.js",
   "scripts": {
     "build": "RUSTFLAGS=\"-C debuginfo=2\" cargo build --release --target wasm32-wasi",
-    "prepack": "copyBinary",
+    "prepack": "yarn copyBinary",
     "copyBinary": "cp target/wasm32-wasi/release/swc_plugin_obsidian.wasm src",
     "cleanBuildAndCopy": "cargo clean && yarn build && yarn copyBinary",
     "test": "cargo test"
