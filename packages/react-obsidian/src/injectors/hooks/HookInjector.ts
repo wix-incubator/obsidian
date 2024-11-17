@@ -6,10 +6,10 @@ import { Constructable } from '../../types';
 export default class HookInjector {
   inject<Args, Result>(
     hook: (args: Args) => Result,
-    Graph: Constructable<ObjectGraph>,
+    keyOrGraph: string | Constructable<ObjectGraph>,
   ): (args?: Partial<Args>) => Result {
     return (args?: Partial<Args>): Result => {
-      const graph = useGraph(Graph, hook, args);
+      const graph = useGraph(keyOrGraph, hook, args);
       return hook(new Proxy(args ?? {}, new Injector(graph)));
     };
   }

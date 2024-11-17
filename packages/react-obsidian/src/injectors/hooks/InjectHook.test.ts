@@ -3,6 +3,7 @@ import MainGraph from '../../../test/fixtures/MainGraph';
 import Subgraph from '../../../test/fixtures/Subgraph';
 import { DependenciesOf } from '../../types';
 import { injectHook, injectHookWithArguments } from './InjectHook';
+import { Obsidian } from '../..';
 
 describe('injectHook', () => {
   type InjectedProps = DependenciesOf<[MainGraph, Subgraph]>;
@@ -37,11 +38,25 @@ describe('injectHook', () => {
       const { result } = renderHook(injectedHook, { initialProps: { ownProp: expectedResult.ownProp } });
       expect(result.current).toStrictEqual(expectedResult);
     });
+
+    it('injects hook from a registered graph', () => {
+      Obsidian.registerGraph('mainGraph', () => MainGraph);
+      const injectedHook = injectHook<InjectedProps & OwnProps, Result>(hook, 'mainGraph');
+      const { result } = renderHook(injectedHook, { initialProps: { ownProp: expectedResult.ownProp } });
+        expect(result.current).toStrictEqual(expectedResult);
+    });
   });
 
   describe('injectHookWithArguments', () => {
     it('Generics defined', () => {
       const injectedHook = injectHookWithArguments<InjectedProps, OwnProps>(hook, MainGraph);
+      const { result } = renderHook(injectedHook, { initialProps: { ownProp: expectedResult.ownProp } });
+      expect(result.current).toStrictEqual(expectedResult);
+    });
+
+    it('injects hook from a registered graph', () => {
+      Obsidian.registerGraph('mainGraph', () => MainGraph);
+      const injectedHook = injectHookWithArguments<InjectedProps, OwnProps>(hook, 'mainGraph');
       const { result } = renderHook(injectedHook, { initialProps: { ownProp: expectedResult.ownProp } });
       expect(result.current).toStrictEqual(expectedResult);
     });

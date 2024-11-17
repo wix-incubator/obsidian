@@ -28,6 +28,7 @@
         "obsidian"
     ],
     "rules": {
+      "global-require": "off",
       "no-console":"off",
       "obsidian/unresolved-provider-dependencies": "error",
       "obsidian/no-circular-dependencies": "warn",
@@ -37,7 +38,8 @@
         {
           "code": 115,
           "comments": 200,
-          "ignoreRegExpLiterals": true
+          "ignoreRegExpLiterals": true,
+          "ignorePattern": "throw new Error\\(.*\\);|expect\\(.*\\)\\.toThrow\\(.*\\);"
         }
       ],
       "@stylistic/no-extra-semi": "error",

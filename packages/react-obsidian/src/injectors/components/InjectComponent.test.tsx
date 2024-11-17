@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import React from 'react';
-import type { Constructable, ObjectGraph } from 'src';
+import { Obsidian, type Constructable, type ObjectGraph } from '../..';
 import MainGraph, { Dependencies } from '../../../test/fixtures/MainGraph';
 import { injectComponent } from './InjectComponent';
 
@@ -35,7 +35,6 @@ describe('injectComponent', () => {
     expect(container.textContent).toBe('error: own prop not provided - Fear kills progress');
   });
 
-  // it throws an error if the Graph is undefined
   it('Throws an error if the Graph is undefined', () => {
     const Graph = undefined as unknown as Constructable<ObjectGraph>;
     expect(() => injectComponent(component, Graph)).toThrowError(
@@ -44,5 +43,12 @@ describe('injectComponent', () => {
       + `It's typically caused by circular dependencies.`
       + ` Check the implementation of component.`,
     );
+  });
+
+  it('Injects component by registered graph key', () => {
+    Obsidian.registerGraph('MainGraph', () => MainGraph);
+    const InjectedComponent = injectComponent(component, 'MainGraph');
+    const { container } = render(<InjectedComponent />);
+    expect(container.textContent).toBe('error: own prop not provided - Fear kills progress');
   });
 });
