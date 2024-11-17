@@ -11,12 +11,14 @@
     "cleanBuildAndCopy": "cargo clean && yarn build && yarn copyBinary",
     "test": "cargo test"
   },
-  "dependencies": {
-    "@swc/core": "^1.3.96"
+  "peerDependencies": {
+    "@swc/core": "^1.3.96",
+    "react-obsidian": "2.x"
   },
   "devDependencies": {
     "react-obsidian": "workspace:*",
-    "typescript": "^5.2.2"
+    "typescript": "^5.2.2",
+    "@swc/core": "^1.3.96"
   },
   "files": [
     "src/swc_plugin_obsidian.wasm",
