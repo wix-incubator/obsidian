@@ -1,0 +1,33 @@
+[package]
+name = "swc_plugin_obsidian"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+swc_core = { version = "4.0.0", features = [
+    "ecma_plugin_transform",
+    "ecma_utils",
+    "ecma_visit",
+    "ecma_ast",
+    "common"
+]}
+
+[dev-dependencies]
+swc_core = { version = "4.0.0", features = [
+    "ecma_plugin_transform",
+    "ecma_utils",
+    "ecma_visit",
+    "common",
+    "testing",
+    "ecma_parser",
+]}
+
+[profile.release]
+lto = true
+codegen-units = 1
+opt-level = 3
+strip = true
+panic = "abort"

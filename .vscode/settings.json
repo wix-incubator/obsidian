@@ -8,6 +8,7 @@
     "TSES",
     "unimported",
     "unmagler",
+    "unplugin",
     "unsubscribers"
   ],
   "eslint.ignoreUntitled": true,

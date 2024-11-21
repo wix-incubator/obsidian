@@ -1,0 +1,46 @@
+{
+  "name": "swc-plugin-obsidian",
+  "version": "2.13.0",
+  "description": "SWC plugin for Obsidian to be used with Vite or NestJS",
+  "author": "Guy Carmeli",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "RUSTFLAGS=\"-C debuginfo=2\" cargo build --release --target wasm32-wasi",
+    "prepack": "yarn copyBinary",
+    "copyBinary": "cp target/wasm32-wasi/release/swc_plugin_obsidian.wasm src",
+    "cleanBuildAndCopy": "cargo clean && yarn build && yarn copyBinary",
+    "test": "cargo test"
+  },
+  "peerDependencies": {
+    "@swc/core": "^1.3.96",
+    "react-obsidian": "2.x"
+  },
+  "devDependencies": {
+    "@swc/core": "^1.3.96",
+    "react-obsidian": "workspace:*",
+    "typescript": "^5.2.2"
+  },
+  "files": [
+    "src/swc_plugin_obsidian.wasm",
+    "src/index.d.ts"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "swc-plugin",
+    "swc",
+    "dependency",
+    "dependency",
+    "react",
+    "react-native",
+    "react native",
+    "dependency-injection",
+    "dependency injection",
+    "dependency inversion",
+    "inversion of control container",
+    "typescript",
+    "ioc",
+    "di",
+    "injector"
+  ],
+  "preferUnplugged": true
+}
