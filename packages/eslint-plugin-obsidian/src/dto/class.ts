@@ -34,6 +34,10 @@ export class Clazz {
     return this.node.body.body;
   }
 
+  public mapDecoratedMethods<T>(decoratorName: string, mapper: (method: Method) => T): T[] {
+    return this.getDecoratedMethods(decoratorName).map(mapper);
+  }
+
   public getDecoratedMethods(decoratorName: string): Method[] {
     return this.body
       .filter(isMethodDefinition)
