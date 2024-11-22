@@ -9,8 +9,9 @@ import {
   validGraphWithNestedSubgraphs,
   validGraphWithRegularMethod,
   validGraphWithSubgraph,
-  validGrapthWithSubgraphThatExtendsAnotherGraph,
+  validGraphWithSubgraphThatExtendsAnotherGraph,
   validLifecycleBoundGraphWithSubgraph,
+  validGraphThatExtendsAnotherConcreteGraph,
 } from './fixtures/validGraphs';
 import { invalidGraph } from './fixtures/invalidGraphs';
 
@@ -29,7 +30,8 @@ ruleTester.run(
       validGraphWithRegularMethod,
       validGraphWithNestedSubgraphs,
       validGraphThatExtendsAnotherGraph,
-      validGrapthWithSubgraphThatExtendsAnotherGraph,
+      validGraphWithSubgraphThatExtendsAnotherGraph,
+      validGraphThatExtendsAnotherConcreteGraph,
     ],
     invalid: [
       {
