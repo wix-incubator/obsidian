@@ -10,6 +10,10 @@ export class Clazz {
     assertDefined(this.node);
   }
 
+  get isAbstract() {
+    return this.node.abstract;
+  }
+
   get decoratorNames() {
     return this.decorators.map((decorator: Decorator) => {
       return decorator.expression.callee.name;
@@ -28,6 +32,10 @@ export class Clazz {
 
   get body() {
     return this.node.body.body;
+  }
+
+  public mapDecoratedMethods<T>(decoratorName: string, mapper: (method: Method) => T): T[] {
+    return this.getDecoratedMethods(decoratorName).map(mapper);
   }
 
   public getDecoratedMethods(decoratorName: string): Method[] {

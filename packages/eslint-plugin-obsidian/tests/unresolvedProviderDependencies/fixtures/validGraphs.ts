@@ -123,3 +123,48 @@ export default class GraphA extends AbstractGraph {
   }
 }
 `;
+
+export const validGraphWithSubgraphThatExtendsAnotherGraph = `
+import { Graph, ObjectGraph, Provides } from 'src';
+import { GraphThatExtendsAnotherGraph } from './graphThatExtendsAnotherGraph';
+
+@Graph({ subgraphs: [GraphThatExtendsAnotherGraph] })
+export default class GraphA extends ObjectGraph {
+  @Provides()
+  foo(bar: string, baz: string): string {
+    return 'foo' + bar + baz;
+  }
+}
+`;
+
+export const validGraphThatExtendsAnotherConcreteGraph = `
+@Graph()
+class GraphA extends ObjectGraph {
+  fromGraphA = 'from GraphA';
+
+  @Provides()
+  firstDep(): string {
+    return "only {this.fromGraphA}";
+  }
+
+  @Provides()
+  secondDep(): string {
+    return this.fromGraphA;
+  }
+}
+
+@Graph()
+class GraphB extends GraphA {
+  private fromGraphB = 'from GraphB';
+
+  @Provides()
+  override secondDep(): string {
+    return "overriding {this.fromGraphB}";
+  }
+
+  @Provides()
+  thirdDep(): string {
+    return this.fromGraphB;
+  }
+}
+`;
