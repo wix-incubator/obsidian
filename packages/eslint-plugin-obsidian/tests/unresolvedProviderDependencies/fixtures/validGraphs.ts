@@ -123,3 +123,16 @@ export default class GraphA extends AbstractGraph {
   }
 }
 `;
+
+export const validGrapthWithSubgraphThatExtendsAnotherGraph = `
+import { Graph, ObjectGraph, Provides } from 'src';
+import { GraphThatExtendsAnotherGraph } from './graphThatExtendsAnotherGraph';
+
+@Graph({ subgraphs: [GraphThatExtendsAnotherGraph] })
+export default class GraphA extends ObjectGraph {
+  @Provides()
+  foo(bar: string, baz: string): string {
+    return 'foo' + bar + baz;
+  }
+}
+`;

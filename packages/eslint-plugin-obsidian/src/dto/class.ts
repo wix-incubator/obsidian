@@ -10,6 +10,10 @@ export class Clazz {
     assertDefined(this.node);
   }
 
+  get isAbstract() {
+    return this.node.abstract;
+  }
+
   get decoratorNames() {
     return this.decorators.map((decorator: Decorator) => {
       return decorator.expression.callee.name;
