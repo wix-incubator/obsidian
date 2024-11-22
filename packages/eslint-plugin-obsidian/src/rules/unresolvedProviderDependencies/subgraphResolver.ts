@@ -43,11 +43,11 @@ export class SubgraphResolver {
 
   private getExtendedGraphs(clazz: ClassFile) {
     if (!clazz.superClass || clazz.superClass === 'ObjectGraph') return [];
-    return [this.classResolver.resolve(clazz.superClass, clazz)];
+    return [this.classResolver.resolve(clazz.superClass, clazz)!];
   }
 
   private getSubgraphsPropertyFromGraphDecorator({clazz}: ClassFile) {
-    if (clazz.isAbstract) return;
+    if (clazz.isAbstract) return undefined;
     const graphDecorator = clazz.requireDecorator('Graph');
     return graphDecorator.getProperty('subgraphs');
   }
