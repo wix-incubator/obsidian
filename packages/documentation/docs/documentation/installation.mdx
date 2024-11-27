@@ -72,6 +72,11 @@ Add the following options to your tsconfig.json file.
 ## 4. Add Obsidian's transformer
 Like most Dependency Injection frameworks, Obsidian uses automatic code generation to create the bindings necessary for resolving dependencies. This approach helps reduce the amount of boilerplate code required by developers.
 
+You'll need to add either the Babel or SWC plugins depending on your project's configuration.
+* **React Native:** React Native projects only support Babel, so you'll need to use the Babel plugin.
+* **Vite:** Vite supports both Babel and SWC. Choose the one according to your project's build system.
+* **NextJS:** NextJS supports both Babel and SWC. If your project uses the `next/font` package you'll have to use the SWC plugin as `next/font` doesn't support Babel.
+
 <Tabs>
   <TabItem value="babel" label="Babel (React Native or Vite + Babel)" default>
 
@@ -135,6 +140,8 @@ module.exports = {
   <TabItem value="swc" label="SWC (Vite + SWC)">
 
 ### Install the required dependencies
+Currently, Obsidian can be used via [unplugin-swc](https://github.com/unplugin/unplugin-swc) and [vite-plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc/) is not yet supported.
+
 <Tabs>
   <TabItem value="yarn" label="Yarn" default>
 
