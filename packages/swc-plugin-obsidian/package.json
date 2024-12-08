@@ -5,20 +5,18 @@
   "author": "Guy Carmeli",
   "main": "src/index.js",
   "scripts": {
-    "build": "echo Build skipped",
-    "build:local": "RUSTFLAGS=\"-C debuginfo=2\" cargo build --release --target wasm32-wasi",
-    "prepack:disabled": "yarn copyBinary",
+    "build": "RUSTFLAGS=\"-C debuginfo=2\" cargo build --release --target wasm32-wasi",
+    "prepack": "yarn copyBinary",
     "copyBinary": "cp target/wasm32-wasi/release/swc_plugin_obsidian.wasm src",
     "cleanBuildAndCopy": "cargo clean && yarn build && yarn copyBinary",
-    "test": "echo Tests skipped",
-    "test:local": "cargo test"
+    "test": "cargo test"
   },
   "peerDependencies": {
-    "@swc/core": "^1.3.96",
+    "@swc/core": "^1.7.36",
     "react-obsidian": "2.x"
   },
   "devDependencies": {
-    "@swc/core": "^1.3.96",
+    "@swc/core": "^1.7.36",
     "react-obsidian": "workspace:*",
     "typescript": "^5.2.2"
   },
