@@ -6,8 +6,9 @@ edition = "2021"
 [lib]
 crate-type = ["cdylib", "rlib"]
 
+# Check https://plugins.swc.rs for swc version compatibility
 [dependencies]
-swc_core = { version = "4.0.0", features = [
+swc_core = { version = "8.0.0", features = [
     "ecma_plugin_transform",
     "ecma_utils",
     "ecma_visit",
@@ -16,7 +17,7 @@ swc_core = { version = "4.0.0", features = [
 ]}
 
 [dev-dependencies]
-swc_core = { version = "4.0.0", features = [
+swc_core = { version = "8.0.0", features = [
     "ecma_plugin_transform",
     "ecma_utils",
     "ecma_visit",
