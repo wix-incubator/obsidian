@@ -1,6 +1,6 @@
 {
   "name": "react-obsidian",
-  "version": "2.13.1",
+  "version": "2.14.0",
   "description": "Dependency injection framework for React and React Native applications",
   "scripts": {
     "prepack": "npm run lint && tsc --project tsconfig.prod.json",
@@ -47,7 +47,7 @@
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-import-newlines": "^1.1.5",
     "eslint-plugin-jest-formatting": "^3.1.0",
-    "eslint-plugin-obsidian": "2.13.1",
+    "eslint-plugin-obsidian": "2.14.0",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-unused-imports": "3.1.x",
