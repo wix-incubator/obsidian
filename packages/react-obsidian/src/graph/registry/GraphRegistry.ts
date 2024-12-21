@@ -5,6 +5,7 @@ import GraphMiddlewareChain from './GraphMiddlewareChain';
 import { ObtainLifecycleBoundGraphException } from './ObtainLifecycleBoundGraphException';
 import { getGlobal } from '../../utils/getGlobal';
 import { isString } from '../../utils/isString';
+import referenceCounter from '../../ReferenceCounter';
 
 export class GraphRegistry {
   private readonly constructorToInstance = new Map<Constructable<Graph>, Set<Graph>>();
@@ -16,6 +17,7 @@ export class GraphRegistry {
   private readonly graphMiddlewares = new GraphMiddlewareChain();
   private readonly keyToGenerator = new Map<string,() => Constructable<Graph>>();
   private readonly keyToGraph = new Map<string, Constructable<Graph>>();
+  private readonly onClearListeners = new Map<Graph, Set<() => void>>();
 
   register(constructor: Constructable<Graph>, subgraphs: Constructable<Graph>[] = []) {
     this.graphToSubgraphs.set(constructor, new Set(subgraphs));
@@ -33,10 +35,19 @@ export class GraphRegistry {
     this.set(graph.constructor as any, graph);
   }
 
+  public isRegistered(G: Constructable<Graph>): boolean {
+    return (this.constructorToInstance.get(G)?.size ?? 0) > 0;
+  }
+
   getSubgraphs(graph: Graph): Graph[] {
     const Graph = this.instanceToConstructor.get(graph)!;
     const subgraphs = this.graphToSubgraphs.get(Graph) ?? new Set();
     return Array.from(subgraphs).map((G) => this.resolve(G));
+  }
+
+  getSubgraphsConstructors(graph: Graph): Constructable<Graph>[] {
+    const Graph = this.instanceToConstructor.get(graph)!;
+    return Array.from(this.graphToSubgraphs.get(Graph) ?? new Set());
   }
 
   getGraphInstance(name: string): Graph {
@@ -62,7 +73,21 @@ export class GraphRegistry {
     }
     const graph = this.graphMiddlewares.resolve(Graph, props);
     this.set(Graph, graph, injectionToken);
+    this.instantiateCustomScopedSubgraphs(graph, props);
     return graph as T;
+  }
+
+  private instantiateCustomScopedSubgraphs(graph: Graph, props: any) {
+    if (!this.isCustomScopedLifecycleBound(this.instanceToConstructor.get(graph)!)) return;
+    const customScope = Reflect.getMetadata('lifecycleScope', this.instanceToConstructor.get(graph)!);
+    const subgraphs = this.getSubgraphsConstructors(graph).filter(
+      subgraph => Reflect.getMetadata('lifecycleScope', subgraph) === customScope,
+    );
+    const instantiatedSubgraphs = subgraphs.map((subgraph) => this.resolve(subgraph, 'lifecycleOwner', props));
+    instantiatedSubgraphs.forEach((subgraph) => referenceCounter.retain(subgraph));
+    this.registerOnClearListener(graph, () => {
+      instantiatedSubgraphs.forEach((subgraph) => referenceCounter.release(subgraph, () => this.clear(subgraph)));
+    });
   }
 
   private getGraphConstructorByKey<T extends Graph>(key: string): Constructable<T> {
@@ -123,6 +148,11 @@ export class GraphRegistry {
     return Reflect.getMetadata('lifecycleScope', Graph) === 'component';
   }
 
+  private isCustomScopedLifecycleBound(Graph: Constructable<Graph>): boolean {
+    const scope = Reflect.getMetadata('lifecycleScope', Graph);
+    return typeof scope === 'string' && scope !== 'component' && scope !== 'feature';
+  }
+
   clearGraphAfterItWasMockedInTests(graphName: string) {
     const graphNames = this.nameToInstance.keys();
     for (const name of graphNames) {
@@ -157,6 +187,20 @@ export class GraphRegistry {
     }
 
     this.clearGraphsRegisteredByKey(Graph);
+    this.invokeOnClearListeners(graph);
+  }
+
+  private registerOnClearListener(graph: Graph, callback: () => void) {
+    const listeners = this.onClearListeners.get(graph) ?? new Set();
+    listeners.add(callback);
+    this.onClearListeners.set(graph, listeners);
+  }
+
+  private invokeOnClearListeners(graph: Graph) {
+    const listeners = this.onClearListeners.get(graph);
+    if (!listeners) return;
+    listeners.forEach((listener) => listener());
+    this.onClearListeners.delete(graph);
   }
 
   private clearGraphsRegisteredByKey(Graph: Constructable<Graph>) {

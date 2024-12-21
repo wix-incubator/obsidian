@@ -1,5 +1,5 @@
 type Options = {
-  scope?: 'component' | 'feature';
+  scope?: 'component' | 'feature' | (string & {});
 };
 
 export function LifecycleBound(options?: Options) {
