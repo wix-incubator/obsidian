@@ -170,6 +170,7 @@ export class GraphRegistry {
           this.injectionTokenToInstance.delete(token);
           this.instanceToInjectionToken.delete(graph);
         }
+        this.invokeOnClearListeners(graph);
       }
     }
   }
