@@ -25,6 +25,16 @@ describe('custom scoped lifecycle-bound graphs', () => {
     unmount();
     expect(graphRegistry.isRegistered(CustomScopeGraph)).toBe(false);
   });
+
+  it('clears the custom scoped subgraph only when no other graphs are using it', async () => {
+    const result1 = render(<ComponentTheDoesNotInvokeProviders idx={1} />);
+    const result2 = render(<ComponentTheDoesNotInvokeProviders2 />);
+
+    result1.unmount();
+    expect(graphRegistry.isRegistered(CustomScopeGraph)).toBe(true);
+    result2.unmount();
+    expect(graphRegistry.isRegistered(CustomScopeGraph)).toBe(false);
+  });
 });
 
 @LifecycleBound({scope: 'customScope'}) @Graph()
@@ -41,8 +51,17 @@ class CustomScopeGraph extends ObjectGraph {
 class ComponentGraph extends ObjectGraph {
 }
 
+@LifecycleBound({scope: 'customScope'}) @Graph({subgraphs: [CustomScopeGraph]})
+class ComponentGraph2 extends ObjectGraph {
+}
+
 type Own = {idx: number};
 const ComponentTheDoesNotInvokeProviders = injectComponent<Own>(
   ({idx}: Own) => <>Hello {idx}</>,
   ComponentGraph,
+);
+
+const ComponentTheDoesNotInvokeProviders2 = injectComponent(
+  () => <>Hello</>,
+  ComponentGraph2,
 );
