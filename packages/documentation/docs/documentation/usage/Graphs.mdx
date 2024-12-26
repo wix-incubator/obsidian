@@ -117,6 +117,28 @@ class FormGraph extends ObjectGraph {
 Lifecycle-bound graphs are feature-scoped by default.
 :::
 
+3. **Custom scope**: A custom scope is a special case of a feature scope. When multiple `@LifecycleBound` graphs share the same custom scope, they are considered to be part of the same UI scope. When a custom scoped graph is requested, Obsidian will create all the subgraphs in the same UI scope and destroy them when the last component or hook that requested them is unmounted.
+
+```ts title="A custom-scoped lifecycle-bound graph"
+import {LifecycleBound, Graph, ObjectGraph, Provides} from 'react-obsidian';
+
+@LifecycleBound({scope: 'AppScope'}) @Graph({subgraphs: [ScreenGraph]})
+class HomeScreenGraph extends ObjectGraph {
+  constructor(private props: HomeScreenProps & BaseProps) {
+    super(props);
+  }
+}
+```
+
+```ts title="A custom-scoped lifecycle-bound subgraph"
+@LifecycleBound({scope: 'AppScope'}) @Graph()
+class ScreenGraph extends ObjectGraph {
+  constructor(private props: BaseProps) {
+    super(props);
+  }
+}
+```
+
 #### Passing props to a lifecycle-bound graph
 When a graph is created, it receives the props of the component or hook that requested it. This means that the graph can use the props to construct the dependencies it provides. The `@LifecycleBound` in the example below graph provides a `userService` which requires a `userId`. The `userId` is obtained from props.
 
