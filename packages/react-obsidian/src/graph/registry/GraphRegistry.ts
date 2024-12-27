@@ -35,7 +35,7 @@ export class GraphRegistry {
     this.set(graph.constructor as any, graph);
   }
 
-  public isRegistered(G: Constructable<Graph>): boolean {
+  public isInstantiated(G: Constructable<Graph>): boolean {
     return (this.constructorToInstance.get(G)?.size ?? 0) > 0;
   }
 
@@ -43,11 +43,6 @@ export class GraphRegistry {
     const Graph = this.instanceToConstructor.get(graph)!;
     const subgraphs = this.graphToSubgraphs.get(Graph) ?? new Set();
     return Array.from(subgraphs).map((G) => this.resolve(G));
-  }
-
-  getSubgraphsConstructors(graph: Graph): Constructable<Graph>[] {
-    const Graph = this.instanceToConstructor.get(graph)!;
-    return Array.from(this.graphToSubgraphs.get(Graph) ?? new Set());
   }
 
   getGraphInstance(name: string): Graph {
@@ -78,16 +73,42 @@ export class GraphRegistry {
   }
 
   private instantiateCustomScopedSubgraphs(graph: Graph, props: any) {
+    this.assertInstantiatingCustomScopedSubgraphFromSameScope(graph);
     if (!this.isCustomScopedLifecycleBound(this.instanceToConstructor.get(graph)!)) return;
     const customScope = Reflect.getMetadata('lifecycleScope', this.instanceToConstructor.get(graph)!);
-    const subgraphs = this.getSubgraphsConstructors(graph).filter(
+    const subgraphs = this.getSubgraphsConstructors(graph);
+    const sameScopeSubgraphs = subgraphs.filter(
       subgraph => Reflect.getMetadata('lifecycleScope', subgraph) === customScope,
     );
-    const instantiatedSubgraphs = subgraphs.map((subgraph) => this.resolve(subgraph, 'lifecycleOwner', props));
+    const instantiatedSubgraphs = sameScopeSubgraphs.map(
+      subgraph => {
+        return this.resolve(subgraph, 'lifecycleOwner', props);
+      },
+    );
     instantiatedSubgraphs.forEach((subgraph) => referenceCounter.retain(subgraph));
     this.registerOnClearListener(graph, () => {
       instantiatedSubgraphs.forEach((subgraph) => referenceCounter.release(subgraph, () => this.clear(subgraph)));
     });
+  }
+
+  private assertInstantiatingCustomScopedSubgraphFromSameScope(graph: Graph) {
+    const graphScope = Reflect.getMetadata('lifecycleScope', this.instanceToConstructor.get(graph)!);
+    const subgraphs = this.getSubgraphsConstructors(graph);
+    subgraphs.forEach(subgraph => {
+      const subgraphScope = Reflect.getMetadata('lifecycleScope', subgraph);
+      if (
+        !this.isInstantiated(subgraph) &&
+        this.isCustomScopedLifecycleBound(subgraph) &&
+        graphScope !== subgraphScope
+      ) {
+        throw new Error(`Cannot instantiate the scoped graph '${subgraph.name}' as a subgraph of '${graph.constructor.name}' because the scopes do not match. ${graphScope} !== ${subgraphScope}`);
+      }
+    });
+  }
+
+  private getSubgraphsConstructors(graph: Graph): Constructable<Graph>[] {
+    const Graph = this.instanceToConstructor.get(graph)!;
+    return Array.from(this.graphToSubgraphs.get(Graph) ?? new Set());
   }
 
   private getGraphConstructorByKey<T extends Graph>(key: string): Constructable<T> {

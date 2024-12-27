@@ -11,7 +11,7 @@ import graphRegistry  from '../../src/graph/registry/GraphRegistry';
 describe('custom scoped lifecycle-bound graphs', () => {
   it('instantiates custom scoped graphs eagerly', () => {
     render(<ComponentTheDoesNotInvokeProviders idx={1} />);
-    expect(graphRegistry.isRegistered(CustomScopeGraph)).toBe(true);
+    expect(graphRegistry.isInstantiated(CustomScopeGraph)).toBe(true);
   });
 
   it('instantiates the custom scoped graphs once', () => {
@@ -23,7 +23,7 @@ describe('custom scoped lifecycle-bound graphs', () => {
   it('clears the custom scoped subgraph when the main graph is cleared', async () => {
     const {unmount} = render(<ComponentTheDoesNotInvokeProviders idx={1} />);
     unmount();
-    expect(graphRegistry.isRegistered(CustomScopeGraph)).toBe(false);
+    expect(graphRegistry.isInstantiated(CustomScopeGraph)).toBe(false);
   });
 
   it('clears the custom scoped subgraph only when no other graphs are using it', async () => {
@@ -31,9 +31,15 @@ describe('custom scoped lifecycle-bound graphs', () => {
     const result2 = render(<ComponentTheDoesNotInvokeProviders2 />);
 
     result1.unmount();
-    expect(graphRegistry.isRegistered(CustomScopeGraph)).toBe(true);
+    expect(graphRegistry.isInstantiated(CustomScopeGraph)).toBe(true);
     result2.unmount();
-    expect(graphRegistry.isRegistered(CustomScopeGraph)).toBe(false);
+    expect(graphRegistry.isInstantiated(CustomScopeGraph)).toBe(false);
+  });
+
+  it('throws when trying to use a scoped subgraph from an unscoped graph', async () => {
+    expect(() => {
+      render(<ComponentThatWronglyReliesOnCustomScopedGraph />);
+    }).toThrow(/Cannot instantiate the scoped graph 'CustomScopeGraph' as a subgraph of 'UnscopedGraph' because the scopes do not match. undefined !== customScope/);
   });
 });
 
@@ -64,4 +70,13 @@ const ComponentTheDoesNotInvokeProviders = injectComponent<Own>(
 const ComponentTheDoesNotInvokeProviders2 = injectComponent(
   () => <>Hello</>,
   ComponentGraph2,
+);
+
+@Graph({subgraphs: [CustomScopeGraph]})
+class UnscopedGraph extends ObjectGraph {
+}
+
+const ComponentThatWronglyReliesOnCustomScopedGraph = injectComponent(
+  () => <>This should error</>,
+  UnscopedGraph,
 );
