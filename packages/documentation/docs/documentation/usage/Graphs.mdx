@@ -139,6 +139,13 @@ class ScreenGraph extends ObjectGraph {
 }
 ```
 
+:::info
+The differences between a feature-scoped graph and a custom-scoped graph:
+1. By default, subgraphs are instantiated lazily. Custom-scoped subgraphs are instantiated immediately when a parent graph with the same scope is instantiated.
+2. When instantiated, custom-scoped subgraphs receive the props of the custom-scoped graph that triggered their instantiation.
+3. Custom-scoped subgraphs can only be instantiated from a lifecycle bound graph with the same scope.
+:::
+
 #### Passing props to a lifecycle-bound graph
 When a graph is created, it receives the props of the component or hook that requested it. This means that the graph can use the props to construct the dependencies it provides. The `@LifecycleBound` in the example below graph provides a `userService` which requires a `userId`. The `userId` is obtained from props.
 
