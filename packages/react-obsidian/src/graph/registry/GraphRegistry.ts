@@ -6,7 +6,6 @@ import { ObtainLifecycleBoundGraphException } from './ObtainLifecycleBoundGraphE
 import { getGlobal } from '../../utils/getGlobal';
 import { isString } from '../../utils/isString';
 import referenceCounter from '../../ReferenceCounter';
-import { isGraph } from '../ObjectGraph';
 
 export class GraphRegistry {
   private readonly constructorToInstance = new Map<Constructable<Graph>, Set<Graph>>();
@@ -108,7 +107,7 @@ export class GraphRegistry {
   }
 
   private getSubgraphsConstructors(graph: Graph | Constructable<Graph>): Constructable<Graph>[] {
-    const Graph = isGraph(graph) ? graph : this.instanceToConstructor.get(graph as Graph)!;
+    const Graph = typeof graph === 'function' ? graph : this.instanceToConstructor.get(graph)!;
     const directSubgraphs = Array.from(this.graphToSubgraphs.get(Graph) ?? new Set<Constructable<Graph>>());
     if (directSubgraphs.length === 0) return [];
     return [
