@@ -5,6 +5,7 @@ import {
   injectComponent,
   LifecycleBound,
   ObjectGraph,
+  Singleton,
 } from '../../src';
 import graphRegistry  from '../../src/graph/registry/GraphRegistry';
 
@@ -40,6 +41,11 @@ describe('custom scoped lifecycle-bound graphs', () => {
     expect(() => {
       render(<ComponentThatWronglyReliesOnCustomScopedGraph />);
     }).toThrow(/Cannot instantiate the scoped graph 'CustomScopeGraph' as a subgraph of 'UnscopedGraph' because the scopes do not match. undefined !== customScope/);
+  });
+
+  it('eagerly instantiates nested scoped graphs', () => {
+    render(<ComponentThatReliesOnNestedCustomScopedGraph />);
+    expect(graphRegistry.isInstantiated(CustomScopeGraph)).toBe(true);
   });
 });
 
@@ -79,4 +85,17 @@ class UnscopedGraph extends ObjectGraph {
 const ComponentThatWronglyReliesOnCustomScopedGraph = injectComponent(
   () => <>This should error</>,
   UnscopedGraph,
+);
+
+@Singleton() @Graph({subgraphs: [CustomScopeGraph]})
+class SingletonGraphWithCustomScopeSubgraph extends ObjectGraph {
+}
+
+@LifecycleBound({scope: 'customScope'}) @Graph({subgraphs: [SingletonGraphWithCustomScopeSubgraph]})
+class CustomScopedGraphWithNestedCustomScopeSubgraph extends ObjectGraph {
+}
+
+const ComponentThatReliesOnNestedCustomScopedGraph = injectComponent(
+  () => <>Hello</>,
+  CustomScopedGraphWithNestedCustomScopeSubgraph,
 );
