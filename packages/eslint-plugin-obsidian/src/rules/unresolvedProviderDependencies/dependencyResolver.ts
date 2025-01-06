@@ -23,11 +23,11 @@ export class DependencyResolver {
   private getDependenciesFromSubgraphs(clazz: ClassFile): string[] {
     return this.subgraphResolver
       .resolve(clazz)
-      .flatMap(this.getGraphDependencies);
+      .flatMap((clazz) => this.getGraphDependencies(clazz));
   }
 
   private getGraphDependencies({ clazz }: ClassFile) {
-    return clazz.mapDecoratedMethods('Provides', (method) => method.name) ?? [];
+    return clazz.mapDecoratedMethods('Provides', method => method.name) ?? [];
   }
 
   private getDependenciesFromSuperClass(clazz: ClassFile) {
@@ -35,6 +35,6 @@ export class DependencyResolver {
     return this.classResolver
       .resolve(clazz.superClass, clazz)
       ?.clazz
-      ?.mapDecoratedMethods('Provides', (method) => method.name) ?? [];
+      ?.mapDecoratedMethods('Provides', method => method.name) ?? [];
   }
 }

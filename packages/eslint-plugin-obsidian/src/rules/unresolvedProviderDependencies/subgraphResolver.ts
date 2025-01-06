@@ -16,8 +16,8 @@ export class SubgraphResolver {
       ...this.getLocalGraphs(clazz),
       ...this.getExtendedGraphs(clazz),
     ]
-    .filter(nonNull)
-    .flatMap((g) => [g, ...this.resolve(g)]);
+      .filter(nonNull)
+      .flatMap(g => [g, ...this.resolve(g)]);
   }
 
   private getImportedGraphs(clazz: ClassFile) {
@@ -49,7 +49,7 @@ export class SubgraphResolver {
     return [this.classResolver.resolve(clazz.superClass, clazz)];
   }
 
-  private getSubgraphsPropertyFromGraphDecorator({clazz}: ClassFile) {
+  private getSubgraphsPropertyFromGraphDecorator({ clazz }: ClassFile) {
     if (clazz.isAbstract) return undefined;
     const graphDecorator = clazz.requireDecoratorIgnoreCase('Graph');
     return graphDecorator.getProperty('subgraphs');

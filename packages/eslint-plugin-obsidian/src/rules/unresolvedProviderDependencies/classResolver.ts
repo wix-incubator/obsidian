@@ -5,7 +5,7 @@ export class ClassResolver {
   constructor(private fileReader: FileReader) { }
 
   public resolve(clazz: string, from: ClassFile) {
-    const classPath = from.imports.find(($import) => $import.includes(clazz));
+    const classPath = from.imports.find($import => $import.includes(clazz));
     return classPath && this.fileReader.read(from.path, classPath.path).findClass(clazz);
   }
 }
