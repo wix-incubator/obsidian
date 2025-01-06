@@ -82,25 +82,25 @@ export class GraphRegistry {
       subgraph => getMetadata(subgraph, 'lifecycleScope') === customScope,
     );
     const instantiatedSubgraphs = sameScopeSubgraphs.map(
-      subgraph => {
+      (subgraph) => {
         return this.resolve(subgraph, 'lifecycleOwner', props);
       },
     );
-    instantiatedSubgraphs.forEach((subgraph) => referenceCounter.retain(subgraph));
+    instantiatedSubgraphs.forEach(subgraph => referenceCounter.retain(subgraph));
     this.registerOnClearListener(graph, () => {
-      instantiatedSubgraphs.forEach((subgraph) => referenceCounter.release(subgraph, () => this.clear(subgraph)));
+      instantiatedSubgraphs.forEach(subgraph => referenceCounter.release(subgraph, () => this.clear(subgraph)));
     });
   }
 
   private assertInstantiatingCustomScopedSubgraphFromSameScope(graph: Graph) {
     const graphScope = getMetadata(this.instanceToConstructor.get(graph)!, 'lifecycleScope');
     const subgraphs = this.getSubgraphsConstructors(graph);
-    subgraphs.forEach(subgraph => {
+    subgraphs.forEach((subgraph) => {
       const subgraphScope = getMetadata(subgraph, 'lifecycleScope');
       if (
-        !this.isInstantiated(subgraph) &&
-        this.isCustomScopedLifecycleBound(subgraph) &&
-        graphScope !== subgraphScope
+        !this.isInstantiated(subgraph)
+        && this.isCustomScopedLifecycleBound(subgraph)
+        && graphScope !== subgraphScope
       ) {
         throw new Error(`Cannot instantiate the scoped graph '${subgraph.name}' as a subgraph of '${graph.constructor.name}' because the scopes do not match. ${graphScope} !== ${subgraphScope}`);
       }
@@ -231,7 +231,7 @@ export class GraphRegistry {
   private invokeOnClearListeners(graph: Graph) {
     const listeners = this.onClearListeners.get(graph);
     if (!listeners) return;
-    listeners.forEach((listener) => listener());
+    listeners.forEach(listener => listener());
     this.onClearListeners.delete(graph);
   }
 

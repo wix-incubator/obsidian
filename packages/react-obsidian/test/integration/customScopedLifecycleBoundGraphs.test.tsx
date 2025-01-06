@@ -7,7 +7,7 @@ import {
   ObjectGraph,
   Singleton,
 } from '../../src';
-import graphRegistry  from '../../src/graph/registry/GraphRegistry';
+import graphRegistry from '../../src/graph/registry/GraphRegistry';
 
 describe('custom scoped lifecycle-bound graphs', () => {
   it('instantiates custom scoped graphs eagerly', () => {
@@ -21,8 +21,8 @@ describe('custom scoped lifecycle-bound graphs', () => {
     expect(CustomScopeGraph.idx).toBe(1);
   });
 
-  it('clears the custom scoped subgraph when the main graph is cleared', async () => {
-    const {unmount} = render(<ComponentTheDoesNotInvokeProviders idx={1} />);
+  it('clears the custom scoped subgraph when the main graph is cleared', () => {
+    const { unmount } = render(<ComponentTheDoesNotInvokeProviders idx={1} />);
     unmount();
     expect(graphRegistry.isInstantiated(CustomScopeGraph)).toBe(false);
   });
@@ -37,7 +37,7 @@ describe('custom scoped lifecycle-bound graphs', () => {
     expect(graphRegistry.isInstantiated(CustomScopeGraph)).toBe(false);
   });
 
-  it('throws when trying to use a scoped subgraph from an unscoped graph', async () => {
+  it('throws when trying to use a scoped subgraph from an unscoped graph', () => {
     expect(() => {
       render(<ComponentThatWronglyReliesOnCustomScopedGraph />);
     }).toThrow(/Cannot instantiate the scoped graph 'CustomScopeGraph' as a subgraph of 'UnscopedGraph' because the scopes do not match. undefined !== customScope/);
@@ -49,7 +49,7 @@ describe('custom scoped lifecycle-bound graphs', () => {
   });
 });
 
-@LifecycleBound({scope: 'customScope'}) @Graph()
+@LifecycleBound({ scope: 'customScope' }) @Graph()
 class CustomScopeGraph extends ObjectGraph {
   public static idx: number;
 
@@ -59,17 +59,17 @@ class CustomScopeGraph extends ObjectGraph {
   }
 }
 
-@LifecycleBound({scope: 'customScope'}) @Graph({subgraphs: [CustomScopeGraph]})
+@LifecycleBound({ scope: 'customScope' }) @Graph({ subgraphs: [CustomScopeGraph] })
 class ComponentGraph extends ObjectGraph {
 }
 
-@LifecycleBound({scope: 'customScope'}) @Graph({subgraphs: [CustomScopeGraph]})
+@LifecycleBound({ scope: 'customScope' }) @Graph({ subgraphs: [CustomScopeGraph] })
 class ComponentGraph2 extends ObjectGraph {
 }
 
-type Own = {idx: number};
+type Own = { idx: number };
 const ComponentTheDoesNotInvokeProviders = injectComponent<Own>(
-  ({idx}: Own) => <>Hello {idx}</>,
+  ({ idx }: Own) => <>Hello {idx}</>,
   ComponentGraph,
 );
 
@@ -78,7 +78,7 @@ const ComponentTheDoesNotInvokeProviders2 = injectComponent(
   ComponentGraph2,
 );
 
-@Graph({subgraphs: [CustomScopeGraph]})
+@Graph({ subgraphs: [CustomScopeGraph] })
 class UnscopedGraph extends ObjectGraph {
 }
 
@@ -87,11 +87,11 @@ const ComponentThatWronglyReliesOnCustomScopedGraph = injectComponent(
   UnscopedGraph,
 );
 
-@Singleton() @Graph({subgraphs: [CustomScopeGraph]})
+@Singleton() @Graph({ subgraphs: [CustomScopeGraph] })
 class SingletonGraphWithCustomScopeSubgraph extends ObjectGraph {
 }
 
-@LifecycleBound({scope: 'customScope'}) @Graph({subgraphs: [SingletonGraphWithCustomScopeSubgraph]})
+@LifecycleBound({ scope: 'customScope' }) @Graph({ subgraphs: [SingletonGraphWithCustomScopeSubgraph] })
 class CustomScopedGraphWithNestedCustomScopeSubgraph extends ObjectGraph {
 }
 
