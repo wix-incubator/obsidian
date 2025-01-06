@@ -14,6 +14,10 @@ export class Clazz {
     return this.node.abstract;
   }
 
+  public isDecoratedWithIgnoreCase(decoratorName: string) {
+    return this.decoratorNames.some(name => name.toLowerCase() === decoratorName.toLowerCase());
+  }
+
   get decoratorNames() {
     return this.decorators.map((decorator: Decorator) => {
       return decorator.expression.callee.name;
