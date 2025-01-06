@@ -23,7 +23,7 @@ export class DependencyResolver {
   private getDependenciesFromSubgraphs(clazz: ClassFile): string[] {
     return this.subgraphResolver
       .resolve(clazz)
-      .flatMap((clazz) => this.getGraphDependencies(clazz));
+      .flatMap($clazz => this.getGraphDependencies($clazz));
   }
 
   private getGraphDependencies({ clazz }: ClassFile) {
