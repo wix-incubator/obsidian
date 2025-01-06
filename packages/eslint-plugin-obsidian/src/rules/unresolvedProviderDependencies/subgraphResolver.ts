@@ -4,15 +4,20 @@ import { ClassFile } from '../../dto/classFile';
 import type { Property } from '../../dto/property';
 import { File } from '../../dto/file';
 import type { FileReader } from '../../framework/fileReader';
+import { ClassResolver } from './classResolver';
+import { nonNull } from '../../utils/filter';
 
 export class SubgraphResolver {
-  constructor(private fileReader: FileReader) { }
+  constructor(private fileReader: FileReader, private classResolver: ClassResolver) { }
 
   public resolve(clazz: ClassFile): ClassFile[] {
     return [
       ...this.getImportedGraphs(clazz),
       ...this.getLocalGraphs(clazz),
-    ].flatMap(g => [g, ...this.resolve(g)]);
+      ...this.getExtendedGraphs(clazz),
+    ]
+    .filter(nonNull)
+    .flatMap((g) => [g, ...this.resolve(g)]);
   }
 
   private getImportedGraphs(clazz: ClassFile) {
@@ -39,7 +44,13 @@ export class SubgraphResolver {
     return this.getLocalSubgraphClasses(subgraphs, clazz);
   }
 
-  private getSubgraphsPropertyFromGraphDecorator({ clazz }: ClassFile) {
+  private getExtendedGraphs(clazz: ClassFile) {
+    if (!clazz.superClass || clazz.superClass === 'ObjectGraph') return [];
+    return [this.classResolver.resolve(clazz.superClass, clazz)];
+  }
+
+  private getSubgraphsPropertyFromGraphDecorator({clazz}: ClassFile) {
+    if (clazz.isAbstract) return undefined;
     const graphDecorator = clazz.requireDecoratorIgnoreCase('Graph');
     return graphDecorator.getProperty('subgraphs');
   }

@@ -10,8 +10,8 @@ export class Clazz {
     assertDefined(this.node);
   }
 
-  public isDecoratedWithIgnoreCase(decoratorName: string) {
-    return this.decoratorNames.some(name => name.toLowerCase() === decoratorName.toLowerCase());
+  get isAbstract() {
+    return this.node.abstract;
   }
 
   get decoratorNames() {
@@ -32,6 +32,10 @@ export class Clazz {
 
   get body() {
     return this.node.body.body;
+  }
+
+  public mapDecoratedMethods<T>(decoratorName: string, mapper: (method: Method) => T): T[] {
+    return this.getDecoratedMethods(decoratorName).map(mapper);
   }
 
   public getDecoratedMethods(decoratorName: string): Method[] {

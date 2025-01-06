@@ -1,7 +1,7 @@
 import { defineMetadata } from '../utils/reflect';
 
 type Options = {
-  scope?: 'component' | 'feature';
+  scope?: 'component' | 'feature' | (string & {});
 };
 
 export function lifecycleBound(options?: Options) {

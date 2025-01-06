@@ -6,6 +6,7 @@ import { ObtainLifecycleBoundGraphException } from './ObtainLifecycleBoundGraphE
 import { getMetadata } from '../../utils/reflect';
 import { getGlobal } from '../../utils/getGlobal';
 import { isString } from '../../utils/isString';
+import referenceCounter from '../../ReferenceCounter';
 
 export class GraphRegistry {
   private readonly constructorToInstance = new Map<Constructable<Graph>, Set<Graph>>();
@@ -17,6 +18,7 @@ export class GraphRegistry {
   private readonly graphMiddlewares = new GraphMiddlewareChain();
   private readonly keyToGenerator = new Map<string, () => Constructable<Graph>>();
   private readonly keyToGraph = new Map<string, Constructable<Graph>>();
+  private readonly onClearListeners = new Map<Graph, Set<() => void>>();
 
   register(constructor: Constructable<Graph>, subgraphs: Constructable<Graph>[] = []) {
     this.graphToSubgraphs.set(constructor, new Set(subgraphs));
@@ -32,6 +34,10 @@ export class GraphRegistry {
     const graph = keyOrGraph;
     if (this.instanceToConstructor.get(graph)) return;
     this.set(graph.constructor as any, graph);
+  }
+
+  public isInstantiated(G: Constructable<Graph>): boolean {
+    return (this.constructorToInstance.get(G)?.size ?? 0) > 0;
   }
 
   getSubgraphs(graph: Graph): Graph[] {
@@ -63,7 +69,56 @@ export class GraphRegistry {
     }
     const graph = this.graphMiddlewares.resolve(Graph, props);
     this.set(Graph, graph, injectionToken);
+    this.instantiateCustomScopedSubgraphs(graph, props);
     return graph as T;
+  }
+
+  private instantiateCustomScopedSubgraphs(graph: Graph, props: any) {
+    this.assertInstantiatingCustomScopedSubgraphFromSameScope(graph);
+    if (!this.isCustomScopedLifecycleBound(this.instanceToConstructor.get(graph)!)) return;
+    const customScope = getMetadata(this.instanceToConstructor.get(graph)!, 'lifecycleScope');
+    const subgraphs = this.getSubgraphsConstructors(graph);
+    const sameScopeSubgraphs = subgraphs.filter(
+      subgraph => getMetadata(subgraph, 'lifecycleScope') === customScope,
+    );
+    const instantiatedSubgraphs = sameScopeSubgraphs.map(
+      subgraph => {
+        return this.resolve(subgraph, 'lifecycleOwner', props);
+      },
+    );
+    instantiatedSubgraphs.forEach((subgraph) => referenceCounter.retain(subgraph));
+    this.registerOnClearListener(graph, () => {
+      instantiatedSubgraphs.forEach((subgraph) => referenceCounter.release(subgraph, () => this.clear(subgraph)));
+    });
+  }
+
+  private assertInstantiatingCustomScopedSubgraphFromSameScope(graph: Graph) {
+    const graphScope = getMetadata(this.instanceToConstructor.get(graph)!, 'lifecycleScope');
+    const subgraphs = this.getSubgraphsConstructors(graph);
+    subgraphs.forEach(subgraph => {
+      const subgraphScope = getMetadata(subgraph, 'lifecycleScope');
+      if (
+        !this.isInstantiated(subgraph) &&
+        this.isCustomScopedLifecycleBound(subgraph) &&
+        graphScope !== subgraphScope
+      ) {
+        throw new Error(`Cannot instantiate the scoped graph '${subgraph.name}' as a subgraph of '${graph.constructor.name}' because the scopes do not match. ${graphScope} !== ${subgraphScope}`);
+      }
+    });
+  }
+
+  private getSubgraphsConstructors(graph: Graph | Constructable<Graph>): Constructable<Graph>[] {
+    const Graph = typeof graph === 'function' ? graph : this.instanceToConstructor.get(graph)!;
+    const directSubgraphs = Array.from(this.graphToSubgraphs.get(Graph) ?? new Set<Constructable<Graph>>());
+    if (directSubgraphs.length === 0) return [];
+    return [
+      ...directSubgraphs,
+      ...new Set(
+        directSubgraphs
+          .map(subgraph => this.getSubgraphsConstructors(subgraph))
+          .flat(),
+      ),
+    ];
   }
 
   private getGraphConstructorByKey<T extends Graph>(key: string): Constructable<T> {
@@ -124,6 +179,11 @@ export class GraphRegistry {
     return getMetadata(Graph, 'lifecycleScope') === 'component';
   }
 
+  private isCustomScopedLifecycleBound(Graph: Constructable<Graph>): boolean {
+    const scope = getMetadata(Graph, 'lifecycleScope');
+    return typeof scope === 'string' && scope !== 'component' && scope !== 'feature';
+  }
+
   clearGraphAfterItWasMockedInTests(graphName: string) {
     const graphNames = this.nameToInstance.keys();
     for (const name of graphNames) {
@@ -141,6 +201,7 @@ export class GraphRegistry {
           this.injectionTokenToInstance.delete(token);
           this.instanceToInjectionToken.delete(graph);
         }
+        this.invokeOnClearListeners(graph);
       }
     }
   }
@@ -158,6 +219,20 @@ export class GraphRegistry {
     }
 
     this.clearGraphsRegisteredByKey(Graph);
+    this.invokeOnClearListeners(graph);
+  }
+
+  private registerOnClearListener(graph: Graph, callback: () => void) {
+    const listeners = this.onClearListeners.get(graph) ?? new Set();
+    listeners.add(callback);
+    this.onClearListeners.set(graph, listeners);
+  }
+
+  private invokeOnClearListeners(graph: Graph) {
+    const listeners = this.onClearListeners.get(graph);
+    if (!listeners) return;
+    listeners.forEach((listener) => listener());
+    this.onClearListeners.delete(graph);
   }
 
   private clearGraphsRegisteredByKey(Graph: Constructable<Graph>) {

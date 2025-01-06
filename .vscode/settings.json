@@ -12,9 +12,15 @@
     "tseslint",
     "unimported",
     "unmagler",
+    "unplugin",
     "unsubscribers"
   ],
   "eslint.ignoreUntitled": true,
   "eslint.format.enable": true,
-  "eslint.workingDirectories": [ {"pattern": "packages/*"} ]
+  "eslint.workingDirectories": [
+    {
+      "pattern": "packages/*"
+    }
+  ],
+  "typescript.preferences.importModuleSpecifier": "relative"
 }

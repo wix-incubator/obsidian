@@ -6,35 +6,43 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Installation
-
-Like most Dependency Injection frameworks, Obsidian uses automatic code generation to create the bindings necessary for resolving dependencies. This approach helps reduce the amount of boilerplate code required by developers. Obsidian relies on [Babel](https://babeljs.io/) for code generation, so you'll need to have Babel configured in your project.
-
-:::important
-If your project uses either **Vite** or **Create React App**, please refer to the [Integration with third-party front-end environments](#integration-with-third-party-front-end-environments) section before following the steps below.
-:::
+Installing Obsidian is a straightforward process that involves adding the package to your project, enabling TypeScript decorators, and adding Obsidian's transformer to your build system, either Babel or SWC. Let's go through the steps.
 
 ## 1. Install Obsidian
+Install the package using your preferred package manager:
+
 <Tabs>
   <TabItem value="yarn" label="Yarn" default>
 
-  ```bash
+  ```shell
   yarn add react-obsidian
   ```
+
   </TabItem>
   <TabItem value="npm" label="NPM" default>
 
-  ```bash
+  ```shell
   npm install react-obsidian
   ```
+
   </TabItem>
+
 </Tabs>
 
-## 2. Add the required Babel plugins
-[BabelJS](https://babeljs.io/) is a JavaScript compiler that is used to transpile modern JavaScript code into code that is compatible with older browsers. Obsidian uses a Babel transformer to generate code that is used to resolve dependencies.
+## 2. Add Obsidian's transformer
+Like most Dependency Injection frameworks, Obsidian uses automatic code generation to create the bindings necessary for resolving dependencies. This approach helps reduce the amount of boilerplate code required by developers.
 
-### 2.1. Install the required Babel plugins
+You'll need to add either the Babel or SWC plugins depending on your project's configuration.
+* **React Native:** React Native projects only support Babel, so you'll need to use the Babel plugin.
+* **Vite:** Vite supports both Babel and SWC. Choose the one according to your project's build system.
+* **NextJS:** NextJS supports both Babel and SWC. If your project uses the `next/font` package you'll have to use the SWC plugin as `next/font` doesn't support Babel.
 
-Install the [@babel/plugin-proposal-decorators](https://babeljs.io/docs/babel-plugin-proposal-decorators) plugin if you don't have it already:
+<Tabs>
+  <TabItem value="babel" label="Babel (React Native or Vite + Babel)" default>
+
+### Install the required Babel plugins
+
+You will need to install the `plugin-proposal-decorators` plugin if it's not installed already:
 <Tabs>
   <TabItem value="yarn" label="Yarn" default>
 
@@ -50,13 +58,11 @@ Install the [@babel/plugin-proposal-decorators](https://babeljs.io/docs/babel-pl
   ```
 
   </TabItem>
-
 </Tabs>
 
 If this is your first time using Babel, you will also need to install Babel's core packages:
 <Tabs>
   <TabItem value="yarn" label="Yarn" default>
-
 
   ```shell
   yarn add @babel/core @babel/preset-env @babel/preset-typescript
@@ -64,15 +70,13 @@ If this is your first time using Babel, you will also need to install Babel's co
   </TabItem>
   <TabItem value="npm" label="NPM" default>
 
-
   ```shell
   npm install @babel/core @babel/preset-env @babel/preset-typescript
   ```
   </TabItem>
-
 </Tabs>
 
-### 2.2. Update your Babel configuration
+### Update your Babel configuration
 
 Add the transformer and the required plugin to the list of plugins in your `babel.config.js` file or `.babelrc` file:
 
@@ -91,6 +95,57 @@ module.exports = {
 };
 ```
 
+  </TabItem>
+  <TabItem value="swc" label="SWC (Vite + SWC)">
+
+### Install the required dependencies
+Currently, Obsidian can be used via [unplugin-swc](https://github.com/unplugin/unplugin-swc). [vite-plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc/) is not yet supported.
+
+<Tabs>
+  <TabItem value="yarn" label="Yarn" default>
+
+  ```shell
+  yarn add -D unplugin-swc @swc/core
+  ```
+  </TabItem>
+  <TabItem value="npm" label="NPM" default>
+
+  ```shell
+  npm install -D unplugin-swc @swc/core
+  ```
+  </TabItem>
+</Tabs>
+
+### Update your Vite configuration
+Add the transformer to the list of plugins in your `vite.config.js` file:
+
+```js title="vite.config.js"
+import { defineConfig } from 'vite';
+import swc from 'unplugin-swc';
+import obsidian from 'swc-plugin-obsidian';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [
+    swc.vite({
+      jsc: {
+        parser: {
+          syntax: "typescript",
+          decorators: true,
+        },
+        experimental: {
+          runPluginFirst: true,
+          plugins: [obsidian()],
+        },
+      },
+    }),
+  ],
+});
+```
+
+  </TabItem>
+</Tabs>
+
 ## 3. Configure TypeScript (Optional)
 Obsidian supports the latest version of the decorators proposal available in TypeScript 5.0 and later. You might need to disable the legacy decorators in your tsconfig.json file. To do this, remove both `experimentalDecorators` and `emitDecoratorMetadata` from the `compilerOptions` section.
 
@@ -105,73 +160,5 @@ Obsidian supports the latest version of the decorators proposal available in Typ
 }
 ```
 
-
 ## 4. Add Obsidian's ESLint plugin (Recommended)
 Obsidian provides an ESLint plugin that can help you find errors in your code related to dependency injection. See the [ESLint plugin](/docs/documentation/meta/eslint) documentation for more information.
-
-
-## Integration with third-party front-end environments
-### Vite
-[Vite](https://vitejs.dev/) provides a modern development environment for React application. It boasts an extremely fast development server that uses Hot Module Replacement (HMR) to enable near-instant startup time.
-
-When integrating Obsidian in a Vite application, follow steps **1-3 and step 4.1 that are listed above**. Instead of step 4.2, we'll configure Obsidian't Babel transformer in Vite's `vite.config.js` file:
-
-```js title="vite.config.js"
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [
-    react({
-      babel: {
-        plugins: [
-          // Added lines start
-          'react-obsidian/dist/transformers/babel-plugin-obsidian',
-          ['@babel/plugin-proposal-decorators', { legacy: true }],
-          // Added lines end
-        ],
-      },
-    }),
-  ],
-});
-```
-
-### Create React App
-Create React App (CRA) is a popular tool for getting started with React. It provides a pre-configured development environment that is ready to use out of the box.
-
-When integrating Obsidian in a CRA application, follow steps **1-4 that are listed above**. Since CRA doesn't allow you to configure Babel directly, we'll need to install two additional packages:
-1. [react-app-rewired](https://github.com/timarney/react-app-rewired). This package allows you to customize CRA scripts without ejecting.
-2. [customize-cra](https://github.com/arackaf/customize-cra). This package provides a set of utilities that can be used to customize CRA configurations. It has to be used instead of the default `react-scripts` package.
-
-#### Install the required packages and modify the default scripts
-```diff title="package.json"
-{
-  "devDependencies": {
-    // Added lines start
-    "customize-cra": "1.0.0",
-    "react-app-rewired": "2.2.1"
-    // Added lines end
-  },
-  "scripts": {
-    // Added lines start
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "npx jest",
-    // Added lines end
-    // Removed lines start
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    // Removed lines end
-  }
-}
-```
-
-#### Configure Babel
-Create a `config-overrides.js` file in the root of your project and add the following code to it:
-
-```js title="config-overrides.js"
-const { useBabelRc, override } = require('customize-cra');
-module.exports = override(useBabelRc());
-```
