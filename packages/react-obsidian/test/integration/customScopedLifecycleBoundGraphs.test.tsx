@@ -27,7 +27,7 @@ describe('custom scoped lifecycle-bound graphs', () => {
     expect(graphRegistry.isInstantiated(CustomScopeGraph)).toBe(false);
   });
 
-  it('clears the custom scoped subgraph only when no other graphs are using it', async () => {
+  it('clears the custom scoped subgraph only when no other graphs are using it', () => {
     const result1 = render(<ComponentTheDoesNotInvokeProviders idx={1} />);
     const result2 = render(<ComponentTheDoesNotInvokeProviders2 />);
 
