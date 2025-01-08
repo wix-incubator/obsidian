@@ -2,7 +2,7 @@
   "name": "eslint-plugin-obsidian",
   "description": "ESLint rules for Obsidian",
   "main": "dist/index.js",
-  "version": "3.0.0-alpha.7",
+  "version": "3.0.0-alpha.8",
   "scripts": {
     "build": "npx tsc --project tsconfig.prod.json",
     "test": "npx jest",
