@@ -17,7 +17,7 @@ fn exec(input: PathBuf) {
             decorators: true,
             ..Default::default()
         }),
-        &|_| visit_mut_pass(DiTransformer),
+        &|_| visit_mut_pass(DiTransformer::new()),
         &input,
         &output,
         Default::default(),
