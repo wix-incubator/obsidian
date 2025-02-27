@@ -20,7 +20,7 @@
   "devDependencies": {
     "@swc/core": "^1.7.36",
     "react-obsidian": "workspace:*",
-    "typescript": "^5.2.2"
+    "typescript": "^5.7.3"
   },
   "files": [
     "src/swc_plugin_obsidian.wasm",

@@ -38,8 +38,8 @@
     "@types/lodash": "^4.14.176",
     "@types/react": "18.3.x",
     "@types/react-dom": "18.3.x",
-    "@typescript-eslint/eslint-plugin": "6.x.x",
-    "@typescript-eslint/parser": "6.x.x",
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
     "babel-plugin-parameter-decorator": "1.x.x",
     "cross-env": "^7.0.3",
     "eslint": "8.x.x",
@@ -50,7 +50,7 @@
     "eslint-plugin-obsidian": "2.15.0",
     "eslint-plugin-react": "^7.26.1",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "eslint-plugin-unused-imports": "3.1.x",
+    "eslint-plugin-unused-imports": "^4.1.4",
     "jest": "29.5.x",
     "jest-environment-jsdom": "^29.5.0",
     "jest-extended": "^4.0.0",
@@ -60,7 +60,7 @@
     "react": "18.2.x",
     "react-dom": "18.2.x",
     "setimmediate": "^1.0.5",
-    "typescript": "^4.5.4"
+    "typescript": "^5.7.3"
   },
   "repository": {
     "type": "git",
