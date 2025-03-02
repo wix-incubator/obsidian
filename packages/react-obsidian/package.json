@@ -15,8 +15,7 @@
     "test": "test"
   },
   "dependencies": {
-    "hoist-non-react-statics": "3.x.x",
-    "reflect-metadata": "~0.1.13"
+    "hoist-non-react-statics": "3.x.x"
   },
   "peerDependencies": {
     "react": "*"

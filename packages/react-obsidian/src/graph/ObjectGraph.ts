@@ -4,16 +4,19 @@ import { Graph } from './Graph';
 import PropertyRetriever from './PropertyRetriever';
 import { Constructable } from '../types';
 import { CircularDependenciesDetector } from './CircularDependenciesDetector';
+import { Reflect } from '../utils/reflect';
+import { getConstructorOrParentConstructor } from '../utils/object';
 
 export abstract class ObjectGraph<T = unknown> implements Graph {
   private propertyRetriever = new PropertyRetriever(this);
 
   get name(): string {
-    if (Reflect.hasMetadata('memoizedName', this)) {
-      return Reflect.getMetadata('memoizedName', this);
+    const target = getConstructorOrParentConstructor(this.constructor, ObjectGraph.name);
+    if (Reflect.hasMetadata('memoizedName', target)) {
+      return Reflect.getMetadata('memoizedName', target);
     }
-    const name = uniqueId(this.constructor.name);
-    Reflect.defineMetadata('memoizedName', name, this);
+    const name = uniqueId(target.name);
+    Reflect.defineMetadata('memoizedName', name, target);
     return name;
   }
 

@@ -4,6 +4,7 @@ import { Graph } from '../../graph/Graph';
 import InjectionMetadata from './InjectionMetadata';
 import { GRAPH_INSTANCE_NAME_KEY } from './LateInjector';
 import referenceCounter from '../../ReferenceCounter';
+import { Reflect } from '../../utils/reflect';
 
 export default class ClassInjector {
   constructor(

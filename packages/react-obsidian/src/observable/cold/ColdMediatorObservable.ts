@@ -1,6 +1,7 @@
 import { Observable } from '../Observable';
 import { MediatorObservable } from '../mediator/MediatorObservable';
 import { OnNext } from '../types';
+import {Reflect} from '../../utils/reflect';
 
 export class ColdMediatorObservable<T extends object> extends MediatorObservable<T> {
   constructor(obj: T, private readonly handler = new PropertyAccessTrackingProxy<T>()) {
