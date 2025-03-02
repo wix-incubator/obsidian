@@ -50,7 +50,7 @@
     "eslint-plugin-unused-imports": "^4.1.4",
     "jest": "29.5.x",
     "jest-extended": "^4.0.0",
-    "typescript": "^5.7.3"
+    "typescript": "^5.8.0"
   },
   "keywords": [
     "react-obsidian",
