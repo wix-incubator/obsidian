@@ -1,5 +1,6 @@
 import { Constructable } from '../types';
 import { ObjectGraph } from '../graph/ObjectGraph';
+import {Reflect} from '../utils/reflect';
 
 export function Singleton() {
   return function singleton(

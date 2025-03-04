@@ -1,5 +1,4 @@
 import { Constructable } from '../types';
-import 'reflect-metadata';
 import graphRegistry from '../graph/registry/GraphRegistry';
 import { ObjectGraph } from '../graph/ObjectGraph';
 

@@ -6,6 +6,7 @@ import { ObtainLifecycleBoundGraphException } from './ObtainLifecycleBoundGraphE
 import { getGlobal } from '../../utils/getGlobal';
 import { isString } from '../../utils/isString';
 import referenceCounter from '../../ReferenceCounter';
+import { Reflect } from '../../utils/reflect';
 
 export class GraphRegistry {
   private readonly constructorToInstance = new Map<Constructable<Graph>, Set<Graph>>();

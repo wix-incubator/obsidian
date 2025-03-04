@@ -1,6 +1,6 @@
 {
   "name": "react-obsidian",
-  "version": "2.16.0-alpha.1",
+  "version": "2.16.0",
   "description": "Dependency injection framework for React and React Native applications",
   "scripts": {
     "prepack": "npm run lint && tsc --project tsconfig.prod.json",
@@ -15,8 +15,7 @@
     "test": "test"
   },
   "dependencies": {
-    "hoist-non-react-statics": "3.x.x",
-    "reflect-metadata": "~0.1.13"
+    "hoist-non-react-statics": "3.x.x"
   },
   "peerDependencies": {
     "react": "*"

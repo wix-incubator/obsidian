@@ -1,7 +1,7 @@
 {
   "name": "swc-plugin-obsidian",
-  "version": "2.16.0-alpha.1",
-  "description": "SWC plugin for Obsidian to be used with Vite or NestJS",
+  "version": "2.16.0",
+  "description": "SWC plugin for Obsidian to be used with Vite or NextJS",
   "author": "Guy Carmeli",
   "main": "src/index.js",
   "scripts": {

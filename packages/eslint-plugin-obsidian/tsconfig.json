@@ -33,7 +33,7 @@
     "resolveJsonModule": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "types": ["reflect-metadata", "jest", "node"],
+    "types": ["jest", "node"],
     "baseUrl": "./"
   }
 }
