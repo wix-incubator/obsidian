@@ -9,6 +9,7 @@ import {
   ObjectExpression,
   ObjectPattern,
   TSParameterProperty,
+  type StringLiteral,
 } from '@babel/types';
 
 const never = '';
@@ -16,7 +17,7 @@ const never = '';
 export type AcceptedNodeType = Identifier | TSParameterProperty | ClassProperty;
 
 export function providerIsNotNamed(decorator: Decorator): boolean {
-  const argument = getDecoratorArgument(decorator);
+  const argument = getDecoratorObjectArgument(decorator);
   if (t.isObjectExpression(argument)) {
     return argument.properties.find((p) => {
       if (t.isObjectProperty(p)) {
@@ -29,7 +30,7 @@ export function providerIsNotNamed(decorator: Decorator): boolean {
 }
 
 export function addNameToProviderArguments(node: ClassMethod, decorator: Decorator) {
-  const argument = getDecoratorArgument(decorator) ?? t.objectExpression([]);
+  const argument = getDecoratorObjectArgument(decorator) ?? t.objectExpression([]);
   argument.properties.push(t.objectProperty(
     t.identifier('name'),
     t.stringLiteral(getMethodName(node)),
@@ -37,9 +38,16 @@ export function addNameToProviderArguments(node: ClassMethod, decorator: Decorat
   (decorator.expression as CallExpression).arguments = [argument];
 }
 
-export function getDecoratorArgument(decorator: Decorator): ObjectExpression | undefined {
+export function getDecoratorObjectArgument(decorator: Decorator): ObjectExpression | undefined {
   if (t.isCallExpression(decorator.expression)) {
     return decorator.expression.arguments.find((a) => t.isObjectExpression(a)) as ObjectExpression;
+  }
+  return undefined;
+}
+
+export function getDecoratorStringArgument(decorator: Decorator): StringLiteral | undefined {
+  if (t.isCallExpression(decorator.expression)) {
+    return decorator.expression.arguments.find(a => t.isStringLiteral(a)) as StringLiteral;
   }
   return undefined;
 }
