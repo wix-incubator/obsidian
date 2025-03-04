@@ -29,47 +29,7 @@ Install the package using your preferred package manager:
 
 </Tabs>
 
-## 2. Install Reflect-metadata
-First, install the `reflect-metadata` package:
-
-<Tabs>
-  <TabItem value="yarn" label="Yarn" default>
-
-  ```shell
-  yarn add reflect-metadata
-  ```
-
-  </TabItem>
-  <TabItem value="npm" label="NPM" default>
-
-  ```shell
-  npm install reflect-metadata
-  ```
-  </TabItem>
-
-</Tabs>
-
-Then, enable the `reflect-metadata` polyfill by adding the following line to the top of your application's entry point (usually index.js or index.ts):
-
-```js
-import 'reflect-metadata';
-```
-
-## 3. Enable experimental decorators
-Obsidian uses the Decorators feature whose proposal is at stage 3.
-
-Add the following options to your tsconfig.json file.
-
-```js
-{
-  "compilerOptions": {
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
-  }
-}
-```
-
-## 4. Add Obsidian's transformer
+## 2. Add Obsidian's transformer
 Like most Dependency Injection frameworks, Obsidian uses automatic code generation to create the bindings necessary for resolving dependencies. This approach helps reduce the amount of boilerplate code required by developers.
 
 You'll need to add either the Babel or SWC plugins depending on your project's configuration.
@@ -82,26 +42,25 @@ You'll need to add either the Babel or SWC plugins depending on your project's c
 
 ### Install the required Babel plugins
 
-You will need to install these plugins if you don't have them already:
+You will need to install the `plugin-proposal-decorators` plugin if it's not installed already:
 <Tabs>
   <TabItem value="yarn" label="Yarn" default>
 
   ```shell
-  yarn add @babel/plugin-proposal-decorators @babel/plugin-transform-class-properties babel-plugin-parameter-decorator @babel/core @babel/preset-env @babel/preset-typescript
+  yarn add @babel/plugin-proposal-decorators
   ```
 
   </TabItem>
   <TabItem value="npm" label="NPM" default>
 
   ```shell
-  npm install @babel/plugin-proposal-decorators @babel/plugin-transform-class-properties babel-plugin-parameter-decorator @babel/core @babel/preset-env
+  npm install @babel/plugin-proposal-decorators
   ```
 
   </TabItem>
 </Tabs>
 
 If this is your first time using Babel, you will also need to install Babel's core packages:
-
 <Tabs>
   <TabItem value="yarn" label="Yarn" default>
 
@@ -119,19 +78,19 @@ If this is your first time using Babel, you will also need to install Babel's co
 
 ### Update your Babel configuration
 
-Add the transformer and the required plugins to the list of plugins in your `babel.config.js` file or `.babelrc` file:
+Add the transformer and the required plugin to the list of plugins in your `babel.config.js` file or `.babelrc` file:
 
-```diff
+```js title="babel.config.js"
 module.exports = {
   presets: [
-    'module:metro-react-native-babel-preset',
-+    ['@babel/preset-typescript', {'onlyRemoveTypeImports': true}]
+      // Add this line
+      ['@babel/preset-typescript', { 'onlyRemoveTypeImports': true }],
   ],
   plugins: [
-+    react-obsidian/dist/transformers/babel-plugin-obsidian,
-+    ['@babel/plugin-proposal-decorators', {legacy: true}],
-+    '@babel/plugin-transform-class-properties',
-+    'babel-plugin-parameter-decorator'
+    // Added lines start
+    'react-obsidian/dist/transformers/babel-plugin-obsidian',
+    ['@babel/plugin-proposal-decorators', {version: 'legacy'}],
+    // Added lines end
   ]
 };
 ```
@@ -140,7 +99,7 @@ module.exports = {
   <TabItem value="swc" label="SWC (Vite + SWC)">
 
 ### Install the required dependencies
-Currently, Obsidian can be used via [unplugin-swc](https://github.com/unplugin/unplugin-swc) and [vite-plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc/) is not yet supported.
+Currently, Obsidian can be used via [unplugin-swc](https://github.com/unplugin/unplugin-swc). [vite-plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc/) is not yet supported.
 
 <Tabs>
   <TabItem value="yarn" label="Yarn" default>
@@ -187,6 +146,19 @@ export default defineConfig({
   </TabItem>
 </Tabs>
 
-## 5. Optional - Add Obsidian's ESLint plugin
-Obsidian provides an ESLint plugin that can help you find errors in your code related to dependency injection. See the [ESLint plugin](/docs/documentation/meta/eslint) documentation for more information.
+## 3. Configure TypeScript
+Obsidian uses TypeScript's legacy decorators implementation. Add the following options to your tsconfig.json file.
 
+```js title="tsconfig.json"
+{
+  "compilerOptions": {
+    // Added lines start
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+    // Added lines end
+  }
+}
+```
+
+## 4. Add Obsidian's ESLint plugin (Recommended)
+Obsidian provides an ESLint plugin that can help you find errors in your code related to dependency injection. See the [ESLint plugin](/docs/documentation/meta/eslint) documentation for more information.

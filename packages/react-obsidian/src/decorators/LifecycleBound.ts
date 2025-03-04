@@ -1,3 +1,5 @@
+import {Reflect} from '../utils/reflect';
+
 type Options = {
   scope?: 'component' | 'feature' | (string & {});
 };

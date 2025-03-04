@@ -1,4 +1,5 @@
 import { ConstructorArgs } from './ConstructorArgs';
+import {Reflect} from '../../utils/reflect';
 
 export default class InjectionMetadata {
   private readonly injectionMetadataKey = 'injectionMetadata';

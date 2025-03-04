@@ -2,6 +2,7 @@ import { isString } from 'lodash';
 import { ObjectGraph } from '../../graph/ObjectGraph';
 import graphRegistry from '../../graph/registry/GraphRegistry';
 import InjectionMetadata from './InjectionMetadata';
+import {Reflect} from '../../utils/reflect';
 
 export const GRAPH_INSTANCE_NAME_KEY = 'GRAPH_INSTANCE_NAME';
 

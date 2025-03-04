@@ -10,7 +10,7 @@ export function useObservers<T extends Record<string, any>>(observables: T): Obs
     const mediator = new MediatorObservable();
     const unsubscribers: Unsubscribe[] = [];
 
-    Object.keys(observables as {}).forEach((key) => {
+    Object.keys(observables).forEach((key) => {
       const onNext = (value: any) => setValues({ ...values, [key]: value });
       mediator.addSource(observables[key], onNext);
 
@@ -19,7 +19,7 @@ export function useObservers<T extends Record<string, any>>(observables: T): Obs
       });
     });
 
-    return () => unsubscribers.forEach((unsubscribe) => unsubscribe());
+    return () => unsubscribers.forEach(unsubscribe => unsubscribe());
   }, []);
 
   return values;
