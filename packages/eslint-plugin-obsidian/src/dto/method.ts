@@ -14,9 +14,9 @@ export class Method {
     return this.node.value.params.map((param) => new Parameter(param));
   }
 
-  isDecoratedWith(decoratorName: string): boolean {
+  isDecoratedWithIgnoreCase(decoratorName: string): boolean {
     return this.decorators.some((decorator) => {
-      return decorator.expression.callee.name === decoratorName;
+      return decorator.expression.callee.name.toLowerCase() === decoratorName.toLowerCase();
     });
   }
 

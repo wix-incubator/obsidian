@@ -6,8 +6,8 @@ interface ProvidesParams {
   name: string;
 }
 
-export function Provides({ name }: Partial<ProvidesParams> = {}) {
-  return function provide(graph: Graph, propertyKey: string, descriptor: PropertyDescriptor) {
+export function provides({ name }: Partial<ProvidesParams> = {}) {
+  return (graph: Graph, propertyKey: string, descriptor: PropertyDescriptor) => {
     providedPropertiesStore.set(graph, propertyKey, name!);
     return memoizeDescriptor(propertyKey, descriptor);
   };
