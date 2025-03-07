@@ -14,16 +14,16 @@ For these cases, you can obtain a graph instance and access the dependencies it 
 Consider the following graph which provides two dependencies: `fooService` and `barService` where `barService` depends on `fooService`:
 
 ```ts
-import {Singleton, Graph, ObjectGraph, Provides} from 'react-obsidian';
+import {singleton, graph, ObjectGraph, provides} from 'react-obsidian';
 
-@Singleton() @Graph()
+@singleton() @graph()
 export class SomeGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   fooService(): FooService {
     return new FooService();
   }
 
-  @Provides()
+  @provides()
   barService(fooService: FooService): AppInitializer {
     return new BarService(fooService);
   }
