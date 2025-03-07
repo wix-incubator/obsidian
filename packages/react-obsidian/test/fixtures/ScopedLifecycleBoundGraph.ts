@@ -1,9 +1,8 @@
-import { Graph, ObjectGraph } from '../../src';
-import { LifecycleBound } from '../../src/decorators/LifecycleBound';
+import { graph, ObjectGraph, lifecycleBound } from '../../src';
 
 export type Props = Record<string, any> & { stringFromProps: string };
 
-@LifecycleBound({scope: 'component'}) @Graph()
+@lifecycleBound({scope: 'component'}) @graph()
 export class ScopedLifecycleBoundGraph extends ObjectGraph<Props> {
 
 }

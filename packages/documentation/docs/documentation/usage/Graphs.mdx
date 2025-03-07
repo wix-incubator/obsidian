@@ -16,25 +16,25 @@ Before you can inject dependencies into hooks, components and classes, the depen
 The snippet below shows a basic example of a Graph. It defines two dependencies, `httpClient` and `databaseService`. 
 
 ```ts title="ApplicationGraph.ts"
-import {Singleton, Graph, ObjectGraph, Provides} from 'react-obsidian';
+import {singleton, graph, ObjectGraph, provides} from 'react-obsidian';
 
-@Singleton() @Graph()
+@singleton() @graph()
 export class ApplicationGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   httpClient(): HttpClient {
     return new HttpClient();
   }
 
-  @Provides()
+  @provides()
   databaseService(): DatabaseService {
     return new DatabaseService();
   }
 }
 ```
 
-Graphs must be annotated with the `@Graph` decorator. In this example we chose to annotate the class with the `@Singleton` decorator as well, which means that the graph and the dependencies it provides will only be constructed once.
+Graphs must be annotated with the `@graph` decorator. In this example we chose to annotate the class with the `@singleton` decorator as well, which means that the graph and the dependencies it provides will only be constructed once.
 
-Dependencies are constructed in methods annotated with the `@Provides` annotation. The `@Provides` annotation is used to tell Obsidian that the method is a dependency provider. From now on we'll refer to these methods as providers. Obsidian uses the provider's method name as the dependency's name. In this example, the `httpClient` provider method provides the `httpClient` dependency. The `databaseService` provider method provides the `databaseService` dependency.
+Dependencies are constructed in methods annotated with the `@provides` annotation. The `@provides` annotation is used to tell Obsidian that the method is a dependency provider. From now on we'll refer to these methods as providers. Obsidian uses the provider's method name as the dependency's name. In this example, the `httpClient` provider method provides the `httpClient` dependency. The `databaseService` provider method provides the `databaseService` dependency.
 
 Once your graph is declared you can use it to inject dependencies into the various constructs that form your application:
 * [Inject hooks](/docs/documentation/usage/Hooks#injecting-hooks)
@@ -50,21 +50,21 @@ The term "graph" comes from [graph theory](https://en.wikipedia.org/wiki/Graph_t
 Some of the services defined in your graphs may be independent, meaning they don't require any dependencies to be constructed. However, most of the time, services will require other services to perform their responsibilities. In these cases, you can specify the dependencies of a service as arguments in the provider and Obsidian will resolve them automatically.
 
 ```ts title="A graph that provides a service that depends on other services"
-import {Singleton, Graph, ObjectGraph, Provides} from 'react-obsidian';
+import {singleton, graph, ObjectGraph, provides} from 'react-obsidian';
 
-@Singleton() @Graph()
+@singleton() @graph()
 export class ApplicationGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   httpClient(): HttpClient {
     return new HttpClient();
   }
 
-  @Provides()
+  @provides()
   databaseService(): DatabaseService {
     return new DatabaseService();
   }
 
-  @Provides()
+  @provides()
   appInitializer(httpClient: HttpClient, databaseService: DatabaseService): AppInitializer {
     return new AppInitializer(httpClient, databaseService);
   }
@@ -82,7 +82,7 @@ There are two types of graphs in Obsidian: A singleton graph and a lifecycle-bou
 ### The singleton graph
 Applications typically have at least one singleton graph. These graphs are used to provide dependencies that are used throughout the application. These dependencies are usually singletons, which means they should only be constructed once. The `ApplicationGraph` in the [example above](/docs/documentation/usage/Graphs#specifying-relationships-between-dependencies) is a singleton graph.
 
-To declare a singleton graph, annotate the graph class with the `@Singleton` decorator.
+To declare a singleton graph, annotate the graph class with the `@singleton` decorator.
 
 ### The lifecycle-bound graph
 Lifecycle-bound graphs are used to provide dependencies that are shared between components and hooks in a specific UI scope.
@@ -90,11 +90,11 @@ Lifecycle-bound graphs are used to provide dependencies that are shared between 
 Obsidian supports injecting two types of UI scopes:
 1. **Feature scope (default)**: A feature scope is a scope that is shared between multiple screens. For example, a user authentication flow might consist of multiple screens that share the same dependencies. In this case, you can use a lifecycle-bound graph to provide the dependencies for the entire flow. When declaring a feature-scoped graph, a single instance of the graph is created and shared between all the components and hooks that request it.
 ```ts title="A feature-scoped lifecycle-bound graph"
-import {LifecycleBound, Graph, ObjectGraph, Provides} from 'react-obsidian';
+import {lifecycleBound, graph, ObjectGraph, provides} from 'react-obsidian';
 
-@LifecycleBound({scope: 'feature'}) @Graph()
+@lifecycleBound({scope: 'feature'}) @graph()
 class AuthGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   userService(): UserService {
     return new UserService();
   }
@@ -102,11 +102,11 @@ class AuthGraph extends ObjectGraph {
 ```
 2. **Component scope**: A component scope is a scope that is shared between a component and its children. For example, a form component might have multiple input fields that share the same dependencies. In this case, you can use a component-scoped lifecycle-bound graph to provide the dependencies for the form.
 ```ts title="A component-scoped lifecycle-bound graph"
-import {LifecycleBound, Graph, ObjectGraph, Provides} from 'react-obsidian';
+import {lifecycleBound, graph, ObjectGraph, provides} from 'react-obsidian';
 
-@LifecycleBound({scope: 'component'}) @Graph()
+@lifecycleBound({scope: 'component'}) @graph()
 class FormGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   validationService(): ValidationService {
     return new ValidationService();
   }
@@ -117,12 +117,12 @@ class FormGraph extends ObjectGraph {
 Lifecycle-bound graphs are feature-scoped by default.
 :::
 
-3. **Custom scope**: A custom scope is a special case of a feature scope. When multiple `@LifecycleBound` graphs share the same custom scope, they are considered to be part of the same UI scope. When a custom scoped graph is requested, Obsidian will create all the subgraphs in the same UI scope and destroy them when the last component or hook that requested them is unmounted.
+3. **Custom scope**: A custom scope is a special case of a feature scope. When multiple `@lifecycleBound` graphs share the same custom scope, they are considered to be part of the same UI scope. When a custom scoped graph is requested, Obsidian will create all the subgraphs in the same UI scope and destroy them when the last component or hook that requested them is unmounted.
 
 ```ts title="A custom-scoped lifecycle-bound graph"
-import {LifecycleBound, Graph, ObjectGraph, Provides} from 'react-obsidian';
+import {lifecycleBound, graph, ObjectGraph, provides} from 'react-obsidian';
 
-@LifecycleBound({scope: 'AppScope'}) @Graph({subgraphs: [ScreenGraph]})
+@lifecycleBound({scope: 'AppScope'}) @graph({subgraphs: [ScreenGraph]})
 class HomeScreenGraph extends ObjectGraph {
   constructor(private props: HomeScreenProps & BaseProps) {
     super(props);
@@ -131,7 +131,7 @@ class HomeScreenGraph extends ObjectGraph {
 ```
 
 ```ts title="A custom-scoped lifecycle-bound subgraph"
-@LifecycleBound({scope: 'AppScope'}) @Graph()
+@lifecycleBound({scope: 'AppScope'}) @graph()
 class ScreenGraph extends ObjectGraph {
   constructor(private props: BaseProps) {
     super(props);
@@ -147,16 +147,16 @@ The differences between a feature-scoped graph and a custom-scoped graph:
 :::
 
 #### Passing props to a lifecycle-bound graph
-When a graph is created, it receives the props of the component or hook that requested it. This means that the graph can use the props to construct the dependencies it provides. The `@LifecycleBound` in the example below graph provides a `userService` which requires a `userId`. The `userId` is obtained from props.
+When a graph is created, it receives the props of the component or hook that requested it. This means that the graph can use the props to construct the dependencies it provides. The `@lifecycleBound` in the example below graph provides a `userService` which requires a `userId`. The `userId` is obtained from props.
 
 ```ts title="A lifecycle-bound graph"
-import {LifecycleBound, Graph, ObjectGraph, Provides} from 'react-obsidian';
+import {lifecycleBound, graph, ObjectGraph, provides} from 'react-obsidian';
 
 type HomeScreenProps {
   userId: string;
 }
 
-@LifecycleBound() @Graph()
+@lifecycleBound() @graph()
 class HomeGraph extends ObjectGraph<HomeScreenProps> {
   private userId: string;
 
@@ -165,7 +165,7 @@ class HomeGraph extends ObjectGraph<HomeScreenProps> {
     this.userId = props.userId;
   }
 
-  @Provides()
+  @provides()
   userService(): UserService {
     return new UserService(this.userId);
   }
@@ -179,18 +179,18 @@ Lifecycle-bound graphs are created when they are requested and are destroyed whe
 Graph composition is a powerful feature that allows you to create complex dependency graphs by combining smaller graphs. Composing graphs is useful when you want to reuse a graph in multiple places. For example, you might have a singleton graph that provides application-level dependencies. You might also have a lifecycle-bound graph that provides dependencies for a specific UI flow. You can compose these graphs together so that the lifecycle-bound graph can also inject the dependencies provided by the singleton graph.
 
 ### Subgraphs
-The most common method to compose graphs is to pass a `subgraphs` array to the `@Graph` decorator. The `subgraphs` array contains the graphs you want to "include" in your graph.
+The most common method to compose graphs is to pass a `subgraphs` array to the `@graph` decorator. The `subgraphs` array contains the graphs you want to "include" in your graph.
 
 In the example below we declared a lifecycle-bound graph called `LoginGraph`. This graph provides a single dependency called `loginService` which has a dependency on `httpClient`. Since `httpClient` is exposed via the `ApplicationGraph`, we included it in the `subgraphs` array of our graph.
 
 
 ```ts title="LoginGraph.ts"
-import {Graph, ObjectGraph, Provides} from 'react-obsidian';
+import {graph, ObjectGraph, provides} from 'react-obsidian';
 import {ApplicationGraph} from './ApplicationGraph';
 
-@LifecycleBound() @Graph({subgraphs: [ApplicationGraph]}) 
+@lifecycleBound() @graph({subgraphs: [ApplicationGraph]}) 
 export class LoginGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   loginService(httpClient: HttpClient): LoginService {
     return new LoginService(httpClient);
   }
@@ -205,10 +205,10 @@ In the example below we declared an abstract graph called `ScreenGraph`. This gr
 The `screenName` provider method is marked as `abstract` which means that it must be implemented by the parent class. This allows us to create multiple graphs that extend the `ScreenGraph` and provide the screen name.
 
 ```ts title="AbstractGraph.ts"
-import {Graph, ObjectGraph, Provides} from 'react-obsidian';
+import {graph, ObjectGraph, provides} from 'react-obsidian';
 
 export abstract class ScreenGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   screenLogger(screenName: string) {
     return new ScreenLogger(screenName);
   }
@@ -224,16 +224,16 @@ The following two graphs extend the base `ScreenGraph`. Each graph provides a di
   <TabItem value="HomeGraph" label="HomeGraph">
 
 ```ts title="HomeGraph.ts"
-import {Graph, ObjectGraph, Provides} from 'react-obsidian';
+import {graph, ObjectGraph, provides} from 'react-obsidian';
 
-@Graph()
+@graph()
 export class HomeGraph extends ScreenGraph {
-  @Provides()
+  @provides()
   override screenName() {
     return 'HomeScreen';
   }
 
-  @Provides()
+  @provides()
   homeService(screenLogger: ScreenLogger): HomeService {
     return new HomeService(screenLogger);
   }
@@ -243,16 +243,16 @@ export class HomeGraph extends ScreenGraph {
   <TabItem value="ProfileGraph" label="ProfileGraph">
 
 ```ts title="ProfileGraph.ts"
-import {Graph, ObjectGraph, Provides} from 'react-obsidian';
+import {graph, ObjectGraph, provides} from 'react-obsidian';
 
-@Graph()
+@graph()
 export class ProfileGraph extends ScreenGraph {
-  @Provides()
+  @provides()
   override screenName() {
     return 'ProfileScreen';
   }
 
-  @Provides()
+  @provides()
   profileService(screenLogger: ScreenLogger): ProfileService {
     return new ProfileService(screenLogger);
   }
@@ -262,7 +262,7 @@ export class ProfileGraph extends ScreenGraph {
 </Tabs>
 
 :::note
-Because abstract graphs aren't instantiated directly, they don't need to be annotated with the `@Graph` decorator. Abstract providers aren't annotated with the `@Provides` decorator for the same reason.
+Because abstract graphs aren't instantiated directly, they don't need to be annotated with the `@graph` decorator. Abstract providers aren't annotated with the `@provides` decorator for the same reason.
 :::
 
 ## Typed dependencies

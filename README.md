@@ -37,14 +37,14 @@ Both functions are annotated by the `@Provides()` annotation. This signals Obsid
 Notice how the `biLogger` function receives an `httpClient` as an argument. This means that `biLogger` is dependent on `httpClient`. Obsidian will create an `httpClient` when `biLogger` is injected. 
 
 ``` typescript
-@Singleton() @Graph()
+@singleton() @graph()
 class ApplicationGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   httpClient(): HttpClient {
     return new HttpClient();
   }
 
-  @Provides()
+  @provides()
   biLogger(httpClient: HttpClient): BiLogger {
     return new BiLogger(httpClient);
   }

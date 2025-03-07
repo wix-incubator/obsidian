@@ -1,7 +1,7 @@
 import { isNumber } from '../../utils/isNumber';
 import InjectionMetadata from '../../injectors/class/InjectionMetadata';
 
-export function Inject(name?: string) {
+export function inject(name?: string) {
   return (
     target: Object | any,
     _propertyKey?: string,

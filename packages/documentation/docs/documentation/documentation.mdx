@@ -18,20 +18,20 @@ Get started by **following the installation guide** bellow. Or **try Obsidian im
 
 Define a singleton graph that is instantiated once and is retained throughout the lifespan of the application. All dependencies it provides are also singletons. The graph bellow provides two dependencies that can be injected: `fooService` and `barManager`.
 ```ts title="A singleton graph that provides two dependencies"
-import {Singleton, Graph, ObjectGraph, Provides} from 'react-obsidian';
+import {singleton, graph, ObjectGraph, provides} from 'react-obsidian';
 
 
-@Singleton() @Graph()
+@singleton() @graph()
 export class ApplicationGraph extends ObjectGraph {
 
  // fooService requires a barManager so it receives one as a parameter.
-  @Provides()
+  @provides()
   fooService(barManager: BarManager): FooService {
     return new FooService(barManager);
   }
 
 
-  @Provides()
+  @provides()
   barManager(): BarManager {
     return new BarManager();
   }
@@ -108,15 +108,15 @@ const SomeComponent = () => {
   </TabItem>  
   <TabItem value="classComponent" label="Class component injection">
 
-To inject a class, annotate it with the `@Injectable` decorator. The `@Injectable` decorator takes a single parameter - the graph that should be used to resolve the dependencies. Declare the dependencies as class members and annotate them with the `@Inject` decorator.
+To inject a class, annotate it with the `@injectable` decorator. The `@injectable` decorator takes a single parameter - the graph that should be used to resolve the dependencies. Declare the dependencies as class members and annotate them with the `@Inject` decorator.
 
 ```ts title="MyComponent.tsx"
-import {Injectable, Inject} from 'react-obsidian';
+import {injectable, inject} from 'react-obsidian';
 import {ApplicationGraph} from './ApplicationGraph';
 
-@Injectable(ApplicationGraph)
+@injectable(ApplicationGraph)
 export MyClassComponent extends React.Component {
-  @Inject() private fooService!: FooService;
+  @inject() private fooService!: FooService;
 
 }
 ```
@@ -134,14 +134,14 @@ const SomeComponent = () => {
   </TabItem>
   <TabItem value="class" label="Class constructor injection">
 
-To inject a class, annotate it with the `@Injectable` decorator. The `@Injectable` decorator takes a single parameter - the graph that should be used to resolve the dependencies.
-Declare the dependencies as constructor parameters and annotate them with the `@Inject` decorator.
+To inject a class, annotate it with the `@injectable` decorator. The `@injectable` decorator takes a single parameter - the graph that should be used to resolve the dependencies.
+Declare the dependencies as constructor parameters and annotate them with the `@inject` decorator.
 
 ```ts title="MyClass.tsx"
-import {Injectable, Inject} from 'react-obsidian';
+import {injectable, inject} from 'react-obsidian';
 import {ApplicationGraph} from './ApplicationGraph';
 
-@Injectable(ApplicationGraph)
+@injectable(ApplicationGraph)
 export MyClass {
   constructor (fooService?: FooService);
   constructor(@Inject() private fooService: FooService) { }
@@ -186,5 +186,3 @@ React Obsidian is guided by the principles of the Dependency Injection pattern, 
 * **Easy to start** - Obsidian requires very little code to get you started. Once you declare a graph, using it to inject dependencies requires as little as two lines of code.
 * **Intuitive API** - The API should be verbose and understandable even to new users without prior experience with Dependency Injection.
 * **Minimal boilerplate** - Require the bare minimum in order to construct dependencies and resolve them. 
-
-<!-- ## Comparison with other libraries -->
