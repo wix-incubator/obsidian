@@ -92,17 +92,17 @@ export const Counter = injectComponent(_Counter, CounterGraph);
 At this point we have our Model, View, and View Model written. However, we still need to connect them to one another. We can do this by creating a graph.
 
 ```ts title="CounterGraph.ts"
-import { Graph, ObjectGraph, Provides } from "react-obsidian";
+import { graph, ObjectGraph, provides } from "react-obsidian";
 
-@Singleton() @Graph()
+@singleton() @graph()
 export class CounterGraph {
-  @Provides()
+  @provides()
   model(): CounterModel {
     return new CounterModel();
   }
 
  // The useViewModel hook is instantiated once and injected into the Counter component
-  @Provides()
+  @provides()
   useViewModel(model: CounterModel) {
     return () => useCounterViewModel(model);
   }

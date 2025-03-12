@@ -1,10 +1,10 @@
 import type { TSESTree } from '@typescript-eslint/types';
 import { Clazz } from './class';
 import {
-getClassDeclaration,
-isClassLike,
-isImportDeclaration,
-isVariableDeclaration,
+  getClassDeclaration,
+  isClassLike,
+  isImportDeclaration,
+  isVariableDeclaration,
 } from '../utils/ast';
 import { Import } from './import';
 import { ClassFile } from './classFile';
@@ -13,7 +13,7 @@ import { Variable } from './variable';
 
 export class File {
   constructor(program: TSESTree.Program, path?: string);
-  constructor(private program: TSESTree.Program,private path: string) { }
+  constructor(private program: TSESTree.Program, private path: string) { }
 
   public requireGraph(name: string) {
     const graph = this.classNodes.find((node) => {
@@ -53,7 +53,7 @@ export class File {
         return clazz && new Clazz(clazz);
       })
       .filter((clazz: Clazz | undefined) => {
-        return clazz ? clazz.decoratorNames.includes('Graph') : false;
+        return clazz ? clazz.isDecoratedWithIgnoreCase('Graph') : false;
       }) as Clazz[];
   }
 

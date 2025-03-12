@@ -29,9 +29,9 @@ Ensure dependencies requested by providers can be resolved.
 When a provider requests a dependency that is not provided by the graph or its subgraphs, this rule will trigger a lint error.
 
 ```ts
-@Graph()
+@graph()
 class SomeGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   someService(someDependency: SomeDependency) {
     //        ^ Since SomeDependency is not provided by the graph, this will trigger a lint error.
     return new SomeService(someDependency);
@@ -45,14 +45,14 @@ Prevent circular dependencies between providers.
 When two providers depend on each other, this rule will trigger a lint error.
 
 ```ts
-@Graph()
+@graph()
 class SomeGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   foo(bar: Bar) {
     return new Foo(bar);
   }
 
-  @Provides()
+  @provides()
   bar(foo: Foo) {
     // ^ Since Foo depends on Bar, this will trigger a lint error.
     return new Bar(foo);

@@ -40,7 +40,7 @@ You'll need to add either the Babel or SWC plugins depending on your project's c
 <Tabs>
   <TabItem value="babel" label="Babel (React Native or Vite + Babel)" default>
 
-### Install the required Babel plugins
+#### Install the required Babel plugins
 
 You will need to install the `plugin-proposal-decorators` plugin if it's not installed already:
 <Tabs>
@@ -76,7 +76,7 @@ If this is your first time using Babel, you will also need to install Babel's co
   </TabItem>
 </Tabs>
 
-### Update your Babel configuration
+#### Update your Babel configuration
 
 Add the transformer and the required plugin to the list of plugins in your `babel.config.js` file or `.babelrc` file:
 
@@ -98,7 +98,7 @@ module.exports = {
   </TabItem>
   <TabItem value="swc" label="SWC (Vite + SWC)">
 
-### Install the required dependencies
+#### Install the required dependencies
 Currently, Obsidian can be used via [unplugin-swc](https://github.com/unplugin/unplugin-swc). [vite-plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc/) is not yet supported.
 
 <Tabs>
@@ -116,7 +116,7 @@ Currently, Obsidian can be used via [unplugin-swc](https://github.com/unplugin/u
   </TabItem>
 </Tabs>
 
-### Update your Vite configuration
+#### Update your Vite configuration
 Add the transformer to the list of plugins in your `vite.config.js` file:
 
 ```js title="vite.config.js"

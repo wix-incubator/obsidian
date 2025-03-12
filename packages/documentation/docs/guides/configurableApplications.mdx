@@ -34,9 +34,9 @@ In this example we'll learn how to change the concrete object returned by a prov
 Lets declare a simple graph that provides a single dependency: an HTTP client used to make network requests.
 
 ```ts
-@Singleton() @Graph()
+@singleton() @graph()
 class ApplicationGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   httpClient(): HttpClient {
     return new HttpClient();
   }
@@ -127,14 +127,14 @@ class AxiosClient implements NetworkClient {
 To determine which client to return, we'll use a new dependency called `AppConfig` which will be used to access the application's configuration.
 
 ```ts
-@Singleton() @Graph()
+@singleton() @graph()
 class ApplicationGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   httpClient(appConfig: AppConfig): NetworkClient {
     return appConfig.shouldUseAxiosClient() ? new AxiosClient() : new HttpClient();
   }
 
-  @Provides()
+  @provides()
   appConfig(): AppConfig {
     return new AppConfig();
   }
@@ -159,9 +159,9 @@ In this example we'll learn how to mock a dependency and how to use that mocked 
 As in the previous example, we'll declare a simple graph that provides a single dependency: an HTTP client used to make network requests.
 
 ```ts
-@Singleton() @Graph()
+@singleton() @graph()
 export class ApplicationGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   httpClient(): HttpClient {
     return new HttpClient();
   }
@@ -174,9 +174,9 @@ To provide a mocked HTTP client to all objects involved in the test, we'll creat
 ```ts
 import { mock } from 'jest-mock-extended';
 
-@Singleton() @Graph()
+@singleton() @graph()
 export class ApplicationGraphForTests extends ApplicationGraph {
-  @Provides()
+  @provides()
   override httpClient(): HttpClient {
     return mock<HttpClient>();
   }
