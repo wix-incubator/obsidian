@@ -132,33 +132,6 @@ const SomeComponent = () => {
 ```
 
   </TabItem>
-  <TabItem value="class" label="Class constructor injection">
-
-To inject a class, annotate it with the `@injectable` decorator. The `@injectable` decorator takes a single parameter - the graph that should be used to resolve the dependencies.
-Declare the dependencies as constructor parameters and annotate them with the `@inject` decorator.
-
-```ts title="MyClass.tsx"
-import {injectable, inject} from 'react-obsidian';
-import {ApplicationGraph} from './ApplicationGraph';
-
-@injectable(ApplicationGraph)
-export MyClass {
-  constructor (fooService?: FooService);
-  constructor(@Inject() private fooService: FooService) { }
-}
-```
-
-Now we can use the injected class without providing its dependencies manually:
-```ts
-const myClass = new MyClass();
-```
-
-Of course, passing dependencies explicitly is still possible:
-```ts
-const myClass = new MyClass(new FooService());
-```
-
-  </TabItem>
 </Tabs>
 
 ___
