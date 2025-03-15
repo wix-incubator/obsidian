@@ -18,16 +18,6 @@ export default class InjectionMetadata {
     return this.getProperties(this.lateInjectionMetadataKey, target);
   }
 
-  saveConstructorParamMetadata(target: any, paramName: string, index: number) {
-    const argsToInject = this.getConstructorArgsToInject(target);
-    argsToInject.add(paramName, index);
-    Reflect.defineMetadata(
-      this.injectedConstructorArgsKey,
-      argsToInject,
-      target,
-    );
-  }
-
   savePropertyMetadata(target: any, property: string) {
     this.saveProperties(
       this.injectionMetadataKey,
