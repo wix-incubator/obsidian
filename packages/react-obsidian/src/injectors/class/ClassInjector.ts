@@ -32,9 +32,8 @@ export default class ClassInjector {
           referenceCounter.retain(graph);
         }
         Reflect.defineMetadata(GRAPH_INSTANCE_NAME_KEY, graph.name, target);
-        const argsToInject = this.injectConstructorArgs(args, graph, target);
         graph.onBind(target);
-        const createdObject = Reflect.construct(target, argsToInject, newTarget);
+        const createdObject = Reflect.construct(target, args, newTarget);
         this.injectProperties(target, createdObject, graph);
         const originalComponentWillUnmount = createdObject.componentWillUnmount;
         createdObject.componentWillUnmount = () => {
@@ -42,14 +41,6 @@ export default class ClassInjector {
           referenceCounter.release(graph, (g) => graphRegistry.clear(g));
         };
         return createdObject;
-      }
-
-      private injectConstructorArgs(args: any[], graph: Graph, target: any): any[] {
-        const argsToInject = injectionMetadata.getConstructorArgsToInject(target);
-        if (!argsToInject.hasArgs()) return args;
-        return [...args, ...new Array(Math.abs(args.length - argsToInject.size()))].map((value, idx): any => {
-          return value ?? graph.retrieve(argsToInject.getProperty(idx));
-        });
       }
 
       private injectProperties(target: any, createdObject: any, graph: Graph) {
