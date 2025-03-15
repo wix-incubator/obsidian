@@ -1,6 +1,6 @@
 {
   "name": "react-obsidian",
-  "version": "2.18.0",
+  "version": "2.19.0",
   "description": "Dependency injection framework for React and React Native applications",
   "scripts": {
     "prepack": "npm run lint && tsc --project tsconfig.prod.json",
