@@ -1,11 +1,11 @@
 {
   "name": "swc-plugin-obsidian",
-  "version": "2.19.0",
+  "version": "2.20.0",
   "description": "SWC plugin for Obsidian to be used with Vite or NextJS",
   "author": "Guy Carmeli",
   "main": "src/index.js",
   "scripts": {
-    "build": "echo Build skipped",
+    "build": "echo Build skipped. Building Rust in CI is not supported at this time.",
     "build:local": "RUSTFLAGS=\"-C debuginfo=2\" cargo build --release --target wasm32-wasi",
     "prepack:disabled": "yarn copyBinary",
     "copyBinary": "cp target/wasm32-wasi/release/swc_plugin_obsidian.wasm src",
@@ -14,11 +14,11 @@
     "test:local": "cargo test"
   },
   "peerDependencies": {
-    "@swc/core": "^1.7.36",
+    "@swc/core": "^1.10.15",
     "react-obsidian": "2.x"
   },
   "devDependencies": {
-    "@swc/core": "^1.7.36",
+    "@swc/core": "1.10.15",
     "react-obsidian": "workspace:*",
     "typescript": "^5.7.3"
   },
