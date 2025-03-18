@@ -44,15 +44,24 @@ impl VisitMut for DiTransformer {
 }
 
 fn find_decorator(decorators: &[Decorator], name: &str) -> Option<usize> {
+    let lowercase_first_char_name = to_lowercase_first_char(name);
     decorators.iter().position(|dec| {
         matches!(
             &*dec.expr,
             Expr::Call(CallExpr {
                 callee: Callee::Expr(expr),
                 ..
-            }) if is_identifier(expr, name)
-        ) || is_identifier(&dec.expr, name)
+            }) if is_identifier(expr, name) || is_identifier(expr, &lowercase_first_char_name)
+        ) || is_identifier(&dec.expr, name) || is_identifier(&dec.expr, &lowercase_first_char_name)
     })
+}
+
+fn to_lowercase_first_char(s: &str) -> String {
+    let mut chars = s.chars();
+    match chars.next() {
+        Some(first) => first.to_lowercase().collect::<String>() + chars.as_str(),
+        None => String::new(),
+    }
 }
 
 fn is_identifier(expr: &Expr, name: &str) -> bool {
