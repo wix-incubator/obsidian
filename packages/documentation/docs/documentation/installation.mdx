@@ -38,7 +38,7 @@ You'll need to add either the Babel or SWC plugins depending on your project's c
 * **NextJS:** NextJS supports both Babel and SWC. If your project uses the `next/font` package you'll have to use the SWC plugin as `next/font` doesn't support Babel.
 
 <Tabs>
-  <TabItem value="babel" label="Babel (React Native or Vite + Babel)" default>
+  <TabItem value="babel" label="Babel" default>
 
 #### Install the required Babel plugins
 
@@ -96,55 +96,76 @@ module.exports = {
 ```
 
   </TabItem>
-  <TabItem value="swc" label="SWC (Vite + SWC)">
-
-#### Install the required dependencies
-Currently, Obsidian can be used via [unplugin-swc](https://github.com/unplugin/unplugin-swc). [vite-plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc/) is not yet supported.
+  <TabItem value="swc" label="SWC">
+Configure the transformer with the SWC plugin of your choice, either [unplugin-swc](https://github.com/unplugin/unplugin-swc) or [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc/).
 
 <Tabs>
-  <TabItem value="yarn" label="Yarn" default>
+  <TabItem value="unplugin-swc" label="unplugin-swc" default>
+  Add the transformer to the list of plugins in your `vite.config.js` file:
 
-  ```shell
-  yarn add -D unplugin-swc @swc/core
+  ```js title="vite.config.js"
+  import { defineConfig } from 'vite';
+  import swc from 'unplugin-swc';
+  // Add this line
+  import obsidian from 'swc-plugin-obsidian';
+
+  // https://vitejs.dev/config/
+  export default defineConfig({
+    plugins: [
+      // Added lines start
+      swc.vite({
+        jsc: {
+          parser: {
+            syntax: 'typescript',
+            decorators: true,
+          },
+          experimental: {
+            runPluginFirst: true,
+            plugins: [ obsidian() ],
+          },
+        },
+        // Added lines end
+      }),
+    ],
+  });
   ```
   </TabItem>
-  <TabItem value="npm" label="NPM" default>
+  <TabItem value="vite-plugin-react-swc" label="@vitejs/plugin-react-swc">
+  Add the transformer and the required options to your `vite.config.js` file:
 
-  ```shell
-  npm install -D unplugin-swc @swc/core
-  ```
-  </TabItem>
-</Tabs>
+  ```js title="vite.config.js"
+  import { defineConfig } from 'vite';
+  // Remove this line
+  import react from '@vitejs/plugin-react';
+  // Added lines start
+  import react from '@vitejs/plugin-react-swc';
+  import obsidian from 'swc-plugin-obsidian';
+  // Added lines end
 
-#### Update your Vite configuration
-Add the transformer to the list of plugins in your `vite.config.js` file:
-
-```js title="vite.config.js"
-import { defineConfig } from 'vite';
-import swc from 'unplugin-swc';
-import obsidian from 'swc-plugin-obsidian';
-
-// https://vitejs.dev/config/
-export default defineConfig({
+  export default defineConfig({
   plugins: [
-    swc.vite({
-      jsc: {
-        parser: {
-          syntax: "typescript",
-          decorators: true,
-        },
-        experimental: {
-          runPluginFirst: true,
-          plugins: [obsidian()],
-        },
-      },
-    }),
+    react({
+      // Add this line
+      tsDecorators: true,
+      plugins: [
+        // Add this line
+        obsidian()
+      ],
+      // Added lines start
+      useAtYourOwnRisk_mutateSwcOptions: (options) => {
+        options.jsc.parser.decorators = true;
+        options.jsc.experimental.runPluginFirst = true;
+      }
+      // Added lines end
+    })
   ],
-});
-```
+})
+  ```
 
+      </TabItem>
+    </Tabs>
   </TabItem>
-</Tabs>
+</Tabs> 
 
 ## 3. Configure TypeScript
 Obsidian uses TypeScript's legacy decorators implementation. Add the following options to your tsconfig.json file.
