@@ -143,23 +143,23 @@ Configure the transformer with the SWC plugin of your choice, either [unplugin-s
   // Added lines end
 
   export default defineConfig({
-  plugins: [
-    react({
-      // Add this line
-      tsDecorators: true,
-      plugins: [
+    plugins: [
+      react({
         // Add this line
-        obsidian()
-      ],
-      // Added lines start
-      useAtYourOwnRisk_mutateSwcOptions: (options) => {
-        options.jsc.parser.decorators = true;
-        options.jsc.experimental.runPluginFirst = true;
-      }
-      // Added lines end
-    })
-  ],
-})
+        tsDecorators: true,
+        plugins: [
+          // Add this line
+          obsidian()
+        ],
+        // Added lines start
+        useAtYourOwnRisk_mutateSwcOptions: (options) => {
+          options.jsc.parser.decorators = true;
+          options.jsc.experimental.runPluginFirst = true;
+        }
+        // Added lines end
+      })
+    ],
+  })
   ```
 
       </TabItem>
