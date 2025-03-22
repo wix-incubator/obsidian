@@ -21,7 +21,7 @@ const config = (api) => {
       'src/**/*.{ts,tsx}',
       '!dist/**',
     ],
-  transform: {
+    transform: {
       '^.+\\.(ts|tsx)$': ['babel-jest', { configFile: babelConfig }],
     }
   };
