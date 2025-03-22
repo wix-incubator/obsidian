@@ -167,19 +167,5 @@ Configure the transformer with the SWC plugin of your choice, either [unplugin-s
   </TabItem>
 </Tabs> 
 
-## 3. Configure TypeScript
-Obsidian uses TypeScript's legacy decorators implementation. Add the following options to your tsconfig.json file.
-
-```js title="tsconfig.json"
-{
-  "compilerOptions": {
-    // Added lines start
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
-    // Added lines end
-  }
-}
-```
-
-## 4. Add Obsidian's ESLint plugin (Recommended)
+## 3. Add Obsidian's ESLint plugin (Recommended)
 Obsidian provides an ESLint plugin that can help you find errors in your code related to dependency injection. See the [ESLint plugin](/docs/documentation/meta/eslint) documentation for more information.
