@@ -6,7 +6,7 @@ interface ProvidesParams {
   name: string;
 }
 
-export function provides({ name }: Partial<ProvidesParams> = {}) {
+export function provides({ name }: Partial<ProvidesParams> = {}): any {
   return (...args: any[]) => {
     return shouldUseModernDecorator(args)
       ? modernDecorator(name, args[0], args[1])
