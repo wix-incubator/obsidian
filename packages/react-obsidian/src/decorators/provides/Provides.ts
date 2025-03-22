@@ -1,14 +1,15 @@
-import { Graph } from '../../graph/Graph';
-import providedPropertiesStore from '../../ProvidedPropertiesStore';
-import { memoizeDescriptor } from './MemoizeDescriptor';
+import { shouldUseModernDecorator } from '../../utils/decorators';
+import { legacyDecorator } from './provides.legacy';
+import { modernDecorator } from './provides.modern';
 
 interface ProvidesParams {
   name: string;
 }
 
-export function provides({ name }: Partial<ProvidesParams> = {}) {
-  return (graph: Graph, propertyKey: string, descriptor: PropertyDescriptor) => {
-    providedPropertiesStore.set(graph, propertyKey, name!);
-    return memoizeDescriptor(propertyKey, descriptor);
+export function provides({ name }: Partial<ProvidesParams> = {}): any {
+  return (...args: any[]) => {
+    return shouldUseModernDecorator(args)
+      ? modernDecorator(name, args[0], args[1])
+      : legacyDecorator(name, args[0], args[1], args[2]);
   };
 }

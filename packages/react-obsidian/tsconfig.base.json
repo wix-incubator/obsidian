@@ -35,8 +35,6 @@
     "jsx": "react",
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "types": ["jest", "node"],
     "baseUrl": "./"
   }
