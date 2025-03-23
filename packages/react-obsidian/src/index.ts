@@ -1,22 +1,22 @@
 import { graph } from './decorators/Graph';
 import { inject } from './decorators/inject/Inject';
-import { injectable } from './decorators/inject/Injectable';
-import { lateInject } from './decorators/inject/LateInject';
+import { injectable } from './decorators/injectable/Injectable';
+import { lateInject } from './decorators/lateInject/LateInject';
 import { lifecycleBound } from './decorators/LifecycleBound';
 import { provides } from './decorators/provides/Provides';
-import { singleton } from './decorators/Singleton';
+import { singleton } from './decorators/singleton/Singleton';
 import _Obsidian from './Obsidian';
 
 export * from './types';
 
 export { graph } from './decorators/Graph';
-export { singleton } from './decorators/Singleton';
+export { singleton } from './decorators/singleton/Singleton';
 export { ObjectGraph } from './graph/ObjectGraph';
 export { Graph as IGraph } from './graph/Graph';
 export { provides } from './decorators/provides/Provides';
-export { injectable } from './decorators/inject/Injectable';
+export { injectable } from './decorators/injectable/Injectable';
 export { inject } from './decorators/inject/Inject';
-export { lateInject } from './decorators/inject/LateInject';
+export { lateInject } from './decorators/lateInject/LateInject';
 export { lifecycleBound } from './decorators/LifecycleBound';
 export { GraphMiddleware } from './graph/registry/GraphMiddleware';
 export { GraphResolveChain as ResolveChain } from './graph/registry/GraphResolveChain';

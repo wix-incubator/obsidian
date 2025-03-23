@@ -1,8 +1,8 @@
 import { shouldUseModernDecorator } from '../../utils/decorators';
-import { legacyDecorator } from './inject.legacy';
-import { modernDecorator } from './inject.modern';
+import { legacyDecorator } from './lateInject.legacy';
+import { modernDecorator } from './lateInject.modern';
 
-export function inject(name?: string) {
+export function lateInject(name?: string): any {
   return (...args: any[]) => {
     return shouldUseModernDecorator(args) ?
       modernDecorator(name, args[0], args[1]) :
