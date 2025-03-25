@@ -14,7 +14,7 @@ import {
 } from 'vscode-languageserver/node';
 
 import {
-	TextDocument
+  TextDocument
 } from 'vscode-languageserver-textdocument';
 
 import * as ts from 'typescript';
@@ -22,6 +22,7 @@ import { hasProvidesDecorator } from './utils/decorators';
 import { Graph } from './dto/graph';
 import { getParentGraphRecursive } from './utils/graphs';
 import { duration } from './utils/duration';
+import { ProviderDefinition } from './dto/providerDefinition';
 
 // Create a connection for the server
 const connection = createConnection(ProposedFeatures.all);
@@ -38,7 +39,7 @@ connection.onInitialize((params: InitializeParams) => {
   };
 
   logger.info('Obsidian Language Server initialized');
-  
+
   return {
     capabilities: {
       definitionProvider: true,
@@ -57,34 +58,34 @@ connection.onDeclaration(async (params: TextDocumentPositionParams): Promise<Def
 
 // Handle "Go to Definition" requests
 connection.onDefinition(async (params: TextDocumentPositionParams): Promise<Definition | null> => {
-    const document = documents.get(params.textDocument.uri);
-    if (!document) {
-        logger.error(`No document found for URI: ${params.textDocument.uri}`);
-        return null;
-    }
-
-    const sourceFile = ts.createSourceFile(
-        document.uri,
-        document.getText(),
-        ts.ScriptTarget.Latest,
-        true
-    );
-
-    const position = document.offsetAt(params.position);
-    const node = findNodeAtPosition(sourceFile, position);
-    
-    if (!node) {
-        logger.info(`no node found at position: ${position}`);
-        return null;
-    }
-
-    if (isProviderParameter(node)) {
-        logger.info(`Found provider parameter ${node.getText()}`);
-        return handleProviderParameterDefinition(node, document, params);
-    }
-
-    logger.info(`no provider parameter found at position: ${position}`);
+  const document = documents.get(params.textDocument.uri);
+  if (!document) {
+    logger.error(`No document found for URI: ${params.textDocument.uri}`);
     return null;
+  }
+
+  const sourceFile = ts.createSourceFile(
+    document.uri,
+    document.getText(),
+    ts.ScriptTarget.Latest,
+    true
+  );
+
+  const position = document.offsetAt(params.position);
+  const node = findNodeAtPosition(sourceFile, position);
+
+  if (!node) {
+    logger.info(`no node found at position: ${position}`);
+    return null;
+  }
+
+  if (isProviderParameter(node)) {
+    logger.info(`Found provider parameter ${node.getText()}`);
+    return handleProviderParameterDefinition(node, document, params);
+  }
+
+  logger.info(`no provider parameter found at position: ${position}`);
+  return null;
 });
 
 async function handleProviderParameterDefinition(
@@ -92,48 +93,26 @@ async function handleProviderParameterDefinition(
   document: TextDocument,
   params: TextDocumentPositionParams
 ): Promise<Definition | null> {
-    const graph = getParentGraphRecursive(node);
-    if (!graph) return null;
+  const graph = getParentGraphRecursive(node);
+  if (!graph) return null;
 
-    const provider = graph.findProvider(ts.isParameter(node) ? node.name.getText() : node.getText());
-    if (provider) {
-      const sourceFile = ts.createSourceFile(
-        document.uri,
-        document.getText(),
-        ts.ScriptTarget.Latest,
-        true
-      );
-
-      const start = sourceFile.getLineAndCharacterOfPosition(provider.getStart());
-      const end = sourceFile.getLineAndCharacterOfPosition(provider.getEnd());
-
-      logger.info(`found provider: ${provider.getText()}, range: ${JSON.stringify(start)} - ${JSON.stringify(end)}`);
-      
-      return {
-        uri: document.uri,
-        range: {
-          start: {
-            line: start.line,
-            character: start.character
-          },
-          end: {
-            line: end.line,
-            character: end.character
-          }
-        }
-      };
-    }
+  const paramName = ts.isParameter(node) ? node.name.getText() : node.getText();
+  if (graph.hasProvider(paramName)) {
+    const provider = graph.requireProvider(paramName);
+    return new ProviderDefinition(document, provider).json;
+  } else {
     return null;
+  }
 }
 
 function getTypeName(typeNode: ts.TypeNode): string | undefined {
   if (ts.isTypeReferenceNode(typeNode)) {
-      return typeNode.typeName.getText();
+    return typeNode.typeName.getText();
   } else if (ts.isArrayTypeNode(typeNode)) {
-      const elementType = typeNode.elementType;
-      if (ts.isTypeReferenceNode(elementType)) {
-          return elementType.typeName.getText();
-      }
+    const elementType = typeNode.elementType;
+    if (ts.isTypeReferenceNode(elementType)) {
+      return elementType.typeName.getText();
+    }
   }
   logger.warn(`getTypeName: ${typeNode.getText()} returned undefined`);
   return undefined;
