@@ -52,9 +52,9 @@ connection.onDefinition(async (params: TextDocumentPositionParams): Promise<Defi
     return null;
   }
 
-  const node = getGoToDefinitionTarget(document, params);
+  const node = getGoToDefinitionNode(document, params);
   if (!node) {
-    logger.info(`Tried to get definition for node at position ${params.position}, but no node found`);
+    logger.error(`Tried to get definition for node at position ${params.position}, but no node found`);
     return null;
   }
 
@@ -90,7 +90,7 @@ async function handleProviderParameterDefinition(
   }
 }
 
-function getGoToDefinitionTarget(document: TextDocument, params: TextDocumentPositionParams): ts.Node | undefined {
+function getGoToDefinitionNode(document: TextDocument, params: TextDocumentPositionParams): ts.Node | undefined {
   const sourceFile = createSourceFile(document);
   const position = document.offsetAt(params.position);
   return getNodeAtPosition(sourceFile, position);
