@@ -11,10 +11,10 @@ interface SubgraphInfo {
   document: TextDocument;
 }
 
-function resolveModulePath(currentFilePath: string, moduleSpecifier: string): string {
-  const filePath = currentFilePath.replace(/^file:\/\//, '');
-  const currentDir = filePath.replace(/\/[^/]+$/, '');
-  const resolvedPath = path.resolve(currentDir, moduleSpecifier);
+function resolveModulePath(fileUri: string, moduleSpecifier: string): string {
+  const filePath = fileUri.replace(/^file:\/\//, '');
+  const directory = filePath.replace(/\/[^/]+$/, '');
+  const resolvedPath = path.resolve(directory, moduleSpecifier);
   return resolvedPath.endsWith('.ts') ? resolvedPath : resolvedPath + '.ts';
 }
 

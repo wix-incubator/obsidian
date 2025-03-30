@@ -5,12 +5,7 @@ import {
   InitializeParams,
   TextDocumentPositionParams,
   Definition,
-  Location,
-  Range,
-  Position,
-  Logger,
-  LogMessageNotification,
-  DefinitionLink
+  Logger
 } from 'vscode-languageserver/node';
 
 import {
@@ -21,8 +16,9 @@ import * as ts from 'typescript';
 import { hasProvidesDecorator } from './utils/decorators';
 import { getParentGraphRecursive } from './utils/graphs';
 import { ProviderDefinition } from './dto/providerDefinition';
+import { createSourceFile } from './utils/document';
+import { getNodeAtPosition } from './utils/node';
 
-// Create a connection for the server
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
 
@@ -49,12 +45,6 @@ connection.onInitialize((params: InitializeParams) => {
   };
 });
 
-connection.onDeclaration(async (params: TextDocumentPositionParams): Promise<Definition | null> => {
-  logger.info(`onDeclaration: ${params.textDocument.uri}`);
-  return null;
-});
-
-// Handle "Go to Definition" requests
 connection.onDefinition(async (params: TextDocumentPositionParams): Promise<Definition | null> => {
   const document = documents.get(params.textDocument.uri);
   if (!document) {
@@ -62,27 +52,13 @@ connection.onDefinition(async (params: TextDocumentPositionParams): Promise<Defi
     return null;
   }
 
-  const sourceFile = ts.createSourceFile(
-    document.uri,
-    document.getText(),
-    ts.ScriptTarget.Latest,
-    true
-  );
-
-  const position = document.offsetAt(params.position);
-  const node = findNodeAtPosition(sourceFile, position);
-
+  const node = getGoToDefinitionTarget(document, params);
   if (!node) {
-    logger.info(`no node found at position: ${position}`);
+    logger.info(`Tried to get definition for node at position ${params.position}, but no node found`);
     return null;
   }
 
-  if (isProviderParameter(node)) {
-    logger.info(`Found provider parameter ${node.getText()}`);
-    return handleProviderParameterDefinition(node, document, params);
-  }
-
-  logger.info(`no provider parameter found at position: ${position}`);
+  if (isProviderParameter(node)) return handleProviderParameterDefinition(node, document, params);
   return null;
 });
 
@@ -114,13 +90,10 @@ async function handleProviderParameterDefinition(
   }
 }
 
-function findNodeAtPosition(sourceFile: ts.SourceFile, position: number): ts.Node | undefined {
-  function find(node: ts.Node): ts.Node | undefined {
-    if (position >= node.getStart() && position < node.getEnd()) {
-      return ts.forEachChild(node, find) || node;
-    }
-  }
-  return find(sourceFile);
+function getGoToDefinitionTarget(document: TextDocument, params: TextDocumentPositionParams): ts.Node | undefined {
+  const sourceFile = createSourceFile(document);
+  const position = document.offsetAt(params.position);
+  return getNodeAtPosition(sourceFile, position);
 }
 
 function isProviderParameter(node: ts.Node): node is ts.ParameterDeclaration {
@@ -133,6 +106,5 @@ function isProviderParameter(node: ts.Node): node is ts.ParameterDeclaration {
   return false;
 }
 
-// Listen on the text document manager and connection
 documents.listen(connection);
 connection.listen(); 
