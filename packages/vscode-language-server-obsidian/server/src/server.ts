@@ -19,16 +19,14 @@ import {
 
 import * as ts from 'typescript';
 import { hasProvidesDecorator } from './utils/decorators';
-import { Graph } from './dto/graph';
 import { getParentGraphRecursive } from './utils/graphs';
-import { duration } from './utils/duration';
 import { ProviderDefinition } from './dto/providerDefinition';
 
 // Create a connection for the server
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
 
-let logger: Logger;
+export let logger: Logger;
 
 connection.onInitialize((params: InitializeParams) => {
   logger = {
@@ -101,21 +99,19 @@ async function handleProviderParameterDefinition(
     const provider = graph.requireProvider(paramName);
     return new ProviderDefinition(document, provider).json;
   } else {
+    const subgraphs = graph.getSubgraphs();
+
+    for (const { classDeclaration, sourceFile, document } of subgraphs) {
+      if (!document) {
+        logger.error(`No document found for URI: ${sourceFile.fileName}`);
+        continue;
+      }
+      const subgraph = getParentGraphRecursive(classDeclaration);
+      const provider = subgraph!.requireProvider(paramName);
+      return new ProviderDefinition(document, provider).json;
+    }
     return null;
   }
-}
-
-function getTypeName(typeNode: ts.TypeNode): string | undefined {
-  if (ts.isTypeReferenceNode(typeNode)) {
-    return typeNode.typeName.getText();
-  } else if (ts.isArrayTypeNode(typeNode)) {
-    const elementType = typeNode.elementType;
-    if (ts.isTypeReferenceNode(elementType)) {
-      return elementType.typeName.getText();
-    }
-  }
-  logger.warn(`getTypeName: ${typeNode.getText()} returned undefined`);
-  return undefined;
 }
 
 function findNodeAtPosition(sourceFile: ts.SourceFile, position: number): ts.Node | undefined {
