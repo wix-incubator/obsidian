@@ -8,7 +8,9 @@
     "build": "tsc -b",
     "watch": "tsc -b -w",
     "lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
-    "postinstall": "cd client && npm install && cd ../server && npm install && cd .."
+    "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "engines": {
     "vscode": "^1.75.0"
@@ -40,10 +42,13 @@
     }
   },
   "devDependencies": {
+    "@types/jest": "^29.5.12",
     "@types/node": "^16.11.7",
     "@typescript-eslint/eslint-plugin": "^5.54.0",
     "@typescript-eslint/parser": "^5.54.0",
     "eslint": "^8.35.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
     "typescript": "^5.0.0"
   }
 }

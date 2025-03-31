@@ -1,7 +1,6 @@
 import ts = require("typescript");
 import { getDecorator, getDecoratedMethods } from "../utils/decorators";
 import { Provider } from "./provider";
-import { logger } from "../server";
 import * as path from 'path';
 import { TextDocument } from "vscode-languageserver-textdocument";
 
@@ -20,6 +19,10 @@ function resolveModulePath(fileUri: string, moduleSpecifier: string): string {
 
 export class Graph {
   constructor(private node: ts.ClassDeclaration) { }
+
+  public toString(): string {
+    return this.node.getText();
+  }
 
   public hasProvider(name: string): boolean {
     return this.findProvider(name) !== undefined;
@@ -45,7 +48,7 @@ export class Graph {
     if (!graphDecorator) return [];
 
     const subgraphsArg = graphDecorator.getArgument(0, 'subgraphs');
-    logger.info(`subgraphsArg: ${subgraphsArg?.getText()}`);
+    // logger.info(`subgraphsArg: ${subgraphsArg?.getText()}`);
     if (!subgraphsArg || !ts.isArrayLiteralExpression(subgraphsArg)) return [];
 
     return subgraphsArg.elements
@@ -83,25 +86,25 @@ export class Graph {
         }
 
         if (!importDeclaration) {
-          logger.info(`No import found for subgraph: ${identifier.text}`);
+          // logger.info(`No import found for subgraph: ${identifier.text}`);
           return undefined;
         }
 
         // Get the module specifier (the path being imported from)
         const moduleSpecifier = importDeclaration.moduleSpecifier;
         if (!ts.isStringLiteral(moduleSpecifier)) {
-          logger.info(`Invalid module specifier for subgraph: ${identifier.text}`);
+          // logger.info(`Invalid module specifier for subgraph: ${identifier.text}`);
           return undefined;
         }
 
         // Resolve the module path
         const resolvedPath = resolveModulePath(sourceFile.fileName, moduleSpecifier.text);
-        logger.info(`Resolved path: ${resolvedPath}`);
+        // logger.info(`Resolved path: ${resolvedPath}`);
 
         // Read the file content
         const fileContent = ts.sys.readFile(resolvedPath);
         if (!fileContent) {
-          logger.info(`Could not read file: ${resolvedPath}`);
+          // logger.info(`Could not read file: ${resolvedPath}`);
           return undefined;
         }
 
@@ -112,7 +115,7 @@ export class Graph {
           ts.ScriptTarget.Latest,
           true
         );
-        logger.info(`importedSourceFile: ${importedSourceFile.statements.length}`);
+        // logger.info(`importedSourceFile: ${importedSourceFile.statements.length}`);
 
         // Find the class declaration
         let classDeclaration: ts.ClassDeclaration | undefined;
@@ -126,7 +129,7 @@ export class Graph {
         }
 
         if (!classDeclaration) {
-          logger.info(`Could not find class declaration for: ${identifier.text}`);
+          // logger.info(`Could not find class declaration for: ${identifier.text}`);
           return undefined;
         }
 
