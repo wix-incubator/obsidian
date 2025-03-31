@@ -1,4 +1,4 @@
-import { hasProvidesDecorator } from '../../src/utils/decorators';
+import { getDecoratedMethods, hasProvidesDecorator } from '../../src/utils/decorators';
 import * as ts from 'typescript';
 
 const DECORATED_METHOD = `
@@ -43,6 +43,20 @@ describe('decorators', () => {
 
       const method = sourceFile.statements[0].getChildAt(4).getChildAt(0);
       expect(hasProvidesDecorator(method)).toBe(expected);
+    });
+  });
+
+  describe('getDecoratedMethods', () => {
+    it('should return the decorated methods', () => {
+      const sourceFile = ts.createSourceFile(
+        'test.ts',
+        DECORATED_METHOD,
+        ts.ScriptTarget.Latest,
+        true
+      );
+
+      const methods = getDecoratedMethods(sourceFile.statements[0] as ts.ClassDeclaration, ['provides']);
+      expect(methods.length).toBe(1);
     });
   });
 }); 
