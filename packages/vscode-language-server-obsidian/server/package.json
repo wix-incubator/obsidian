@@ -8,7 +8,9 @@
   "dependencies": {
     "vscode-languageserver": "^8.1.0",
     "vscode-languageserver-textdocument": "^1.0.8",
-    "typescript": "^5.0.0"
+    "typescript": "^5.0.0",
+    "react-obsidian": "^2.21.0",
+    "eslint-plugin-obsidian": "^2.21.0"
   },
   "devDependencies": {
     "@types/node": "^16.11.7"

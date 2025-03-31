@@ -1,6 +1,6 @@
 import ts = require("typescript");
 
-export function getNodeAtPosition(node: ts.Node, position: number): ts.Node | undefined {
+export function getNodeAtPosition(node: ts.Node, position: number) {
   return find(node, node => position >= node.getStart() && position < node.getEnd());
 }
 
