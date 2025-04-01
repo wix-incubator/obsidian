@@ -2,27 +2,27 @@ import { TextDocument } from "vscode-languageserver-textdocument";
 import { Logger } from "../services/logger";
 import { Definition, TextDocumentPositionParams, TextDocuments } from "vscode-languageserver/node";
 import ts = require("typescript");
-import { createSourceFile } from "../utils/document";
 import { getNodeAtPosition } from "../utils/node";
 import { hasProvidesDecorator } from "../utils/decorators";
 import { getParentGraphRecursive } from "../utils/graphs";
 import { assert } from "../utils/assertions";
 import { ProviderDefinition } from "../dto/providerDefinition";
 import { Graph } from "../dto/graph";
+import { SourceFileCreator } from "../services/sourceFileCreator";
 
 export class DefinitionCommand {
 
   constructor(
-    private params: TextDocumentPositionParams,
     private documents: TextDocuments<TextDocument>,
-    private logger: Logger
+    private logger: Logger,
+    private sourceFileCreator: SourceFileCreator = new SourceFileCreator()
   ) {
     this.logger.info(`DefinitionCommand constructor`);
   }
 
-  public async onDefinition(): Promise<Definition | undefined> {
-    const document = this.getDocument();
-    const node = this.getGoToDefinitionNode(document);
+  public async onDefinition(params: TextDocumentPositionParams): Promise<Definition | undefined> {
+    const document = this.getDocument(params);
+    const node = this.getGoToDefinitionNode(document, params);
     return this.goToDefinitionIfProvider(node, document);
   }
 
@@ -49,24 +49,24 @@ export class DefinitionCommand {
       const subgraph = getParentGraphRecursive(classDeclaration);
       if (!subgraph) continue;
       const provider = subgraph.requireProvider(providerName);
-      return new ProviderDefinition(document, provider).json;
+      return new ProviderDefinition(document, provider, this.sourceFileCreator).json;
     }
   }
 
   private goToDefinitionInGraph(graph: Graph, providerName: string, document: TextDocument) {
     const provider = graph.requireProvider(providerName);
-    return new ProviderDefinition(document, provider).json;
+    return new ProviderDefinition(document, provider, this.sourceFileCreator).json;
   }
 
-  private getDocument(): TextDocument {
-    const document = this.documents.get(this.params.textDocument.uri);
-    assert("No document found for URI: " + this.params.textDocument.uri, document);
+  private getDocument(params: TextDocumentPositionParams): TextDocument {
+    const document = this.documents.get(params.textDocument.uri);
+    assert("No document found for URI: " + params.textDocument.uri, document);
     return document;
   }
 
-  private getGoToDefinitionNode(document: TextDocument) {
-    const sourceFile = createSourceFile(document);
-    const position = document.offsetAt(this.params.position);
+  private getGoToDefinitionNode(document: TextDocument, params: TextDocumentPositionParams) {
+    const sourceFile = this.sourceFileCreator.create(document);
+    const position = document.offsetAt(params.position);
     const node = getNodeAtPosition(sourceFile, position);
     return node;
   }

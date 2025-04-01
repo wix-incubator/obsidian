@@ -1,6 +1,5 @@
 import * as ts from 'typescript';
 import { Decorator } from '../dto/decorator';
-import { logger } from '../server';
 
 export function hasDecorator(node: ts.Node, decoratorNames: string[]): boolean {
   return getDecorator(node, decoratorNames) !== undefined;

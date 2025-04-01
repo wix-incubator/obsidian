@@ -6,13 +6,15 @@
     "node": "*"
   },
   "dependencies": {
-    "vscode-languageserver": "^8.1.0",
-    "vscode-languageserver-textdocument": "^1.0.8",
-    "typescript": "^5.0.0",
+    "eslint-plugin-obsidian": "^2.21.0",
     "react-obsidian": "^2.21.0",
-    "eslint-plugin-obsidian": "^2.21.0"
+    "typescript": "^5.0.0",
+    "vscode-languageserver": "^8.1.0",
+    "vscode-languageserver-textdocument": "^1.0.8"
   },
   "devDependencies": {
-    "@types/node": "^16.11.7"
+    "@types/node": "^16.11.7",
+    "jest-mock-extended": "^4.0.0-beta1",
+    "jest-when": "^3.7.0"
   }
 }

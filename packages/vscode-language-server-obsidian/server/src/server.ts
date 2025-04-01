@@ -29,8 +29,8 @@ connection.onInitialize((params: InitializeParams) => {
 });
 
 connection.onDefinition((params: TextDocumentPositionParams): Promise<Definition | undefined> => {
-  return new DefinitionCommand(params, documents, logger)
-    .onDefinition()
+  return new DefinitionCommand(documents, logger)
+    .onDefinition(params)
     .catch((error: Error) => {
       logger.error('Error in go to definition', error);
       return undefined;
