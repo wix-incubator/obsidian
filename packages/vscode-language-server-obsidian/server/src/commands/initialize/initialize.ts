@@ -1,5 +1,5 @@
 import { InitializeParams, InitializeResult } from "vscode-languageserver";
-import { Logger } from "../services/logger";
+import { Logger } from "../../services/logger";
 
 const INCREMENTAL_UPDATE = 1;
 

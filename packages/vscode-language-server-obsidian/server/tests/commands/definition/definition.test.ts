@@ -1,18 +1,19 @@
-import { DefinitionCommand } from '../../src/commands/definition';
+import { DefinitionCommand } from '../../../src/commands/definition/definition';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import { TextDocuments } from 'vscode-languageserver/node';
 import { mock } from 'jest-mock-extended';
-import { Logger } from '../../src/services/logger';
+import { Logger } from '../../../src/services/logger';
 import * as ts from 'typescript';
 import { when } from 'jest-when';
-import { SourceFileCreator } from '../../src/services/sourceFileCreator';
+import { SourceFileCreator } from '../../../src/services/sourceFileCreator';
+import { StrategyFactory } from '../../../src/commands/definition/strategies/goToDefinitionStrategyFactory';
 
 describe('DefinitionCommand', () => {
   let uut: DefinitionCommand;
   let documents: jest.Mocked<TextDocuments<TextDocument>>;
   let logger: jest.Mocked<Logger>;
   let sourceFileCreator: jest.Mocked<SourceFileCreator>;
-
+  let strategyFactory: jest.Mocked<StrategyFactory>;
   const TEST_SOURCE = `
 @graph()
 class TestGraph {
@@ -32,21 +33,11 @@ class TestGraph {
     documents = mock();
     logger = mock();
     sourceFileCreator = mock();
-    uut = new DefinitionCommand(documents, logger, sourceFileCreator);
+    strategyFactory = mock();
+    uut = new DefinitionCommand(documents, logger, sourceFileCreator, strategyFactory);
   });
 
-  it('should return undefined when cursor is not on a provider', async () => {
-    const params = createParams()
-    const document = mock<TextDocument>();
-    when(sourceFileCreator.create).calledWith(document).mockReturnValue(mock<ts.SourceFile>());
-    when(documents.get).calledWith(params.textDocument.uri).mockReturnValue(document);
-
-    const result = await uut.onDefinition(params);
-
-    expect(result).toBeUndefined();
-  });
-
-  it('should return the provider definition when cursor is on a provider', async () => {
+  it('should delegate to strategy factory', async () => {
     const params = createParams()
     const document = mock<TextDocument>();
     when(document.offsetAt).calledWith(params.position).mockReturnValue(TEST_SOURCE.indexOf('bar: string'));
@@ -54,9 +45,9 @@ class TestGraph {
     when(sourceFileCreator.create).calledWith(document).mockReturnValue(sourceFile);
     when(documents.get).calledWith(params.textDocument.uri).mockReturnValue(document);
 
-    const result = await uut.onDefinition(params);
+    await uut.onDefinition(params);
 
-    expect(result).toBeDefined();
+    expect(strategyFactory.create).toHaveBeenCalledWith(expect.anything(), document);
   });
 });
 

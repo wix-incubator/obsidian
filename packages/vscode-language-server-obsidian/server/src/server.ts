@@ -7,9 +7,9 @@ import {
   Definition,
 } from 'vscode-languageserver/node';
 import { TextDocument } from 'vscode-languageserver-textdocument';
-import { DefinitionCommand } from './commands/definition';
+import { DefinitionCommand } from './commands/definition/definition';
 import { Logger } from './services/logger';
-import { InitializeCommand } from './commands/initialize';
+import { InitializeCommand } from './commands/initialize/initialize';
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
