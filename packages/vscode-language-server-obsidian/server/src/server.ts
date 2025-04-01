@@ -9,23 +9,14 @@ import {
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import { DefinitionCommand } from './commands/definition';
 import { Logger } from './services/logger';
+import { InitializeCommand } from './commands/initialize';
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
 export const logger = new Logger(connection);
 
 connection.onInitialize((params: InitializeParams) => {
-  logger.info('Obsidian Language Server initialized');
-
-  return {
-    capabilities: {
-      definitionProvider: true,
-      textDocumentSync: {
-        openClose: true,
-        change: 1 // Incremental updates
-      }
-    }
-  };
+  return new InitializeCommand(logger).onInitialize(params);
 });
 
 connection.onDefinition((params: TextDocumentPositionParams): Promise<Definition | undefined> => {
