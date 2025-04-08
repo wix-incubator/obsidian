@@ -1,5 +1,8 @@
 # vscode-language-server-obsidian
 
+## Development
+During development using [ts-ast-viewer.com](https://ts-ast-viewer.com/#) to analyze source files is very helpful.
+
 ## Tests
 Run `npm run test` to execute all test from the terminal. Alternatively, install the [Wallaby](https://marketplace.visualstudio.com/items?itemName=WallabyJs.wallaby-vscode) extention for VSCode to continously execute tests within the IDE.
 

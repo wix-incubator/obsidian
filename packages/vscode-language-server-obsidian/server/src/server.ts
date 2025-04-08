@@ -7,20 +7,22 @@ import {
   Definition,
 } from 'vscode-languageserver/node';
 import { TextDocument } from 'vscode-languageserver-textdocument';
-import { DefinitionCommand } from './commands/definition/definition';
+import { DefinitionCommand } from './commands/definition/definitionCommand';
 import { Logger } from './services/logger';
 import { InitializeCommand } from './commands/initialize/initialize';
+import { ProjectAdapter } from './services/ast/project';
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);
 export const logger = new Logger(connection);
+const projectAdapter = new ProjectAdapter(documents);
 
 connection.onInitialize((params: InitializeParams) => {
   return new InitializeCommand(logger).onInitialize(params);
 });
 
 connection.onDefinition((params: TextDocumentPositionParams): Promise<Definition | undefined> => {
-  return new DefinitionCommand(documents, logger)
+  return new DefinitionCommand(projectAdapter, logger)
     .onDefinition(params)
     .catch((error: Error) => {
       logger.error('Error in go to definition', error);

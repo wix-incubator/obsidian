@@ -1,16 +1,20 @@
-import ts = require("typescript");
+import { MethodDeclaration } from "ts-morph";
 
 export class Provider {
-  constructor(private node: ts.MethodDeclaration) { }
+  constructor(private node: MethodDeclaration) { }
 
-  public get text() {
-    return this.node.getText();
+  public get uri() {
+    return this.sourceFile.getFilePath();
   }
 
-  public getRange(sourceFile: ts.SourceFile) {
+  private get sourceFile() {
+    return this.node.getSourceFile();
+  }
+
+  public getRange() {
     return {
-      start: sourceFile.getLineAndCharacterOfPosition(this.node.getStart()),
-      end: sourceFile.getLineAndCharacterOfPosition(this.node.getEnd())
+      start: this.sourceFile.getLineAndColumnAtPos(this.node.getStart()),
+      end: this.sourceFile.getLineAndColumnAtPos(this.node.getEnd())
     };
   }
 }

@@ -1,7 +1,6 @@
-import { TextDocument } from "vscode-languageserver-textdocument";
-import ts = require("typescript");
 import { Definition } from "vscode-languageserver/node";
+import { Node } from "ts-morph";
 
-export abstract class GoToDefinitionStrategy {
-  public abstract goToDefinition(node: ts.Node | undefined, document: TextDocument): Promise<Definition | undefined>;
+export interface GoToDefinitionStrategy {
+  goToDefinition(node: Node | undefined): Promise<Definition | undefined>;
 }

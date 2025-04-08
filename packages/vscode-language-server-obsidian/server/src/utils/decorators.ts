@@ -1,46 +1,38 @@
-import * as ts from 'typescript';
 import { Decorator } from '../dto/decorator';
+import { Node, SyntaxKind, MethodDeclaration, ClassDeclaration } from 'ts-morph';
 
-export function hasDecorator(node: ts.Node, decoratorNames: string[]): boolean {
+export function hasDecorator(node: MethodDeclaration, decoratorNames: string[]): boolean {
   return getDecorator(node, decoratorNames) !== undefined;
 }
 
-export function getDecorator(node: ts.Node, decoratorNames: string[]): Decorator | undefined {
-  const decorators = ts.canHaveDecorators(node) ? ts.getDecorators(node) : undefined;
-  if (!decorators) return undefined;
-
-  for (const decorator of decorators) {
-    const decoratorExpr = decorator.expression;
-    if (ts.isCallExpression(decoratorExpr)) {
-      const identifier = decoratorExpr.expression;
-      if (ts.isIdentifier(identifier)) {
-        const decoratorName = identifier.text;
-        if (decoratorNames.includes(decoratorName)) return new Decorator(decorator);
-      }
+export function getDecorator(node: MethodDeclaration | ClassDeclaration, decoratorNames: string[]): Decorator | undefined {
+  if (!node.getDecorators()) return undefined;
+  for (const decorator of node.getDecorators()) {
+    const decoratorName = decorator.getExpression().getChildren()[0].getText();
+    if (decoratorNames.includes(decoratorName)) {
+      return new Decorator(decorator);
     }
   }
-
-  return undefined;
 }
 
-export function hasProvidesDecorator(node: ts.Node): boolean {
-  if (!ts.isMethodDeclaration(node)) return false;
-  return hasDecorator(node, ['Provides', 'provides']);
+export function hasProvidesDecorator(node: Node | undefined): boolean {
+  if (node?.getKind() !== SyntaxKind.MethodDeclaration) return false;
+  return hasDecorator(node as MethodDeclaration, ['Provides', 'provides']);
 }
 
-export function hasGraphDecorator(node: ts.Node): boolean {
-  if (!ts.isClassDeclaration(node)) return false;
-  return hasDecorator(node, ['Graph', 'graph']);
+export function hasGraphDecorator(node: Node | undefined): boolean {
+  if (node?.getKind() !== SyntaxKind.ClassDeclaration) return false;
+  return hasDecorator(node as MethodDeclaration, ['Graph', 'graph']);
 }
 
-export function getDecoratedMethods(node: ts.ClassDeclaration, decoratorNames: string[]): ts.MethodDeclaration[] {
-  const methods: ts.MethodDeclaration[] = [];
+export function getDecoratedMethods(node: Node, decoratorNames: string[]): MethodDeclaration[] {
+  const methods: MethodDeclaration[] = [];
 
-  function visit(node: ts.Node) {
-    if (ts.isMethodDeclaration(node) && hasDecorator(node, decoratorNames)) {
-      methods.push(node);
+  function visit(node: Node) {
+    if (node.getKind() === SyntaxKind.MethodDeclaration && hasDecorator(node as MethodDeclaration, decoratorNames)) {
+      methods.push(node as MethodDeclaration);
     }
-    ts.forEachChild(node, visit);
+    node.getChildren().forEach(visit);
   }
 
   visit(node);

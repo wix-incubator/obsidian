@@ -1,17 +1,23 @@
-import { TextDocument } from "vscode-languageserver-textdocument";
 import { Provider } from "./provider";
-import { Definition } from "./definition";
-import { SourceFileCreator } from "../services/sourceFileCreator";
+import { Definition } from "vscode-languageserver/node";
 
+// TODO! this abstraction is probably not needed
 export class ProviderDefinition {
-  constructor(
-    private document: TextDocument,
-    private provider: Provider,
-    private sourceFileCreator: SourceFileCreator
-  ) { }
+  constructor(private provider: Provider) { }
 
-  public get json() {
-    const sourceFile = this.sourceFileCreator.create(this.document);
-    return new Definition(this.document, this.provider.getRange(sourceFile)).json;
+  public get asTsCompilerDefinition(): Definition {
+    return {
+      uri: this.provider.uri,
+      range: {
+        start: {
+          line: this.provider.getRange().start.line,
+          character: this.provider.getRange().start.column - 1
+        },
+        end: {
+          line: this.provider.getRange().end.line,
+          character: this.provider.getRange().end.column
+        }
+      }
+    }
   }
 }

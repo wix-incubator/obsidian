@@ -15,6 +15,7 @@
   "devDependencies": {
     "@types/node": "^16.11.7",
     "jest-mock-extended": "^4.0.0-beta1",
-    "jest-when": "^3.7.0"
+    "jest-when": "^3.7.0",
+    "ts-morph": "^25.0.1"
   }
 }

@@ -33,19 +33,16 @@ describe('ProviderStrategy', () => {
   });
 
   it('should return undefined when cursor is not on a provider', async () => {
-    const result = await uut.goToDefinition(mock(), mock());
+    const result = await uut.goToDefinition(mock());
     expect(result).toBeUndefined();
   });
 
   it('should return the provider definition when cursor is on a provider', async () => {
-    const params = createParams()
-    const document = mock<TextDocument>();
-    when(document.offsetAt).calledWith(params.position).mockReturnValue(TEST_SOURCE.indexOf('bar: string'));
     const sourceFile = ts.createSourceFile('test.ts', TEST_SOURCE, ts.ScriptTarget.Latest, true);
-    when(sourceFileCreator.create).calledWith(document).mockReturnValue(sourceFile);
+    when(sourceFileCreator.create).mockReturnValue(sourceFile);
 
     const node = findNodeByText(sourceFile.statements[0], 'bar: string')!;
-    const result = await uut.goToDefinition(node, document);
+    const result = await uut.goToDefinition(node);
 
     expect(result).toBeDefined();
   });
