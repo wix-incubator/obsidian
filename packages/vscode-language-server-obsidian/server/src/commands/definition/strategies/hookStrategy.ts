@@ -12,16 +12,20 @@ import {
 import { TypeReferenceFinder } from "../../../services/typeReferenceFinder";
 import { Graph } from "../../../dto/graph";
 import { Definition } from "vscode-languageserver/node";
-import { ProjectAdapter } from "../../../services/ast/project";
+import { ProjectAdapter } from "../../../services/ast/projectAdapter";
 import { createDefinition } from "../helpers";
 
 export class HookStrategy implements GoToDefinitionStrategy {
+  private typeReferenceFinder: TypeReferenceFinder;
+
   constructor(
     private project: ProjectAdapter,
-    private typeReferenceFinder: TypeReferenceFinder = new TypeReferenceFinder()
-  ) { }
+  ) {
+    this.typeReferenceFinder = new TypeReferenceFinder(project);
+  }
 
   public async goToDefinition(node: Node): Promise<Definition | undefined> {
+    console.log(`🏁 goToDefinition: ${node.getText()}`);
     if (!node) return;
     const dependenciesOf = this.typeReferenceFinder.findTypeReference(node);
     const graphDeclarations = this.extractGraphsFromDependenciesOfDeclaration(dependenciesOf!);

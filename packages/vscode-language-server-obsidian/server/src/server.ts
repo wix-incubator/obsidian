@@ -10,7 +10,7 @@ import { TextDocument } from 'vscode-languageserver-textdocument';
 import { DefinitionCommand } from './commands/definition/definitionCommand';
 import { Logger } from './services/logger';
 import { InitializeCommand } from './commands/initialize/initialize';
-import { ProjectAdapter } from './services/ast/project';
+import { ProjectAdapter } from './services/ast/projectAdapter';
 
 const connection = createConnection(ProposedFeatures.all);
 const documents = new TextDocuments(TextDocument);

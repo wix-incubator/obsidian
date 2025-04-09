@@ -1,8 +1,7 @@
-import { TextDocument } from "vscode-languageserver-textdocument";
 import { Logger } from "../../services/logger";
-import { Definition, TextDocumentPositionParams, TextDocuments, } from "vscode-languageserver/node";
+import { Definition, TextDocumentPositionParams, } from "vscode-languageserver/node";
 import { StrategyFactory } from "./strategies/goToDefinitionStrategyFactory";
-import { ProjectAdapter } from "../../services/ast/project";
+import { ProjectAdapter } from "../../services/ast/projectAdapter";
 import { SourceFile, Node } from "ts-morph";
 
 export class DefinitionCommand {

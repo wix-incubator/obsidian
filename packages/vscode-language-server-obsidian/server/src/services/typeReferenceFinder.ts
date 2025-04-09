@@ -1,27 +1,16 @@
-import { ModuleKind, Project, Node, TypeReferenceNode, TypeNode, TypeAliasDeclaration, SourceFile, StringLiteral, ScriptTarget, SyntaxKind, Identifier } from "ts-morph";
+import { Node, TypeReferenceNode, TypeNode, TypeAliasDeclaration, SourceFile, StringLiteral, Identifier } from "ts-morph";
+import { ProjectAdapter } from "./ast/projectAdapter";
 
 export class TypeReferenceFinder {
-  private project: Project;
-
-  constructor() {
-    this.project = new Project({
-      compilerOptions: {
-        target: ScriptTarget.Latest,
-        module: ModuleKind.CommonJS,
-      }
-    });
-  }
+  constructor(private project: ProjectAdapter) { }
 
   public findTypeReference(node: Node): TypeAliasDeclaration | undefined {
-    return node.getKind() === SyntaxKind.Identifier ? this.findTypeReferenceInIdentifier(node as Identifier) : undefined;
+    return Node.isIdentifier(node) ? this.findTypeReferenceInIdentifier(node as Identifier) : undefined;
   }
 
   private findTypeReferenceInIdentifier(node: Identifier) {
-    const filePath = node.getSourceFile().getFilePath();
-    this.project.addSourceFileAtPath(filePath);
     const aliases = this.findAllMatchingAliases(node.getText());
     this.logMatches(aliases, node.getText());
-
     return aliases.length > 0 ? aliases[0] : undefined;
   }
 

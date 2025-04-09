@@ -3,9 +3,15 @@ import { TextDocument } from "vscode-languageserver-textdocument";
 import { TextDocumentPositionParams, TextDocuments } from "vscode-languageserver/node";
 
 export class ProjectAdapter {
-  private project: Project = new Project();
 
-  constructor(private documents: TextDocuments<TextDocument>) { }
+  constructor(
+    private documents: TextDocuments<TextDocument>,
+    private project: Project = new Project()
+  ) { }
+
+  public getSourceFiles() {
+    return this.project.getSourceFiles();
+  }
 
   public addSourceFile(params: TextDocumentPositionParams) {
     const document = this.documents.get(params.textDocument.uri);
