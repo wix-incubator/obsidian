@@ -3,16 +3,11 @@ import { Provider } from "./provider";
 import * as path from 'path';
 import { ProviderDefinition } from "./providerDefinition";
 import { getParentGraphRecursive } from "../utils/graphs";
-import { ClassDeclaration, Identifier, ImportDeclaration, SourceFile, ts } from "ts-morph";
+import { ClassDeclaration, Expression, Identifier, ImportDeclaration, SourceFile, ts } from "ts-morph";
 import { ProjectAdapter } from "../services/ast/project";
 import { isArrayLiteralExpression, isIdentifier, isImportDeclaration, isNamedImports, isStringLiteral } from "../utils/tsMorph";
 import { Definition } from "vscode-languageserver/node";
 import { isDefined } from "../utils/objects";
-
-interface SubgraphInfo {
-  classDeclaration: ClassDeclaration;
-  sourceFile: SourceFile;
-}
 
 function resolveModulePath(fileUri: string, moduleSpecifier: string): string {
   const filePath = fileUri.replace(/^file:\/\//, '');
@@ -50,10 +45,8 @@ export class Graph {
   }
 
   private goToDefinitionInSubgraph(providerName: string) {
-    for (const { classDeclaration } of this.getSubgraphs()) {
-      const subgraph = getParentGraphRecursive(this.project, classDeclaration);
-      if (!subgraph) continue;
-      const provider = subgraph.requireProvider(providerName);
+    for (const graph of this.getSubgraphs()) {
+      const provider = graph.requireProvider(providerName);
       return new ProviderDefinition(provider);
     }
   }
@@ -83,27 +76,23 @@ export class Graph {
     return getDecoratedMethods(this.node, ['Provides', 'provides']);
   }
 
-  public getSubgraphs(): SubgraphInfo[] {
-    const graphDecorator = getDecorator(this.node, ['Graph', 'graph']);
-    if (!graphDecorator) return [];
-
-    const subgraphsArg = graphDecorator.getArgument(0, 'subgraphs');
-    if (!subgraphsArg || !isArrayLiteralExpression(subgraphsArg)) return [];
-
-
-    return subgraphsArg.getElements()
-      .filter(isIdentifier)
-      .map(graph => {
-        const graphName = graph.getText();
-        const importDeclaration = this.project.findImportDeclaration(this.sourceFile, graphName)
-        const moduleSourceFile = importDeclaration?.getModuleSpecifierSourceFile();
-        const classDeclaration = moduleSourceFile?.getClass(graphName);
-        return moduleSourceFile && classDeclaration && {
-          classDeclaration,
-          sourceFile: moduleSourceFile
-        }
-      })
+  public getSubgraphs(): Graph[] {
+    return this.getSubgraphsFromDecorator()
+      .map(this.getGraphFromSubgraph)
       .filter(isDefined)
+  }
+
+  private getGraphFromSubgraph(graph: Expression) {
+    const graphName = graph.getText();
+    const importDeclaration = this.project.findImportDeclaration(this.sourceFile, graphName)
+    const classDeclaration = importDeclaration?.getModuleSpecifierSourceFile()?.getClass(graphName);
+    return classDeclaration && new Graph(this.project, classDeclaration)
+  }
+
+  private getSubgraphsFromDecorator() {
+    const graphDecorator = getDecorator(this.node, ['Graph', 'graph']);
+    const subgraphsArg = graphDecorator?.getArgument(0, 'subgraphs');
+    return isArrayLiteralExpression(subgraphsArg) ? subgraphsArg.getElements() : []
   }
 }
 

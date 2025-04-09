@@ -2,7 +2,7 @@ import { GoToDefinitionStrategy } from "./goToDefinitionStrategy";
 import { hasProvidesDecorator } from "../../../utils/decorators";
 import { ProviderStrategy } from "./providerStrategy";
 import { HookStrategy } from "./hookStrategy";
-import { Node, ParameterDeclaration, SyntaxKind, Identifier, TypeNode } from "ts-morph";
+import { Node, ParameterDeclaration, Identifier, TypeNode } from "ts-morph";
 import { getTypeAliases, isBindingElement, isIdentifier, isIntersectionTypeNode, isObjectBindingPattern, isParameter, isParenthesizedTypeNode, isTypeAliasDeclaration, isTypeReferenceNode, isUnionTypeNode } from "../../../utils/tsMorph";
 import { ProjectAdapter } from "../../../services/ast/project";
 
@@ -21,7 +21,7 @@ export class StrategyFactory {
     if (!node) return false;
 
     // Check if it's a binding element (destructured parameter)
-    if (isBindingElement(node)) {
+    if (Node.isBindingElement(node)) {
       const parent = node.getParent();
       if (!isObjectBindingPattern(parent)) return false;
       const parameterParent = parent.getParent();
