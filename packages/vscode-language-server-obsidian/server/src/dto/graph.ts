@@ -1,13 +1,10 @@
 import { getDecorator, getDecoratedMethods } from "../utils/decorators";
 import { Provider } from "./provider";
 import * as path from 'path';
-import { ProviderDefinition } from "./providerDefinition";
-import { getParentGraphRecursive } from "../utils/graphs";
-import { ClassDeclaration, Expression, Identifier, ImportDeclaration, SourceFile, ts } from "ts-morph";
+import { ClassDeclaration, Expression, ImportDeclaration, SourceFile } from "ts-morph";
 import { ProjectAdapter } from "../services/ast/project";
-import { isArrayLiteralExpression, isIdentifier, isImportDeclaration, isNamedImports, isStringLiteral } from "../utils/tsMorph";
-import { Definition } from "vscode-languageserver/node";
 import { isDefined } from "../utils/objects";
+import { isArrayLiteralExpression } from "../utils/tsMorph";
 
 function resolveModulePath(fileUri: string, moduleSpecifier: string): string {
   const filePath = fileUri.replace(/^file:\/\//, '');
@@ -34,9 +31,9 @@ export class Graph {
     return this.node.getText();
   }
 
-  public getProviderDefinition(name: string) {
+  public getProvider(name: string) {
     return this.hasProvider(name) ?
-      new ProviderDefinition(this.requireProvider(name)) :
+      this.requireProvider(name) :
       this.goToDefinitionInSubgraph(name);
   }
 
@@ -44,11 +41,13 @@ export class Graph {
     return this.findProvider(name) !== undefined;
   }
 
-  private goToDefinitionInSubgraph(providerName: string) {
+  private goToDefinitionInSubgraph(providerName: string): Provider {
     for (const graph of this.getSubgraphs()) {
-      const provider = graph.requireProvider(providerName);
-      return new ProviderDefinition(provider);
+      if (graph.hasProvider(providerName)) {
+        return graph.getProvider(providerName);
+      }
     }
+    throw new Error(`Provider ${providerName} not found in ${this.name}`);
   }
 
   public requireProviderTsMorph(name: string) {

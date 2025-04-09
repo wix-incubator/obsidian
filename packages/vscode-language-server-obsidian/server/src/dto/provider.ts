@@ -17,4 +17,20 @@ export class Provider {
       end: this.sourceFile.getLineAndColumnAtPos(this.node.getEnd())
     };
   }
+
+  public get definition() {
+    return {
+      uri: this.uri,
+      range: {
+        start: {
+          line: this.getRange().start.line,
+          character: this.getRange().start.column - 1
+        },
+        end: {
+          line: this.getRange().end.line,
+          character: this.getRange().end.column
+        }
+      }
+    }
+  }
 }
