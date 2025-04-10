@@ -42,7 +42,9 @@ export class Graph {
   }
 
   private goToDefinitionInSubgraph(providerName: string): Provider {
-    for (const graph of this.getSubgraphs()) {
+    const subgraphs = this.getSubgraphs();
+    console.log(subgraphs);
+    for (const graph of subgraphs) {
       if (graph.hasProvider(providerName)) {
         return graph.getProvider(providerName);
       }
@@ -77,15 +79,16 @@ export class Graph {
 
   public getSubgraphs(): Graph[] {
     return this.getSubgraphsFromDecorator()
-      .map(this.getGraphFromSubgraph)
+      .map(graph => this.getGraphFromSubgraph(graph))
       .filter(isDefined)
   }
 
   private getGraphFromSubgraph(graph: Expression) {
     const graphName = graph.getText();
     const importDeclaration = this.project.findImportDeclaration(this.sourceFile, graphName)
-    const classDeclaration = importDeclaration?.getModuleSpecifierSourceFile()?.getClass(graphName);
-    return classDeclaration && new Graph(this.project, classDeclaration)
+    const sourceFile = this.project.addSourceFileFromImport(importDeclaration);
+    const graphClass = sourceFile?.getClass(graphName)
+    return graphClass && new Graph(this.project, graphClass)
   }
 
   private getSubgraphsFromDecorator() {

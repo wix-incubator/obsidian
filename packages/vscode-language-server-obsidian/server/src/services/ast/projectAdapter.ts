@@ -1,6 +1,9 @@
 import { Project, SourceFile } from "ts-morph";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { TextDocumentPositionParams, TextDocuments } from "vscode-languageserver/node";
+import { Import } from "../../dto/import";
+import * as path from 'path';
+import { resolveFileExtension } from "../../utils/file";
 
 export class ProjectAdapter {
 
@@ -19,10 +22,19 @@ export class ProjectAdapter {
     return this.project.addSourceFileAtPath(document.uri.replace(/^file:\/\//, ''));
   }
 
+  addSourceFileFromImport(declaration: Import | undefined) {
+    if (!declaration) return;
+    const filePath = resolveFileExtension(declaration.path);
+    const currentFileDir = path.dirname(declaration.sourceFile.getFilePath());
+    const absolutePath = path.resolve(currentFileDir, filePath);
+    console.log(`Adding source file from import: ${absolutePath}`);
+    return this.project.addSourceFileAtPath(absolutePath);
+  }
+
   public findImportDeclaration(sourceFile: SourceFile, name: string) {
-    return sourceFile.getImportDeclarations().find(imp =>
-      imp.getNamedImports().some(named => named.getName() === name)
-    );
+    return sourceFile.getImportDeclarations()
+      .map(imp => new Import(imp))
+      .find(imp => imp.includesNamedImport(name));
   }
 }
 

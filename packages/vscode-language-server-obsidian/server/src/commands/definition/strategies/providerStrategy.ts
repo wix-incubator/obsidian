@@ -10,7 +10,11 @@ export class ProviderStrategy implements GoToDefinitionStrategy {
 
   public async goToDefinition(node: Node): Promise<Definition | undefined> {
     const graph = getParentGraphRecursive(this.project, node);
-    const providerName = isParameter(node) ? node.getName() : node.getText();
-    return graph?.getProvider(providerName)?.definition;
+    return graph?.getProvider(this.getProviderName(node))?.definition;
+  }
+
+  private getProviderName(node: Node): string {
+    const name = isParameter(node) ? node.getName() : node.getText();
+    return name.replace(/^_/, '');
   }
 }

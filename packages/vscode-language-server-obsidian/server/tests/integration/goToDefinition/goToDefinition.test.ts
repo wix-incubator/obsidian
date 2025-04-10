@@ -11,10 +11,11 @@ import { TestCase } from "..";
 import injectedHook from "./injectedHook";
 import { Project } from "ts-morph";
 import dependencyInSameGraph from "./dependencyInSameGraph";
-
+import dependencyInSubgraph from "./dependencyInSubgraph";
 const testCases: TestCase[] = [
   injectedHook,
-  dependencyInSameGraph
+  dependencyInSameGraph,
+  dependencyInSubgraph
 ]
 
 describe('GoToDefinition', () => {
