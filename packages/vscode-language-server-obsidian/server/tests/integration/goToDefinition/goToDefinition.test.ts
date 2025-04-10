@@ -10,9 +10,11 @@ import { createDocument } from "../../__utils__/document";
 import { TestCase } from "..";
 import injectedHook from "./injectedHook";
 import { Project } from "ts-morph";
+import dependencyInSameGraph from "./dependencyInSameGraph";
 
 const testCases: TestCase[] = [
-  injectedHook
+  injectedHook,
+  dependencyInSameGraph
 ]
 
 describe('GoToDefinition', () => {
@@ -45,7 +47,7 @@ describe('GoToDefinition', () => {
   }
 
   function mockSourceFiles(testCase: TestCase) {
-    [testCase.entryPoint, ...testCase.sourceCodes].forEach(sourceCode => {
+    [testCase.entryPoint, ...testCase.additionalSourceCodes ?? []].forEach(sourceCode => {
       project.createSourceFile(sourceCode.path, sourceCode.content);
       when(documents.get)
         .calledWith(sourceCode.path)

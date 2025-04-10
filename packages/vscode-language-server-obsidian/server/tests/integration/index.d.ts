@@ -3,7 +3,7 @@ import { Definition, Position } from "vscode-languageserver/node";
 export declare type TestCase = {
   entryPoint: SourceCode;
   position: Position;
-  sourceCodes: SourceCode[];
+  additionalSourceCodes?: SourceCode[];
   result: Definition;
 }
 

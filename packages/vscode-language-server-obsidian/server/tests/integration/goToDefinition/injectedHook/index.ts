@@ -7,7 +7,7 @@ export default {
     line: 10,
     character: 20
   },
-  sourceCodes: [
+  additionalSourceCodes: [
     entryGraph,
     entryViewModel,
   ],
