@@ -2,7 +2,6 @@ import { TextDocuments } from "vscode-languageserver/node";
 import { DefinitionCommand } from "../../../src/commands/definition/definitionCommand";
 import { StrategyFactory } from "../../../src/commands/definition/strategies/goToDefinitionStrategyFactory";
 import { ProjectAdapter } from "../../../src/services/ast/projectAdapter";
-import { Logger } from "../../../src/services/logger";
 import { TextDocument } from "vscode-languageserver-textdocument";
 import { mockDeep, mock } from "jest-mock-extended";
 import { when } from "jest-when";
@@ -14,13 +13,15 @@ import dependencyInSameGraph from "./dependencyInSameGraph";
 import dependencyInSubgraph from "./dependencyInSubgraph";
 import injectedClass from "./injectedClass";
 import injectedHookDifferentInjectedTypeName from "./injectedHookDifferentInjectedTypeName";
+import injectedExportDefaultClass from "./injectedExportDefaultClass";
 
 const testCases: TestCase[] = [
   injectedHook,
   dependencyInSameGraph,
   dependencyInSubgraph,
   injectedClass,
-  injectedHookDifferentInjectedTypeName
+  injectedHookDifferentInjectedTypeName,
+  injectedExportDefaultClass
 ];
 
 describe('GoToDefinition', () => {
