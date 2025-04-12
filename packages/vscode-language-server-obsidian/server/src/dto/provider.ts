@@ -1,7 +1,12 @@
-import { MethodDeclaration } from "ts-morph";
+import { MethodDeclaration, Node, SyntaxKind } from "ts-morph";
+import { Identifier } from "./identifier";
 
 export class Provider {
-  constructor(private node: MethodDeclaration) { }
+  constructor (private node: MethodDeclaration) { }
+
+  public getText() {
+    return this.node.getText();
+  }
 
   public get uri() {
     return this.sourceFile.getFilePath();
@@ -18,6 +23,13 @@ export class Provider {
     };
   }
 
+  public resolveReturnType() {
+    const returnStatement = this.node.getStatements().find(Node.isReturnStatement);
+    const expression = returnStatement?.getFirstChildByKind(SyntaxKind.NewExpression);
+    const identifier = expression?.getFirstChildByKind(SyntaxKind.Identifier);
+    return identifier && new Identifier(identifier);
+  }
+
   public get definition() {
     return {
       uri: this.uri,
@@ -31,6 +43,6 @@ export class Provider {
           character: this.getRange().end.column
         }
       }
-    }
+    };
   }
 }

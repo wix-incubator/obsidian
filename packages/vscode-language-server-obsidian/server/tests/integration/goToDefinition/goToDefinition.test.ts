@@ -12,11 +12,14 @@ import injectedHook from "./injectedHook";
 import { Project } from "ts-morph";
 import dependencyInSameGraph from "./dependencyInSameGraph";
 import dependencyInSubgraph from "./dependencyInSubgraph";
+import injectedClass from "./injectedClass";
+
 const testCases: TestCase[] = [
   injectedHook,
   dependencyInSameGraph,
-  dependencyInSubgraph
-]
+  dependencyInSubgraph,
+  injectedClass
+];
 
 describe('GoToDefinition', () => {
   let project: Project;
@@ -37,14 +40,14 @@ describe('GoToDefinition', () => {
 
     const result = await uut.onDefinition(params);
 
-    expect(result).toEqual(testCase.result)
+    expect(result).toEqual(testCase.result);
   });
 
   function createParams(testCase: TestCase) {
     return {
       textDocument: { uri: testCase.entryPoint.path },
       position: testCase.position
-    }
+    };
   }
 
   function mockSourceFiles(testCase: TestCase) {

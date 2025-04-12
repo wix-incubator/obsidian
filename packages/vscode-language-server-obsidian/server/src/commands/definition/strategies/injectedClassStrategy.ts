@@ -1,51 +1,29 @@
 import { GoToDefinitionStrategy } from "./goToDefinitionStrategy";
-import {
-  TypeAliasDeclaration,
-  TypeReferenceNode,
-  Node,
-  ClassDeclaration,
-  Symbol,
-  MethodDeclaration,
-  SyntaxKind,
-  CallExpression,
-} from "ts-morph";
+import { ProjectAdapter } from "../../../services/ast/projectAdapter";
+import { Definition } from "vscode-languageserver/node";
+import { ClassDeclaration, Node, TypeAliasDeclaration, TypeReferenceNode, Symbol } from "ts-morph";
 import { TypeReferenceFinder } from "../../../services/typeReferenceFinder";
 import { Graph } from "../../../dto/graph";
-import { Definition } from "vscode-languageserver/node";
-import { ProjectAdapter } from "../../../services/ast/projectAdapter";
 import { createDefinition } from "../helpers";
 
-export class HookStrategy implements GoToDefinitionStrategy {
+export class InjectedClassStrategy implements GoToDefinitionStrategy {
   private typeReferenceFinder: TypeReferenceFinder;
 
-  constructor(private project: ProjectAdapter) {
+  constructor (private project: ProjectAdapter) {
     this.typeReferenceFinder = new TypeReferenceFinder(project);
   }
 
   public async goToDefinition(node: Node): Promise<Definition | undefined> {
     const dependenciesOf = this.typeReferenceFinder.findTypeReference(node);
     const graphDeclarations = this.extractGraphsFromDependenciesOfDeclaration(dependenciesOf!);
-    if (graphDeclarations.length > 0) {
-      const graph = new Graph(this.project, graphDeclarations[0]);
-      const provider = graph.requireProviderTsMorph(node.getText());
-      const hookCallStatement = this.findHookCallStatement(provider);
-      const references = hookCallStatement?.getExpressionIfKind(SyntaxKind.Identifier)?.findReferencesAsNodes() || [];
-      for (const reference of references) {
-        const symbol = reference.getSymbol();
-        if (symbol && symbol.getDeclarations().length > 0) {
-          const declaration = symbol.getDeclarations()[0];
-          if (Node.isVariableDeclaration(declaration)) {
-            return createDefinition(declaration.getSourceFile(), declaration);
-          }
-        }
-      }
+    for (const graphDeclaration of graphDeclarations) {
+      const graph = new Graph(this.project, graphDeclaration);
+      const provider = graph.resolveProvider(node.getText());
+      const returnType = provider.resolveReturnType();
+      const sourceFile = this.project.addSourceFileFromImport(returnType!.import);
+      const classDeclaration = sourceFile?.getClass(returnType!.getText());
+      return createDefinition(sourceFile!, classDeclaration!);
     }
-  }
-
-  private findHookCallStatement(node: MethodDeclaration): CallExpression | undefined {
-    if (!node.getBody()) return;
-    const statements = node.getBody()!.getDescendantStatements();
-    return statements.find(statement => Node.isCallExpression(statement)) as CallExpression | undefined;
   }
 
   private extractGraphsFromDependenciesOfDeclaration(alias: TypeAliasDeclaration): ClassDeclaration[] {

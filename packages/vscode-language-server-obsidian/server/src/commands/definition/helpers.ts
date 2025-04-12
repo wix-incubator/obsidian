@@ -1,7 +1,7 @@
-import { Node, SourceFile, VariableDeclaration, Identifier } from "ts-morph";
+import { Node, SourceFile } from "ts-morph";
 import { Definition } from "vscode-languageserver/node";
 
-export function createDefinition(sourceFile: SourceFile, node: VariableDeclaration | Identifier): Definition {
+export function createDefinition(sourceFile: SourceFile, node: Node): Definition {
   console.log(`✅ creating definition for:\n ${node.getText()}`);
   const result = {
     uri: sourceFile.getFilePath(),

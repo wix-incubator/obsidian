@@ -27,26 +27,21 @@ export class Graph {
     return this.node.getSourceFile();
   }
 
-  public toString(): string {
-    return this.node.getText();
-  }
-
-  public getProvider(name: string) {
+  public resolveProvider(name: string) {
     return this.hasProvider(name) ?
       this.requireProvider(name) :
-      this.goToDefinitionInSubgraph(name);
+      this.requireProviderFromSubgraphs(name);
   }
 
   public hasProvider(name: string): boolean {
     return this.findProvider(name) !== undefined;
   }
 
-  private goToDefinitionInSubgraph(providerName: string): Provider {
+  private requireProviderFromSubgraphs(providerName: string): Provider {
     const subgraphs = this.getSubgraphs();
-    console.log(subgraphs);
     for (const graph of subgraphs) {
       if (graph.hasProvider(providerName)) {
-        return graph.getProvider(providerName);
+        return graph.resolveProvider(providerName);
       }
     }
     throw new Error(`Provider ${providerName} not found in ${this.name}`);

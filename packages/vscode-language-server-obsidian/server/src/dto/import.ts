@@ -1,7 +1,11 @@
 import { ImportDeclaration } from "ts-morph";
 
 export class Import {
-  constructor(private declaration: ImportDeclaration) { }
+  constructor (private declaration: ImportDeclaration) { }
+
+  public getText() {
+    return this.declaration.getText();
+  }
 
   public get sourceFile() {
     return this.declaration.getSourceFile();
