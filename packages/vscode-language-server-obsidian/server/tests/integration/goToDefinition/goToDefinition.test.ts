@@ -13,12 +13,14 @@ import { Project } from "ts-morph";
 import dependencyInSameGraph from "./dependencyInSameGraph";
 import dependencyInSubgraph from "./dependencyInSubgraph";
 import injectedClass from "./injectedClass";
+import injectedHookDifferentInjectedTypeName from "./injectedHookDifferentInjectedTypeName";
 
 const testCases: TestCase[] = [
   injectedHook,
   dependencyInSameGraph,
   dependencyInSubgraph,
-  injectedClass
+  injectedClass,
+  injectedHookDifferentInjectedTypeName
 ];
 
 describe('GoToDefinition', () => {
