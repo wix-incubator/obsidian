@@ -15,10 +15,10 @@ import dependencyInSubgraph from "./dependencyInSubgraph";
 import injectedClass from "./injectedClass";
 
 const testCases: TestCase[] = [
-  injectedHook,
-  dependencyInSameGraph,
-  dependencyInSubgraph,
-  injectedClass
+  injectedHook(),
+  dependencyInSameGraph(),
+  dependencyInSubgraph(),
+  injectedClass()
 ];
 
 describe('GoToDefinition', () => {
@@ -36,10 +36,7 @@ describe('GoToDefinition', () => {
 
   it.each(testCases)('should go to definition', async (testCase: TestCase) => {
     mockSourceFiles(testCase);
-    const params = createParams(testCase);
-
-    const result = await uut.onDefinition(params);
-
+    const result = await uut.onDefinition(createParams(testCase));
     expect(result).toEqual(testCase.result);
   });
 
