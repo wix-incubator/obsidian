@@ -1,14 +1,14 @@
 import { Node, TypeReferenceNode, TypeNode, TypeAliasDeclaration, SourceFile, StringLiteral, Identifier } from "ts-morph";
 import { ProjectAdapter } from "./ast/projectAdapter";
 
-export class TypeReferenceFinder {
+export class DependenciesOfResolver {
   constructor (private project: ProjectAdapter) { }
 
-  public findTypeReference(node: Node): TypeAliasDeclaration | undefined {
-    return Node.isIdentifier(node) ? this.findAllMatchingAliases(node) : undefined;
+  public resolve(node: Node): TypeAliasDeclaration | undefined {
+    return Node.isIdentifier(node) ? this.findDependenciesOfTypeInCurrentFile(node) : undefined;
   }
 
-  private findAllMatchingAliases(targetDependency: Node) {
+  private findDependenciesOfTypeInCurrentFile(targetDependency: Node) {
     return targetDependency
       .getSourceFile()
       .getTypeAliases()

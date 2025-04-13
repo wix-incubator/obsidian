@@ -2,19 +2,20 @@ import { GoToDefinitionStrategy } from "./goToDefinitionStrategy";
 import { ProjectAdapter } from "../../../services/ast/projectAdapter";
 import { Definition } from "vscode-languageserver/node";
 import { ClassDeclaration, Node, TypeAliasDeclaration, TypeReferenceNode, Symbol } from "ts-morph";
-import { TypeReferenceFinder } from "../../../services/typeReferenceFinder";
+import { DependenciesOfResolver } from "../../../services/typeReferenceFinder";
 import { Graph } from "../../../dto/graph";
 import { createDefinition } from "../helpers";
 
 export class InjectedClassStrategy implements GoToDefinitionStrategy {
-  private typeReferenceFinder: TypeReferenceFinder;
+  private typeReferenceFinder: DependenciesOfResolver;
 
   constructor (private project: ProjectAdapter) {
-    this.typeReferenceFinder = new TypeReferenceFinder(project);
+    this.typeReferenceFinder = new DependenciesOfResolver(project);
   }
 
   public async goToDefinition(node: Node): Promise<Definition | undefined> {
-    const dependenciesOf = this.typeReferenceFinder.findTypeReference(node);
+    const dependenciesOf = this.typeReferenceFinder.resolve(node);
+    console.log(dependenciesOf?.getText());
     const graphDeclarations = this.extractGraphsFromDependenciesOfDeclaration(dependenciesOf!);
     for (const graphDeclaration of graphDeclarations) {
       const graph = new Graph(this.project, graphDeclaration);

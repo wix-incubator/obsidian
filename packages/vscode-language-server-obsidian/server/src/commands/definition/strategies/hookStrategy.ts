@@ -9,21 +9,21 @@ import {
   SyntaxKind,
   CallExpression,
 } from "ts-morph";
-import { TypeReferenceFinder } from "../../../services/typeReferenceFinder";
+import { DependenciesOfResolver } from "../../../services/typeReferenceFinder";
 import { Graph } from "../../../dto/graph";
 import { Definition } from "vscode-languageserver/node";
 import { ProjectAdapter } from "../../../services/ast/projectAdapter";
 import { createDefinition } from "../helpers";
 
 export class HookStrategy implements GoToDefinitionStrategy {
-  private typeReferenceFinder: TypeReferenceFinder;
+  private typeReferenceFinder: DependenciesOfResolver;
 
-  constructor(private project: ProjectAdapter) {
-    this.typeReferenceFinder = new TypeReferenceFinder(project);
+  constructor (private project: ProjectAdapter) {
+    this.typeReferenceFinder = new DependenciesOfResolver(project);
   }
 
   public async goToDefinition(node: Node): Promise<Definition | undefined> {
-    const dependenciesOf = this.typeReferenceFinder.findTypeReference(node);
+    const dependenciesOf = this.typeReferenceFinder.resolve(node);
     const graphDeclarations = this.extractGraphsFromDependenciesOfDeclaration(dependenciesOf!);
     if (graphDeclarations.length > 0) {
       const graph = new Graph(this.project, graphDeclarations[0]);
