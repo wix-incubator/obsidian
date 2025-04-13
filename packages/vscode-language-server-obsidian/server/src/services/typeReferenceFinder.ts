@@ -2,25 +2,23 @@ import { Node, TypeReferenceNode, TypeNode, TypeAliasDeclaration, SourceFile, St
 import { ProjectAdapter } from "./ast/projectAdapter";
 
 export class TypeReferenceFinder {
-  constructor(private project: ProjectAdapter) { }
+  constructor (private project: ProjectAdapter) { }
 
   public findTypeReference(node: Node): TypeAliasDeclaration | undefined {
     return Node.isIdentifier(node) ? this.findTypeReferenceInIdentifier(node as Identifier) : undefined;
   }
 
   private findTypeReferenceInIdentifier(node: Identifier) {
-    const aliases = this.findAllMatchingAliases(node.getText());
+    const aliases = this.findAllMatchingAliases(node);
     this.logMatches(aliases, node.getText());
     return aliases.length > 0 ? aliases[0] : undefined;
   }
 
-  private findAllMatchingAliases(targetDependency: string): TypeAliasDeclaration[] {
-    return this.project.getSourceFiles().flatMap(sourceFile => this.findMatchingAliasesInFile(sourceFile, targetDependency));
-  }
-
-  private findMatchingAliasesInFile(sourceFile: SourceFile, targetDependency: string): TypeAliasDeclaration[] {
-    console.log(`🔎 Searching for ${targetDependency} in ${sourceFile.getTypeAliases().length} type aliases`);
-    return sourceFile.getTypeAliases().filter(alias => this.matchesDependencyOfType(alias, targetDependency));
+  private findAllMatchingAliases(targetDependency: Node): TypeAliasDeclaration[] {
+    return targetDependency
+      .getSourceFile()
+      .getTypeAliases()
+      .filter(alias => this.matchesDependencyOfType(alias, targetDependency.getText()));
   }
 
   private matchesDependencyOfType(alias: TypeAliasDeclaration, targetDependency: string): boolean {
