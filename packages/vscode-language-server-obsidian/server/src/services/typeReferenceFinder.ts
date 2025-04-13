@@ -5,29 +5,22 @@ export class TypeReferenceFinder {
   constructor (private project: ProjectAdapter) { }
 
   public findTypeReference(node: Node): TypeAliasDeclaration | undefined {
-    return Node.isIdentifier(node) ? this.findTypeReferenceInIdentifier(node as Identifier) : undefined;
+    return Node.isIdentifier(node) ? this.findAllMatchingAliases(node) : undefined;
   }
 
-  private findTypeReferenceInIdentifier(node: Identifier) {
-    const aliases = this.findAllMatchingAliases(node);
-    this.logMatches(aliases, node.getText());
-    return aliases.length > 0 ? aliases[0] : undefined;
-  }
-
-  private findAllMatchingAliases(targetDependency: Node): TypeAliasDeclaration[] {
+  private findAllMatchingAliases(targetDependency: Node) {
     return targetDependency
       .getSourceFile()
       .getTypeAliases()
-      .filter(alias => this.matchesDependencyOfType(alias, targetDependency.getText()));
+      .filter(alias => this.matchesDependencyOfType(alias, targetDependency.getText()))[0];
   }
 
-  private matchesDependencyOfType(alias: TypeAliasDeclaration, targetDependency: string): boolean {
+  private matchesDependencyOfType(alias: TypeAliasDeclaration, targetDependency: string) {
     const typeNode = alias.getTypeNode();
-    if (!typeNode || !Node.isTypeReference(typeNode)) return false;
-    if (!this.isDependenciesOfType(typeNode)) return false;
+    if (!Node.isTypeReference(typeNode) || !this.isDependenciesOfType(typeNode)) return;
 
     const args = typeNode.getTypeArguments();
-    if (args.length < 2) return false;
+    if (args.length < 2) return;
 
     const dependencyKeys = this.extractDependencyKeys(args[1]);
     return dependencyKeys.includes(targetDependency);
