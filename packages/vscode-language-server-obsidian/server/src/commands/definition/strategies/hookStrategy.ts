@@ -9,7 +9,7 @@ import {
   SyntaxKind,
   CallExpression,
 } from "ts-morph";
-import { DependenciesOfResolver } from "../../../services/typeReferenceFinder";
+import { DependenciesOfResolver } from "../../../services/dependenciesOfResolver";
 import { Graph } from "../../../dto/graph";
 import { Definition } from "vscode-languageserver/node";
 import { ProjectAdapter } from "../../../services/ast/projectAdapter";

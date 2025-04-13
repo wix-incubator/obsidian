@@ -2,7 +2,7 @@ import { GoToDefinitionStrategy } from "./goToDefinitionStrategy";
 import { ProjectAdapter } from "../../../services/ast/projectAdapter";
 import { Definition } from "vscode-languageserver/node";
 import { ClassDeclaration, Node, TypeAliasDeclaration, TypeReferenceNode, Symbol } from "ts-morph";
-import { DependenciesOfResolver } from "../../../services/typeReferenceFinder";
+import { DependenciesOfResolver } from "../../../services/dependenciesOfResolver";
 import { Graph } from "../../../dto/graph";
 import { createDefinition } from "../helpers";
 
