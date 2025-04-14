@@ -1,24 +1,21 @@
 import { TestCase } from "../..";
-import { entryPoint } from "./sourceCodes/entryPoint";
-import { frameworkGraph } from "./sourceCodes/frameworkGraph";
+import * as path from 'path';
+
 export default {
-  entryPoint,
-  additionalSourceCodes: [
-    frameworkGraph,
-  ],
+  entryPoint: path.resolve(__dirname, './sourceCodes/entryPoint.ts'),
   position: {
-    line: 15,
+    line: 7,
     character: 8
   },
   result: {
-    uri: '/framework/di/FrameworkGraph.ts',
+    uri: path.resolve(__dirname, './sourceCodes/frameworkGraph.ts'),
     range: {
       start: {
-        line: 8,
+        line: 6,
         character: 2
       },
       end: {
-        line: 11,
+        line: 9,
         character: 4
       }
     }

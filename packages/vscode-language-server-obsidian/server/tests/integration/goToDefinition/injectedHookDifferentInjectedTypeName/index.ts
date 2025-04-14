@@ -1,25 +1,21 @@
 import { TestCase } from "../../index";
-import { entryGraph, entryPoint, entryViewModel } from "./sourceCodes";
+import * as path from 'path';
 
 export default {
-  entryPoint,
+  entryPoint: path.resolve(__dirname, './sourceCodes/component.ts'),
   position: {
-    line: 10,
+    line: 9,
     character: 20
   },
-  additionalSourceCodes: [
-    entryGraph,
-    entryViewModel,
-  ],
   result: {
-    uri: '/model/entryViewModel.ts',
+    uri: path.resolve(__dirname, './sourceCodes/entryViewModel.ts'),
     range: {
       start: {
-        line: 3,
+        line: 2,
         character: 13
       },
       end: {
-        line: 7,
+        line: 6,
         character: 1
       }
     }

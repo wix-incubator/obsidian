@@ -14,6 +14,8 @@ import dependencyInSubgraph from "./dependencyInSubgraph";
 import injectedClass from "./injectedClass";
 import injectedHookDifferentInjectedTypeName from "./injectedHookDifferentInjectedTypeName";
 import injectedExportDefaultClass from "./injectedExportDefaultClass";
+import injectedClassDependenciesOf from "./injectedClassDependenciesOf";
+import * as path from 'path';
 
 const testCases: TestCase[] = [
   injectedHook,
@@ -21,7 +23,9 @@ const testCases: TestCase[] = [
   dependencyInSubgraph,
   injectedClass,
   injectedHookDifferentInjectedTypeName,
-  injectedExportDefaultClass
+  injectedExportDefaultClass,
+
+  // injectedClassDependenciesOf
 ];
 
 describe('GoToDefinition', () => {
@@ -31,31 +35,23 @@ describe('GoToDefinition', () => {
   let uut: DefinitionCommand;
 
   beforeEach(() => {
-    documents = mockDeep<TextDocuments<TextDocument>>();
-    project = new Project({ useInMemoryFileSystem: true });
+    documents = new TextDocuments(TextDocument);
+    project = new Project({
+      tsConfigFilePath: path.resolve(__dirname, '../../tsconfig.tests.json'),
+    });
     projectAdapter = new ProjectAdapter(documents, project);
     uut = new DefinitionCommand(projectAdapter, mock(), new StrategyFactory(projectAdapter));
   });
 
   it.each(testCases)('should go to definition', async (testCase: TestCase) => {
-    mockSourceFiles(testCase);
     const result = await uut.onDefinition(createParams(testCase));
     expect(result).toEqual(testCase.result);
   });
 
   function createParams(testCase: TestCase) {
     return {
-      textDocument: { uri: testCase.entryPoint.path },
+      textDocument: { uri: testCase.entryPoint },
       position: testCase.position
     };
-  }
-
-  function mockSourceFiles(testCase: TestCase) {
-    [testCase.entryPoint, ...testCase.additionalSourceCodes ?? []].forEach(sourceCode => {
-      project.createSourceFile(sourceCode.path, sourceCode.content);
-      when(documents.get)
-        .calledWith(sourceCode.path)
-        .mockReturnValue(createDocument(sourceCode.content, sourceCode.path));
-    });
   }
 });

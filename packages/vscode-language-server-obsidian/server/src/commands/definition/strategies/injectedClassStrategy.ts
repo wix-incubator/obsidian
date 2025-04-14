@@ -15,13 +15,12 @@ export class InjectedClassStrategy implements GoToDefinitionStrategy {
 
   public async goToDefinition(node: Node): Promise<Definition | undefined> {
     const dependenciesOf = this.typeReferenceFinder.resolve(node);
-    console.log(dependenciesOf?.getText());
     const graphDeclarations = this.extractGraphsFromDependenciesOfDeclaration(dependenciesOf!);
     for (const graphDeclaration of graphDeclarations) {
       const graph = new Graph(this.project, graphDeclaration);
       const provider = graph.resolveProvider(node.getText());
       const returnType = provider.resolveReturnType();
-      const sourceFile = this.project.addSourceFileFromImport(returnType!.import);
+      const sourceFile = this.project.getSourceFile(returnType!.import!.path);
       const classDeclaration = sourceFile?.getClass(returnType!.getText());
       return createDefinition(sourceFile!, classDeclaration!);
     }
@@ -34,7 +33,7 @@ export class InjectedClassStrategy implements GoToDefinitionStrategy {
     const typeArgs = typeNode.getTypeArguments();
     if (typeArgs.length === 0) return [];
 
-    const firstArg = typeArgs[0]; // Could be identifier or tuple
+    const firstArg = typeArgs[0];
     if (Node.isTypeReference(firstArg)) {
       return [this.resolveGraphTypeReference(firstArg)].filter(Boolean) as ClassDeclaration[];
     }

@@ -1,15 +1,10 @@
-import { SourceCode } from "../../..";
+import { graph, ObjectGraph, provides, singleton } from 'react-obsidian';
+import { GameModel } from './gameModel';
 
-export const gameGraph: SourceCode = {
-  path: '../../../core/di/GameGraph.ts',
-  content: `import { Graph, ObjectGraph, Provides, Singleton } from 'react-obsidian';
-import { GameModel } from '../model/GameModel';
-import { CalculateWinnerUseCase } from '../usecases/CalculateWinnerUseCase';
-
-@Singleton() @Graph()
+@singleton() @graph()
 export class GameGraph extends ObjectGraph {
-  @Provides()
-  model(): GameModel {
-    return new GameModel(new CalculateWinnerUseCase());
+  @provides()
+  model() {
+    return new GameModel();
   }
-}`}
+}

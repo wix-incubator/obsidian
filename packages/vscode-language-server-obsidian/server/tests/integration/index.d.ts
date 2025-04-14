@@ -1,13 +1,14 @@
 import { Definition, Position } from "vscode-languageserver/node";
 
+type Path = string;
+
 export declare type TestCase = {
-  entryPoint: SourceCode;
+  entryPoint: Path;
   position: Position;
-  additionalSourceCodes?: SourceCode[];
   result: Definition;
-}
+};
 
 declare type SourceCode = {
-  path: string;
+  path: Path;
   content: string;
-}
+};

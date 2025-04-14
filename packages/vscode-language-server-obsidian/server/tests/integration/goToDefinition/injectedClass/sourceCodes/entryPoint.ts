@@ -1,28 +1,17 @@
-import { SourceCode } from "../../..";
-
-export const entryPoint: SourceCode = {
-  path: 'entry.tsx',
-  content: `import { type DependenciesOf, injectComponent } from 'react-obsidian';
-import { EntryGraph } from './di/EntryGraph';
-import type { GameGraph } from '../../core/di/GameGraph';
+import { type DependenciesOf, injectComponent } from 'react-obsidian';
+import { EntryGraph } from './entryGraph';
+import type { GameGraph } from './gameGraph';
 
 export type Props = {
-  index: number
+  index: number;
 };
 
-type Injected = DependenciesOf<[EntryGraph, GameGraph], 'useViewModel' | 'foo' | 'model'>;
+type Injected = DependenciesOf<[EntryGraph, GameGraph], 'useViewModel' | 'model'>;
 
 const Entry_ = ({ useViewModel, model }: Props & Injected) => {
   const { text, onClick } = useViewModel();
 
-  return (
-    <li>
-      <button onClick={onClick}>{text}</button>
-    </li>
-  );
+  return null;
 };
 
 export const Entry = injectComponent<Props, Injected>(Entry_, EntryGraph);
-export const createEntry = (_: unknown, index: number) => <Entry index={index} />;
-`
-}

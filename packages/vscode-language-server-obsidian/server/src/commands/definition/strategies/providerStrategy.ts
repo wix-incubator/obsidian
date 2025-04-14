@@ -6,7 +6,7 @@ import { isParameter } from "../../../utils/tsMorph";
 import { ProjectAdapter } from "../../../services/ast/projectAdapter";
 
 export class ProviderStrategy implements GoToDefinitionStrategy {
-  constructor(private project: ProjectAdapter) { }
+  constructor (private project: ProjectAdapter) { }
 
   public async goToDefinition(node: Node): Promise<Definition | undefined> {
     const graph = getParentGraphRecursive(this.project, node);

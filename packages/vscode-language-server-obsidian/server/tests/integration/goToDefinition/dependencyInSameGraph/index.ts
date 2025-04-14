@@ -1,21 +1,21 @@
 import { TestCase } from "../../index";
-import { entryPoint } from "./sourceCodes/themeGraph";
+import * as path from 'path';
 
 export default {
-  entryPoint,
+  entryPoint: path.resolve(__dirname, './sourceCodes/themeGraph.ts'),
   position: {
-    line: 10,
+    line: 6,
     character: 8
   },
   result: {
-    uri: '/model/themeGraph.ts',
+    uri: path.resolve(__dirname, './sourceCodes/themeGraph.ts'),
     range: {
       start: {
-        line: 15,
+        line: 11,
         character: 2
       },
       end: {
-        line: 18,
+        line: 14,
         character: 4
       }
     }

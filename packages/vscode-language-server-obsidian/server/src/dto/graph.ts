@@ -14,7 +14,7 @@ function resolveModulePath(fileUri: string, moduleSpecifier: string): string {
 }
 
 export class Graph {
-  constructor(
+  constructor (
     private project: ProjectAdapter,
     private node: ClassDeclaration) { }
 
@@ -48,7 +48,7 @@ export class Graph {
   }
 
   public requireProviderTsMorph(name: string) {
-    return this.findProviderTsMorph(name)!
+    return this.findProviderTsMorph(name)!;
   }
 
   private findProviderTsMorph(name: string) {
@@ -75,21 +75,21 @@ export class Graph {
   public getSubgraphs(): Graph[] {
     return this.getSubgraphsFromDecorator()
       .map(graph => this.getGraphFromSubgraph(graph))
-      .filter(isDefined)
+      .filter(isDefined);
   }
 
   private getGraphFromSubgraph(graph: Expression) {
     const graphName = graph.getText();
-    const importDeclaration = this.project.findImportDeclaration(this.sourceFile, graphName)
-    const sourceFile = this.project.addSourceFileFromImport(importDeclaration);
-    const graphClass = sourceFile?.getClass(graphName)
-    return graphClass && new Graph(this.project, graphClass)
+    const importDeclaration = this.project.findImportDeclaration(this.sourceFile, graphName);
+    const sourceFile = this.project.getSourceFile(importDeclaration!.path);
+    const graphClass = sourceFile?.getClass(graphName);
+    return graphClass && new Graph(this.project, graphClass);
   }
 
   private getSubgraphsFromDecorator() {
     const graphDecorator = getDecorator(this.node, ['Graph', 'graph']);
     const subgraphsArg = graphDecorator?.getArgument(0, 'subgraphs');
-    return isArrayLiteralExpression(subgraphsArg) ? subgraphsArg.getElements() : []
+    return isArrayLiteralExpression(subgraphsArg) ? subgraphsArg.getElements() : [];
   }
 }
 

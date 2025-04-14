@@ -1,29 +1,21 @@
 import { TestCase } from "../..";
-import { entryGraphContent } from "./sourceCodes/entryGraph";
-import { entryPoint } from "./sourceCodes/entryPoint";
-import { gameGraph } from "./sourceCodes/gameGraph";
-import { gameModel } from "./sourceCodes/gameModel";
+import * as path from 'path';
 
 export default {
-  entryPoint,
-  additionalSourceCodes: [
-    gameGraph,
-    entryGraphContent,
-    gameModel
-  ],
+  entryPoint: path.resolve(__dirname, './sourceCodes/entryPoint.ts'),
   position: {
     line: 10,
     character: 33
   },
   result: {
-    uri: '/core/model/GameModel.ts',
+    uri: path.resolve(__dirname, './sourceCodes/gameModel.ts'),
     range: {
       start: {
-        line: 7,
+        line: 2,
         character: 0
       },
       end: {
-        line: 34,
+        line: 4,
         character: 1
       }
     }

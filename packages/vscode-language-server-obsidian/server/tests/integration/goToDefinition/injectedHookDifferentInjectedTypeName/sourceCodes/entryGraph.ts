@@ -1,20 +1,18 @@
-export const entryGraphContent = `import { Graph, ObjectGraph, Provides } from 'react-obsidian';
-import { useEntryViewModel } from '../model/entryViewModel';
-import { GameGraph } from '../../../core/di/GameGraph';
-import { type Props } from '../Entry';
-import { type GameModel } from '../../../core/model/GameModel';
+import { Graph, ObjectGraph, Provides } from 'react-obsidian';
+import { useEntryViewModel } from './entryViewModel';
+import { type Props } from './component';
 
-@Graph({ subgraphs: [GameGraph] })
+@Graph()
 export class EntryGraph extends ObjectGraph {
   private index: number;
 
-  constructor(props: Props) {
+  constructor (props: Props) {
     super(props);
     this.index = props.index;
   }
 
   @Provides()
-  useViewModel(model: GameModel) {
+  useViewModel(model: any) {
     return () => useEntryViewModel(this.index, model);
   }
 
@@ -22,4 +20,4 @@ export class EntryGraph extends ObjectGraph {
   foo() {
     return 'foo';
   }
-}`
+}

@@ -5,7 +5,7 @@ export class DependenciesOfResolver {
   constructor (private project: ProjectAdapter) { }
 
   public resolve(node: Node): TypeAliasDeclaration | undefined {
-    return Node.isIdentifier(node) ? this.findDependenciesOfTypeInCurrentFile(node) : undefined;
+    return this.findDependenciesOfTypeInCurrentFile(node);
   }
 
   private findDependenciesOfTypeInCurrentFile(targetDependency: Node) {

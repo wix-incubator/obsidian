@@ -1,5 +1,6 @@
 import { ImportDeclaration } from "ts-morph";
-
+import * as path from 'path';
+import { resolveFileExtension } from "../utils/file";
 export class Import {
   constructor (private declaration: ImportDeclaration) { }
 
@@ -12,7 +13,9 @@ export class Import {
   }
 
   public get path() {
-    return this.declaration.getModuleSpecifier().getText().replace(/^['"]/, '').replace(/['"]$/, '');
+    const relativePath = this.declaration.getModuleSpecifier().getText().replace(/^['"]/, '').replace(/['"]$/, '');
+    const withFileExtension = resolveFileExtension(relativePath);
+    return path.resolve(path.dirname(this.sourceFile.getFilePath()), withFileExtension);
   }
 
   public includesNamedImport(name: string) {
