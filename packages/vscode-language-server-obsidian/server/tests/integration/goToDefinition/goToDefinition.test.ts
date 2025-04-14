@@ -1,11 +1,7 @@
-import { TextDocuments } from "vscode-languageserver/node";
 import { DefinitionCommand } from "../../../src/commands/definition/definitionCommand";
 import { StrategyFactory } from "../../../src/commands/definition/strategies/goToDefinitionStrategyFactory";
-import { ProjectAdapter } from "../../../src/services/ast/projectAdapter";
-import { TextDocument } from "vscode-languageserver-textdocument";
-import { mockDeep, mock } from "jest-mock-extended";
-import { when } from "jest-when";
-import { createDocument } from "../../__utils__/document";
+import { ProjectAdapter } from "../../../src/services/project/projectAdapter";
+import { mock } from "jest-mock-extended";
 import { TestCase } from "..";
 import injectedHook from "./injectedHook";
 import { Project } from "ts-morph";
@@ -31,15 +27,13 @@ const testCases: TestCase[] = [
 describe('GoToDefinition', () => {
   let project: Project;
   let projectAdapter: ProjectAdapter;
-  let documents: TextDocuments<TextDocument>;
   let uut: DefinitionCommand;
 
   beforeEach(() => {
-    documents = new TextDocuments(TextDocument);
     project = new Project({
       tsConfigFilePath: path.resolve(__dirname, '../../tsconfig.tests.json'),
     });
-    projectAdapter = new ProjectAdapter(documents, project);
+    projectAdapter = new ProjectAdapter(project);
     uut = new DefinitionCommand(projectAdapter, mock(), new StrategyFactory(projectAdapter));
   });
 

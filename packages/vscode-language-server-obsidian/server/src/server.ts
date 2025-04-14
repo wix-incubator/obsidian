@@ -1,21 +1,18 @@
 import {
   createConnection,
-  TextDocuments,
   ProposedFeatures,
   InitializeParams,
   TextDocumentPositionParams,
   Definition,
 } from 'vscode-languageserver/node';
-import { TextDocument } from 'vscode-languageserver-textdocument';
 import { DefinitionCommand } from './commands/definition/definitionCommand';
 import { Logger } from './services/logger';
 import { InitializeCommand } from './commands/initialize/initialize';
-import { ProjectAdapter } from './services/ast/projectAdapter';
+import { ProjectAdapter } from './services/project/projectAdapter';
 
 const connection = createConnection(ProposedFeatures.all);
-const documents = new TextDocuments(TextDocument);
 export const logger = new Logger(connection);
-const projectAdapter = new ProjectAdapter(documents);
+const projectAdapter = new ProjectAdapter();
 
 connection.onInitialize((params: InitializeParams) => {
   return new InitializeCommand(logger).onInitialize(params);
@@ -30,5 +27,4 @@ connection.onDefinition((params: TextDocumentPositionParams): Promise<Definition
     });
 });
 
-documents.listen(connection);
-connection.listen(); 
+connection.listen();

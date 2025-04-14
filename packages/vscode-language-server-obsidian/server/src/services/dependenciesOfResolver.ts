@@ -1,5 +1,5 @@
 import { Node, TypeReferenceNode, TypeNode, TypeAliasDeclaration, SourceFile, StringLiteral, Identifier } from "ts-morph";
-import { ProjectAdapter } from "./ast/projectAdapter";
+import { ProjectAdapter } from "./project/projectAdapter";
 
 export class DependenciesOfResolver {
   constructor (private project: ProjectAdapter) { }

@@ -2,7 +2,7 @@ import { getDecorator, getDecoratedMethods } from "../utils/decorators";
 import { Provider } from "./provider";
 import * as path from 'path';
 import { ClassDeclaration, Expression, ImportDeclaration, SourceFile } from "ts-morph";
-import { ProjectAdapter } from "../services/ast/projectAdapter";
+import { ProjectAdapter } from "../services/project/projectAdapter";
 import { isDefined } from "../utils/objects";
 import { isArrayLiteralExpression } from "../utils/tsMorph";
 

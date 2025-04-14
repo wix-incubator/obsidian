@@ -3,7 +3,7 @@ import { getParentGraphRecursive } from "../../../utils/graphs";
 import { Definition } from "vscode-languageserver/node";
 import { Node } from "ts-morph";
 import { isParameter } from "../../../utils/tsMorph";
-import { ProjectAdapter } from "../../../services/ast/projectAdapter";
+import { ProjectAdapter } from "../../../services/project/projectAdapter";
 
 export class ProviderStrategy implements GoToDefinitionStrategy {
   constructor (private project: ProjectAdapter) { }

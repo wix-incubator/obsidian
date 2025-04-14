@@ -4,7 +4,7 @@ import { ProviderStrategy } from "./providerStrategy";
 import { HookStrategy } from "./hookStrategy";
 import { Node, ParameterDeclaration, Identifier, TypeNode } from "ts-morph";
 import { getTypeAliases, isBindingElement, isIdentifier, isIntersectionTypeNode, isObjectBindingPattern, isParameter, isParenthesizedTypeNode, isTypeAliasDeclaration, isTypeReferenceNode, isUnionTypeNode } from "../../../utils/tsMorph";
-import { ProjectAdapter } from "../../../services/ast/projectAdapter";
+import { ProjectAdapter } from "../../../services/project/projectAdapter";
 import { InjectedClassStrategy } from "./injectedClassStrategy";
 
 export class StrategyFactory {

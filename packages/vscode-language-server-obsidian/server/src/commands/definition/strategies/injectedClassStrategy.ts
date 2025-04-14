@@ -1,5 +1,5 @@
 import { GoToDefinitionStrategy } from "./goToDefinitionStrategy";
-import { ProjectAdapter } from "../../../services/ast/projectAdapter";
+import { ProjectAdapter } from "../../../services/project/projectAdapter";
 import { Definition } from "vscode-languageserver/node";
 import { ClassDeclaration, Node, TypeAliasDeclaration, TypeReferenceNode, Symbol } from "ts-morph";
 import { DependenciesOfResolver } from "../../../services/dependenciesOfResolver";

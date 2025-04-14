@@ -12,7 +12,7 @@ import {
 import { DependenciesOfResolver } from "../../../services/dependenciesOfResolver";
 import { Graph } from "../../../dto/graph";
 import { Definition } from "vscode-languageserver/node";
-import { ProjectAdapter } from "../../../services/ast/projectAdapter";
+import { ProjectAdapter } from "../../../services/project/projectAdapter";
 import { createDefinition } from "../helpers";
 
 export class HookStrategy implements GoToDefinitionStrategy {
