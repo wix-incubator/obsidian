@@ -15,6 +15,13 @@ export function getDecorator(node: MethodDeclaration | ClassDeclaration, decorat
   }
 }
 
+export function hasParentWithDecorator(node: Node, decoratorNames: string[]): boolean {
+  const parent = node.getParent();
+  if (!parent) return false;
+  if (Node.isMethodDeclaration(parent) && hasDecorator(parent, decoratorNames)) return true;
+  return hasParentWithDecorator(parent, decoratorNames);
+}
+
 export function hasProvidesDecorator(node: Node | undefined): boolean {
   if (node?.getKind() !== SyntaxKind.MethodDeclaration) return false;
   return hasDecorator(node as MethodDeclaration, ['Provides', 'provides']);

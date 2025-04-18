@@ -13,6 +13,7 @@ import injectedExportDefaultClass from "./injectedExportDefaultClass";
 import injectedClassDependenciesOf from "./injectedClassDependenciesOf";
 import * as path from 'path';
 import { ProjectRegistry } from "../../../src/services/project/projectRegistry";
+import injectedHookTypedProvider from "./injectedHookTypedProvider";
 
 const testCases: TestCase[] = [
   injectedHook,
@@ -21,8 +22,8 @@ const testCases: TestCase[] = [
   injectedClass,
   injectedHookDifferentInjectedTypeName,
   injectedExportDefaultClass,
-
-  // injectedClassDependenciesOf
+  injectedClassDependenciesOf,
+  injectedHookTypedProvider
 ];
 
 describe('GoToDefinition', () => {
@@ -35,7 +36,7 @@ describe('GoToDefinition', () => {
       { overrideTsConfigPath: path.resolve(__dirname, '../../tsconfig.tests.json') }
     );
     projectAdapter = new ProjectAdapter(projectRegistry, mock());
-    uut = new DefinitionCommand(projectAdapter, mock(), new StrategyFactory(projectAdapter));
+    uut = new DefinitionCommand(projectAdapter, mock(), new StrategyFactory(projectAdapter, mock()));
   });
 
   it.each(testCases)('should go to definition', async (testCase: TestCase) => {

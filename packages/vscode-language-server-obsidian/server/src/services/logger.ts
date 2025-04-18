@@ -1,7 +1,7 @@
 import { Connection } from 'vscode-languageserver/node';
 
 export class Logger {
-  constructor(private connection: Connection) { }
+  constructor (private connection: Connection) { }
 
   info(message: string): void {
     this.connection.console.info(message);

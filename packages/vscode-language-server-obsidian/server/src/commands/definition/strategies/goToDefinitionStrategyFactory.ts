@@ -6,14 +6,18 @@ import { Node, ParameterDeclaration, Identifier, TypeNode } from "ts-morph";
 import { getTypeAliases, isBindingElement, isIdentifier, isIntersectionTypeNode, isObjectBindingPattern, isParameter, isParenthesizedTypeNode, isTypeAliasDeclaration, isTypeReferenceNode, isUnionTypeNode } from "../../../utils/tsMorph";
 import { ProjectAdapter } from "../../../services/project/projectAdapter";
 import { InjectedClassStrategy } from "./injectedClassStrategy";
+import { Logger } from "../../../services/logger";
 
 export class StrategyFactory {
 
-  constructor (private project: ProjectAdapter) { }
+  constructor (
+    private project: ProjectAdapter,
+    private logger: Logger
+  ) { }
 
   public create(node: Node | undefined): GoToDefinitionStrategy | undefined {
     if (this.isProvider(node)) return new ProviderStrategy(this.project);
-    if (this.isInjectedHookParameter(node)) return new HookStrategy(this.project);
+    if (this.isInjectedHookParameter(node)) return new HookStrategy(this.logger);
     if (this.isInjectedClass(node)) return new InjectedClassStrategy(this.project);
     console.log('no strategy found for node');
     return undefined;
@@ -32,7 +36,7 @@ export class StrategyFactory {
       if (!isObjectBindingPattern(parent)) return false;
       const parameterParent = parent.getParent();
       if (!isParameter(parameterParent)) return false;
-      return this.isDependenciesOfType(parameterParent.getTypeNode());
+      return true;
     }
 
     if (isIdentifier(node) && isBindingElement(node.getParent())) {

@@ -1,28 +1,23 @@
-import { SourceCode } from "../../..";
+import { DependenciesOf, Graph, ObjectGraph, Provides } from 'react-obsidian';
+import { useEntryViewModel } from './entryViewModel';
+import { GameGraph } from './gameGraph';
+import { type Props } from './entryPoint';
+import { GameModel } from './gameModel';
 
-export const entryGraphContent: SourceCode = {
-  path: './di/EntryGraph',
-  content: `import { DependenciesOf, Graph, ObjectGraph, Provides } from 'react-obsidian';
-import { useEntryViewModel } from '../model/entryViewModel';
-import { GameGraph } from '../../../core/di/GameGraph';
-import { type Props } from '../Entry';
-import type GameModel from '../../../core/model/GameModel';
-
-type Graphs = [ EntryGraph, GameGraph];
+type Graphs = [EntryGraph, GameGraph];
 export type EntryGraphDependencies<Deps extends keyof DependenciesOf<Graphs>> = DependenciesOf<Graphs, Deps>;
 
 @Graph({ subgraphs: [GameGraph] })
 export class EntryGraph extends ObjectGraph {
   private index: number;
 
-  constructor(props: Props) {
+  constructor (props: Props) {
     super(props);
     this.index = props.index;
   }
 
   @Provides()
   useViewModel(model: GameModel) {
-    return () => useEntryViewModel(this.index, model);
+    return () => useEntryViewModel(model);
   }
 }
-`};

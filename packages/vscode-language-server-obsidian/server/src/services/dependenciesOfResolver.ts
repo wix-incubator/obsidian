@@ -8,11 +8,23 @@ export class DependenciesOfResolver {
     return this.findDependenciesOfTypeInCurrentFile(node);
   }
 
-  private findDependenciesOfTypeInCurrentFile(targetDependency: Node) {
-    return targetDependency
+  private findDependenciesOfRecursive(node: Node): TypeAliasDeclaration | undefined {
+    const symbol = node.getSymbol();
+    if (!symbol) return;
+
+    const declarations = symbol.getDeclarations();
+    for (const declaration of declarations) {
+      const declarationSymbol = declaration?.getType()?.getSymbol();
+      console.log(declarationSymbol?.getDeclarations()[0]?.getKindName());
+      console.log(declarationSymbol?.getDeclarations()[0]?.getText());
+    }
+  }
+
+  private findDependenciesOfTypeInCurrentFile(node: Node) {
+    return node
       .getSourceFile()
       .getTypeAliases()
-      .filter(alias => this.matchesDependencyOfType(alias, targetDependency.getText()))[0];
+      .find(alias => this.matchesDependencyOfType(alias, node.getText()));
   }
 
   private matchesDependencyOfType(alias: TypeAliasDeclaration, targetDependency: string) {

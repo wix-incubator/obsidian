@@ -9,7 +9,7 @@ export class DefinitionCommand {
   constructor (
     private projectAdapter: ProjectAdapter,
     private logger: Logger,
-    private strategyFactory: StrategyFactory = new StrategyFactory(projectAdapter)
+    private strategyFactory: StrategyFactory = new StrategyFactory(projectAdapter, logger)
   ) {
     this.logger.info(`DefinitionCommand constructor`);
   }
