@@ -9,10 +9,12 @@ import { DefinitionCommand } from './commands/definition/definitionCommand';
 import { Logger } from './services/logger';
 import { InitializeCommand } from './commands/initialize/initialize';
 import { ProjectAdapter } from './services/project/projectAdapter';
+import { ProjectRegistry } from './services/project/projectRegistry';
 
 const connection = createConnection(ProposedFeatures.all);
 export const logger = new Logger(connection);
-const projectAdapter = new ProjectAdapter();
+const projectRegistry = new ProjectRegistry(logger);
+const projectAdapter = new ProjectAdapter(projectRegistry, logger);
 
 connection.onInitialize((params: InitializeParams) => {
   return new InitializeCommand(logger).onInitialize(params);

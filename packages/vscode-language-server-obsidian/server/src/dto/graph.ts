@@ -1,17 +1,9 @@
 import { getDecorator, getDecoratedMethods } from "../utils/decorators";
 import { Provider } from "./provider";
-import * as path from 'path';
-import { ClassDeclaration, Expression, ImportDeclaration, SourceFile } from "ts-morph";
+import { ClassDeclaration, Expression } from "ts-morph";
 import { ProjectAdapter } from "../services/project/projectAdapter";
 import { isDefined } from "../utils/objects";
 import { isArrayLiteralExpression } from "../utils/tsMorph";
-
-function resolveModulePath(fileUri: string, moduleSpecifier: string): string {
-  const filePath = fileUri.replace(/^file:\/\//, '');
-  const directory = filePath.replace(/\/[^/]+$/, '');
-  const resolvedPath = path.resolve(directory, moduleSpecifier);
-  return resolvedPath.endsWith('.ts') ? resolvedPath : resolvedPath + '.ts';
-}
 
 export class Graph {
   constructor (

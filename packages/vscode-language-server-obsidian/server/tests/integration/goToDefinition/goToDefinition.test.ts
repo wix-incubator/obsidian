@@ -12,6 +12,7 @@ import injectedHookDifferentInjectedTypeName from "./injectedHookDifferentInject
 import injectedExportDefaultClass from "./injectedExportDefaultClass";
 import injectedClassDependenciesOf from "./injectedClassDependenciesOf";
 import * as path from 'path';
+import { ProjectRegistry } from "../../../src/services/project/projectRegistry";
 
 const testCases: TestCase[] = [
   injectedHook,
@@ -25,15 +26,15 @@ const testCases: TestCase[] = [
 ];
 
 describe('GoToDefinition', () => {
-  let project: Project;
   let projectAdapter: ProjectAdapter;
   let uut: DefinitionCommand;
 
   beforeEach(() => {
-    project = new Project({
-      tsConfigFilePath: path.resolve(__dirname, '../../tsconfig.tests.json'),
-    });
-    projectAdapter = new ProjectAdapter(project);
+    const projectRegistry = new ProjectRegistry(
+      mock(),
+      { overrideTsConfigPath: path.resolve(__dirname, '../../tsconfig.tests.json') }
+    );
+    projectAdapter = new ProjectAdapter(projectRegistry, mock());
     uut = new DefinitionCommand(projectAdapter, mock(), new StrategyFactory(projectAdapter));
   });
 
