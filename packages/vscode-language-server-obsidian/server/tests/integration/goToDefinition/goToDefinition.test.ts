@@ -10,7 +10,7 @@ import dependencyInSubgraph from "./dependencyInSubgraph";
 import injectedClass from "./injectedClass";
 import injectedHookDifferentInjectedTypeName from "./injectedHookDifferentInjectedTypeName";
 import injectedExportDefaultClass from "./injectedExportDefaultClass";
-import injectedClassDependenciesOf from "./injectedClassDependenciesOf";
+import injectedHookDependenciesOfTypeAlias from "./injectedHookDependenciesOfTypeAlias";
 import * as path from 'path';
 import { ProjectRegistry } from "../../../src/services/project/projectRegistry";
 import injectedHookTypedProvider from "./injectedHookTypedProvider";
@@ -22,7 +22,7 @@ const testCases: TestCase[] = [
   injectedClass,
   injectedHookDifferentInjectedTypeName,
   injectedExportDefaultClass,
-  injectedClassDependenciesOf,
+  injectedHookDependenciesOfTypeAlias,
   injectedHookTypedProvider
 ];
 
