@@ -15,6 +15,7 @@ import * as path from 'path';
 import { ProjectRegistry } from "../../../src/services/project/projectRegistry";
 import injectedHookTypedProvider from "./injectedHookTypedProvider";
 import injectedClassDependenciesOfTypeAlias from "./injectedClassDependenciesOfTypeAlias";
+import { TsconfigParser } from "../../../src/services/tsConfig/tsconfigParser";
 
 const testCases: TestCase[] = [
   injectedHook,
@@ -35,6 +36,7 @@ describe('GoToDefinition', () => {
   beforeEach(() => {
     const projectRegistry = new ProjectRegistry(
       mock(),
+      new TsconfigParser(),
       { overrideTsConfigPath: path.resolve(__dirname, '../../tsconfig.tests.json') }
     );
     projectAdapter = new ProjectAdapter(projectRegistry, mock());

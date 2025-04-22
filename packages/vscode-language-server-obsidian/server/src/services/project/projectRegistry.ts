@@ -2,58 +2,48 @@ import { Project } from "ts-morph";
 import * as path from 'path';
 import * as fs from 'fs';
 import { Logger } from "../logger";
-// import * as os from 'os';
+import { TsConfig, TsconfigParser } from "../tsConfig/tsconfigParser";
+import * as os from 'os';
 
 type Options = { overrideTsConfigPath?: string; };
-// type TsConfig = { path: string, content: string; };
 
 export class ProjectRegistry {
   private readonly projects: Map<string, Project> = new Map();
-
+  private readonly tempFiles: Set<string> = new Set();
 
   constructor (
     private readonly logger: Logger,
+    private readonly tsconfigParser: TsconfigParser,
     private readonly options?: Options
   ) { }
 
   public get(filePath: string) {
-    // const tsConfig = await this.loadTsConfig(filePath);
-    // if (!this.projects.has(tsConfig.path)) await this.createProject(tsConfig);
-    // const project = this.projects.get(tsConfig.path);
-    // if (!project) throw new Error(`Project not found for ${filePath}`);
-    // return project;
-
     const tsConfigPath = this.resolveTsConfigPath(filePath);
-    this.logger.info(`Found tsconfig path: ${tsConfigPath}`);
-    if (!this.projects.has(tsConfigPath)) {
-      this.logger.info(`Loading project for ${tsConfigPath}`);
-      const project = new Project({
-        tsConfigFilePath: tsConfigPath,
-      });
-      this.projects.set(tsConfigPath, project);
-    }
+    this.ensureProject(tsConfigPath);
     return this.projects.get(tsConfigPath)!;
   }
 
-  // private async createProject(tsConfig: TsConfig) {
-  //   const tempTsConfigPath = path.join(os.tmpdir(), `tsconfig-${Date.now()}.json`);
-  //   try {
-  //     fs.writeFileSync(tempTsConfigPath, tsConfig.content);
-  //     const project = new Project({ tsConfigFilePath: tempTsConfigPath });
-  //     this.projects.set(tsConfig.path, project);
-  //     return project;
-  //   } finally {
-  //     // Clean up the temporary file
-  //     if (fs.existsSync(tempTsConfigPath)) {
-  //       fs.unlinkSync(tempTsConfigPath);
-  //     }
-  //   }
-  // }
+  private ensureProject(tsConfigPath: string) {
+    if (!this.projects.has(tsConfigPath)) {
+      const tsConfig = this.tsconfigParser.parse(tsConfigPath);
+      this.logger.info(`Parsed tsconfig: ${tsConfigPath}`);
+      const tempTsConfigPath = this.createProject(tsConfig);
+      const project = new Project({ tsConfigFilePath: tempTsConfigPath });
+      this.projects.set(tsConfigPath, project);
+    }
+  }
 
-  // private async loadTsConfig(filePath: string): Promise<TsConfig> {
-  //   const { tsconfigFile, tsconfig } = await parse(filePath, { cache: new TSConfckCache(), configName: this.options?.overrideTsConfigName });
-  //   return { path: tsconfigFile, content: tsconfig };
-  // }
+  private createProject(tsConfig: TsConfig) {
+    const tempTsConfigPath = path.join(os.tmpdir(), `tsconfig-${Date.now()}.json`);
+    try {
+      fs.writeFileSync(tempTsConfigPath, JSON.stringify(tsConfig));
+      this.tempFiles.add(tempTsConfigPath);
+      return tempTsConfigPath;
+    } catch (error) {
+      this.logger.error(`Error writing tsconfig to temp file: ${error}`);
+      throw error;
+    }
+  }
 
   private resolveTsConfigPath(filePath: string): string {
     if (this.options?.overrideTsConfigPath) return this.options.overrideTsConfigPath;
@@ -63,13 +53,31 @@ export class ProjectRegistry {
   private findClosestTsConfig(filePath: string): string {
     let dir = path.dirname(filePath);
     while (dir !== path.parse(dir).root) {
-      // TODO! change this back to tsconfig.json & implement a mechanism that handles a config file that references other config files
-      const maybeTsConfigPath = path.join(dir, 'tsconfig.app.json');
+      const maybeTsConfigPath = path.join(dir, 'tsconfig.json');
       if (fs.existsSync(maybeTsConfigPath)) {
         return path.resolve(dir, maybeTsConfigPath);
       }
       dir = path.dirname(dir);
     }
     throw new Error('No tsconfig.json found!');
+  }
+
+  public dispose() {
+    for (const tempFile of this.tempFiles) {
+      this.clearTempTsConfigFiles(tempFile);
+    }
+    this.tempFiles.clear();
+    this.projects.clear();
+  }
+
+  private clearTempTsConfigFiles(tempFile: string) {
+    try {
+      if (fs.existsSync(tempFile)) {
+        fs.unlinkSync(tempFile);
+        this.logger.info(`Cleaned up temporary tsconfig: ${tempFile}`);
+      }
+    } catch (error) {
+      this.logger.error(`Error cleaning up temporary tsconfig ${tempFile}: ${error}`);
+    }
   }
 }
