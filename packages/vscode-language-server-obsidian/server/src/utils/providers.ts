@@ -1,6 +1,6 @@
 import { Node, ArrowFunction } from "ts-morph";
 
-export function getReturnNodeDeclaration(node: ArrowFunction) {
+export function getProvidedHookDeclaration(node: ArrowFunction) {
   const body = node.getBody();
   if (Node.isCallExpression(body)) {
     const expression = body.getExpression();

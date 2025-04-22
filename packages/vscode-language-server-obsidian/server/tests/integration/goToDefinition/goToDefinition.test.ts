@@ -14,6 +14,7 @@ import injectedHookDependenciesOfTypeAlias from "./injectedHookDependenciesOfTyp
 import * as path from 'path';
 import { ProjectRegistry } from "../../../src/services/project/projectRegistry";
 import injectedHookTypedProvider from "./injectedHookTypedProvider";
+import injectedClassDependenciesOfTypeAlias from "./injectedClassDependenciesOfTypeAlias";
 
 const testCases: TestCase[] = [
   injectedHook,
@@ -23,6 +24,7 @@ const testCases: TestCase[] = [
   injectedHookDifferentInjectedTypeName,
   injectedExportDefaultClass,
   injectedHookDependenciesOfTypeAlias,
+  injectedClassDependenciesOfTypeAlias,
   injectedHookTypedProvider
 ];
 

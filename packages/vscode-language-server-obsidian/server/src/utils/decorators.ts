@@ -15,8 +15,8 @@ export function getDecorator(node: MethodDeclaration | ClassDeclaration, decorat
   }
 }
 
-export function hasParentWithDecorator(node: Node, decoratorNames: string[]): boolean {
-  const parent = node.getParent();
+export function hasParentWithDecorator(node: Node | undefined, decoratorNames: string[]): boolean {
+  const parent = node?.getParent();
   if (!parent) return false;
   if (Node.isMethodDeclaration(parent) && hasDecorator(parent, decoratorNames)) return true;
   return hasParentWithDecorator(parent, decoratorNames);

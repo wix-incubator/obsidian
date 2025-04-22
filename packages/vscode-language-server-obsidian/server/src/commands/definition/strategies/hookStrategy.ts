@@ -2,9 +2,9 @@ import { GoToDefinitionStrategy } from "./goToDefinitionStrategy";
 import { Node, SyntaxKind } from "ts-morph";
 import { Definition } from "vscode-languageserver/node";
 import { hasParentWithDecorator } from "../../../utils/decorators";
-import { getReturnNodeDeclaration } from "../../../utils/arrowFunction";
 import { createDefinition } from "../helpers";
 import { Logger } from "../../../services/logger";
+import { getProvidedHookDeclaration } from "../../../utils/providers";
 
 export class HookStrategy implements GoToDefinitionStrategy {
 
@@ -25,7 +25,7 @@ export class HookStrategy implements GoToDefinitionStrategy {
 
   private getProviderDeclarationIfHook(node: Node | undefined) {
     if (Node.isArrowFunction(node) && hasParentWithDecorator(node, ['Provides', 'provides'])) {
-      return getReturnNodeDeclaration(node);
+      return getProvidedHookDeclaration(node);
     } else if (Node.isFunctionTypeNode(node)) {
       const typeReference = node.getChildrenOfKind(SyntaxKind.TypeReference)[0];
       const arg = typeReference.getTypeArguments()[0];
