@@ -10,11 +10,11 @@ import { Logger } from './services/logger';
 import { InitializeCommand } from './commands/initialize/initialize';
 import { ProjectAdapter } from './services/project/projectAdapter';
 import { ProjectRegistry } from './services/project/projectRegistry';
-import { TsconfigParser } from './services/tsConfig/tsconfigParser';
+import { TsConfigParser } from './services/tsConfig/tsconfigParser';
 
 const connection = createConnection(ProposedFeatures.all);
 export const logger = new Logger(connection);
-const tsconfigParser = new TsconfigParser();
+const tsconfigParser = new TsConfigParser();
 const projectRegistry = new ProjectRegistry(logger, tsconfigParser);
 const projectAdapter = new ProjectAdapter(projectRegistry, logger);
 

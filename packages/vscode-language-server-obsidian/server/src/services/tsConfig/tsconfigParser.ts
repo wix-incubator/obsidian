@@ -25,7 +25,7 @@ type CompositeTsConfig = TsConfig & {
  * - Merging composite tsconfig files (motivation: https://github.com/dsherret/ts-morph/issues/876)
  * - Returning a normalized tsconfig object
  */
-export class TsconfigParser {
+export class TsConfigParser {
   constructor (
     private readonly relativeToAbsoluteConverter: RelativeToAbsoluteConverter = new RelativeToAbsoluteConverter()
   ) { }

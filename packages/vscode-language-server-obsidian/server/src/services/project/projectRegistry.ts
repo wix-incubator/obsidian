@@ -2,7 +2,7 @@ import { Project } from "ts-morph";
 import * as path from 'path';
 import * as fs from 'fs';
 import { Logger } from "../logger";
-import { TsConfig, TsconfigParser } from "../tsConfig/tsconfigParser";
+import { TsConfig, TsConfigParser } from "../tsConfig/tsconfigParser";
 import * as os from 'os';
 import { ensureDir, writeFile } from "../../utils/fileSystem";
 
@@ -14,7 +14,7 @@ export class ProjectRegistry {
 
   constructor (
     private readonly logger: Logger,
-    private readonly tsconfigParser: TsconfigParser,
+    private readonly tsconfigParser: TsConfigParser,
     private readonly options?: Options
   ) { }
 
