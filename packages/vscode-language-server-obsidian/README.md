@@ -4,7 +4,7 @@
 During development using [ts-ast-viewer.com](https://ts-ast-viewer.com/#) to analyze source files is very helpful.
 
 ## Tests
-Run `npm run test` to execute all test from the terminal. Alternatively, install the [Wallaby](https://marketplace.visualstudio.com/items?itemName=WallabyJs.wallaby-vscode) extention for VSCode to continously execute tests within the IDE.
+Run `npm run test` to execute all test from the terminal. Alternatively, install the [Wallaby](https://marketplace.visualstudio.com/items?itemName=WallabyJs.wallaby-vscode) extention to continously execute tests within VSCode.
 
 ## Debugging
 1. Run `npm run watch` to compile to continiously debug the project
@@ -13,8 +13,9 @@ Run `npm run test` to execute all test from the terminal. Alternatively, install
 4. Set break points by clicking in the gutter to the left of the code
 
 ## Publishing
-1. First, make sure you have the VSCode Extension Manager (vsce) installed globally.
+First, make sure you have the VSCode Extension Manager (vsce) installed globally.
 ```shell
 npm install -g @vscode/vsce
 ```
-2. 
+
+Use `vsce` to package and publish the extension.Run `vsce package` to generate a `.vsix` file which can be installed in VSCode by running `code --install-extension <path-to-vsix-file>`.

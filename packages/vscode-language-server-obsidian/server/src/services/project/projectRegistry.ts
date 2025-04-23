@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import { Logger } from "../logger";
 import { TsConfig, TsconfigParser } from "../tsConfig/tsconfigParser";
 import * as os from 'os';
+import { ensureDir, writeFile } from "../../utils/fileSystem";
 
 type Options = { overrideTsConfigPath?: string; };
 
@@ -34,9 +35,11 @@ export class ProjectRegistry {
   }
 
   private createProject(tsConfig: TsConfig) {
-    const tempTsConfigPath = path.join(os.tmpdir(), `tsconfig-${Date.now()}.json`);
+    const tempDir = path.join(os.tmpdir(), 'obsidian-language-server');
+    const tempTsConfigPath = path.join(tempDir, `tsconfig-${Date.now()}.json`);
     try {
-      fs.writeFileSync(tempTsConfigPath, JSON.stringify(tsConfig));
+      ensureDir(tempDir);
+      writeFile(tempTsConfigPath, tsConfig);
       this.tempFiles.add(tempTsConfigPath);
       return tempTsConfigPath;
     } catch (error) {

@@ -2,7 +2,7 @@
   "name": "vscode-language-server-obsidian",
   "displayName": "Obsidian Language Support",
   "description": "Language support for React Obsidian dependency injection",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "scripts": {
     "vscode:prepublish": "npm run build",
     "build": "tsc -b",
@@ -23,7 +23,11 @@
     "onLanguage:typescript",
     "onLanguage:typescriptreact"
   ],
-  "main": "./client/out/extension",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wix-incubator/obsidian.git"
+  },
+  "main": "./client/out/extension.js",
   "contributes": {
     "configuration": {
       "type": "object",

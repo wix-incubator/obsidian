@@ -16,6 +16,15 @@ type CompositeTsConfig = TsConfig & {
   references: { path: string; }[];
 };
 
+/**
+ * Parses a tsconfig file and returns a normalized tsconfig object.
+ * 
+ * This class is responsible for:
+ * - Reading a tsconfig file
+ * - Converting relative paths to absolute paths
+ * - Merging composite tsconfig files (motivation: https://github.com/dsherret/ts-morph/issues/876)
+ * - Returning a normalized tsconfig object
+ */
 export class TsconfigParser {
   constructor (
     private readonly relativeToAbsoluteConverter: RelativeToAbsoluteConverter = new RelativeToAbsoluteConverter()
