@@ -3,7 +3,7 @@
   "displayName": "Obsidian Language Service",
   "description": "Go to definition support for Obsidian dependency injection framework",
   "icon": "obsidian.png",
-  "version": "0.0.12",
+  "version": "0.0.14",
   "scripts": {
     "vscode:prepublish": "npm run build",
     "build": "tsc -b",

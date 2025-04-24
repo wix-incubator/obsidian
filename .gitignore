@@ -49,3 +49,4 @@ packages/swc-plugin-obsidian/target
 packages/vscode-language-server-obsidian/server/out/**/*
 packages/vscode-language-server-obsidian/client/out/**/*
 packages/vscode-language-server-obsidian/coverage/
+*.vsix
