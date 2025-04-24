@@ -8,16 +8,13 @@
     "outDir": "out",
     "rootDir": "src",
     "sourceMap": true,
-    "strict": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
+    "strict": true
   },
   "include": [
     "src"
   ],
   "exclude": [
-    "node_modules",
-    ".vscode-test"
+    "node_modules"
   ],
   "references": [
     {

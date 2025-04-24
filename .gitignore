@@ -4,9 +4,6 @@ node_modules
 # JetBrains
 .idea
 
-# Lock files
-package-lock.json
-
 ############
 # iOS
 ############
