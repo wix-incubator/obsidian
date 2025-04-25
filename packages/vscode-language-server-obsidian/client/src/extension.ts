@@ -15,16 +15,14 @@ export function activate(context: ExtensionContext) {
   outputChannel = window.createOutputChannel('Obsidian Language Server');
 
   const serverModule = context.asAbsolutePath(
-    path.join('server', 'out', 'server.js')
+    path.join('server', 'dist', 'server.js')
   );
 
   const serverOptions: ServerOptions = {
     run: {
       module: serverModule,
       transport: TransportKind.ipc,
-      options: {
-        
-      }
+      options: {}
     },
     debug: {
       module: serverModule,
