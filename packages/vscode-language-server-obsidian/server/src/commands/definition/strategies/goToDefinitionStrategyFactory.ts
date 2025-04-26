@@ -2,7 +2,7 @@ import { GoToDefinitionStrategy } from "./goToDefinitionStrategy";
 import { hasProvidesDecorator } from "../../../utils/decorators";
 import { ProviderStrategy } from "./providerStrategy";
 import { HookStrategy } from "./hookStrategy";
-import { Node, ParameterDeclaration, Identifier, TypeNode } from "ts-morph";
+import { Node, TypeNode } from "ts-morph";
 import { getTypeAliases, isBindingElement, isIdentifier, isIntersectionTypeNode, isObjectBindingPattern, isParameter, isParenthesizedTypeNode, isTypeAliasDeclaration, isTypeReferenceNode, isUnionTypeNode } from "../../../utils/tsMorph";
 import { ProjectAdapter } from "../../../services/project/projectAdapter";
 import { InjectedClassStrategy } from "./injectedClassStrategy";
@@ -19,15 +19,15 @@ export class StrategyFactory {
     if (this.isProvider(node)) return new ProviderStrategy(this.project);
     if (this.isInjectedHookParameter(node)) return new HookStrategy(this.logger);
     if (this.isInjectedClass(node)) return new InjectedClassStrategy();
-    console.log('no strategy found for node');
+    this.logger.error(`No strategy found for node: ${node?.getText()}`);
     return undefined;
   }
 
-  private isInjectedClass(node: Node | undefined): node is Node {
+  private isInjectedClass(node: Node | undefined): boolean {
     return Node?.isIdentifier(node);
   }
 
-  private isInjectedHookParameter(node: Node | undefined): node is ParameterDeclaration | Identifier {
+  private isInjectedHookParameter(node: Node | undefined): boolean {
     if (!node || !this.isValidHookName(node)) return false;
 
     // Check if it's a binding element (destructured parameter)
@@ -75,7 +75,7 @@ export class StrategyFactory {
     return false;
   }
 
-  private isProvider(node: Node | undefined): node is Node {
+  private isProvider(node: Node | undefined): boolean {
     if (isParameter(node)) return hasProvidesDecorator(node.getParent());
     if (isIdentifier(node)) return hasProvidesDecorator(node.getParent()!.getParent());
     return false;

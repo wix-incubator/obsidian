@@ -4,12 +4,10 @@ import { Logger } from "../../services/logger";
 const INCREMENTAL_UPDATE = 1;
 
 export class InitializeCommand {
-  constructor(private logger: Logger) {
-
-  }
+  constructor (private logger: Logger) { }
 
   public onInitialize(params: InitializeParams): InitializeResult {
-    this.logger.info('Obsidian Language Server initialized');
+    this.logger.debug('Obsidian Language Server initialized');
     return {
       capabilities: {
         definitionProvider: true,

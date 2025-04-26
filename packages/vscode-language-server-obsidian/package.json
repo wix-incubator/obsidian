@@ -37,7 +37,7 @@
   "contributes": {
     "configuration": {
       "type": "object",
-      "title": "Obsidian",
+      "title": "Obsidian Language Service",
       "properties": {
         "obsidianLanguageServer.trace.server": {
           "type": "string",

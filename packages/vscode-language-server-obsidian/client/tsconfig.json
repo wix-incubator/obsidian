@@ -13,6 +13,9 @@
   "include": [
     "src"
   ],
+  "types": [
+    "vscode"
+  ],
   "exclude": [
     "node_modules",
     ".vscode-test"

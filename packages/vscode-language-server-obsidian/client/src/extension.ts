@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { workspace, ExtensionContext, window, OutputChannel } from 'vscode';
+import { ExtensionContext, window, OutputChannel } from 'vscode';
 import {
   LanguageClient,
   LanguageClientOptions,
@@ -39,7 +39,10 @@ export function activate(context: ExtensionContext) {
       { scheme: 'file', language: 'typescriptreact' }
     ],
     outputChannel: outputChannel,
-    traceOutputChannel: outputChannel
+    traceOutputChannel: outputChannel,
+    synchronize: {
+      configurationSection: 'obsidianLanguageServer'
+    },
   };
 
   client = new LanguageClient(

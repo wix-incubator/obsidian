@@ -27,7 +27,7 @@ export class ProjectRegistry {
   private ensureProject(tsConfigPath: string) {
     if (!this.projects.has(tsConfigPath)) {
       const tsConfig = this.tsconfigParser.parse(tsConfigPath);
-      this.logger.info(`Parsed tsconfig: ${tsConfigPath}`);
+      this.logger.debug(`Parsed tsconfig: ${tsConfigPath}`);
       const tempTsConfigPath = this.createProject(tsConfig);
       const project = new Project({ tsConfigFilePath: tempTsConfigPath });
       this.projects.set(tsConfigPath, project);
@@ -62,7 +62,7 @@ export class ProjectRegistry {
       }
       dir = path.dirname(dir);
     }
-    throw new Error('No tsconfig.json found!');
+    throw new Error(`Could not find tsconfig.json for file: ${filePath}`);
   }
 
   public dispose() {
@@ -77,7 +77,7 @@ export class ProjectRegistry {
     try {
       if (fs.existsSync(tempFile)) {
         fs.unlinkSync(tempFile);
-        this.logger.info(`Cleaned up temporary tsconfig: ${tempFile}`);
+        this.logger.debug(`Cleaned up temporary tsconfig: ${tempFile}`);
       }
     } catch (error) {
       this.logger.error(`Error cleaning up temporary tsconfig ${tempFile}: ${error}`);

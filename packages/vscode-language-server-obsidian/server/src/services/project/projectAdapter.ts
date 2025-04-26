@@ -20,9 +20,9 @@ export class ProjectAdapter {
 
   private logResult(sourceFile: SourceFile | undefined, filePath: string) {
     if (sourceFile) {
-      this.logger.info(`Found source file for URI: ${filePath}`);
+      this.logger.info(`✅ Found source file for URI: ${filePath}`);
     } else {
-      this.logger.error(`Source file not found for URI: ${filePath}`);
+      this.logger.error(`❌ Source file not found for URI: ${filePath}`);
     }
   }
 
