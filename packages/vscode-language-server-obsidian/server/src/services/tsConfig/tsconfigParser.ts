@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as jsonc from 'jsonc-parser';
-import { RelativeToAbsoluteConverter } from './relativeToAbsoluteConverter';
+import { RelativeToAbsoluteConverter } from './relativeToAbsolutePathConverter';
 
 export type TsConfig = {
   compilerOptions?: Record<string, any>;
