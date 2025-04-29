@@ -18,7 +18,7 @@ export class StrategyFactory {
   public create(node: Node | undefined): GoToDefinitionStrategy | undefined {
     if (this.isProvider(node)) return new ProviderStrategy(this.project);
     if (this.isInjectedHookParameter(node)) return new HookStrategy(this.logger);
-    if (this.isInjectedClass(node)) return new InjectedClassStrategy();
+    if (this.isInjectedClass(node)) return new InjectedClassStrategy(this.logger);
     this.logger.error(`No strategy found for node: ${node?.getText()}`);
     return undefined;
   }

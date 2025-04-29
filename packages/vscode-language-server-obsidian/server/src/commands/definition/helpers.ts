@@ -1,9 +1,14 @@
 import { Node, SourceFile } from "ts-morph";
 import { Definition } from "vscode-languageserver/node";
+import { Logger } from "../../services/logger";
 
-export function createDefinition(sourceFile: SourceFile, node: Node): Definition {
-  console.log(`✅ creating definition for:\n ${node.getText()}`);
-  const result = {
+export function createDefinition(
+  logger: Logger,
+  sourceFile: SourceFile,
+  node: Node,
+): Definition {
+  logger.debug(`✅ creating definition for:\n ${node.getText()}`);
+  return {
     uri: sourceFile.getFilePath(),
     range: {
       start: {
@@ -16,6 +21,4 @@ export function createDefinition(sourceFile: SourceFile, node: Node): Definition
       }
     }
   };
-  console.log(`✅ result: ${JSON.stringify(result)}`);
-  return result;
 }
