@@ -4,7 +4,7 @@
   "description": "Go to definition support for Obsidian dependency injection framework",
   "publisher": "guycarmeli",
   "icon": "obsidian.png",
-  "version": "0.0.22",
+  "version": "0.1.0",
   "license": "ISC",
   "main": "./client/dist/extension.js",
   "scripts": {
