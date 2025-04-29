@@ -31,16 +31,17 @@ export class Provider {
   }
 
   public get definition() {
+    const range = this.getRange();
     return {
       uri: this.uri,
       range: {
         start: {
-          line: this.getRange().start.line,
-          character: this.getRange().start.column - 1
+          line: range.start.line,
+          character: range.start.column - 1
         },
         end: {
-          line: this.getRange().end.line,
-          character: this.getRange().end.column
+          line: range.end.line,
+          character: range.end.column
         }
       }
     };
