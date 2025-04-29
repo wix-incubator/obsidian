@@ -4,10 +4,10 @@
 During development using [ts-ast-viewer.com](https://ts-ast-viewer.com/#) to analyze source files is very helpful.
 
 ## Tests
-Run `npm run test` to execute all test from the terminal. Alternatively, install the [Wallaby](https://marketplace.visualstudio.com/items?itemName=WallabyJs.wallaby-vscode) extention to continously execute tests within VSCode.
+Run `npm run test` to execute all test from the terminal. Alternatively, install the [Wallaby](https://marketplace.visualstudio.com/items?itemName=WallabyJs.wallaby-vscode) extention to continuously execute tests within VSCode.
 
 ## Debugging
-1. Run `npm run watch` to compile to continiously debug the project
+1. Run `npm run watch` to compile to continuously debug the project
 2. Press `cmd + shift + D`  to open the Run & Debug panel
 3. Select `Client + Server` and hit the play button
 4. Set break points by clicking in the gutter to the left of the code
