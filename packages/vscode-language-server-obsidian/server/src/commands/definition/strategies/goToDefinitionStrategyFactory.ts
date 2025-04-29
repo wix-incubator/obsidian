@@ -1,9 +1,9 @@
 import { GoToDefinitionStrategy } from "./goToDefinitionStrategy";
-import { hasProvidesDecorator } from "../../../utils/decorators";
+import { hasProvidesDecorator } from "../../../utils/ts/decorators";
 import { ProviderStrategy } from "./providerStrategy";
 import { HookStrategy } from "./hookStrategy";
 import { Node, TypeNode } from "ts-morph";
-import { getTypeAliases, isBindingElement, isIdentifier, isIntersectionTypeNode, isObjectBindingPattern, isParameter, isParenthesizedTypeNode, isTypeAliasDeclaration, isTypeReferenceNode, isUnionTypeNode } from "../../../utils/tsMorph";
+import { getTypeAliases, isBindingElement, isIdentifier, isIntersectionTypeNode, isObjectBindingPattern, isParameter, isParenthesizedTypeNode, isTypeAliasDeclaration, isTypeReferenceNode, isUnionTypeNode } from "../../../utils/ts/tsMorph";
 import { ProjectAdapter } from "../../../services/project/projectAdapter";
 import { InjectedClassStrategy } from "./injectedClassStrategy";
 import { Logger } from "../../../services/logger";

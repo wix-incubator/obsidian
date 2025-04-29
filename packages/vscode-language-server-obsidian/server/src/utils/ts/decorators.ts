@@ -1,4 +1,4 @@
-import { Decorator } from '../dto/decorator';
+import { Decorator } from '../../dto/decorator';
 import { Node, SyntaxKind, MethodDeclaration, ClassDeclaration } from 'ts-morph';
 
 export function hasDecorator(node: MethodDeclaration, decoratorNames: string[]): boolean {

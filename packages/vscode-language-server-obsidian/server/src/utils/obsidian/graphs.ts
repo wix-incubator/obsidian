@@ -1,8 +1,8 @@
-import { hasGraphDecorator } from "./decorators";
-import { Graph } from "../dto/graph";
+import { hasGraphDecorator } from "../ts/decorators";
+import { Graph } from "../../dto/graph";
 import { Node } from "ts-morph";
-import { isClassDeclaration } from "./tsMorph";
-import { ProjectAdapter } from "../services/project/projectAdapter";
+import { isClassDeclaration } from "../ts/tsMorph";
+import { ProjectAdapter } from "../../services/project/projectAdapter";
 
 export function getParentGraphRecursive(project: ProjectAdapter, node: Node | undefined): Graph | undefined {
   if (!node) return undefined;

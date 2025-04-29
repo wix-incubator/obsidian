@@ -1,6 +1,6 @@
 import { ImportDeclaration } from "ts-morph";
 import * as path from 'path';
-import { resolveFileExtension } from "../utils/file";
+import { resolveFileExtension } from '../utils/fileSystem';
 export class Import {
   constructor (private declaration: ImportDeclaration) { }
 

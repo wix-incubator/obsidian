@@ -1,9 +1,9 @@
-import { getDecorator, getDecoratedMethods } from "../utils/decorators";
+import { getDecorator, getDecoratedMethods } from "../utils/ts/decorators";
 import { Provider } from "./provider";
 import { ClassDeclaration, Expression } from "ts-morph";
 import { ProjectAdapter } from "../services/project/projectAdapter";
 import { isDefined } from "../utils/objects";
-import { isArrayLiteralExpression } from "../utils/tsMorph";
+import { isArrayLiteralExpression } from "../utils/ts/tsMorph";
 
 export class Graph {
   constructor (
