@@ -1,9 +1,9 @@
-import { Connection, DidChangeConfigurationParams } from "vscode-languageserver";
-import { Logger, TraceLevel } from "./logger";
+import { DidChangeConfigurationParams } from "vscode-languageserver";
+import { Logger, TraceLevel } from "../../services/logger";
 
 
 export class ConfigurationChangeHandler {
-  constructor (private connection: Connection, private logger: Logger) { }
+  constructor (private logger: Logger) { }
 
   async handle(event: DidChangeConfigurationParams): Promise<void> {
     this.logger.debug(`Configuration changed ${JSON.stringify(event)}`);

@@ -1,12 +1,12 @@
-import { InitializeParams, InitializeResult } from "vscode-languageserver";
+import { InitializeResult } from "vscode-languageserver";
 import { Logger } from "../../services/logger";
 
 const INCREMENTAL_UPDATE = 1;
 
-export class InitializeCommand {
+export class InitializeHandler {
   constructor (private logger: Logger) { }
 
-  public onInitialize(params: InitializeParams): InitializeResult {
+  public handle(): InitializeResult {
     this.logger.debug('Obsidian Language Server initialized');
     return {
       capabilities: {
@@ -18,4 +18,4 @@ export class InitializeCommand {
       }
     };
   }
-}
+} 

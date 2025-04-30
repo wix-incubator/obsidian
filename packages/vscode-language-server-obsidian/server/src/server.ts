@@ -1,30 +1,28 @@
 import {
   createConnection,
   ProposedFeatures,
-  InitializeParams,
   TextDocumentPositionParams,
   Definition,
-  NotificationHandler,
   DidChangeConfigurationParams,
 } from 'vscode-languageserver/node';
 import { DefinitionCommand } from './commands/definition/definitionCommand';
 import { Logger } from './services/logger';
-import { InitializeCommand } from './commands/initialize/initialize';
+import { InitializeHandler } from './lsp/handlers/initializeHandler';
 import { ProjectAdapter } from './services/project/projectAdapter';
 import { ProjectRegistry } from './services/project/projectRegistry';
 import { TsConfigParser } from './services/tsConfig/tsconfigParser';
-import { ConfigurationChangeHandler } from './services/configurationChangeHandler';
+import { ConfigurationChangeHandler } from './lsp/handlers/configurationChangeHandler';
 
 const connection = createConnection(ProposedFeatures.all);
 export const logger = new Logger(connection);
 const tsconfigParser = new TsConfigParser();
 const projectRegistry = new ProjectRegistry(logger, tsconfigParser);
 const projectAdapter = new ProjectAdapter(projectRegistry, logger);
-const initializeCommand = new InitializeCommand(logger);
-const configurationChangeHandler = new ConfigurationChangeHandler(connection, logger);
+const initializeHandler = new InitializeHandler(logger);
+const configurationChangeHandler = new ConfigurationChangeHandler(logger);
 
-connection.onInitialize((params: InitializeParams) => {
-  return initializeCommand.onInitialize(params);
+connection.onInitialize(() => {
+  return initializeHandler.handle();
 });
 
 connection.onDidChangeConfiguration((event: DidChangeConfigurationParams) => {
