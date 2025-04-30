@@ -2,11 +2,7 @@ import { Node, SourceFile } from "ts-morph";
 import { Definition } from "vscode-languageserver/node";
 import { Logger } from "../../services/logger";
 
-export function createDefinition(
-  logger: Logger,
-  sourceFile: SourceFile,
-  node: Node,
-): Definition {
+export function createDefinition(logger: Logger, sourceFile: SourceFile, node: Node,): Definition {
   logger.debug(`✅ creating definition for:\n ${node.getText()}`);
   return {
     uri: sourceFile.getFilePath(),
