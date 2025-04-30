@@ -46,8 +46,5 @@ documentation/.yarn/install-state.gz
 packages/swc-plugin-obsidian/target
 *.map
 *.tsbuildinfo
-packages/vscode-language-server-obsidian/server/out/**/*
-packages/vscode-language-server-obsidian/client/out/**/*
 packages/vscode-language-server-obsidian/coverage/
 *.vsix
-packages/vscode-language-server-obsidian/.credentials
