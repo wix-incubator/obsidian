@@ -3,6 +3,7 @@ import * as path from 'path';
 
 
 export default {
+  name: 'injected class',
   entryPoint: path.resolve(__dirname, './sourceCodes/entryPoint.ts'),
   position: {
     line: 10,

@@ -2,6 +2,7 @@ import { TestCase } from "../../index";
 import * as path from 'path';
 
 export default {
+  name: 'dependency in same graph',
   entryPoint: path.resolve(__dirname, './sourceCodes/themeGraph.ts'),
   position: {
     line: 6,

@@ -2,6 +2,7 @@ import * as path from "path";
 import { TestCase } from "../../index";
 
 export default {
+  name: 'injected hook typed provider',
   entryPoint: path.resolve(__dirname, './sourceCodes/component.ts'),
   position: {
     line: 9,

@@ -43,7 +43,7 @@ describe('GoToDefinition', () => {
     uut = new DefinitionCommand(projectAdapter, mock(), new StrategyFactory(projectAdapter, mock()));
   });
 
-  it.each(testCases)('should go to definition', async (testCase: TestCase) => {
+  it.each(testCases.map(testCase => [testCase.name, testCase]))('should go to definition for %s', async (_name: string, testCase: TestCase) => {
     const result = await uut.onDefinition(createParams(testCase));
     expect(result).toEqual(testCase.result);
   });

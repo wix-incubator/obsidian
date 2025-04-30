@@ -2,6 +2,7 @@ import { TestCase } from "../..";
 import * as path from 'path';
 
 export default {
+  name: 'injected hook dependenciesOf type alias',
   entryPoint: path.resolve(__dirname, './sourceCodes/entryPoint.ts'),
   position: {
     line: 9,

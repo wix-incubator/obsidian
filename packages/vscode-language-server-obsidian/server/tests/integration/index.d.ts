@@ -3,6 +3,7 @@ import { Definition, Position } from "vscode-languageserver/node";
 type Path = string;
 
 export declare type TestCase = {
+  name: string;
   entryPoint: Path;
   position: Position;
   result: Definition;

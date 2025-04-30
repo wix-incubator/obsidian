@@ -4,7 +4,7 @@ import { Definition } from "vscode-languageserver/node";
 import { hasParentWithDecorator } from "../../../utils/ts/decorators";
 import { createDefinition } from "../helpers";
 import { Logger } from "../../../services/logger";
-import { getProvidedHookDeclaration } from "../../../utils/obsidian/providers";
+import { getHookDecarationFromTypedProvider, getHookDeclaration } from "../../../utils/obsidian/providers";
 
 export class HookStrategy implements GoToDefinitionStrategy {
 
@@ -25,25 +25,9 @@ export class HookStrategy implements GoToDefinitionStrategy {
 
   private getProviderDeclarationIfHook(node: Node | undefined) {
     if (Node.isArrowFunction(node) && hasParentWithDecorator(node, ['Provides', 'provides'])) {
-      return getProvidedHookDeclaration(node);
+      return getHookDeclaration(node);
     } else if (Node.isFunctionTypeNode(node)) {
-      const typeReference = node.getChildrenOfKind(SyntaxKind.TypeReference)[0];
-      const arg = typeReference.getTypeArguments()[0];
-      if (Node.isTypeQuery(arg)) {
-        const type = arg.getExprName();
-        if (Node.isIdentifier(type)) {
-          const references = type.findReferencesAsNodes() || [];
-          for (const reference of references) {
-            const symbol = reference.getSymbol();
-            if (symbol?.getDeclarations().length === 1) {
-              const declaration = symbol.getDeclarations()[0];
-              if (Node.isVariableDeclaration(declaration)) {
-                return declaration;
-              }
-            }
-          }
-        }
-      }
+      return getHookDecarationFromTypedProvider(node);
     }
   }
 }

@@ -31,7 +31,7 @@ export class StrategyFactory {
       return true;
     }
 
-    if (isIdentifier(node) && Node.isBindingElement(node.getParent())) {
+    if (isIdentifier(node) && isDestructuredParameter(node.getParent())) {
       return this.isInjectedHookParameter(node.getParent());
     }
     return false;
