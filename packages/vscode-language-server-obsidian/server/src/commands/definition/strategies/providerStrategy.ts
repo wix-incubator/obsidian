@@ -14,7 +14,6 @@ export class ProviderStrategy implements GoToDefinitionStrategy {
   }
 
   private getProviderName(node: Node): string {
-    const name = isParameter(node) ? node.getName() : node.getText();
-    return name.replace(/^_/, '');
+    return node.getText().replace(/^_/, '');
   }
 }
