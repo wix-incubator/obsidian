@@ -1,12 +1,7 @@
-import { MethodDeclaration, Node, SyntaxKind } from "ts-morph";
-import { Identifier } from "./identifier";
+import { MethodDeclaration } from "ts-morph";
 
 export class Provider {
   constructor (private node: MethodDeclaration) { }
-
-  public getText() {
-    return this.node.getText();
-  }
 
   public get uri() {
     return this.sourceFile.getFilePath();
@@ -21,13 +16,6 @@ export class Provider {
       start: this.sourceFile.getLineAndColumnAtPos(this.node.getStart()),
       end: this.sourceFile.getLineAndColumnAtPos(this.node.getEnd())
     };
-  }
-
-  public resolveReturnType() {
-    const returnStatement = this.node.getStatements().find(Node.isReturnStatement);
-    const expression = returnStatement?.getFirstChildByKind(SyntaxKind.NewExpression);
-    const identifier = expression?.getFirstChildByKind(SyntaxKind.Identifier);
-    return identifier && new Identifier(identifier);
   }
 
   public get definition() {
