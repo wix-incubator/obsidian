@@ -1,23 +1,12 @@
 import { getDecorator, getDecoratedMethods } from "../utils/ts/decorators";
 import { Provider } from "./provider";
-import { ClassDeclaration, Expression } from "ts-morph";
+import { ClassDeclaration, Expression, SyntaxKind } from "ts-morph";
 import { ProjectAdapter } from "../services/project/projectAdapter";
 import { isDefined } from "../utils/objects";
-import { isArrayLiteralExpression } from "../utils/ts/tsMorph";
+import { getDeclarationFromIdentifier, isArrayLiteralExpression } from "../utils/ts/tsMorph";
 
 export class Graph {
-  constructor (
-    private project: ProjectAdapter,
-    private node: ClassDeclaration) { }
-
-  private get name() {
-    // TODO: may be undefined if class is exported as default
-    return this.node.getName();
-  }
-
-  private get sourceFile() {
-    return this.node.getSourceFile();
-  }
+  constructor (private project: ProjectAdapter, private node: ClassDeclaration) { }
 
   public resolveProvider(name: string) {
     return this.hasProvider(name) ?
@@ -36,17 +25,7 @@ export class Graph {
         return graph.resolveProvider(providerName);
       }
     }
-    throw new Error(`Provider ${providerName} not found in ${this.name}`);
-  }
-
-  public requireProviderTsMorph(name: string) {
-    return this.findProviderTsMorph(name)!;
-  }
-
-  private findProviderTsMorph(name: string) {
-    const sourceFile = this.node.getSourceFile();
-    const graph = sourceFile!.getClasses().find(graph => graph.getName() === this.name);
-    return graph?.getMethods().find(method => method.getName() === name);
+    throw new Error(`Provider ${providerName} not found in graph ${this.node.getName()}`);
   }
 
   public requireProvider(name: string) {
@@ -71,11 +50,8 @@ export class Graph {
   }
 
   private getGraphFromSubgraph(graph: Expression) {
-    const graphName = graph.getText();
-    const importDeclaration = this.project.findImportDeclaration(this.sourceFile, graphName);
-    const sourceFile = this.project.getSourceFile(importDeclaration!.path);
-    const graphClass = sourceFile?.getClass(graphName);
-    return graphClass && new Graph(this.project, graphClass);
+    const declaration = getDeclarationFromIdentifier(graph, SyntaxKind.ClassDeclaration);
+    return declaration && new Graph(this.project, declaration as ClassDeclaration);
   }
 
   private getSubgraphsFromDecorator() {
@@ -84,9 +60,3 @@ export class Graph {
     return isArrayLiteralExpression(subgraphsArg) ? subgraphsArg.getElements() : [];
   }
 }
-
-
-
-
-
-

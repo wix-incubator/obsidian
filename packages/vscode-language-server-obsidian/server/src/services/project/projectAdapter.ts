@@ -1,5 +1,4 @@
-import { Project, SourceFile } from "ts-morph";
-import { Import } from "../../dto/import";
+import { SourceFile } from "ts-morph";
 import { ProjectRegistry } from "./projectRegistry";
 import { Logger } from "../logger";
 
@@ -24,11 +23,5 @@ export class ProjectAdapter {
     } else {
       this.logger.error(`❌ Source file not found for URI: ${filePath}`);
     }
-  }
-
-  public findImportDeclaration(sourceFile: SourceFile, name: string) {
-    return sourceFile.getImportDeclarations()
-      .map(imp => new Import(imp))
-      .find(imp => imp.includesNamedImport(name));
   }
 }

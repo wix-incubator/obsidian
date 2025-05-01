@@ -32,3 +32,18 @@ export function isArrayLiteralExpression(node: Node | undefined): node is ArrayL
 export function isIdentifier(node: Node | undefined): node is Identifier {
   return node?.getKind() === SyntaxKind.Identifier;
 }
+
+export function getDeclarationFromIdentifier(node: Node, declarationKind: SyntaxKind) {
+  if (Node.isIdentifier(node)) {
+    const references = node.findReferencesAsNodes() || [];
+    for (const reference of references) {
+      const symbol = reference.getSymbol();
+      if (symbol?.getDeclarations().length === 1) {
+        const declaration = symbol.getDeclarations()[0];
+        if (declaration.getKind() === declarationKind) {
+          return declaration;
+        }
+      }
+    }
+  }
+}

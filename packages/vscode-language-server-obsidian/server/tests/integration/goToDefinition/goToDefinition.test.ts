@@ -4,7 +4,6 @@ import { ProjectAdapter } from "../../../src/services/project/projectAdapter";
 import { mock } from "jest-mock-extended";
 import { TestCase } from "..";
 import injectedHook from "./injectedHook";
-import { Project } from "ts-morph";
 import dependencyInSameGraph from "./dependencyInSameGraph";
 import dependencyInSubgraph from "./dependencyInSubgraph";
 import injectedClass from "./injectedClass";
@@ -16,6 +15,8 @@ import { ProjectRegistry } from "../../../src/services/project/projectRegistry";
 import injectedHookTypedProvider from "./injectedHookTypedProvider";
 import injectedClassDependenciesOfTypeAlias from "./injectedClassDependenciesOfTypeAlias";
 import { TsConfigParser } from "../../../src/services/tsConfig/tsconfigParser";
+import injectedExportDefaultGraph from "./injectedExportDefaultGraph";
+import dependencyInExportDefaultSubgraph from "./dependencyInExportDefaultSubgraph";
 
 const testCases: TestCase[] = [
   injectedHook,
@@ -26,7 +27,9 @@ const testCases: TestCase[] = [
   injectedExportDefaultClass,
   injectedHookDependenciesOfTypeAlias,
   injectedClassDependenciesOfTypeAlias,
-  injectedHookTypedProvider
+  injectedHookTypedProvider,
+  injectedExportDefaultGraph,
+  dependencyInExportDefaultSubgraph
 ];
 
 describe('GoToDefinition', () => {
