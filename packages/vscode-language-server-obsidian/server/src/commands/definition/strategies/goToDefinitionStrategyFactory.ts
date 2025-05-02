@@ -2,11 +2,12 @@ import { GoToDefinitionStrategy } from "./goToDefinitionStrategy";
 import { hasProvidesDecorator } from "../../../utils/ts/decorators";
 import { ProviderStrategy } from "./providerStrategy";
 import { HookStrategy } from "./hookStrategy";
-import { Node } from "ts-morph";
+import { Node, SyntaxKind } from "ts-morph";
 import { isDestructuredParameter, isParameter } from "../../../utils/ts/tsMorph";
 import { ProjectAdapter } from "../../../services/project/projectAdapter";
 import { InjectedClassStrategy } from "./injectedClassStrategy";
 import { Logger } from "../../../services/logger";
+import { getParentByType, isInjected } from "../../../utils/ts/node";
 
 export class StrategyFactory {
 
@@ -20,7 +21,7 @@ export class StrategyFactory {
   }
 
   private isInjectedClass(node: Node | undefined): boolean {
-    return Node?.isIdentifier(node);
+    return isInjected(node) && Node?.isIdentifier(node);
   }
 
   private isInjectedHookParameter(node: Node | undefined): boolean {
