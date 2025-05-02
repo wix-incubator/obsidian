@@ -1,9 +1,9 @@
 import { getDecorator, getDecoratedMethods } from "../utils/ts/decorators";
 import { Provider } from "./provider";
-import { ClassDeclaration, Expression, SyntaxKind } from "ts-morph";
+import { ClassDeclaration, Expression, SyntaxKind, Node } from "ts-morph";
 import { ProjectAdapter } from "../services/project/projectAdapter";
 import { isDefined } from "../utils/objects";
-import { getDeclarationFromIdentifier, isArrayLiteralExpression } from "../utils/ts/tsMorph";
+import { getDeclarationFromIdentifier } from "../utils/ts/tsMorph";
 
 export class Graph {
   constructor (private project: ProjectAdapter, private node: ClassDeclaration) { }
@@ -57,6 +57,6 @@ export class Graph {
   private getSubgraphsFromDecorator() {
     const graphDecorator = getDecorator(this.node, ['Graph', 'graph']);
     const subgraphsArg = graphDecorator?.getArgument(0, 'subgraphs');
-    return isArrayLiteralExpression(subgraphsArg) ? subgraphsArg.getElements() : [];
+    return Node.isArrayLiteralExpression(subgraphsArg) ? subgraphsArg.getElements() : [];
   }
 }

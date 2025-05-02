@@ -3,7 +3,7 @@ import { hasProvidesDecorator } from "../../../utils/ts/decorators";
 import { ProviderStrategy } from "./providerStrategy";
 import { HookStrategy } from "./hookStrategy";
 import { Node } from "ts-morph";
-import { isDestructuredParameter, isIdentifier, isObjectBindingPattern, isParameter } from "../../../utils/ts/tsMorph";
+import { isDestructuredParameter, isIdentifier, isParameter } from "../../../utils/ts/tsMorph";
 import { ProjectAdapter } from "../../../services/project/projectAdapter";
 import { InjectedClassStrategy } from "./injectedClassStrategy";
 import { Logger } from "../../../services/logger";
@@ -17,7 +17,6 @@ export class StrategyFactory {
     if (this.isInjectedHookParameter(node)) return new HookStrategy(this.logger);
     if (this.isInjectedClass(node)) return new InjectedClassStrategy(this.logger);
     this.logger.error(`No strategy found for node: ${node?.getText()}`);
-    return undefined;
   }
 
   private isInjectedClass(node: Node | undefined): boolean {
@@ -31,7 +30,7 @@ export class StrategyFactory {
       return true;
     }
 
-    if (isIdentifier(node) && isDestructuredParameter(node.getParent())) {
+    if (Node.isIdentifier(node) && isDestructuredParameter(node.getParent())) {
       return this.isInjectedHookParameter(node.getParent());
     }
     return false;
@@ -44,7 +43,7 @@ export class StrategyFactory {
 
   private isProvider(node: Node | undefined): boolean {
     if (isParameter(node)) return hasProvidesDecorator(node.getParent());
-    if (isIdentifier(node)) return hasProvidesDecorator(node.getParent()!.getParent());
+    if (Node.isIdentifier(node)) return hasProvidesDecorator(node.getParent()!.getParent());
     return false;
   }
 }
