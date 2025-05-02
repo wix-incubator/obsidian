@@ -7,7 +7,7 @@ import { isDestructuredParameter, isParameter } from "../../../utils/ts/tsMorph"
 import { ProjectAdapter } from "../../../services/project/projectAdapter";
 import { InjectedClassStrategy } from "./injectedClassStrategy";
 import { Logger } from "../../../services/logger";
-import { getParentByType, isInjected } from "../../../utils/ts/node";
+import { isInjected } from "../../../utils/ts/node";
 
 export class StrategyFactory {
 

@@ -3,13 +3,15 @@ import { StrategyFactory } from "../../../../src/commands/definition/strategies/
 import { ProjectAdapter } from "../../../../src/services/project/projectAdapter";
 import { mock } from "jest-mock-extended";
 import { IgnoredTestCase } from "../..";
-import injectedClass from "./injectedClass";
+import destructuredClassArgument from "./classPassedViaProps";
 import * as path from 'path';
 import { ProjectRegistry } from "../../../../src/services/project/projectRegistry";
 import { TsConfigParser } from "../../../../src/services/tsConfig/tsconfigParser";
+import classArgumentInFunction from "./classArgumentInFunction";
 
 const testCases: IgnoredTestCase[] = [
-  injectedClass,
+  destructuredClassArgument,
+  classArgumentInFunction,
 ];
 
 describe('GoToDefinition', () => {
