@@ -1,12 +1,12 @@
-import { TestCase } from "../..";
+import { TestCase } from "../../..";
 import * as path from 'path';
 
 export default {
-  name: 'injected class dependenciesOf type alias',
+  name: 'injected export default graph',
   entryPoint: path.resolve(__dirname, './sourceCodes/entryPoint.ts'),
   position: {
-    line: 9,
-    character: 36
+    line: 10,
+    character: 33
   },
   result: {
     uri: path.resolve(__dirname, './sourceCodes/gameModel.ts'),

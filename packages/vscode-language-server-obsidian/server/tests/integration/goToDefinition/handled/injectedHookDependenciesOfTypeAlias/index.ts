@@ -1,12 +1,12 @@
-import * as path from "path";
-import { TestCase } from "../../index";
+import { TestCase } from "../../..";
+import * as path from 'path';
 
 export default {
-  name: 'injected hook',
-  entryPoint: path.resolve(__dirname, './sourceCodes/component.ts'),
+  name: 'injected hook dependenciesOf type alias',
+  entryPoint: path.resolve(__dirname, './sourceCodes/entryPoint.ts'),
   position: {
     line: 9,
-    character: 20
+    character: 29
   },
   result: {
     uri: path.resolve(__dirname, './sourceCodes/entryViewModel.ts'),

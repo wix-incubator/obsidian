@@ -1,8 +1,8 @@
-import { DefinitionCommand } from "../../../src/commands/definition/definitionCommand";
-import { StrategyFactory } from "../../../src/commands/definition/strategies/goToDefinitionStrategyFactory";
-import { ProjectAdapter } from "../../../src/services/project/projectAdapter";
+import { DefinitionCommand } from "../../../../src/commands/definition/definitionCommand";
+import { StrategyFactory } from "../../../../src/commands/definition/strategies/goToDefinitionStrategyFactory";
+import { ProjectAdapter } from "../../../../src/services/project/projectAdapter";
 import { mock } from "jest-mock-extended";
-import { TestCase } from "..";
+import { TestCase } from "../..";
 import injectedHook from "./injectedHook";
 import dependencyInSameGraph from "./dependencyInSameGraph";
 import dependencyInSubgraph from "./dependencyInSubgraph";
@@ -11,10 +11,10 @@ import injectedHookDifferentInjectedTypeName from "./injectedHookDifferentInject
 import injectedExportDefaultClass from "./injectedExportDefaultClass";
 import injectedHookDependenciesOfTypeAlias from "./injectedHookDependenciesOfTypeAlias";
 import * as path from 'path';
-import { ProjectRegistry } from "../../../src/services/project/projectRegistry";
+import { ProjectRegistry } from "../../../../src/services/project/projectRegistry";
 import injectedHookTypedProvider from "./injectedHookTypedProvider";
 import injectedClassDependenciesOfTypeAlias from "./injectedClassDependenciesOfTypeAlias";
-import { TsConfigParser } from "../../../src/services/tsConfig/tsconfigParser";
+import { TsConfigParser } from "../../../../src/services/tsConfig/tsconfigParser";
 import injectedExportDefaultGraph from "./injectedExportDefaultGraph";
 import dependencyInExportDefaultSubgraph from "./dependencyInExportDefaultSubgraph";
 
@@ -40,7 +40,7 @@ describe('GoToDefinition', () => {
     const projectRegistry = new ProjectRegistry(
       mock(),
       new TsConfigParser(),
-      { overrideTsConfigPath: path.resolve(__dirname, '../../tsconfig.tests.json') }
+      { overrideTsConfigPath: path.resolve(__dirname, '../../../tsconfig.tests.json') }
     );
     projectAdapter = new ProjectAdapter(projectRegistry, mock());
     uut = new DefinitionCommand(projectAdapter, mock(), new StrategyFactory(projectAdapter, mock()));

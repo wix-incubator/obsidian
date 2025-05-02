@@ -1,4 +1,4 @@
-import { TestCase } from "../../index";
+import { TestCase } from "../../../index";
 import * as path from 'path';
 
 export default {

@@ -1,8 +1,8 @@
 import * as path from "path";
-import { TestCase } from "../../index";
+import { TestCase } from "../../../index";
 
 export default {
-  name: 'injected hook typed provider',
+  name: 'injected hook',
   entryPoint: path.resolve(__dirname, './sourceCodes/component.ts'),
   position: {
     line: 9,
@@ -12,11 +12,11 @@ export default {
     uri: path.resolve(__dirname, './sourceCodes/entryViewModel.ts'),
     range: {
       start: {
-        line: 5,
+        line: 3,
         character: 13
       },
       end: {
-        line: 9,
+        line: 7,
         character: 1
       }
     }
