@@ -1,5 +1,5 @@
 import { Node, ArrowFunction, FunctionTypeNode, SyntaxKind } from "ts-morph";
-import { getDefinition } from "../ts/tsMorph";
+import { getDefinition } from "../ts/identifier";
 
 export function getHookDeclaration(node: ArrowFunction) {
   const body = node.getBody();

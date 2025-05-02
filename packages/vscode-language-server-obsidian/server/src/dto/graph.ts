@@ -3,7 +3,7 @@ import { Provider } from "./provider";
 import { ClassDeclaration, Expression, SyntaxKind, Node } from "ts-morph";
 import { ProjectAdapter } from "../services/project/projectAdapter";
 import { isDefined } from "../utils/objects";
-import { getDefinition } from "../utils/ts/tsMorph";
+import { getDefinition } from "../utils/ts/identifier";
 
 export class Graph {
   constructor (private project: ProjectAdapter, private node: ClassDeclaration) { }
