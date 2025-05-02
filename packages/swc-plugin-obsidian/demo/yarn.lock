@@ -2904,13 +2904,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"reflect-metadata@npm:^0.2.2":
-  version: 0.2.2
-  resolution: "reflect-metadata@npm:0.2.2"
-  checksum: a66c7b583e4efdd8f3c3124fbff33da2d0c86d8280617516308b32b2159af7a3698c961db3246387f56f6316b1d33a608f39bb2b49d813316dfc58f6d3bf3210
-  languageName: node
-  linkType: hard
-
 "reflect-metadata@npm:~0.1.13":
   version: 0.1.14
   resolution: "reflect-metadata@npm:0.1.14"
@@ -3252,10 +3245,9 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     react-obsidian: ^2.11.4
-    reflect-metadata: ^0.2.2
     typescript: ^5.2.2
     unplugin-swc: ^1.5.1
-    vite: ^5.4.12
+    vite: ^5.4.19
     vite-plugin-inspect: ^0.8.7
   languageName: unknown
   linkType: soft
@@ -3460,9 +3452,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^5.4.12":
-  version: 5.4.14
-  resolution: "vite@npm:5.4.14"
+"vite@npm:^5.4.19":
+  version: 5.4.19
+  resolution: "vite@npm:5.4.19"
   dependencies:
     esbuild: ^0.21.3
     fsevents: ~2.3.3
@@ -3499,7 +3491,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 7360661da0415809454ff8809b6666e868ffc3e5ccfbd5fc17425341546cdc3dd3d37c68fcd6ed7305252aaecd0d251ede3745b57aaebd00b8aececc30b6697b
+  checksum: c15af65f2370b59e674c5fab22d8e05ec5c7f8f0345ed99ffec155c77feb5636b4e0680dbd096a6f06d7c386b259dc0b9c67c4f1ec08486a2f2a677c9ea6971b
   languageName: node
   linkType: hard
 
