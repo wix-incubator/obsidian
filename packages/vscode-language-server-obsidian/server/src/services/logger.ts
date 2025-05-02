@@ -12,8 +12,8 @@ export class Logger {
   constructor (private connection: Connection) { }
 
   setTraceLevel(level: TraceLevel) {
-    this.debug(`Trace level set to ${level}`);
     this.traceLevel = level;
+    this.debug(`Trace level set to ${level}`);
   }
 
   info(message: string): void {
