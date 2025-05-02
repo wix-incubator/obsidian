@@ -32,7 +32,7 @@ export class DefinitionCommand {
   }
 
   private logCommand(node: Node | undefined, sourceFile: SourceFile, params: TextDocumentPositionParams) {
-    this.logger.info(`🔍 Finding definition for node: ${node?.getText()}`);
+    this.logger.info(`🔍 Searching for node definition: ${node?.getText()}`);
     this.logger.debug(`Source file: ${sourceFile.getFilePath()}`);
     this.logger.debug(`Position: ${JSON.stringify(params.position)}`);
   }
