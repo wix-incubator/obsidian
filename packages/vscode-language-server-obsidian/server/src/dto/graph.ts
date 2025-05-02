@@ -3,7 +3,7 @@ import { Provider } from "./provider";
 import { ClassDeclaration, Expression, SyntaxKind, Node } from "ts-morph";
 import { ProjectAdapter } from "../services/project/projectAdapter";
 import { isDefined } from "../utils/objects";
-import { getDeclarationFromIdentifier } from "../utils/ts/tsMorph";
+import { getDefinition } from "../utils/ts/tsMorph";
 
 export class Graph {
   constructor (private project: ProjectAdapter, private node: ClassDeclaration) { }
@@ -50,7 +50,7 @@ export class Graph {
   }
 
   private getGraphFromSubgraph(graph: Expression) {
-    const declaration = getDeclarationFromIdentifier(graph, SyntaxKind.ClassDeclaration);
+    const declaration = getDefinition(graph, SyntaxKind.ClassDeclaration);
     return declaration && new Graph(this.project, declaration as ClassDeclaration);
   }
 

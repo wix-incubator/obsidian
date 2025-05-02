@@ -1,8 +1,15 @@
-import { Node } from "ts-morph";
+import { Node, SyntaxKind } from "ts-morph";
 import { hasParentWithDecorator } from "../utils/ts/decorators";
+import { Identifier as TSMorphIdentifier } from "ts-morph";
+import { assertIdentifier } from "../utils/ts/assertions";
 
 export class Identifier {
-  constructor (private node: Node) { }
+  private node: TSMorphIdentifier;
+
+  constructor (node: Node) {
+    assertIdentifier(node);
+    this.node = node;
+  }
 
   public isInjected(): boolean {
     if (!Node.isIdentifier(this.node)) return false;
