@@ -1,0 +1,20 @@
+{
+  "name": "obsidian-language-server",
+  "description": "Obsidian Language Server",
+  "version": "0.0.1",
+  "engines": {
+    "node": "*"
+  },
+  "dependencies": {
+    "jsonc-parser": "^3.2.1",
+    "vscode-languageserver": "^8.1.0",
+    "ts-morph": "^25.0.1"
+  },
+  "devDependencies": {
+    "jest-mock-extended": "^4.0.0-beta1",
+    "jest-when": "^3.7.0",
+    "eslint-plugin-obsidian": "^2.21.0",
+    "react-obsidian": "^2.21.0",
+    "typescript": "^5.0.0"
+  }
+}

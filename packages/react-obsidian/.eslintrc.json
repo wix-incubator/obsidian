@@ -6,10 +6,8 @@
     },
     "ignorePatterns": ["**/*.config.js"],
     "extends": [
-        "airbnb-base",
-        "airbnb-typescript",
         "plugin:react/recommended",
-        "plugin:import/typescript",
+        "plugin:import/recommended",
         "plugin:@stylistic/disable-legacy",
         "plugin:jest-formatting/recommended"
       ],

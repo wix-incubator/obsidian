@@ -1,0 +1,63 @@
+{
+  "name": "vscode-language-server-obsidian",
+  "displayName": "Obsidian Language Service",
+  "description": "Go to definition support for Obsidian dependency injection framework",
+  "publisher": "guycarmeli",
+  "icon": "obsidian.png",
+  "version": "0.1.0",
+  "license": "ISC",
+  "main": "./client/dist/extension.js",
+  "scripts": {
+    "vscode:prepublish": "npm run build:production",
+    "check-types": "tsc --noEmit",
+    "build:production": "npm run check-types && node scripts/build.js --production",
+    "build:development": "npm run check-types && node scripts/build.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node scripts/build.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
+    "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "activationEvents": [
+    "onLanguage:typescript",
+    "onLanguage:typescriptreact"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wix-incubator/obsidian.git"
+  },
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "Obsidian Language Service",
+      "properties": {
+        "obsidianLanguageServer.trace.server": {
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "off",
+          "description": "Traces the communication between VS Code and the Obsidian language server."
+        }
+      }
+    }
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.3",
+    "jest": "^29.7.0",
+    "npm-run-all": "^4.1.5",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.0.0"
+  }
+}

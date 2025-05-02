@@ -4,9 +4,6 @@ node_modules
 # JetBrains
 .idea
 
-# Lock files
-package-lock.json
-
 ############
 # iOS
 ############
@@ -47,3 +44,7 @@ documentation/.yarn/cache
 documentation/.yarn/install-state.gz
 .vscode/yw_helper_history.txt
 packages/swc-plugin-obsidian/target
+*.map
+*.tsbuildinfo
+packages/vscode-language-server-obsidian/coverage/
+*.vsix
