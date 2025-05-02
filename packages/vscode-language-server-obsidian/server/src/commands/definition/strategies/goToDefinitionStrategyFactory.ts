@@ -1,5 +1,4 @@
 import { GoToDefinitionStrategy } from "./goToDefinitionStrategy";
-import { hasProvidesDecorator } from "../../../utils/ts/decorators";
 import { ProviderStrategy } from "./providerStrategy";
 import { HookStrategy } from "./hookStrategy";
 import { Node } from "ts-morph";
@@ -14,22 +13,23 @@ export class StrategyFactory {
 
   public create(node: Node | undefined): GoToDefinitionStrategy | undefined {
     if (!Node.isIdentifier(node)) return;
+    switch (this.getType(node)) {
+      case 'provider':
+        return new ProviderStrategy(this.project);
+      case 'hook':
+        return new HookStrategy(this.logger);
+      case 'injected':
+        return new InjectedClassStrategy(this.logger);
+      default:
+        this.logger.error(`No strategy found for node: ${node?.getText()}`);
+    }
+  }
+
+  private getType(node: Node) {
     const identifier = new Identifier(node);
-    if (this.isProvider(identifier)) return new ProviderStrategy(this.project);
-    if (this.isInjectedHookParameter(identifier)) return new HookStrategy(this.logger);
-    if (this.isInjectedClass(identifier)) return new InjectedClassStrategy(this.logger);
-    this.logger.error(`No strategy found for node: ${node?.getText()}`);
-  }
-
-  private isInjectedClass(identifier: Identifier): boolean {
-    return identifier.isInjected();
-  }
-
-  private isInjectedHookParameter(identifier: Identifier): boolean {
-    return identifier.isInjected() && identifier.isHook();
-  }
-
-  private isProvider(identifier: Identifier): boolean {
-    return identifier.isProviderDependency();
+    if (identifier.isProviderDependency()) return 'provider';
+    if (identifier.isInjected() && identifier.isHook()) return 'hook';
+    if (identifier.isInjected()) return 'injected';
+    return 'unknown';
   }
 }
