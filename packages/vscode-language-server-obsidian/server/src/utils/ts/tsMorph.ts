@@ -1,17 +1,6 @@
-import { SyntaxKind, Node, ParameterDeclaration, ArrayLiteralExpression, BindingElement } from "ts-morph";
+import { SyntaxKind, Node } from "ts-morph";
 
-export function isDestructuredParameter(node: Node | undefined): node is BindingElement {
-  return node?.getKind() === SyntaxKind.BindingElement;
-}
-
-export function isParameter(node: Node | undefined): node is ParameterDeclaration {
-  return node?.getKind() === SyntaxKind.Parameter;
-}
-
-export function isArrayLiteralExpression(node: Node | undefined): node is ArrayLiteralExpression {
-  return node?.getKind() === SyntaxKind.ArrayLiteralExpression;
-}
-
+// TODO: move to dto
 export function getDeclarationFromIdentifier(node: Node, declarationKind: SyntaxKind) {
   if (Node.isIdentifier(node)) {
     const references = node.findReferencesAsNodes() || [];
