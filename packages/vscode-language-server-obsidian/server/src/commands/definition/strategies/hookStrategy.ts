@@ -13,7 +13,7 @@ export class HookStrategy implements GoToDefinitionStrategy {
   public async goToDefinition(node: Node): Promise<Definition | undefined> {
     const declarations = node.getSymbol()?.getDeclarations();
     const hook = this.resolveInjectedHook(declarations);
-    return hook && createDefinition(this.logger, hook.getSourceFile(), hook);
+    return hook && createDefinition(this.logger, hook);
   }
 
   private resolveInjectedHook(declarations: Node[] | undefined) {

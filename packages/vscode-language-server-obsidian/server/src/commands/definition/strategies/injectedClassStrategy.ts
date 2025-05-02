@@ -10,7 +10,7 @@ export class InjectedClassStrategy implements GoToDefinitionStrategy {
   public async goToDefinition(node: Node): Promise<Definition | undefined> {
     const declarations = node.getSymbol()?.getDeclarations();
     const clazzDeclaration = this.resolveInjectedClass(declarations);
-    return clazzDeclaration && createDefinition(this.logger, clazzDeclaration.getSourceFile(), clazzDeclaration);
+    return clazzDeclaration && createDefinition(this.logger, clazzDeclaration);
   }
 
   private resolveInjectedClass(declarations: Node[] | undefined) {
