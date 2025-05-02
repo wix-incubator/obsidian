@@ -3,7 +3,7 @@ import { hasProvidesDecorator } from "../../../utils/ts/decorators";
 import { ProviderStrategy } from "./providerStrategy";
 import { HookStrategy } from "./hookStrategy";
 import { Node } from "ts-morph";
-import { isDestructuredParameter, isIdentifier, isParameter } from "../../../utils/ts/tsMorph";
+import { isDestructuredParameter, isParameter } from "../../../utils/ts/tsMorph";
 import { ProjectAdapter } from "../../../services/project/projectAdapter";
 import { InjectedClassStrategy } from "./injectedClassStrategy";
 import { Logger } from "../../../services/logger";
