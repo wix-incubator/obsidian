@@ -11,6 +11,10 @@ export class InitializeHandler {
     return {
       capabilities: {
         definitionProvider: true,
+        completionProvider: {
+          triggerCharacters: ['(', ','],
+          resolveProvider: false
+        },
         textDocumentSync: {
           openClose: true,
           change: INCREMENTAL_UPDATE

@@ -3,6 +3,14 @@ import { MethodDeclaration } from "ts-morph";
 export class Provider {
   constructor (private node: MethodDeclaration) { }
 
+  public get name() {
+    return this.node.getName().replace(/^_/, '');
+  }
+
+  public get type() {
+    return this.node.getReturnType().getText();
+  }
+
   public get uri() {
     return this.sourceFile.getFilePath();
   }

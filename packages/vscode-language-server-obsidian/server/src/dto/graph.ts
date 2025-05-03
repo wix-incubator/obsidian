@@ -33,14 +33,12 @@ export class Graph {
   }
 
   public findProvider(name: string) {
-    const provider = this.getProviders().find(
-      provider => provider.getName() === name.replace(/^_/, '')
-    );
-    return provider && new Provider(provider);
+    return this.getProviders().find(provider => provider.name === name);
   }
 
   public getProviders() {
-    return getDecoratedMethods(this.node, ['Provides', 'provides']);
+    const providers = getDecoratedMethods(this.node, ['Provides', 'provides']);
+    return providers.map(method => new Provider(method));
   }
 
   public getSubgraphs(): Graph[] {
@@ -58,5 +56,12 @@ export class Graph {
     const graphDecorator = getDecorator(this.node, ['Graph', 'graph']);
     const subgraphsArg = graphDecorator?.getArgument(0, 'subgraphs');
     return Node.isArrayLiteralExpression(subgraphsArg) ? subgraphsArg.getElements() : [];
+  }
+
+  public resolveProviders(): Provider[] {
+    return [
+      ...this.getProviders(),
+      ...this.getSubgraphs().flatMap(subgraph => subgraph.resolveProviders())
+    ];
   }
 }

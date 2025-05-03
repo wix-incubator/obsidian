@@ -8,7 +8,7 @@
     "rootDir": "."
   },
   "include": [
-    "integration/**/*"
+    "./**/*"
   ],
   "exclude": [
     "node_modules",

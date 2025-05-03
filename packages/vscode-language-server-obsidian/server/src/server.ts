@@ -4,8 +4,11 @@ import {
   TextDocumentPositionParams,
   Definition,
   DidChangeConfigurationParams,
+  CompletionItem,
+  CompletionParams,
 } from 'vscode-languageserver/node';
 import { DefinitionCommand } from './commands/definition/definitionCommand';
+import { CompletionCommand } from './commands/completion/completionCommand';
 import { Logger } from './services/logger';
 import { InitializeHandler } from './lsp/handlers/initializeHandler';
 import { ProjectAdapter } from './services/project/projectAdapter';
@@ -39,6 +42,19 @@ connection.onDefinition((params: TextDocumentPositionParams): Promise<Definition
     .catch((error: Error) => {
       logger.error(`❌ Error in go to definition: ${error}`);
       return undefined;
+    });
+});
+
+connection.onCompletion((params: CompletionParams): Promise<CompletionItem[]> => {
+  return new CompletionCommand(projectAdapter, logger)
+    .getCompletions(params)
+    .then((completions: CompletionItem[]) => {
+      logger.info(`✅ Found ${completions.length} completions`);
+      return completions;
+    })
+    .catch((error: Error) => {
+      logger.error(`❌ Error in completion: ${error}`);
+      return [];
     });
 });
 
