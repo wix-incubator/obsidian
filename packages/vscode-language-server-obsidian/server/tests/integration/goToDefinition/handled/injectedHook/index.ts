@@ -1,5 +1,5 @@
 import * as path from "path";
-import { TestCase } from "../../../index";
+import { DefinitionTestCase } from "../../../index";
 
 export default {
   name: 'injected hook',
@@ -21,4 +21,4 @@ export default {
       }
     }
   }
-} satisfies TestCase;
+} satisfies DefinitionTestCase;

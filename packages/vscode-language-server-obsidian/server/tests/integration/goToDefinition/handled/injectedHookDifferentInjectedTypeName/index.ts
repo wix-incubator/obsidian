@@ -1,4 +1,4 @@
-import { TestCase } from "../../../index";
+import { DefinitionTestCase } from "../../../index";
 import * as path from 'path';
 
 export default {
@@ -21,4 +21,4 @@ export default {
       }
     }
   }
-} satisfies TestCase;
+} satisfies DefinitionTestCase;

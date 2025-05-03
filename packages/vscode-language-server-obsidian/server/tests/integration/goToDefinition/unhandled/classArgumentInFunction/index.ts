@@ -1,4 +1,4 @@
-import { IgnoredTestCase } from "../../..";
+import { IgnoredDefinitionTestCase } from "../../..";
 import * as path from 'path';
 
 export default {
@@ -8,4 +8,4 @@ export default {
     line: 2,
     character: 24
   },
-} satisfies IgnoredTestCase;
+} satisfies IgnoredDefinitionTestCase;
