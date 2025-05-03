@@ -2,14 +2,14 @@ import { DefinitionCommand } from "../../../../src/commands/definition/definitio
 import { StrategyFactory } from "../../../../src/commands/definition/strategies/goToDefinitionStrategyFactory";
 import { ProjectAdapter } from "../../../../src/services/project/projectAdapter";
 import { mock } from "jest-mock-extended";
-import { IgnoredTestCase } from "../..";
+import { IgnoredDefinitionTestCase } from "../..";
 import destructuredClassArgument from "./classPassedViaProps";
 import * as path from 'path';
 import { ProjectRegistry } from "../../../../src/services/project/projectRegistry";
 import { TsConfigParser } from "../../../../src/services/tsConfig/tsconfigParser";
 import classArgumentInFunction from "./classArgumentInFunction";
 
-const testCases: IgnoredTestCase[] = [
+const testCases: IgnoredDefinitionTestCase[] = [
   destructuredClassArgument,
   classArgumentInFunction,
 ];
@@ -28,12 +28,12 @@ describe('GoToDefinition', () => {
     uut = new DefinitionCommand(projectAdapter, mock(), new StrategyFactory(projectAdapter, mock()));
   });
 
-  it.each(testCases.map(testCase => [testCase.name, testCase]))('should go to definition for %s', async (_name: string, testCase: IgnoredTestCase) => {
+  it.each(testCases.map(testCase => [testCase.name, testCase]))('should go to definition for %s', async (_name: string, testCase: IgnoredDefinitionTestCase) => {
     const result = await uut.onDefinition(createParams(testCase));
     expect(result).toBeUndefined();
   });
 
-  function createParams(testCase: IgnoredTestCase) {
+  function createParams(testCase: IgnoredDefinitionTestCase) {
     return {
       textDocument: { uri: testCase.entryPoint },
       position: testCase.position
