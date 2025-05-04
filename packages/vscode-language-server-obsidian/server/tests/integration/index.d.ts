@@ -2,7 +2,6 @@ import { Definition, Position, CompletionItem } from "vscode-languageserver/node
 
 type Path = string;
 
-
 export type DefinitionTestCase = TestCase<Definition>;
 export type UnhandledDefinitionTestCase = Omit<DefinitionTestCase, 'result'>;
 

@@ -6,9 +6,13 @@ import { ProjectAdapter } from "../../../../src/services/project/projectAdapter"
 import { ProjectRegistry } from "../../../../src/services/project/projectRegistry";
 import { TsConfigParser } from "../../../../src/services/tsConfig/tsconfigParser";
 import * as path from 'path';
+import graphWithSubgraph from "./graphWithSubgraph";
+import graphWithSubgraphAndShadowdeDependency from "./graphWithSubgraphAndShadowdeDependency";
 
 const testCases: CompletionTestCase[] = [
-  graphWithoutSubgraphs
+  graphWithoutSubgraphs,
+  graphWithSubgraph,
+  graphWithSubgraphAndShadowdeDependency
 ];
 
 describe('Handled Completion', () => {

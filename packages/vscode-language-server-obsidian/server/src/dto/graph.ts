@@ -4,6 +4,7 @@ import { ClassDeclaration, Expression, SyntaxKind, Node } from "ts-morph";
 import { ProjectAdapter } from "../services/project/projectAdapter";
 import { isDefined } from "../utils/objects";
 import { getDefinition } from "../utils/ts/identifier";
+import { DedupeSet } from "../utils/dedupeSet";
 
 export class Graph {
   constructor (private project: ProjectAdapter, private node: ClassDeclaration) { }
@@ -58,10 +59,9 @@ export class Graph {
     return Node.isArrayLiteralExpression(subgraphsArg) ? subgraphsArg.getElements() : [];
   }
 
-  public resolveProviders(): Provider[] {
-    return [
-      ...this.getProviders(),
-      ...this.getSubgraphs().flatMap(subgraph => subgraph.resolveProviders())
-    ];
+  public resolveProviders(dedupeSet = new DedupeSet()): Provider[] {
+    const providers = this.getProviders().filter(provider => dedupeSet.dedupe(provider.name));
+    const subgraphProviders = this.getSubgraphs().flatMap(subgraph => subgraph.resolveProviders(dedupeSet));
+    return [...providers, ...subgraphProviders];
   }
 }
