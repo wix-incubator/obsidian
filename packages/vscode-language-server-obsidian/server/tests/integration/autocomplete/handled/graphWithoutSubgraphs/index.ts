@@ -6,8 +6,8 @@ export default {
   name: 'graph without subgraphs',
   entryPoint: path.resolve(__dirname, './sourceCodes/graphWithoutSubgraphs.ts'),
   position: {
-    line: 6,
-    character: 14
+    line: 5,
+    character: 12
   },
   result: [
     {

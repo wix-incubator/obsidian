@@ -15,8 +15,7 @@ export class DefinitionCommand {
   }
 
   public async onDefinition(params: TextDocumentPositionParams): Promise<Definition | undefined> {
-    const sourceFile = this.projectAdapter.getSourceFile(params.textDocument.uri);
-    if (!sourceFile) throw new Error(`Source file not found for URI: ${params.textDocument.uri}`);
+    const sourceFile = this.projectAdapter.getSourceFileOrThrow(params.textDocument.uri);
     const node = this.getGoToDefinitionNode(sourceFile, params);
     this.logCommand(node, sourceFile, params);
     const tsMorphNode = node ? sourceFile.getDescendantAtPos(node.getStart()) : undefined;
