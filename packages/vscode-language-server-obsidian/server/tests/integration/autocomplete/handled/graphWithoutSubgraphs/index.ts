@@ -11,15 +11,8 @@ export default {
   },
   result: [
     {
-      label: 'foo',
-      // TODO: Use correct kind
-      kind: CompletionItemKind.Class,
-      labelDetails: {
-        detail: 'string'
-      }
-    },
-    {
       label: 'bar',
+      // TODO: Use correct kind
       kind: CompletionItemKind.Class,
       labelDetails: {
         detail: 'string'
