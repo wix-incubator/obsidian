@@ -4,10 +4,10 @@ type Path = string;
 
 
 export type DefinitionTestCase = TestCase<Definition>;
-export type IgnoredDefinitionTestCase = Omit<DefinitionTestCase, 'result'>;
+export type UnhandledDefinitionTestCase = Omit<DefinitionTestCase, 'result'>;
 
 export type CompletionTestCase = TestCase<CompletionItem[]>;
-export type IgnoredCompletionTestCase = Omit<CompletionTestCase, 'result'>;
+export type UnhandledCompletionTestCase = Omit<CompletionTestCase, 'result'>;
 
 type TestCase<T> = {
   name: string;
