@@ -1,9 +1,10 @@
 import { CompletionItem, CompletionParams, CompletionItemKind } from 'vscode-languageserver/node';
 import { Logger } from '../../services/logger';
 import { ProjectAdapter } from '../../services/project/projectAdapter';
-import { Node, SourceFile, SyntaxKind } from 'ts-morph';
+import { Node, SyntaxKind } from 'ts-morph';
 import { getParentGraphRecursive } from '../../utils/obsidian/graphs';
 import { hasDecorator } from '../../utils/ts/decorators';
+import { SourceFile } from '../../dto/sourceFile';
 
 export class CompletionCommand {
   constructor (private projectAdapter: ProjectAdapter, private logger: Logger) {
@@ -12,17 +13,9 @@ export class CompletionCommand {
 
   public async getCompletions(params: CompletionParams): Promise<CompletionItem[]> {
     const sourceFile = this.projectAdapter.getSourceFileOrThrow(params.textDocument.uri);
-    const node = this.getCompletionNode(sourceFile, params);
+    const node = sourceFile.getNodeAtPosition(params.position);
     this.logCommand(node, sourceFile, params);
     return this.getCompletionItems(node);
-  }
-
-  private getCompletionNode(sourceFile: SourceFile, params: CompletionParams): Node | undefined {
-    const position = sourceFile.compilerNode.getPositionOfLineAndCharacter(
-      params.position.line,
-      params.position.character
-    );
-    return sourceFile.getDescendantAtPos(position);
   }
 
   private isInProvidesFunction(node: Node | undefined): boolean {
@@ -48,7 +41,7 @@ export class CompletionCommand {
 
   private logCommand(node: Node | undefined, sourceFile: SourceFile, params: CompletionParams) {
     this.logger.info(`🔍 Computing completions at position: ${JSON.stringify(params.position)}`);
-    this.logger.debug(`Source file: ${sourceFile.getFilePath()}`);
+    this.logger.debug(`Source file: ${sourceFile.filePath}`);
     this.logger.debug(`Current node: ${node?.getText()}`);
   }
 } 
