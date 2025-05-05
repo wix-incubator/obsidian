@@ -1,4 +1,4 @@
-import { CompletionItemKind } from "vscode-languageserver";
+import { CompletionItemKind, InsertTextFormat } from "vscode-languageserver";
 import { CompletionTestCase } from "../../..";
 import * as path from 'path';
 
@@ -14,9 +14,9 @@ export default {
       label: 'clazz',
       // TODO: Use correct kind
       kind: CompletionItemKind.Class,
-      labelDetails: {
-        detail: 'Clazz'
-      }
+      insertText: 'clazz: Clazz',
+      insertTextFormat: InsertTextFormat.Snippet,
+      detail: 'Clazz'
     }
   ]
 } satisfies CompletionTestCase;

@@ -1,4 +1,4 @@
-import { CompletionItem, CompletionParams, CompletionItemKind } from 'vscode-languageserver/node';
+import { CompletionItem, CompletionParams, CompletionItemKind, InsertTextFormat } from 'vscode-languageserver/node';
 import { Logger } from '../../services/logger';
 import { ProjectAdapter } from '../../services/project/projectAdapter';
 import { Node, SyntaxKind } from 'ts-morph';
@@ -23,20 +23,20 @@ export class CompletionCommand {
   private getCompletionItems(node: Node | undefined): CompletionItem[] {
     if (!this.isInProvidesFunction(node)) return [];
     const provider = getAncestorProvider(node);
-    const providers = getParentGraphRecursive(this.projectAdapter, node)
+    return getParentGraphRecursive(this.projectAdapter, node)
       ?.resolveProviders()
-      .filter(p => p.name !== provider?.name);
-    return this.createCompletionItemsFromProviders(providers);
+      .filter(p => p.name !== provider?.name)
+      .map(this.providerToCompletion) ?? [];
   }
 
-  private createCompletionItemsFromProviders(providers: Provider[] | undefined) {
-    return providers?.map(provider => ({
+  private providerToCompletion(provider: Provider): CompletionItem {
+    return {
       label: provider.name,
       kind: CompletionItemKind.Class,
-      labelDetails: {
-        detail: provider.type
-      }
-    })) || [];
+      insertText: `${provider.name}: ${provider.type}`,
+      insertTextFormat: InsertTextFormat.Snippet,
+      detail: provider.type,
+    };
   }
 
   private isInProvidesFunction(node: Node | undefined): boolean {
