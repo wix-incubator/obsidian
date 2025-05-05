@@ -8,7 +8,9 @@ export class Provider {
   }
 
   public get type() {
-    return this.node.getReturnType().getText();
+    const returnType = this.node.getReturnType();
+    const symbol = returnType.getSymbol();
+    return symbol ? symbol.getName() : returnType.getText();
   }
 
   public get uri() {

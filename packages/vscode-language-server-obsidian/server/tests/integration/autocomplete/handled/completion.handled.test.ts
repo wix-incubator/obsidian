@@ -8,11 +8,13 @@ import { TsConfigParser } from "../../../../src/services/tsConfig/tsconfigParser
 import * as path from 'path';
 import graphWithSubgraph from "./graphWithSubgraph";
 import graphWithSubgraphAndShadowdeDependency from "./graphWithSubgraphAndShadowdeDependency";
+import graphThatProvidesImportedClass from "./graphThatProvidesImportedClass";
 
 const testCases: CompletionTestCase[] = [
   graphWithoutSubgraphs,
   graphWithSubgraph,
-  graphWithSubgraphAndShadowdeDependency
+  graphWithSubgraphAndShadowdeDependency,
+  graphThatProvidesImportedClass
 ];
 
 describe('Handled Completion', () => {
