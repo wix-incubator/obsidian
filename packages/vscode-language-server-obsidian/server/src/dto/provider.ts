@@ -28,15 +28,8 @@ export class Provider {
     return this.node.getSourceFile();
   }
 
-  public getRange() {
-    return {
-      start: this.sourceFile.getLineAndColumnAtPos(this.node.getStart()),
-      end: this.sourceFile.getLineAndColumnAtPos(this.node.getEnd())
-    };
-  }
-
   public get definition() {
-    const range = this.getRange();
+    const range = this.range;
     return {
       uri: this.uri,
       range: {
@@ -50,5 +43,16 @@ export class Provider {
         }
       }
     };
+  }
+
+  private get range() {
+    return {
+      start: this.sourceFile.getLineAndColumnAtPos(this.node.getStart()),
+      end: this.sourceFile.getLineAndColumnAtPos(this.node.getEnd())
+    };
+  }
+
+  public hasParameter(name: string) {
+    return this.node.getParameters().some(param => param.getName() === name);
   }
 }

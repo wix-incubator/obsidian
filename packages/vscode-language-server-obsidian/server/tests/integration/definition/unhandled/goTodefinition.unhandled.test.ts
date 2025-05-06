@@ -24,7 +24,7 @@ describe('GoToDefinition', () => {
       new TsConfigParser(),
       { overrideTsConfigPath: path.resolve(__dirname, '../../tsconfig.tests.json') }
     );
-    projectAdapter = new ProjectAdapter(projectRegistry, mock());
+    projectAdapter = new ProjectAdapter(projectRegistry);
     uut = new DefinitionCommand(projectAdapter, mock(), new StrategyFactory(projectAdapter, mock()));
   });
 

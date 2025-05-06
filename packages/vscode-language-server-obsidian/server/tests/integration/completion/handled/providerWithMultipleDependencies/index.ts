@@ -11,13 +11,6 @@ export default {
   },
   result: [
     {
-      label: 'bar',
-      kind: CompletionItemKind.Value,
-      insertText: 'bar: string',
-      insertTextFormat: InsertTextFormat.Snippet,
-      detail: '(string) bar: string'
-    },
-    {
       label: 'baz',
       kind: CompletionItemKind.Value,
       insertText: 'baz: string',

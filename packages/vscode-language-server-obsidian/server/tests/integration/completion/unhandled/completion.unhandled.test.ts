@@ -20,7 +20,7 @@ describe('Handled Completion', () => {
       new TsConfigParser(),
       { overrideTsConfigPath: path.resolve(__dirname, '../../tsconfig.tests.json') }
     );
-    const projectAdapter = new ProjectAdapter(projectRegistry, mock());
+    const projectAdapter = new ProjectAdapter(projectRegistry);
     uut = new CompletionCommand(projectAdapter, mock());
   });
 

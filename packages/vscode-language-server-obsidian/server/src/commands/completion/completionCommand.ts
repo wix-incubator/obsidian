@@ -25,7 +25,7 @@ export class CompletionCommand {
     const provider = getAncestorProvider(node);
     return getParentGraphRecursive(this.projectAdapter, node)
       ?.resolveProviders()
-      .filter(p => p.name !== provider?.name)
+      .filter(p => p.name !== provider?.name && !provider?.hasParameter(p.name))
       .map(providerToCompletionItem) ?? [];
   }
 
