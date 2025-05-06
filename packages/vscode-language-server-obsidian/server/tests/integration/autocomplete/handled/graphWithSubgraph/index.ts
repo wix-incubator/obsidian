@@ -12,18 +12,17 @@ export default {
   result: [
     {
       label: 'bar',
-      // TODO: Use correct kind
-      kind: CompletionItemKind.Class,
+      kind: CompletionItemKind.Value,
       insertText: 'bar: string',
       insertTextFormat: InsertTextFormat.Snippet,
-      detail: 'string'
+      detail: '(string) bar: string'
     },
     {
       label: 'baz',
-      kind: CompletionItemKind.Class,
+      kind: CompletionItemKind.Value,
       insertText: 'baz: string',
       insertTextFormat: InsertTextFormat.Snippet,
-      detail: 'string'
+      detail: '(string) baz: string'
     }
   ]
 } satisfies CompletionTestCase;

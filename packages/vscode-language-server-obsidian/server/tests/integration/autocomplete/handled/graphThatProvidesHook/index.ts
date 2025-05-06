@@ -3,19 +3,19 @@ import { CompletionTestCase } from "../../..";
 import * as path from 'path';
 
 export default {
-  name: 'graph that provides imported class',
-  entryPoint: path.resolve(__dirname, './sourceCodes/graph.ts'),
+  name: 'graph that provides hook',
+  entryPoint: path.resolve(__dirname, './sourceCodes/graphThatProvidesHook.ts'),
   position: {
-    line: 6,
+    line: 5,
     character: 12
   },
   result: [
     {
-      label: 'clazz',
-      kind: CompletionItemKind.Class,
-      insertText: 'clazz: Clazz',
+      label: 'useBar',
+      kind: CompletionItemKind.Function,
+      insertText: 'useBar: () => string',
       insertTextFormat: InsertTextFormat.Snippet,
-      detail: '(class) clazz: Clazz'
+      detail: '(function) useBar: () => string'
     }
   ]
 } satisfies CompletionTestCase;

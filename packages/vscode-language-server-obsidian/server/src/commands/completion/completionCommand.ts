@@ -1,4 +1,4 @@
-import { CompletionItem, CompletionParams, CompletionItemKind, InsertTextFormat } from 'vscode-languageserver/node';
+import { CompletionItem, CompletionParams } from 'vscode-languageserver/node';
 import { Logger } from '../../services/logger';
 import { ProjectAdapter } from '../../services/project/projectAdapter';
 import { Node, SyntaxKind } from 'ts-morph';
@@ -6,7 +6,7 @@ import { getParentGraphRecursive } from '../../utils/obsidian/graphs';
 import { hasDecorator } from '../../utils/ts/decorators';
 import { SourceFile } from '../../dto/sourceFile';
 import { getAncestorProvider } from '../../utils/obsidian/providers';
-import { Provider } from '../../dto/provider';
+import { providerToCompletionItem } from './providerToCompletionItem';
 
 export class CompletionCommand {
   constructor (private projectAdapter: ProjectAdapter, private logger: Logger) {
@@ -26,17 +26,7 @@ export class CompletionCommand {
     return getParentGraphRecursive(this.projectAdapter, node)
       ?.resolveProviders()
       .filter(p => p.name !== provider?.name)
-      .map(this.providerToCompletion) ?? [];
-  }
-
-  private providerToCompletion(provider: Provider): CompletionItem {
-    return {
-      label: provider.name,
-      kind: CompletionItemKind.Class,
-      insertText: `${provider.name}: ${provider.type}`,
-      insertTextFormat: InsertTextFormat.Snippet,
-      detail: provider.type,
-    };
+      .map(providerToCompletionItem) ?? [];
   }
 
   private isInProvidesFunction(node: Node | undefined): boolean {

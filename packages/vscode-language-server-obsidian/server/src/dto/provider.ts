@@ -9,8 +9,15 @@ export class Provider {
 
   public get type() {
     const returnType = this.node.getReturnType();
+    if (returnType.getCallSignatures().length > 0) return returnType.getText();
     const symbol = returnType.getSymbol();
     return symbol ? symbol.getName() : returnType.getText();
+  }
+
+  public get kind(): "class" | "function" | (string & {}) {
+    if (this.node.getReturnType().isClassOrInterface()) return "class";
+    if (this.node.getReturnType().getCallSignatures().length > 0) return "function";
+    return this.node.getReturnType().getText();
   }
 
   public get uri() {

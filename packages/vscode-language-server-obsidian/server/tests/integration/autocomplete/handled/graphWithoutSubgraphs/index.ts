@@ -12,11 +12,10 @@ export default {
   result: [
     {
       label: 'bar',
-      // TODO: Use correct kind
-      kind: CompletionItemKind.Class,
+      kind: CompletionItemKind.Value,
       insertText: 'bar: string',
       insertTextFormat: InsertTextFormat.Snippet,
-      detail: 'string'
+      detail: '(string) bar: string'
     }
   ]
 } satisfies CompletionTestCase;

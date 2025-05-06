@@ -3,7 +3,7 @@ import { CompletionTestCase } from "../../..";
 import * as path from 'path';
 
 export default {
-  name: 'graph with subgraph and shadowed dependency',
+  name: 'graph with subgraph that provides model',
   entryPoint: path.resolve(__dirname, './sourceCodes/graphWithSubgraph.ts'),
   position: {
     line: 6,
@@ -18,11 +18,11 @@ export default {
       detail: '(string) bar: string'
     },
     {
-      label: 'baz',
-      kind: CompletionItemKind.Value,
-      insertText: 'baz: string',
+      label: 'fooModel',
+      kind: CompletionItemKind.Class,
+      insertText: 'fooModel: FooModel',
       insertTextFormat: InsertTextFormat.Snippet,
-      detail: '(string) baz: string'
+      detail: '(class) fooModel: FooModel'
     }
   ]
 } satisfies CompletionTestCase;

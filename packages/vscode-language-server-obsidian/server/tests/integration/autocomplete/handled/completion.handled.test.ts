@@ -9,12 +9,16 @@ import * as path from 'path';
 import graphWithSubgraph from "./graphWithSubgraph";
 import graphWithSubgraphAndShadowdeDependency from "./graphWithSubgraphAndShadowdeDependency";
 import graphThatProvidesImportedClass from "./graphThatProvidesImportedClass";
+import graphThatProvidesHook from "./graphThatProvidesHook";
+import graphWithSubgraphThatProvidesModel from "./graphWithSubgraphThatProvidesModel";
 
 const testCases: CompletionTestCase[] = [
   graphWithoutSubgraphs,
   graphWithSubgraph,
   graphWithSubgraphAndShadowdeDependency,
-  graphThatProvidesImportedClass
+  graphThatProvidesImportedClass,
+  graphThatProvidesHook,
+  graphWithSubgraphThatProvidesModel
 ];
 
 describe('Handled Completion', () => {
