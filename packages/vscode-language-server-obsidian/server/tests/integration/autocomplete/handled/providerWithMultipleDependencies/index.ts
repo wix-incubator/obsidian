@@ -4,10 +4,10 @@ import * as path from 'path';
 
 export default {
   name: 'provider with multiple dependencies',
-  entryPoint: path.resolve(__dirname, './sourceCodes/grap.ts'),
+  entryPoint: path.resolve(__dirname, './sourceCodes/graph.ts'),
   position: {
     line: 5,
-    character: 12
+    character: 26
   },
   result: [
     {
@@ -16,6 +16,13 @@ export default {
       insertText: 'bar: string',
       insertTextFormat: InsertTextFormat.Snippet,
       detail: '(string) bar: string'
+    },
+    {
+      label: 'baz',
+      kind: CompletionItemKind.Value,
+      insertText: 'baz: string',
+      insertTextFormat: InsertTextFormat.Snippet,
+      detail: '(string) baz: string'
     }
   ]
 } satisfies CompletionTestCase;

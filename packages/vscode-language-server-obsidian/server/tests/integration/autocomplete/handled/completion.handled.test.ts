@@ -11,6 +11,7 @@ import graphWithSubgraphAndShadowdeDependency from "./graphWithSubgraphAndShadow
 import graphThatProvidesImportedClass from "./graphThatProvidesImportedClass";
 import graphThatProvidesHook from "./graphThatProvidesHook";
 import graphWithSubgraphThatProvidesModel from "./graphWithSubgraphThatProvidesModel";
+import providerWithMultipleDependencies from "./providerWithMultipleDependencies";
 
 const testCases: CompletionTestCase[] = [
   graphWithoutSubgraphs,
@@ -18,7 +19,8 @@ const testCases: CompletionTestCase[] = [
   graphWithSubgraphAndShadowdeDependency,
   graphThatProvidesImportedClass,
   graphThatProvidesHook,
-  graphWithSubgraphThatProvidesModel
+  graphWithSubgraphThatProvidesModel,
+  providerWithMultipleDependencies
 ];
 
 describe('Handled Completion', () => {

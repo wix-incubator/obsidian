@@ -3,7 +3,7 @@ import { graph, provides } from 'react-obsidian';
 @graph()
 export class GraphWithoutSubgraphs {
   @provides()
-  public foo(bar: string) {
+  public foo(bar: string,) {
     return bar + 'foo';
   }
 

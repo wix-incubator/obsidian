@@ -31,7 +31,8 @@ export class CompletionCommand {
 
   private isInProvidesFunction(node: Node | undefined): boolean {
     const parent = node?.getParentIfKind(SyntaxKind.MethodDeclaration);
-    return hasDecorator(parent, ['provides', 'Provides']);
+    const grandparent = node?.getParent()?.getParentIfKind(SyntaxKind.MethodDeclaration);
+    return hasDecorator(parent, ['provides', 'Provides']) || hasDecorator(grandparent, ['provides', 'Provides']);
   }
 
   private logCommand(node: Node | undefined, sourceFile: SourceFile, params: CompletionParams) {
