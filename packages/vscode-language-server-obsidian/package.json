@@ -1,10 +1,10 @@
 {
   "name": "vscode-language-server-obsidian",
   "displayName": "Obsidian Language Service",
-  "description": "Go to definition support for Obsidian dependency injection framework",
+  "description": "Intellisense support for Obsidian dependency injection framework",
   "publisher": "guycarmeli",
   "icon": "obsidian.png",
-  "version": "0.2.0",
+  "version": "0.3.1",
   "license": "ISC",
   "main": "./client/dist/extension.js",
   "scripts": {

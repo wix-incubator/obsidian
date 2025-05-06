@@ -1,17 +1,21 @@
-import { Definition, Position } from "vscode-languageserver/node";
+import { Definition, Position, CompletionItem } from "vscode-languageserver/node";
 
 type Path = string;
 
-export declare type IgnoredTestCase = Omit<TestCase, 'result'>;
+export type DefinitionTestCase = TestCase<Definition>;
+export type UnhandledDefinitionTestCase = Omit<DefinitionTestCase, 'result'>;
 
-export declare type TestCase = {
+export type CompletionTestCase = TestCase<CompletionItem[]>;
+export type UnhandledCompletionTestCase = Omit<CompletionTestCase, 'result'>;
+
+type TestCase<T> = {
   name: string;
   entryPoint: Path;
   position: Position;
-  result: Definition;
+  result: T;
 };
 
-declare type SourceCode = {
+type SourceCode = {
   path: Path;
   content: string;
 };

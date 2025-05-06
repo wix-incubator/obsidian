@@ -4,6 +4,7 @@ import { ClassDeclaration, Expression, SyntaxKind, Node } from "ts-morph";
 import { ProjectAdapter } from "../services/project/projectAdapter";
 import { isDefined } from "../utils/objects";
 import { getDefinition } from "../utils/ts/identifier";
+import { DedupeSet } from "../utils/dedupeSet";
 
 export class Graph {
   constructor (private project: ProjectAdapter, private node: ClassDeclaration) { }
@@ -33,14 +34,12 @@ export class Graph {
   }
 
   public findProvider(name: string) {
-    const provider = this.getProviders().find(
-      provider => provider.getName() === name.replace(/^_/, '')
-    );
-    return provider && new Provider(provider);
+    return this.getProviders().find(provider => provider.name === name);
   }
 
   public getProviders() {
-    return getDecoratedMethods(this.node, ['Provides', 'provides']);
+    const providers = getDecoratedMethods(this.node, ['Provides', 'provides']);
+    return providers.map(method => new Provider(method));
   }
 
   public getSubgraphs(): Graph[] {
@@ -58,5 +57,11 @@ export class Graph {
     const graphDecorator = getDecorator(this.node, ['Graph', 'graph']);
     const subgraphsArg = graphDecorator?.getArgument(0, 'subgraphs');
     return Node.isArrayLiteralExpression(subgraphsArg) ? subgraphsArg.getElements() : [];
+  }
+
+  public resolveProviders(dedupeSet = new DedupeSet()): Provider[] {
+    const providers = this.getProviders().filter(provider => dedupeSet.dedupe(provider.name));
+    const subgraphProviders = this.getSubgraphs().flatMap(subgraph => subgraph.resolveProviders(dedupeSet));
+    return [...providers, ...subgraphProviders];
   }
 }

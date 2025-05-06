@@ -4,22 +4,29 @@ import {
   TextDocumentPositionParams,
   Definition,
   DidChangeConfigurationParams,
+  CompletionItem,
+  CompletionParams,
 } from 'vscode-languageserver/node';
 import { DefinitionCommand } from './commands/definition/definitionCommand';
+import { CompletionCommand } from './commands/completion/completionCommand';
 import { Logger } from './services/logger';
 import { InitializeHandler } from './lsp/handlers/initializeHandler';
 import { ProjectAdapter } from './services/project/projectAdapter';
 import { ProjectRegistry } from './services/project/projectRegistry';
 import { TsConfigParser } from './services/tsConfig/tsconfigParser';
 import { ConfigurationChangeHandler } from './lsp/handlers/configurationChangeHandler';
+import { ChangeTextHandler } from './lsp/handlers/changeTextHandler';
+import { FileOpenHandler } from './lsp/handlers/fileOpenHandler';
 
 const connection = createConnection(ProposedFeatures.all);
 export const logger = new Logger(connection);
 const tsconfigParser = new TsConfigParser();
 const projectRegistry = new ProjectRegistry(logger, tsconfigParser);
-const projectAdapter = new ProjectAdapter(projectRegistry, logger);
+const projectAdapter = new ProjectAdapter(projectRegistry);
 const initializeHandler = new InitializeHandler(logger);
 const configurationChangeHandler = new ConfigurationChangeHandler(logger);
+const changeTextHandler = new ChangeTextHandler(projectAdapter);
+const fileOpenHandler = new FileOpenHandler(projectAdapter);
 
 connection.onInitialize(() => {
   return initializeHandler.handle();
@@ -40,6 +47,27 @@ connection.onDefinition((params: TextDocumentPositionParams): Promise<Definition
       logger.error(`❌ Error in go to definition: ${error}`);
       return undefined;
     });
+});
+
+connection.onCompletion((params: CompletionParams): Promise<CompletionItem[]> => {
+  return new CompletionCommand(projectAdapter, logger)
+    .getCompletions(params)
+    .then((completions: CompletionItem[]) => {
+      logger.info(`✅ Found ${completions.length} completions`);
+      return completions;
+    })
+    .catch((error: Error) => {
+      logger.error(`❌ Error in completion: ${error}`);
+      return [];
+    });
+});
+
+connection.onDidChangeTextDocument(params => {
+  changeTextHandler.handle(params);
+});
+
+connection.onDidOpenTextDocument(params => {
+  fileOpenHandler.handle(params);
 });
 
 connection.onShutdown(() => {

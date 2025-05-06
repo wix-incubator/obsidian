@@ -1,12 +1,12 @@
 import { Decorator } from '../../dto/decorator';
 import { Node, SyntaxKind, MethodDeclaration, ClassDeclaration } from 'ts-morph';
 
-export function hasDecorator(node: MethodDeclaration, decoratorNames: string[]): boolean {
+export function hasDecorator(node: MethodDeclaration | undefined, decoratorNames: string[]): boolean {
   return getDecorator(node, decoratorNames) !== undefined;
 }
 
-export function getDecorator(node: MethodDeclaration | ClassDeclaration, decoratorNames: string[]): Decorator | undefined {
-  if (!node.getDecorators()) return undefined;
+export function getDecorator(node: MethodDeclaration | ClassDeclaration | undefined, decoratorNames: string[]): Decorator | undefined {
+  if (!node?.getDecorators()) return undefined;
   for (const decorator of node.getDecorators()) {
     const decoratorName = decorator.getExpression().getChildren()[0].getText();
     if (decoratorNames.includes(decoratorName)) {
