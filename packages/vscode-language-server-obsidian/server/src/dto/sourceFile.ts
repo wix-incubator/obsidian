@@ -1,5 +1,5 @@
 import { SourceFile as TsMorphSourceFile } from "ts-morph";
-import { Position } from "vscode-languageserver";
+import { Position, TextDocumentContentChangeEvent } from "vscode-languageserver";
 
 export class SourceFile {
   constructor (private sourceFile: TsMorphSourceFile) { }
@@ -14,5 +14,9 @@ export class SourceFile {
       $position.character
     );
     return this.sourceFile.getDescendantAtPos(position);
+  }
+
+  public update(newContent: string) {
+    this.sourceFile.replaceWithText(newContent);
   }
 }

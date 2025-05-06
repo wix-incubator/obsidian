@@ -40,4 +40,4 @@ export class CompletionCommand {
     this.logger.debug(`Source file: ${sourceFile.filePath}`);
     this.logger.debug(`Current node: ${node?.getText()}`);
   }
-} 
+}

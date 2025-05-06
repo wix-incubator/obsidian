@@ -15,14 +15,18 @@ import { ProjectAdapter } from './services/project/projectAdapter';
 import { ProjectRegistry } from './services/project/projectRegistry';
 import { TsConfigParser } from './services/tsConfig/tsconfigParser';
 import { ConfigurationChangeHandler } from './lsp/handlers/configurationChangeHandler';
+import { ChangeTextHandler } from './lsp/handlers/changeTextHandler';
+import { FileOpenHandler } from './lsp/handlers/fileOpenHandler';
 
 const connection = createConnection(ProposedFeatures.all);
 export const logger = new Logger(connection);
 const tsconfigParser = new TsConfigParser();
 const projectRegistry = new ProjectRegistry(logger, tsconfigParser);
-const projectAdapter = new ProjectAdapter(projectRegistry, logger);
+const projectAdapter = new ProjectAdapter(projectRegistry);
 const initializeHandler = new InitializeHandler(logger);
 const configurationChangeHandler = new ConfigurationChangeHandler(logger);
+const changeTextHandler = new ChangeTextHandler(projectAdapter);
+const fileOpenHandler = new FileOpenHandler(projectAdapter);
 
 connection.onInitialize(() => {
   return initializeHandler.handle();
@@ -56,6 +60,14 @@ connection.onCompletion((params: CompletionParams): Promise<CompletionItem[]> =>
       logger.error(`❌ Error in completion: ${error}`);
       return [];
     });
+});
+
+connection.onDidChangeTextDocument(params => {
+  changeTextHandler.handle(params);
+});
+
+connection.onDidOpenTextDocument(params => {
+  fileOpenHandler.handle(params);
 });
 
 connection.onShutdown(() => {
