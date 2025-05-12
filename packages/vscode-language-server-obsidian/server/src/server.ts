@@ -19,7 +19,7 @@ import { ChangeTextHandler } from './lsp/handlers/changeTextHandler';
 import { FileOpenHandler } from './lsp/handlers/fileOpenHandler';
 
 const connection = createConnection(ProposedFeatures.all);
-export const logger = new Logger(connection);
+const logger = new Logger(connection);
 const tsconfigParser = new TsConfigParser();
 const projectRegistry = new ProjectRegistry(logger, tsconfigParser);
 const projectAdapter = new ProjectAdapter(projectRegistry);

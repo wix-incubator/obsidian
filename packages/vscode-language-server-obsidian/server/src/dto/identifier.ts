@@ -1,6 +1,5 @@
-import { Node, SyntaxKind } from "ts-morph";
+import { Node, Identifier as TSMorphIdentifier } from "ts-morph";
 import { hasParentWithDecorator } from "../utils/ts/decorators";
-import { Identifier as TSMorphIdentifier } from "ts-morph";
 import { assertIdentifier } from "../utils/ts/assertions";
 
 export class Identifier {
@@ -12,13 +11,9 @@ export class Identifier {
   }
 
   public isInjected(): boolean {
-    if (!Node.isIdentifier(this.node)) return false;
-    for (const reference of this.node.findReferencesAsNodes()) {
-      if (hasParentWithDecorator(reference, ['Provides', 'provides'])) {
-        return true;
-      }
-    }
-    return false;
+    return this.node.findReferencesAsNodes().some(
+      reference => hasParentWithDecorator(reference, ['Provides', 'provides'])
+    );
   }
 
   public isHook(): boolean {

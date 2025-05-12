@@ -1,7 +1,5 @@
 import { DefinitionCommand } from "../../../../src/commands/definition/definitionCommand";
 import { StrategyFactory } from "../../../../src/commands/definition/strategies/goToDefinitionStrategyFactory";
-import { ProjectAdapter } from "../../../../src/services/project/projectAdapter";
-import { mock } from "jest-mock-extended";
 import { DefinitionTestCase } from "../..";
 import injectedHook from "./injectedHook";
 import dependencyInSameGraph from "./dependencyInSameGraph";
@@ -10,13 +8,13 @@ import injectedClass from "./injectedClass";
 import injectedHookDifferentInjectedTypeName from "./injectedHookDifferentInjectedTypeName";
 import injectedExportDefaultClass from "./injectedExportDefaultClass";
 import injectedHookDependenciesOfTypeAlias from "./injectedHookDependenciesOfTypeAlias";
-import * as path from 'path';
-import { ProjectRegistry } from "../../../../src/services/project/projectRegistry";
 import injectedHookTypedProvider from "./injectedHookTypedProvider";
 import injectedClassDependenciesOfTypeAlias from "./injectedClassDependenciesOfTypeAlias";
-import { TsConfigParser } from "../../../../src/services/tsConfig/tsconfigParser";
 import injectedExportDefaultGraph from "./injectedExportDefaultGraph";
 import dependencyInExportDefaultSubgraph from "./dependencyInExportDefaultSubgraph";
+import { createParams } from "../../utils/createParams";
+import { createTestProjectAdapter } from "../../utils/createTestProjectAdapter";
+import { FakeLogger } from "../../fakes/fakeLogger";
 
 const testCases: DefinitionTestCase[] = [
   injectedHook,
@@ -33,28 +31,16 @@ const testCases: DefinitionTestCase[] = [
 ];
 
 describe('GoToDefinition', () => {
-  let projectAdapter: ProjectAdapter;
   let uut: DefinitionCommand;
 
   beforeEach(() => {
-    const projectRegistry = new ProjectRegistry(
-      mock(),
-      new TsConfigParser(),
-      { overrideTsConfigPath: path.resolve(__dirname, '../../tsconfig.tests.json') }
-    );
-    projectAdapter = new ProjectAdapter(projectRegistry);
-    uut = new DefinitionCommand(projectAdapter, mock(), new StrategyFactory(projectAdapter, mock()));
+    const projectAdapter = createTestProjectAdapter();
+    const logger = new FakeLogger();
+    uut = new DefinitionCommand(projectAdapter, logger, new StrategyFactory(projectAdapter, logger));
   });
 
   it.each(testCases.map(testCase => [testCase.name, testCase]))('should go to definition for %s', async (_name: string, testCase: DefinitionTestCase) => {
     const result = await uut.onDefinition(createParams(testCase));
     expect(result).toEqual(testCase.result);
   });
-
-  function createParams(testCase: DefinitionTestCase) {
-    return {
-      textDocument: { uri: testCase.entryPoint },
-      position: testCase.position
-    };
-  }
 });
