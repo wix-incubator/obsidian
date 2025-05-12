@@ -28,13 +28,13 @@ export class ProjectRegistry {
     if (!this.projects.has(tsConfigPath)) {
       const tsConfig = this.tsconfigParser.parse(tsConfigPath);
       this.logger.debug(`Parsed tsconfig: ${tsConfigPath}`);
-      const tempTsConfigPath = this.createProject(tsConfig);
+      const tempTsConfigPath = this.saveConfigToTempFile(tsConfig);
       const project = new Project({ tsConfigFilePath: tempTsConfigPath });
       this.projects.set(tsConfigPath, project);
     }
   }
 
-  private createProject(tsConfig: TsConfig) {
+  private saveConfigToTempFile(tsConfig: TsConfig) {
     const tempDir = path.join(os.tmpdir(), 'obsidian-language-server');
     const tempTsConfigPath = path.join(tempDir, `tsconfig-${Date.now()}.json`);
     try {

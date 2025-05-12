@@ -28,8 +28,7 @@ export class StrategyFactory {
   private getType(node: Node) {
     const identifier = new Identifier(node);
     if (identifier.isProviderDependency()) return 'provider';
-    if (identifier.isInjected() && identifier.isHook()) return 'hook';
-    if (identifier.isInjected()) return 'injected';
+    if (identifier.isInjected()) return identifier.isHook() ? 'hook' : 'injected';
     return 'unknown';
   }
 }

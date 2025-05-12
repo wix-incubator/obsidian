@@ -8,10 +8,13 @@ export type UnhandledDefinitionTestCase = Omit<DefinitionTestCase, 'result'>;
 export type CompletionTestCase = TestCase<CompletionItem[]>;
 export type UnhandledCompletionTestCase = Omit<CompletionTestCase, 'result'>;
 
-type TestCase<T> = {
+export type TestCaseParams = {
   name: string;
   entryPoint: Path;
   position: Position;
+};
+
+export type TestCase<T> = TestCaseParams & {
   result: T;
 };
 
