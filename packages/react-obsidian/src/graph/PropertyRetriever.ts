@@ -54,9 +54,10 @@ export default class PropertyRetriever {
     circularDependenciesDetector: CircularDependenciesDetector,
     receiver: unknown,
   ): unknown[] {
-    const subgraphs = graphRegistry.getSubgraphs(this.graph);
-    return subgraphs
-      .map((subgraph: Graph) => subgraph.retrieve(property, receiver, circularDependenciesDetector))
-      .filter((result) => result !== undefined);
+    for (const subgraph of graphRegistry.getSubgraphs(this.graph)) {
+      const result = subgraph.retrieve(property, receiver, circularDependenciesDetector);
+      if (result) return [result];
+    }
+    return [];
   }
 }

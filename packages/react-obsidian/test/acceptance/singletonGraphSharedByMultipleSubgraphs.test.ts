@@ -8,7 +8,7 @@ import {
 
 describe('Singleton graph shared by multiple subgraphs', () => {
   it('should be able to retrieve a singleton from a subgraph', () => {
-    expect(Obsidian.obtain(AppGraph).AppClient()).toBe('AppClienthttpClient');
+    expect(Obsidian.obtain(AppGraph).appClient()).toBe('AppClienthttpClient');
   });
 });
 
@@ -39,7 +39,7 @@ class Model2Graph extends ObjectGraph {
 @singleton() @graph({ subgraphs: [Model1Graph, Model2Graph] })
 class AppGraph extends ObjectGraph {
   @provides()
-  AppClient(httpClient: any) {
+  appClient(httpClient: any) {
     return 'AppClient' + httpClient;
   }
 }
