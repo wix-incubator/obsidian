@@ -2,10 +2,10 @@ import graphRegistry from './registry/GraphRegistry';
 import { Graph } from './Graph';
 import providedPropertiesStore from '../ProvidedPropertiesStore';
 import { CircularDependenciesDetector } from './CircularDependenciesDetector';
-import {Reflect} from '../utils/reflect';
+import { Reflect } from '../utils/reflect';
 
 export default class PropertyRetriever {
-  constructor(private graph: Graph) { }
+  constructor (private graph: Graph) { }
 
   retrieve(
     property: string,
@@ -33,8 +33,8 @@ export default class PropertyRetriever {
     if (circularDependenciesDetector.hasCircularDependencies()) {
       throw new Error(
         `Could not resolve ${circularDependenciesDetector.firstDependencyName}`
-         + ` from ${circularDependenciesDetector.graphName} because of a circular dependency:`
-         + ` ${circularDependenciesDetector.getDependencies().join(' -> ')}`,
+        + ` from ${circularDependenciesDetector.graphName} because of a circular dependency:`
+        + ` ${circularDependenciesDetector.getDependencies().join(' -> ')}`,
       );
     }
 
