@@ -38,26 +38,18 @@ export default class PropertyRetriever {
       );
     }
 
-    const results = this.getFromSubgraphs(property, circularDependenciesDetector, receiver);
-    if (results.length === 1) return results[0];
-    if (results.length > 1) {
-      throw new Error(
-        `Multiple subgraphs provide the property ${property}.`
-        + 'You should probably provide a unique name to one of the providers: @Provide({name: \'uniqueName\')})',
-      );
-    }
-    return undefined;
+    return this.getFromSubgraphs(property, circularDependenciesDetector, receiver);
   }
 
   private getFromSubgraphs(
     property: string,
     circularDependenciesDetector: CircularDependenciesDetector,
     receiver: unknown,
-  ): unknown[] {
+  ): unknown | undefined {
     for (const subgraph of graphRegistry.getSubgraphs(this.graph)) {
       const result = subgraph.retrieve(property, receiver, circularDependenciesDetector);
-      if (result) return [result];
+      if (result) return result;
     }
-    return [];
+    return undefined;
   }
 }
