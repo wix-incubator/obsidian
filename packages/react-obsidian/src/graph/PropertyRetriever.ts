@@ -2,10 +2,10 @@ import graphRegistry from './registry/GraphRegistry';
 import { Graph } from './Graph';
 import providedPropertiesStore from '../ProvidedPropertiesStore';
 import { CircularDependenciesDetector } from './CircularDependenciesDetector';
-import {Reflect} from '../utils/reflect';
+import { Reflect } from '../utils/reflect';
 
 export default class PropertyRetriever {
-  constructor(private graph: Graph) { }
+  constructor (private graph: Graph) { }
 
   retrieve(
     property: string,
@@ -33,30 +33,23 @@ export default class PropertyRetriever {
     if (circularDependenciesDetector.hasCircularDependencies()) {
       throw new Error(
         `Could not resolve ${circularDependenciesDetector.firstDependencyName}`
-         + ` from ${circularDependenciesDetector.graphName} because of a circular dependency:`
-         + ` ${circularDependenciesDetector.getDependencies().join(' -> ')}`,
+        + ` from ${circularDependenciesDetector.graphName} because of a circular dependency:`
+        + ` ${circularDependenciesDetector.getDependencies().join(' -> ')}`,
       );
     }
 
-    const results = this.getFromSubgraphs(property, circularDependenciesDetector, receiver);
-    if (results.length === 1) return results[0];
-    if (results.length > 1) {
-      throw new Error(
-        `Multiple subgraphs provide the property ${property}.`
-        + 'You should probably provide a unique name to one of the providers: @Provide({name: \'uniqueName\')})',
-      );
-    }
-    return undefined;
+    return this.getFromSubgraphs(property, circularDependenciesDetector, receiver);
   }
 
   private getFromSubgraphs(
     property: string,
     circularDependenciesDetector: CircularDependenciesDetector,
     receiver: unknown,
-  ): unknown[] {
-    const subgraphs = graphRegistry.getSubgraphs(this.graph);
-    return subgraphs
-      .map((subgraph: Graph) => subgraph.retrieve(property, receiver, circularDependenciesDetector))
-      .filter((result) => result !== undefined);
+  ): unknown | undefined {
+    for (const subgraph of graphRegistry.getSubgraphs(this.graph)) {
+      const result = subgraph.retrieve(property, receiver, circularDependenciesDetector);
+      if (result) return result;
+    }
+    return undefined;
   }
 }
