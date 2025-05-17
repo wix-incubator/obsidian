@@ -15,6 +15,7 @@ import dependencyInExportDefaultSubgraph from "./dependencyInExportDefaultSubgra
 import { createParams } from "../../utils/createParams";
 import { createTestProjectAdapter } from "../../utils/createTestProjectAdapter";
 import { FakeLogger } from "../../fakes/fakeLogger";
+import dependencyInNestedSubgraph from "./dependencyInNestedSubgraph";
 
 const testCases: DefinitionTestCase[] = [
   injectedHook,
@@ -27,7 +28,8 @@ const testCases: DefinitionTestCase[] = [
   injectedClassDependenciesOfTypeAlias,
   injectedHookTypedProvider,
   injectedExportDefaultGraph,
-  dependencyInExportDefaultSubgraph
+  dependencyInExportDefaultSubgraph,
+  dependencyInNestedSubgraph
 ];
 
 describe('GoToDefinition', () => {
