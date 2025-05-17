@@ -20,11 +20,9 @@ export class Graph {
   }
 
   private requireProviderFromSubgraphs(providerName: string): Provider {
-    const subgraphs = this.getSubgraphs();
-    for (const graph of subgraphs) {
-      if (graph.hasProvider(providerName)) {
-        return graph.resolveProvider(providerName);
-      }
+    for (const graph of this.getSubgraphs()) {
+      const result = graph.resolveProvider(providerName);
+      if (result) return result;
     }
     throw new Error(`Provider ${providerName} not found in graph ${this.node.getName()}`);
   }
