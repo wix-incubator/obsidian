@@ -66,7 +66,12 @@ export class TsConfigParser {
     let mergedConfig: TsConfig = this.createEmptyConfig();
     for (const reference of rootConfig.references) {
       const referencePath = path.resolve(baseDir, reference.path);
+      const referenceDir = path.dirname(referencePath);
       const referenceConfig = this.readJsonFile(referencePath);
+
+      // Convert paths in the reference config relative to its own directory
+      this.relativeToAbsoluteConverter.convert(referenceConfig, referenceDir);
+
       this.mergeConfig(mergedConfig, referenceConfig);
     }
     return mergedConfig;
