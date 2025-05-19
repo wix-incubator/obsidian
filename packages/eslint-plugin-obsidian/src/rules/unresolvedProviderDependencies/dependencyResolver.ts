@@ -3,7 +3,7 @@ import type { Import } from '../../dto/import';
 import type { Clazz } from '../../dto/class';
 import type { SubgraphResolver } from './subgraphResolver';
 import type { Context } from '../../dto/context';
-import type { SimpleClassResolver } from '../../ast/services/classResolver/classResolver';
+import type { SimpleClassResolver } from '../../ast/services/classResolver/simpleClassResolver';
 
 export class DependencyResolver {
   constructor(

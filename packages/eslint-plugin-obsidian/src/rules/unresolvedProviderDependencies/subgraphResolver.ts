@@ -4,7 +4,7 @@ import { ClassFile } from '../../dto/classFile';
 import type { Property } from '../../dto/property';
 import { File } from '../../dto/file';
 import type { FileReader } from '../../framework/fileReader';
-import { SimpleClassResolver } from '../../ast/services/classResolver/classResolver';
+import { SimpleClassResolver } from '../../ast/services/classResolver/simpleClassResolver';
 import { nonNull } from '../../utils/filter';
 
 export class SubgraphResolver {

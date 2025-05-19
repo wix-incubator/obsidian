@@ -6,7 +6,7 @@ import { FileReader } from '../../framework/fileReader';
 import { DependencyResolver } from './dependencyResolver';
 import { Import } from '../../dto/import';
 import { SubgraphResolver } from './subgraphResolver';
-import { SimpleClassResolver } from '../../ast/services/classResolver/classResolver';
+import { SimpleClassResolver } from '../../ast/services/classResolver/simpleClassResolver';
 
 export function create(context: Context, fileReader: FileReader) {
   const imports: Import[] = [];
