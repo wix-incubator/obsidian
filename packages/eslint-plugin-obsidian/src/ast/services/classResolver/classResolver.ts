@@ -1,5 +1,5 @@
-import type { ClassFile } from '../../dto/classFile';
-import type { FileReader } from '../../framework/fileReader';
+import type { ClassFile } from '../../../dto/classFile';
+import type { FileReader } from '../../../framework/fileReader';
 
 export class ClassResolver {
   constructor(private fileReader: FileReader) { }

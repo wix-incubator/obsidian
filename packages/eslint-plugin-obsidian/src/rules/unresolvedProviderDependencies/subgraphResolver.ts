@@ -4,7 +4,7 @@ import { ClassFile } from '../../dto/classFile';
 import type { Property } from '../../dto/property';
 import { File } from '../../dto/file';
 import type { FileReader } from '../../framework/fileReader';
-import { ClassResolver } from './classResolver';
+import { ClassResolver } from '../../ast/services/classResolver/classResolver';
 import { nonNull } from '../../utils/filter';
 
 export class SubgraphResolver {
@@ -16,8 +16,8 @@ export class SubgraphResolver {
       ...this.getLocalGraphs(clazz),
       ...this.getExtendedGraphs(clazz),
     ]
-    .filter(nonNull)
-    .flatMap((g) => [g, ...this.resolve(g)]);
+      .filter(nonNull)
+      .flatMap((g) => [g, ...this.resolve(g)]);
   }
 
   private getImportedGraphs(clazz: ClassFile) {
@@ -49,7 +49,7 @@ export class SubgraphResolver {
     return [this.classResolver.resolve(clazz.superClass, clazz)];
   }
 
-  private getSubgraphsPropertyFromGraphDecorator({clazz}: ClassFile) {
+  private getSubgraphsPropertyFromGraphDecorator({ clazz }: ClassFile) {
     if (clazz.isAbstract) return undefined;
     const graphDecorator = clazz.requireDecoratorIgnoreCase('Graph');
     return graphDecorator.getProperty('subgraphs');
@@ -62,7 +62,7 @@ export class SubgraphResolver {
     return this.createLocalGraphClasses(clazz, localGraphNames);
   }
 
-  private createLocalGraphClasses({clazz, imports, path}: ClassFile, localGraphNames: string[]) {
+  private createLocalGraphClasses({ clazz, imports, path }: ClassFile, localGraphNames: string[]) {
     if (localGraphNames.length === 0) return [];
     const parent = new File(requireProgram(clazz.node), path);
     return localGraphNames.map((localGraphName) => {
@@ -77,7 +77,7 @@ export class SubgraphResolver {
     );
   }
 
-  private getLocalGraphNames(subgraphs: string[], {imports}: ClassFile) {
+  private getLocalGraphNames(subgraphs: string[], { imports }: ClassFile) {
     return subgraphs.filter((subgraph) => {
       return imports.some(($import) => {
         return $import.includes(subgraph);
