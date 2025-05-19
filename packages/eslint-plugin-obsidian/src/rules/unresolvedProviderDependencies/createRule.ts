@@ -6,13 +6,13 @@ import { FileReader } from '../../framework/fileReader';
 import { DependencyResolver } from './dependencyResolver';
 import { Import } from '../../dto/import';
 import { SubgraphResolver } from './subgraphResolver';
-import { ClassResolver } from '../../ast/services/classResolver/classResolver';
+import { SimpleClassResolver } from '../../ast/services/classResolver/classResolver';
 
 export function create(context: Context, fileReader: FileReader) {
   const imports: Import[] = [];
   const dependencyResolver = new DependencyResolver(
-    new SubgraphResolver(fileReader, new ClassResolver(fileReader)),
-    new ClassResolver(fileReader),
+    new SubgraphResolver(fileReader, new SimpleClassResolver(fileReader)),
+    new SimpleClassResolver(fileReader),
   );
   const graphHandler = new GraphHandler(context, dependencyResolver);
 

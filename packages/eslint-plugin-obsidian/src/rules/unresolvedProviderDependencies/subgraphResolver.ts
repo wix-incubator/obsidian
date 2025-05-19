@@ -4,11 +4,11 @@ import { ClassFile } from '../../dto/classFile';
 import type { Property } from '../../dto/property';
 import { File } from '../../dto/file';
 import type { FileReader } from '../../framework/fileReader';
-import { ClassResolver } from '../../ast/services/classResolver/classResolver';
+import { SimpleClassResolver } from '../../ast/services/classResolver/classResolver';
 import { nonNull } from '../../utils/filter';
 
 export class SubgraphResolver {
-  constructor(private fileReader: FileReader, private classResolver: ClassResolver) { }
+  constructor(private fileReader: FileReader, private classResolver: SimpleClassResolver) { }
 
   public resolve(clazz: ClassFile): ClassFile[] {
     return [

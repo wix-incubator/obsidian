@@ -3,12 +3,12 @@ import type { Import } from '../../dto/import';
 import type { Clazz } from '../../dto/class';
 import type { SubgraphResolver } from './subgraphResolver';
 import type { Context } from '../../dto/context';
-import type { ClassResolver } from '../../ast/services/classResolver/classResolver';
+import type { SimpleClassResolver } from '../../ast/services/classResolver/classResolver';
 
 export class DependencyResolver {
   constructor(
     private subgraphResolver: SubgraphResolver,
-    private classResolver: ClassResolver,
+    private classResolver: SimpleClassResolver,
   ) { }
 
   public resolve(context: Context, clazz: Clazz, imports: Import[]) {
