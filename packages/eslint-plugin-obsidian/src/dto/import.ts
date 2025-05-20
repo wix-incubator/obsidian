@@ -1,7 +1,7 @@
 import type { TSESTree } from '@typescript-eslint/types';
 
 export class Import {
-  constructor(private node: TSESTree.ImportDeclaration) { }
+  constructor(public readonly node: TSESTree.ImportDeclaration) { }
 
   get path() {
     return this.node.source.value;

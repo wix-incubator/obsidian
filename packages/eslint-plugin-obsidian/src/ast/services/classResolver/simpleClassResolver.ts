@@ -1,7 +1,8 @@
 import type { ClassFile } from '../../../dto/classFile';
 import type { FileReader } from '../../../framework/fileReader';
+import { ClassResolver } from './classResolver';
 
-export class SimpleClassResolver {
+export class SimpleClassResolver implements ClassResolver {
   constructor(private fileReader: FileReader) { }
 
   public resolve(clazz: string, from: ClassFile) {
