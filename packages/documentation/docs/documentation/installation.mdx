@@ -89,7 +89,8 @@ module.exports = {
   plugins: [
     // Added lines start
     'react-obsidian/dist/transformers/babel-plugin-obsidian',
-    ['@babel/plugin-proposal-decorators', {version: 'legacy'}],
+    ['@babel/plugin-transform-class-static-block'], // Depending on your project, you may need to add this plugin as well
+    ['@babel/plugin-proposal-decorators', {version: '2023-11'}], // Both 2023-11 and legacy versions are supported
     // Added lines end
   ]
 };
