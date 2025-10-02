@@ -48,8 +48,11 @@
     "eslint-plugin-import-newlines": "^1.1.5",
     "eslint-plugin-jest-formatting": "^3.1.0",
     "eslint-plugin-unused-imports": "^4.1.4",
+    "external-lib-a": "file:./tests/fixtures/external-lib-a",
+    "external-lib-b": "file:./tests/fixtures/external-lib-b",
     "jest": "^29.7.0",
     "jest-extended": "^4.0.2",
+    "react-obsidian": "workspace:*",
     "typescript": "^5.8.0"
   },
   "keywords": [

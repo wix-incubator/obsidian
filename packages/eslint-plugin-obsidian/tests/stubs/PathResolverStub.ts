@@ -1,10 +1,21 @@
 import { PathResolver } from '../../src/framework/pathResolver';
 
-export class PathResolverStub implements PathResolver {
+export class PathResolverStub extends PathResolver {
 
-  public resolve(_baseFilePath: string, relativeFilePath: string): string {
+  public override resolve(baseFilePath: string, relativeFilePath: string): string {
+    if (this.$isRelativePath(relativeFilePath)) {
+      return this.$resolveRelativePath(relativeFilePath);
+    }
+    return super.resolve(baseFilePath, relativeFilePath);
+  }
+
+  private $isRelativePath(filePath: string) {
+    return filePath.startsWith('./') || filePath.startsWith('../');
+  }
+
+  private $resolveRelativePath(relativeFilePath: string) {
     const cwd = process.cwd();
-    switch(relativeFilePath) {
+    switch (relativeFilePath) {
       case './subgraph':
         return `${cwd}/tests/unresolvedProviderDependencies/fixtures/subgraph.ts`;
       case './graphWithSubgraph':

@@ -168,3 +168,16 @@ class GraphB extends GraphA {
   }
 }
 `;
+
+export const validGraphWithExternalSubgraph = `
+import { Graph, ObjectGraph, Provides } from 'src';
+import { ExternalGraphB } from 'external-lib-b';
+
+@Graph({ subgraphs: [ExternalGraphB] })
+export default class GraphA extends ObjectGraph {
+  @Provides()
+  foo(complexExternalDepB: string): string {
+    return 'foo' + complexExternalDepB;
+  }
+}
+`;

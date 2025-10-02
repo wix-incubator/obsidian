@@ -12,6 +12,7 @@ import {
   validGraphWithSubgraphThatExtendsAnotherGraph,
   validLifecycleBoundGraphWithSubgraph,
   validGraphThatExtendsAnotherConcreteGraph,
+  validGraphWithExternalSubgraph,
 } from './fixtures/validGraphs';
 import { invalidGraph } from './fixtures/invalidGraphs';
 
@@ -32,6 +33,7 @@ ruleTester.run(
       validGraphThatExtendsAnotherGraph,
       validGraphWithSubgraphThatExtendsAnotherGraph,
       validGraphThatExtendsAnotherConcreteGraph,
+      validGraphWithExternalSubgraph,
     ],
     invalid: [
       {
