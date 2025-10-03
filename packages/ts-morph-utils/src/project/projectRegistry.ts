@@ -1,27 +1,50 @@
 import { Project } from "ts-morph";
 import * as path from 'path';
 import * as fs from 'fs';
-import { Logger } from "../logger";
+import { Logger, NoOpLogger } from "../logger";
 import { TsConfig, TsConfigParser } from "../tsConfig/tsconfigParser";
 import * as os from 'os';
-import { ensureDir, writeFile } from "../../utils/fileSystem";
+import { ensureDir, writeFile } from "../utils/fileSystem";
 
-type Options = { overrideTsConfigPath?: string; };
+type Options = { 
+  overrideTsConfigPath?: string;
+  logger?: Logger;
+};
 
 export class ProjectRegistry {
   private readonly projects: Map<string, Project> = new Map();
   private readonly tempFiles: Set<string> = new Set();
+  private readonly logger: Logger;
+  private readonly tsconfigParser: TsConfigParser = new TsConfigParser();
 
-  constructor (
-    private readonly logger: Logger,
-    private readonly tsconfigParser: TsConfigParser,
-    private readonly options?: Options
-  ) { }
+  constructor (options?: Options) { 
+    this.logger = options?.logger ?? new NoOpLogger();
+    this.options = options;
+  }
 
-  public get(filePath: string) {
+  private readonly options?: Options;
+
+  public get(filePathOrUri: string) {
+    const filePath = this.normalizeFilePath(filePathOrUri);
     const tsConfigPath = this.resolveTsConfigPath(filePath);
     this.ensureProject(tsConfigPath);
     return this.projects.get(tsConfigPath)!;
+  }
+
+  public getSourceFile(filePathOrUri: string) {
+    const filePath = this.normalizeFilePath(filePathOrUri);
+    const project = this.get(filePathOrUri);
+    return project.getSourceFile(filePath);
+  }
+
+  public getSourceFileOrThrow(filePathOrUri: string) {
+    const filePath = this.normalizeFilePath(filePathOrUri);
+    const project = this.get(filePathOrUri);
+    return project.getSourceFileOrThrow(filePath);
+  }
+
+  private normalizeFilePath(filePathOrUri: string): string {
+    return filePathOrUri.startsWith('file://') ? filePathOrUri.slice(7) : filePathOrUri;
   }
 
   private ensureProject(tsConfigPath: string) {

@@ -37,4 +37,3 @@ export function resolveFileExtension(basePath: string): string {
   // If no file found with any extension, return with .ts as fallback
   return `${basePath}.ts`;
 }
-

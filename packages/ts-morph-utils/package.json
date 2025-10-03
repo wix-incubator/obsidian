@@ -1,0 +1,27 @@
+{
+  "name": "ts-morph-utils",
+  "version": "1.0.0",
+  "description": "Utilities for working with ts-morph projects and TypeScript configurations",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "dependencies": {
+    "jsonc-parser": "^3.2.1"
+  },
+  "peerDependencies": {
+    "ts-morph": ">=20.0.0"
+  },
+  "devDependencies": {
+    "ts-morph": "^25.0.1",
+    "typescript": "^5.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "license": "ISC"
+}
