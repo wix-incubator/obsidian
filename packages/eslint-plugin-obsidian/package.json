@@ -22,7 +22,9 @@
   "dependencies": {
     "@typescript-eslint/parser": "^7.18.0",
     "@typescript-eslint/utils": "^7.18.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "ts-morph": "^25.0.1",
+    "ts-morph-utils": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "7.26.10",

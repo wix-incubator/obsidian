@@ -9720,6 +9720,8 @@ __metadata:
     jest-extended: ^4.0.2
     lodash: ^4.17.21
     react-obsidian: "workspace:*"
+    ts-morph: ^25.0.1
+    ts-morph-utils: "workspace:*"
     typescript: ^5.8.0
   peerDependencies:
     eslint: 8.x.x
@@ -10142,31 +10144,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"external-lib-a@file:../external-lib-a::locator=external-lib-b%40file%3A.%2Ftests%2Ffixtures%2Fexternal-lib-b%23.%2Ftests%2Ffixtures%2Fexternal-lib-b%3A%3Ahash%3Dfcd475%26locator%3Deslint-plugin-obsidian%2540workspace%253Apackages%252Feslint-plugin-obsidian":
+"external-lib-a@file:../external-lib-a::locator=external-lib-b%40file%3A.%2Ftests%2Ffixtures%2Fexternal-lib-b%23.%2Ftests%2Ffixtures%2Fexternal-lib-b%3A%3Ahash%3D122d2e%26locator%3Deslint-plugin-obsidian%2540workspace%253Apackages%252Feslint-plugin-obsidian":
   version: 1.0.0
-  resolution: "external-lib-a@file:../external-lib-a#../external-lib-a::hash=22d295&locator=external-lib-b%40file%3A.%2Ftests%2Ffixtures%2Fexternal-lib-b%23.%2Ftests%2Ffixtures%2Fexternal-lib-b%3A%3Ahash%3Dfcd475%26locator%3Deslint-plugin-obsidian%2540workspace%253Apackages%252Feslint-plugin-obsidian"
+  resolution: "external-lib-a@file:../external-lib-a#../external-lib-a::hash=24c609&locator=external-lib-b%40file%3A.%2Ftests%2Ffixtures%2Fexternal-lib-b%23.%2Ftests%2Ffixtures%2Fexternal-lib-b%3A%3Ahash%3D122d2e%26locator%3Deslint-plugin-obsidian%2540workspace%253Apackages%252Feslint-plugin-obsidian"
   dependencies:
     react-obsidian: "file:../../../../react-obsidian"
-  checksum: ddfcf7f55ae50e8a4de49bc499ab4ce81eaff89b449d91dbd49b0ec201aa8026c0ccbf1838dd70a35a42e6243dc08013da8ca12fe7ef33e2520eb28cc4b6ae0a
+  checksum: 36197d9344329cba9f39e2974511c9f60f7bfbcf4b76497b871977e6e008b930c67a734c39b9abcd48f8625e92783150aece0e2401099accb389aac3064bb521
   languageName: node
   linkType: hard
 
 "external-lib-a@file:./tests/fixtures/external-lib-a::locator=eslint-plugin-obsidian%40workspace%3Apackages%2Feslint-plugin-obsidian":
   version: 1.0.0
-  resolution: "external-lib-a@file:./tests/fixtures/external-lib-a#./tests/fixtures/external-lib-a::hash=22d295&locator=eslint-plugin-obsidian%40workspace%3Apackages%2Feslint-plugin-obsidian"
+  resolution: "external-lib-a@file:./tests/fixtures/external-lib-a#./tests/fixtures/external-lib-a::hash=24c609&locator=eslint-plugin-obsidian%40workspace%3Apackages%2Feslint-plugin-obsidian"
   dependencies:
     react-obsidian: "file:../../../../react-obsidian"
-  checksum: ddfcf7f55ae50e8a4de49bc499ab4ce81eaff89b449d91dbd49b0ec201aa8026c0ccbf1838dd70a35a42e6243dc08013da8ca12fe7ef33e2520eb28cc4b6ae0a
+  checksum: 36197d9344329cba9f39e2974511c9f60f7bfbcf4b76497b871977e6e008b930c67a734c39b9abcd48f8625e92783150aece0e2401099accb389aac3064bb521
   languageName: node
   linkType: hard
 
 "external-lib-b@file:./tests/fixtures/external-lib-b::locator=eslint-plugin-obsidian%40workspace%3Apackages%2Feslint-plugin-obsidian":
   version: 1.0.0
-  resolution: "external-lib-b@file:./tests/fixtures/external-lib-b#./tests/fixtures/external-lib-b::hash=fcd475&locator=eslint-plugin-obsidian%40workspace%3Apackages%2Feslint-plugin-obsidian"
+  resolution: "external-lib-b@file:./tests/fixtures/external-lib-b#./tests/fixtures/external-lib-b::hash=122d2e&locator=eslint-plugin-obsidian%40workspace%3Apackages%2Feslint-plugin-obsidian"
   dependencies:
     external-lib-a: "file:../external-lib-a"
     react-obsidian: "file:../../../../react-obsidian"
-  checksum: f38972ec1dc156bcf5a72143ddc260d211a31ae0d6169b2cb7418e7081d7f04eb2b8b4411c347ce333f4c2e418f3d56bd221094f8bb249fabf98fb463200d368
+  checksum: 9c42ab013f30a8544047d22dbf84de3d22d6f0736dcbece856957b9147edfbb8ad5a513c0465c60431e90b8f3c892c85ffb2e9da31d51e789295b232a6cc0856
   languageName: node
   linkType: hard
 
@@ -16381,9 +16383,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-obsidian@file:../../../../react-obsidian::locator=external-lib-a%40file%3A.%2Ftests%2Ffixtures%2Fexternal-lib-a%23.%2Ftests%2Ffixtures%2Fexternal-lib-a%3A%3Ahash%3D22d295%26locator%3Deslint-plugin-obsidian%2540workspace%253Apackages%252Feslint-plugin-obsidian":
+"react-obsidian@file:../../../../react-obsidian::locator=external-lib-a%40file%3A.%2Ftests%2Ffixtures%2Fexternal-lib-a%23.%2Ftests%2Ffixtures%2Fexternal-lib-a%3A%3Ahash%3D24c609%26locator%3Deslint-plugin-obsidian%2540workspace%253Apackages%252Feslint-plugin-obsidian":
   version: 2.23.0
-  resolution: "react-obsidian@file:../../../../react-obsidian#../../../../react-obsidian::hash=7b3e05&locator=external-lib-a%40file%3A.%2Ftests%2Ffixtures%2Fexternal-lib-a%23.%2Ftests%2Ffixtures%2Fexternal-lib-a%3A%3Ahash%3D22d295%26locator%3Deslint-plugin-obsidian%2540workspace%253Apackages%252Feslint-plugin-obsidian"
+  resolution: "react-obsidian@file:../../../../react-obsidian#../../../../react-obsidian::hash=7b3e05&locator=external-lib-a%40file%3A.%2Ftests%2Ffixtures%2Fexternal-lib-a%23.%2Ftests%2Ffixtures%2Fexternal-lib-a%3A%3Ahash%3D24c609%26locator%3Deslint-plugin-obsidian%2540workspace%253Apackages%252Feslint-plugin-obsidian"
   dependencies:
     hoist-non-react-statics: 3.x.x
   peerDependencies:
@@ -16392,9 +16394,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-obsidian@file:../../../../react-obsidian::locator=external-lib-a%40file%3A..%2Fexternal-lib-a%23..%2Fexternal-lib-a%3A%3Ahash%3D22d295%26locator%3Dexternal-lib-b%2540file%253A.%252Ftests%252Ffixtures%252Fexternal-lib-b%2523.%252Ftests%252Ffixtures%252Fexternal-lib-b%253A%253Ahash%253Dfcd475%2526locator%253Deslint-plugin-obsidian%252540workspace%25253Apackages%25252Feslint-plugin-obsidian":
+"react-obsidian@file:../../../../react-obsidian::locator=external-lib-a%40file%3A..%2Fexternal-lib-a%23..%2Fexternal-lib-a%3A%3Ahash%3D24c609%26locator%3Dexternal-lib-b%2540file%253A.%252Ftests%252Ffixtures%252Fexternal-lib-b%2523.%252Ftests%252Ffixtures%252Fexternal-lib-b%253A%253Ahash%253D122d2e%2526locator%253Deslint-plugin-obsidian%252540workspace%25253Apackages%25252Feslint-plugin-obsidian":
   version: 2.23.0
-  resolution: "react-obsidian@file:../../../../react-obsidian#../../../../react-obsidian::hash=7b3e05&locator=external-lib-a%40file%3A..%2Fexternal-lib-a%23..%2Fexternal-lib-a%3A%3Ahash%3D22d295%26locator%3Dexternal-lib-b%2540file%253A.%252Ftests%252Ffixtures%252Fexternal-lib-b%2523.%252Ftests%252Ffixtures%252Fexternal-lib-b%253A%253Ahash%253Dfcd475%2526locator%253Deslint-plugin-obsidian%252540workspace%25253Apackages%25252Feslint-plugin-obsidian"
+  resolution: "react-obsidian@file:../../../../react-obsidian#../../../../react-obsidian::hash=7b3e05&locator=external-lib-a%40file%3A..%2Fexternal-lib-a%23..%2Fexternal-lib-a%3A%3Ahash%3D24c609%26locator%3Dexternal-lib-b%2540file%253A.%252Ftests%252Ffixtures%252Fexternal-lib-b%2523.%252Ftests%252Ffixtures%252Fexternal-lib-b%253A%253Ahash%253D122d2e%2526locator%253Deslint-plugin-obsidian%252540workspace%25253Apackages%25252Feslint-plugin-obsidian"
   dependencies:
     hoist-non-react-statics: 3.x.x
   peerDependencies:
@@ -16403,9 +16405,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-obsidian@file:../../../../react-obsidian::locator=external-lib-b%40file%3A.%2Ftests%2Ffixtures%2Fexternal-lib-b%23.%2Ftests%2Ffixtures%2Fexternal-lib-b%3A%3Ahash%3Dfcd475%26locator%3Deslint-plugin-obsidian%2540workspace%253Apackages%252Feslint-plugin-obsidian":
+"react-obsidian@file:../../../../react-obsidian::locator=external-lib-b%40file%3A.%2Ftests%2Ffixtures%2Fexternal-lib-b%23.%2Ftests%2Ffixtures%2Fexternal-lib-b%3A%3Ahash%3D122d2e%26locator%3Deslint-plugin-obsidian%2540workspace%253Apackages%252Feslint-plugin-obsidian":
   version: 2.23.0
-  resolution: "react-obsidian@file:../../../../react-obsidian#../../../../react-obsidian::hash=7b3e05&locator=external-lib-b%40file%3A.%2Ftests%2Ffixtures%2Fexternal-lib-b%23.%2Ftests%2Ffixtures%2Fexternal-lib-b%3A%3Ahash%3Dfcd475%26locator%3Deslint-plugin-obsidian%2540workspace%253Apackages%252Feslint-plugin-obsidian"
+  resolution: "react-obsidian@file:../../../../react-obsidian#../../../../react-obsidian::hash=7b3e05&locator=external-lib-b%40file%3A.%2Ftests%2Ffixtures%2Fexternal-lib-b%23.%2Ftests%2Ffixtures%2Fexternal-lib-b%3A%3Ahash%3D122d2e%26locator%3Deslint-plugin-obsidian%2540workspace%253Apackages%252Feslint-plugin-obsidian"
   dependencies:
     hoist-non-react-statics: 3.x.x
   peerDependencies:
@@ -18389,7 +18391,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-morph-utils@workspace:packages/ts-morph-utils":
+"ts-morph-utils@workspace:*, ts-morph-utils@workspace:packages/ts-morph-utils":
   version: 0.0.0-use.local
   resolution: "ts-morph-utils@workspace:packages/ts-morph-utils"
   dependencies:
