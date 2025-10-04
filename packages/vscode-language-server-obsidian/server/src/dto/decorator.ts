@@ -1,4 +1,11 @@
-import { Decorator as TsMorphDecorator, Node, CallExpression, ObjectLiteralExpression, PropertyAssignment, Identifier, SyntaxKind } from 'ts-morph';
+import {
+  Decorator as TsMorphDecorator,
+  Node,
+   CallExpression,
+  ObjectLiteralExpression,
+  PropertyAssignment,
+  SyntaxKind,
+} from 'ts-morph';
 
 export class Decorator {
   constructor(private decorator: TsMorphDecorator) { }
