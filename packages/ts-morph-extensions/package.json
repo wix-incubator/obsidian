@@ -1,7 +1,7 @@
 {
-  "name": "ts-morph-utils",
+  "name": "ts-morph-extensions",
   "version": "1.0.0",
-  "description": "Utilities for working with ts-morph projects and TypeScript configurations",
+  "description": "Extensions and utilities for working with ts-morph projects and TypeScript configurations",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

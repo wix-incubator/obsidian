@@ -12,7 +12,7 @@ import { CompletionCommand } from './commands/completion/completionCommand';
 import { Logger } from './services/logger';
 import { InitializeHandler } from './lsp/handlers/initializeHandler';
 import { ProjectAdapter } from './services/project/projectAdapter';
-import { ProjectRegistry } from 'ts-morph-utils';
+import { ProjectRegistry } from 'ts-morph-extensions';
 import { ConfigurationChangeHandler } from './lsp/handlers/configurationChangeHandler';
 import { ChangeTextHandler } from './lsp/handlers/changeTextHandler';
 import { FileOpenHandler } from './lsp/handlers/fileOpenHandler';

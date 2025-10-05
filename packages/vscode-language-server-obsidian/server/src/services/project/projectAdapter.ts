@@ -1,4 +1,4 @@
-import { ProjectRegistry } from "ts-morph-utils";
+import { ProjectRegistry } from "ts-morph-extensions";
 import { SourceFile } from "../../dto/sourceFile";
 
 export class ProjectAdapter {

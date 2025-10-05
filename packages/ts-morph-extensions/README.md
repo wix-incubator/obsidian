@@ -1,5 +1,5 @@
-# ts-morph-utils
-Utilities for working with ts-morph projects and TypeScript configurations.
+# ts-morph-extensions
+Extensions and utilities for working with ts-morph projects and TypeScript configurations.
 
 ## Overview
 This package provides a simple interface for managing ts-morph projects with automatic TypeScript configuration discovery and caching.
@@ -9,7 +9,7 @@ This package provides a simple interface for managing ts-morph projects with aut
 Manages ts-morph `Project` instances with automatic tsconfig.json discovery and caching.
 
 ```typescript
-import { ProjectRegistry } from 'ts-morph-utils';
+import { ProjectRegistry } from 'ts-morph-extensions';
 
 // Create a project registry (no dependencies needed!)
 const projectRegistry = new ProjectRegistry();
@@ -38,7 +38,7 @@ const projectRegistryWithOptions = new ProjectRegistry({
 
 ## Installation
 ```bash
-npm install ts-morph-utils ts-morph
+npm install ts-morph-extensions ts-morph
 ```
 
 Note: `ts-morph` is a peer dependency and must be installed alongside this package.
