@@ -1,5 +1,5 @@
 import { ProjectRegistry } from "ts-morph-extensions";
-import { SourceFile } from "../../dto/sourceFile";
+import { SourceFile } from "../dto/sourceFile";
 
 export class ProjectAdapter {
   constructor (private readonly projectRegistry: ProjectRegistry) { }

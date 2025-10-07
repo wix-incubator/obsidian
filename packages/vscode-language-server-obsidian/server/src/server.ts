@@ -11,7 +11,7 @@ import { DefinitionCommand } from './commands/definition/definitionCommand';
 import { CompletionCommand } from './commands/completion/completionCommand';
 import { Logger } from './services/logger';
 import { InitializeHandler } from './lsp/handlers/initializeHandler';
-import { ProjectAdapter } from './services/project/projectAdapter';
+import { ProjectAdapter } from './services/projectAdapter';
 import { ProjectRegistry } from 'ts-morph-extensions';
 import { ConfigurationChangeHandler } from './lsp/handlers/configurationChangeHandler';
 import { ChangeTextHandler } from './lsp/handlers/changeTextHandler';

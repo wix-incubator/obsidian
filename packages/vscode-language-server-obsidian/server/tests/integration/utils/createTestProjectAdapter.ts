@@ -1,4 +1,4 @@
-import { ProjectAdapter } from "../../../src/services/project/projectAdapter";
+import { ProjectAdapter } from "../../../src/services/projectAdapter";
 import { ProjectRegistry, TsConfigParser } from "ts-morph-extensions";
 import { FakeLogger } from "../fakes/fakeLogger";
 import * as path from 'path';

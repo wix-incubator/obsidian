@@ -1,9 +1,6 @@
-import { getDecorator, getDecoratedMethods } from "../utils/ts/decorators";
-import { Provider } from "./provider";
+import { getDecorator, getDecoratedMethods, getDefinition, Provider } from "../index";
 import { ClassDeclaration, Expression, SyntaxKind, Node } from "ts-morph";
-import { ProjectAdapter } from "../services/project/projectAdapter";
 import { isDefined } from "../utils/objects";
-import { getDefinition } from "../utils/ts/identifier";
 import { DedupeSet } from "../utils/dedupeSet";
 
 export class Graph {

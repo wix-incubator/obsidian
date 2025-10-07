@@ -1,5 +1,5 @@
 import { DidChangeTextDocumentParams } from "vscode-languageserver";
-import { ProjectAdapter } from "../../services/project/projectAdapter";
+import { ProjectAdapter } from "../../services/projectAdapter";
 
 export class ChangeTextHandler {
   constructor (private readonly project: ProjectAdapter) { }
