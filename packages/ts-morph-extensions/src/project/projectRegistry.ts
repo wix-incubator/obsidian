@@ -8,21 +8,17 @@ import { ensureDir, writeFile } from "../utils/fileSystem";
 
 type Options = { 
   overrideTsConfigPath?: string;
-  logger?: Logger;
 };
 
 export class ProjectRegistry {
   private readonly projects: Map<string, Project> = new Map();
   private readonly tempFiles: Set<string> = new Set();
-  private readonly logger: Logger;
-  private readonly tsconfigParser: TsConfigParser = new TsConfigParser();
 
-  constructor (options?: Options) { 
-    this.logger = options?.logger ?? new NoOpLogger();
-    this.options = options;
-  }
-
-  private readonly options?: Options;
+  constructor (
+    private readonly logger: Logger = new NoOpLogger(),
+    private readonly tsconfigParser: TsConfigParser = new TsConfigParser(),
+    private readonly options?: Options
+  ) { }
 
   public get(filePathOrUri: string) {
     const filePath = this.normalizeFilePath(filePathOrUri);

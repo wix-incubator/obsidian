@@ -7,7 +7,7 @@ import { getDefinition } from "../utils/ts/identifier";
 import { DedupeSet } from "../utils/dedupeSet";
 
 export class Graph {
-  constructor (private project: ProjectAdapter, private node: ClassDeclaration) { }
+  constructor (private node: ClassDeclaration) { }
 
   public resolveProvider(name: string) {
     return this.hasProvider(name) ?
@@ -48,7 +48,7 @@ export class Graph {
 
   private getGraphFromSubgraph(graph: Expression) {
     const declaration = getDefinition(graph, SyntaxKind.ClassDeclaration);
-    return declaration && new Graph(this.project, declaration as ClassDeclaration);
+    return declaration && new Graph(declaration as ClassDeclaration);
   }
 
   private getSubgraphsFromDecorator() {

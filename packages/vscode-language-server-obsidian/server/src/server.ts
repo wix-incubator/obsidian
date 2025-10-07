@@ -19,7 +19,7 @@ import { FileOpenHandler } from './lsp/handlers/fileOpenHandler';
 
 const connection = createConnection(ProposedFeatures.all);
 const logger = new Logger(connection);
-const projectRegistry = new ProjectRegistry({ logger });
+const projectRegistry = new ProjectRegistry(logger);
 const projectAdapter = new ProjectAdapter(projectRegistry);
 const initializeHandler = new InitializeHandler(logger);
 const configurationChangeHandler = new ConfigurationChangeHandler(logger);
