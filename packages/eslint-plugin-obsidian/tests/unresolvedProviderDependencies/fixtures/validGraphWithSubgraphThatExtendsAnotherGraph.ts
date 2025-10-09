@@ -1,3 +1,4 @@
+// validGraphWithSubgraphThatExtendsAnotherGraph.ts
 import { graph, ObjectGraph, provides } from 'react-obsidian';
 import { GraphThatExtendsAnotherGraph } from './graphThatExtendsAnotherGraph';
 

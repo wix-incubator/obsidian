@@ -66,11 +66,11 @@ ruleTester.run(
         filename: 'validGraphThatExtendsAnotherConcreteGraph.ts',
         skip: skipValid,
       },
-      // {
-      //   code: loadFixture('validGraphWithExternalSubgraph.ts'),
-      //   filename: 'validGraphWithExternalSubgraph.ts',
-      //   skip: skipValid,
-      // },
+      {
+        code: loadFixture('validGraphWithExternalSubgraph.ts'),
+        filename: 'validGraphWithExternalSubgraph.ts',
+        skip: skipValid,
+      },
     ],
     invalid: [
       {

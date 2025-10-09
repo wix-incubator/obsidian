@@ -1,3 +1,4 @@
+// graphThatExtendsAnotherGraph.ts
 import { graph, provides } from 'react-obsidian';
 import { AbstractGraph } from './abstractGraph';
 

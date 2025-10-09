@@ -1,3 +1,4 @@
+// validFileWithTwoGraphs.ts
 import { graph, ObjectGraph, provides } from 'react-obsidian';
 
 @graph()
@@ -9,7 +10,7 @@ class Subgraph extends ObjectGraph {
 }
 
 @graph({ subgraphs: [Subgraph] })
-class MainGraph extends ObjectGraph {
+export class MainGraph extends ObjectGraph {
   @provides()
   graphString(subgraphString: string): string {
     return 'from main ' + subgraphString;

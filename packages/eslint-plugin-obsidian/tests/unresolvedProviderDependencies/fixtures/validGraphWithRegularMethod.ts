@@ -1,3 +1,4 @@
+// validGraphWithRegularMethod.ts
 import { graph, ObjectGraph, provides } from 'react-obsidian';
 
 @graph()

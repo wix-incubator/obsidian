@@ -1,3 +1,4 @@
+// validGraphWithSubgraph.ts
 import { graph, ObjectGraph, provides } from 'react-obsidian';
 import Subgraph from './subgraph';
 

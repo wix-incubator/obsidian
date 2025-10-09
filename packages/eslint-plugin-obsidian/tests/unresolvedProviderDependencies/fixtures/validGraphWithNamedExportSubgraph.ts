@@ -1,3 +1,4 @@
+// validGraphWithNamedExportSubgraph.ts
 import { graph, ObjectGraph, provides } from 'react-obsidian';
 import { Subgraph } from './namedExportSubgraph';
 
