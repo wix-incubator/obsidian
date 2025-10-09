@@ -1,5 +1,4 @@
 import { MethodDeclaration } from "ts-morph";
-import { Identifier } from "./identifier";
 import { Parameter } from "./parameter";
 
 export class Provider {

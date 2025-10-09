@@ -6,19 +6,19 @@ export interface Logger {
 }
 
 export class NoOpLogger implements Logger {
-  info(message: string): void {
+  info(_message: string): void {
     // No-op
   }
 
-  error(message: string, error?: Error): void {
+  error(_message: string, _error?: Error): void {
     // No-op
   }
 
-  warn(message: string): void {
+  warn(_message: string): void {
     // No-op
   }
 
-  debug(message: string): void {
+  debug(_message: string): void {
     // No-op
   }
 }
