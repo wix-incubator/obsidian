@@ -16,7 +16,7 @@ class GraphA extends ObjectGraph {
 }
 
 @graph()
-class GraphB extends GraphA {
+export class GraphB extends GraphA {
   private fromGraphB = 'from GraphB';
 
   @provides()

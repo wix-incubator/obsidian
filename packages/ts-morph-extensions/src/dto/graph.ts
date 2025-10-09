@@ -6,6 +6,10 @@ import { DedupeSet } from "../utils/dedupeSet";
 export class Graph {
   constructor (private node: ClassDeclaration) { }
 
+  public get name(): string | undefined {
+    return this.node.getName()
+  }
+
   public resolveProvider(name: string) {
     return this.hasProvider(name) ?
       this.requireProvider(name) :
@@ -55,8 +59,13 @@ export class Graph {
   }
 
   public resolveProviders(dedupeSet = new DedupeSet()): Provider[] {
-    const providers = this.getProviders().filter(provider => dedupeSet.dedupe(provider.name));
+    const ownProviders = this.getProviders().filter(provider => dedupeSet.dedupe(provider.name));
     const subgraphProviders = this.getSubgraphs().flatMap(subgraph => subgraph.resolveProviders(dedupeSet));
-    return [...providers, ...subgraphProviders];
+    const baseGraphProviders = this.getBaseGraph()?.getProviders().filter(provider => dedupeSet.dedupe(provider.name)) || [];
+    return [...ownProviders, ...baseGraphProviders, ...subgraphProviders];
+  }
+
+  private getBaseGraph(): Graph | undefined {
+    if (this.node.getBaseClass()) return new Graph(this.node.getBaseClass() as ClassDeclaration);
   }
 }

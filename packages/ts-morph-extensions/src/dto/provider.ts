@@ -1,4 +1,6 @@
 import { MethodDeclaration } from "ts-morph";
+import { Identifier } from "./identifier";
+import { Parameter } from "./parameter";
 
 export class Provider {
   constructor (private node: MethodDeclaration) { }
@@ -43,6 +45,10 @@ export class Provider {
         }
       }
     };
+  }
+
+  public get dependencies() {
+    return this.node.getParameters().map(param => new Parameter(param));
   }
 
   private get range() {
