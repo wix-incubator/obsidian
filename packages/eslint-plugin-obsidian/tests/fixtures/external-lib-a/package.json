@@ -6,6 +6,6 @@
     "index.ts"
   ],
   "dependencies": {
-    "react-obsidian": "file:../../../../react-obsidian"
+    "react-obsidian": "workspace:*"
   }
 }

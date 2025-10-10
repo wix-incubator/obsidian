@@ -7,6 +7,6 @@
   ],
   "dependencies": {
     "external-lib-a": "file:../external-lib-a",
-    "react-obsidian": "file:../../../../react-obsidian"
+    "react-obsidian": "workspace:*"
   }
 }
