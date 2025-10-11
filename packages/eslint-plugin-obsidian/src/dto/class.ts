@@ -14,6 +14,10 @@ export class Clazz {
     return this.node.abstract;
   }
 
+  get isGraph() {
+    return this.isDecoratedWithIgnoreCase('Graph');
+  }
+
   public isDecoratedWithIgnoreCase(decoratorName: string) {
     return this.decoratorNames.some(name => name.toLowerCase() === decoratorName.toLowerCase());
   }

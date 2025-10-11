@@ -2,21 +2,16 @@ import type { Clazz } from '../../dto/class';
 import type { Context } from '../../dto/context';
 import { ClassAdapter } from '../../ts/adapters/classAdapter';
 import { Parameter, Provider } from 'ts-morph-extensions';
-import { TSESTree } from '@typescript-eslint/types';
+import { Graph } from '../../dto/graph';
 
 export class GraphHandler {
   constructor(private context: Context, private classAdapter: ClassAdapter) { }
 
   public handle(clazz: Clazz) {
-    if (this.isGraph(clazz)) {
+    if (clazz.isGraph) {
       const unresolvedDependency = this.findUnresolvedDependency(clazz);
-      const unresolvedDependencyError = this.checkUnresolvedDependencies(clazz, unresolvedDependency);
-      this.reportError(this.context,unresolvedDependencyError);
+      this.reportError(this.context, clazz, unresolvedDependency);
     }
-  }
-
-  private isGraph(clazz: Clazz) {
-    return clazz.isDecoratedWithIgnoreCase('Graph');
   }
 
   private findUnresolvedDependency(clazz: Clazz) {
@@ -28,32 +23,22 @@ export class GraphHandler {
     }
   }
 
-  private checkUnresolvedDependencies(
-    clazz: Clazz,
-    unresolvedDependency?: {provider: Provider; unresolvedDep: Parameter | undefined},
-  ) {
-    if (unresolvedDependency && unresolvedDependency.unresolvedDep) {
-      const originalNode =clazz
-        .getDecoratedMethods('Provides')
-        .find(method => method.name === unresolvedDependency.provider.name)
-        ?.parameters
-        .find(param => unresolvedDependency.unresolvedDep?.name === param.name);
-      return {
-        error: true,
-        param: unresolvedDependency.unresolvedDep?.name,
-        node: originalNode?.node,
-      };
-    }
-    return { error: false };
-  }
-
   private reportError(
     context: Context,
-    {error, param, node}: {error: boolean; param?: string; node?: TSESTree.Node},
+    clazz: Clazz,
+    unresolvedDependency?: {provider: Provider; unresolvedDep: Parameter},
   ) {
-    if (error && node) {
+    if (unresolvedDependency) {
+      const param = unresolvedDependency.unresolvedDep?.name;
+      const node = this.getTSESTreeNode(clazz, unresolvedDependency.provider, unresolvedDependency.unresolvedDep);
       context.reportError(node, 'unresolved-provider-dependencies', {dependencyName: param});
     }
   }
 
+  private getTSESTreeNode(clazz: Clazz, provider: Provider, unresolvedDependency: Parameter) {
+    return Graph.asGraph(clazz)
+      .requireProvider(provider.name)
+      .requireParameter(unresolvedDependency.name)
+      .node;
+  }
 }
