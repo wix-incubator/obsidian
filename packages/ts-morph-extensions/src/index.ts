@@ -4,6 +4,7 @@ export { Decorator } from './dto/decorator';
 export { Provider } from './dto/provider';
 export { Identifier } from './dto/identifier';
 export { Graph } from './dto/graph';
+export { Parameter } from './dto/parameter';
 export {
   hasDecorator,
   getDecorator,
