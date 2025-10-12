@@ -22,6 +22,14 @@ export class Clazz {
     return this.decoratorNames.some(name => name.toLowerCase() === decoratorName.toLowerCase());
   }
 
+  public requireMethod(name: string) {
+    return this.findMethod(name)!;
+  }
+
+  public findMethod(name: string) {
+    return this.getMethods().find(method => method.name === name);
+  }
+
   get decoratorNames() {
     return this.decorators.map((decorator: Decorator) => {
       return decorator.expression.callee.name;
@@ -47,10 +55,14 @@ export class Clazz {
   }
 
   public getDecoratedMethods(decoratorName: string): Method[] {
+    return this.getMethods()
+      .filter(method => method.isDecoratedWithIgnoreCase(decoratorName));
+  }
+
+  public getMethods(): Method[] {
     return this.body
       .filter(isMethodDefinition)
-      .map((node) => new Method(node))
-      .filter(method => method.isDecoratedWithIgnoreCase(decoratorName));
+      .map((node) => new Method(node));
   }
 
   public requireDecoratorIgnoreCase(name: string) {

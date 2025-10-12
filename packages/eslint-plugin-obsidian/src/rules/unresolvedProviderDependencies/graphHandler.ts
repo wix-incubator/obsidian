@@ -2,7 +2,6 @@ import type { Clazz } from '../../dto/class';
 import type { Context } from '../../dto/context';
 import { ClassAdapter } from '../../ts/adapters/classAdapter';
 import { Parameter, Provider } from 'ts-morph-extensions';
-import { Graph } from '../../dto/graph';
 
 export class GraphHandler {
   constructor(private context: Context, private classAdapter: ClassAdapter) { }
@@ -36,8 +35,8 @@ export class GraphHandler {
   }
 
   private getTSESTreeNode(clazz: Clazz, provider: Provider, unresolvedDependency: Parameter) {
-    return Graph.asGraph(clazz)
-      .requireProvider(provider.name)
+    return clazz
+      .requireMethod(provider.name)
       .requireParameter(unresolvedDependency.name)
       .node;
   }
