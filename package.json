@@ -1,12 +1,9 @@
 {
   "private": true,
   "scripts": {
-    "_test": "yarn workspaces foreach --exclude swc-plugin-obsidian run test --colors && yarn workspace swc-plugin-obsidian test",
-    "_lint": "yarn workspaces foreach --exclude vscode-language-server-obsidian run lint",
-    "_build": "yarn workspace react-obsidian build && yarn workspace ts-morph-extensions build && yarn workspace eslint-plugin-obsidian build",
-    "test": "echo 'Tests skipped'",
-    "lint": "echo 'Linting skipped'",
-    "build": "echo 'Building skipped'"
+    "test": "yarn workspaces foreach --exclude swc-plugin-obsidian run test --colors && yarn workspace swc-plugin-obsidian test",
+    "lint": "yarn workspaces foreach --exclude vscode-language-server-obsidian run lint",
+    "build": "yarn workspace react-obsidian build && yarn workspace ts-morph-extensions build && yarn workspace eslint-plugin-obsidian build"
   },
   "workspaces": [
     "packages/*"
