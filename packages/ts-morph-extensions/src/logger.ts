@@ -22,3 +22,12 @@ export class NoOpLogger implements Logger {
     // No-op
   }
 }
+
+const logger: Logger = new NoOpLogger();
+export function setLogger($logger: Logger) {
+  (global as any)['tsMorphExtensionsLogger'] = $logger;
+}
+
+export function getLogger() {
+  return (global as any)['tsMorphExtensionsLogger'] || logger;
+}

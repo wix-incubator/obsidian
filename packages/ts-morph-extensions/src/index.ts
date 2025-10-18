@@ -18,3 +18,4 @@ export {
   getHookDecarationFromTypedProvider,
   getAncestorProvider
 } from './utils/ts/providers';
+export { setLogger } from './logger';

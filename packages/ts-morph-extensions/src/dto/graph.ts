@@ -13,23 +13,22 @@ export class Graph {
   public resolveProvider(name: string) {
     return this.hasProvider(name) ?
       this.requireProvider(name) :
-      this.requireProviderFromSubgraphs(name);
+      this.resolveProviderFromSubgraphs(name);
   }
 
   public hasProvider(name: string): boolean {
     return this.findProvider(name) !== undefined;
   }
 
-  private requireProviderFromSubgraphs(providerName: string): Provider {
-    for (const graph of this.getSubgraphs()) {
-      const result = graph.resolveProvider(providerName);
-      if (result) return result;
-    }
-    throw new Error(`Provider ${providerName} not found in graph ${this.node.getName()}`);
-  }
-
   public requireProvider(name: string) {
     return this.findProvider(name)!;
+  }
+
+  private resolveProviderFromSubgraphs(name: string): Provider | undefined {
+    for (const subgraph of this.getSubgraphs()) {
+      const provider = subgraph.resolveProvider(name);
+      if (provider) return provider;
+    }
   }
 
   public findProvider(name: string) {

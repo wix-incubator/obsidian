@@ -7,15 +7,16 @@
   },
   "dependencies": {
     "jsonc-parser": "^3.2.1",
-    "vscode-languageserver": "^8.1.0",
     "ts-morph": "^25.0.1",
-    "ts-morph-extensions": "file:../../ts-morph-extensions"
+    "ts-morph-extensions": "^2.24.0",
+    "vscode-languageserver": "^8.1.0"
   },
   "devDependencies": {
+    "external-lib-c": "file:./tests/fixtures/external-lib-c",
+    "external-lib-d": "file:./tests/fixtures/external-lib-d",
     "jest-mock-extended": "^4.0.0-beta1",
     "jest-when": "^3.7.0",
-    "eslint-plugin-obsidian": "^2.21.0",
-    "react-obsidian": "^2.21.0",
+    "react-obsidian": "^2.24.0",
     "typescript": "^5.0.0"
   }
 }
