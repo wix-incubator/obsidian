@@ -16,7 +16,7 @@
     "watch:esbuild": "node scripts/build.js --watch",
     "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
     "lint": "eslint ./client/src ./server/src --ext .ts,.tsx",
-    "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
+    "postinstall:skipped": "cd client && npm install && cd ../server && npm install && cd ..",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage"
