@@ -3379,7 +3379,7 @@ __metadata:
     react-obsidian: ^2.11.4
     typescript: ^5.2.2
     unplugin-swc: ^1.5.1
-    vite: ^5.4.12
+    vite: ^5.4.21
     vite-plugin-inspect: ^0.8.7
   languageName: unknown
   linkType: soft
@@ -3584,9 +3584,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^5.4.12":
-  version: 5.4.14
-  resolution: "vite@npm:5.4.14"
+"vite@npm:^5.4.21":
+  version: 5.4.21
+  resolution: "vite@npm:5.4.21"
   dependencies:
     esbuild: ^0.21.3
     fsevents: ~2.3.3
@@ -3623,7 +3623,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 7360661da0415809454ff8809b6666e868ffc3e5ccfbd5fc17425341546cdc3dd3d37c68fcd6ed7305252aaecd0d251ede3745b57aaebd00b8aececc30b6697b
+  checksum: 7177fa03cff6a382f225290c9889a0d0e944d17eab705bcba89b58558a6f7adfa1f47e469b88f42a044a0eb40c12a1bf68b3cb42abb5295d04f9d7d4dd320837
   languageName: node
   linkType: hard
 
