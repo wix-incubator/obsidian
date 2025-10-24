@@ -25,19 +25,12 @@ export class GraphHandler {
   private reportError(
     context: Context,
     clazz: Clazz,
-    unresolvedDependency?: {provider: Provider; unresolvedDep: Parameter},
+    providerToUnresolvedDependency?: {provider: Provider; unresolvedDep: Parameter},
   ) {
-    if (unresolvedDependency) {
-      const param = unresolvedDependency.unresolvedDep?.name;
-      const node = this.getTSESTreeNode(clazz, unresolvedDependency.provider, unresolvedDependency.unresolvedDep);
-      context.reportError(node, 'unresolved-provider-dependencies', {dependencyName: param});
+    if (providerToUnresolvedDependency) {
+      const { provider, unresolvedDep } = providerToUnresolvedDependency;
+      const parameter = clazz.requireMethodParameter(provider.name, unresolvedDep.name);
+      context.reportError(parameter.node, 'unresolved-provider-dependencies', {dependencyName: unresolvedDep.name});
     }
-  }
-
-  private getTSESTreeNode(clazz: Clazz, provider: Provider, unresolvedDependency: Parameter) {
-    return clazz
-      .requireMethod(provider.name)
-      .requireParameter(unresolvedDependency.name)
-      .node;
   }
 }
