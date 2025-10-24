@@ -1,5 +1,5 @@
 import { SourceFile as TsMorphSourceFile } from "ts-morph";
-import { Position, TextDocumentContentChangeEvent } from "vscode-languageserver";
+import { Position } from "vscode-languageserver";
 
 export class SourceFile {
   constructor (private sourceFile: TsMorphSourceFile) { }

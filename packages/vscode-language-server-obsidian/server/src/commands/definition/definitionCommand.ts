@@ -1,7 +1,7 @@
 import { Logger } from "../../services/logger";
 import { Definition, TextDocumentPositionParams, } from "vscode-languageserver/node";
 import { StrategyFactory } from "./strategies/goToDefinitionStrategyFactory";
-import { ProjectAdapter } from "../../services/project/projectAdapter";
+import { ProjectAdapter } from "../../services/projectAdapter";
 import { Node } from "ts-morph";
 import { SourceFile } from "../../dto/sourceFile";
 

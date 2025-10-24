@@ -1,7 +1,7 @@
-import { ObjectGraph, Provides } from 'react-obsidian';
+import { ObjectGraph, provides } from 'react-obsidian';
 
 export abstract class AbstractGraph extends ObjectGraph {
-  @Provides()
+  @provides()
   bar(): string {
     return 'bar';
   }

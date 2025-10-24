@@ -34,6 +34,7 @@ jobs:
       - name: Build
         run: |
           yarn workspace react-obsidian run build
+          yarn workspace ts-morph-extensions run build
           yarn workspace eslint-plugin-obsidian run build
       - name: Lint
         run: yarn lint

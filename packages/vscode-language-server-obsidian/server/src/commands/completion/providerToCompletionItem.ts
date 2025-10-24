@@ -1,5 +1,5 @@
 import { CompletionItem, CompletionItemKind, InsertTextFormat } from "vscode-languageserver";
-import { Provider } from "../../dto/provider";
+import { Provider } from "ts-morph-extensions";
 
 export function providerToCompletionItem(provider: Provider): CompletionItem {
   return {

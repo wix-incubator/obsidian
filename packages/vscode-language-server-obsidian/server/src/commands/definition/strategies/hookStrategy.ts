@@ -1,10 +1,10 @@
 import { GoToDefinitionStrategy } from "./goToDefinitionStrategy";
-import { Node, SyntaxKind } from "ts-morph";
+import { Node } from "ts-morph";
 import { Definition } from "vscode-languageserver/node";
-import { hasParentWithDecorator } from "../../../utils/ts/decorators";
+import { hasParentWithDecorator } from "ts-morph-extensions";
 import { createDefinition } from "../helpers";
 import { Logger } from "../../../services/logger";
-import { getHookDecarationFromTypedProvider, getHookDeclaration } from "../../../utils/obsidian/providers";
+import { getHookDecarationFromTypedProvider, getHookDeclaration } from "ts-morph-extensions";
 
 export class HookStrategy implements GoToDefinitionStrategy {
 

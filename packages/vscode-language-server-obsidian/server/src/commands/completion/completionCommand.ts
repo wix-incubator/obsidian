@@ -1,11 +1,11 @@
 import { CompletionItem, CompletionParams } from 'vscode-languageserver/node';
 import { Logger } from '../../services/logger';
-import { ProjectAdapter } from '../../services/project/projectAdapter';
+import { ProjectAdapter } from '../../services/projectAdapter';
 import { Node, SyntaxKind } from 'ts-morph';
 import { getParentGraphRecursive } from '../../utils/obsidian/graphs';
-import { hasDecorator } from '../../utils/ts/decorators';
+import { hasDecorator } from 'ts-morph-extensions';
 import { SourceFile } from '../../dto/sourceFile';
-import { getAncestorProvider } from '../../utils/obsidian/providers';
+import { getAncestorProvider } from 'ts-morph-extensions';
 import { providerToCompletionItem } from './providerToCompletionItem';
 
 export class CompletionCommand {

@@ -1,5 +1,5 @@
 import { DidOpenTextDocumentParams } from "vscode-languageserver";
-import { ProjectAdapter } from "../../services/project/projectAdapter";
+import { ProjectAdapter } from "../../services/projectAdapter";
 
 export class FileOpenHandler {
   constructor (private readonly project: ProjectAdapter) { }

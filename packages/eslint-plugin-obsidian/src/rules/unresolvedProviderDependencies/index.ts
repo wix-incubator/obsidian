@@ -1,9 +1,9 @@
 import { ESLintUtils, type TSESLint } from '@typescript-eslint/utils';
 import type { RuleContext } from '@typescript-eslint/utils/ts-eslint';
 import { create } from './createRule';
-import { PathResolver } from '../../framework/pathResolver';
-import { FileReader } from '../../framework/fileReader';
 import {Context} from '../../dto/context';
+import { projectRegistry } from '../../ts/projectRegistry';
+import { ClassAdapter } from '../../ts/adapters/classAdapter';
 
 type Rule = TSESLint.RuleModule<'unresolved-provider-dependencies', []>;
 
@@ -11,12 +11,10 @@ const createRule = ESLintUtils.RuleCreator(
   (name) => `https://wix-incubator.github.io/obsidian/docs/documentation/meta/eslint#${name}`,
 );
 
-export const unresolvedProviderDependenciesGenerator = (
-  pathResolver: PathResolver = new PathResolver(),
-) => {
+export const unresolvedProviderDependenciesGenerator = () => {
   return createRule({
     create: (context: RuleContext<'unresolved-provider-dependencies', []>) => {
-      return create(new Context(context), new FileReader(pathResolver));
+      return create(new Context(context), new ClassAdapter(projectRegistry));
     },
     name: 'unresolved-provider-dependencies',
     meta: {
