@@ -1,7 +1,7 @@
 import {
   Decorator as TsMorphDecorator,
   Node,
-   CallExpression,
+  CallExpression,
   ObjectLiteralExpression,
   PropertyAssignment,
   SyntaxKind,

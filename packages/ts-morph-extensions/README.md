@@ -1,8 +1,8 @@
 # ts-morph-extensions
-Extensions and utilities for working with ts-morph projects and TypeScript configurations.
+Extensions and utilities for analyzing and traversing ASTs with ts-morph, specifically for Obsidian dependency injection patterns.
 
 ## Overview
-This package provides a simple interface for managing ts-morph projects with automatic TypeScript configuration discovery and caching.
+This package provides utilities for analyzing Obsidian-specific code patterns (Graphs, Providers, decorators) and a simple interface for managing ts-morph projects with automatic TypeScript configuration discovery and caching.
 
 ## Usage
 ### ProjectRegistry
@@ -26,8 +26,8 @@ const sourceFileFromUri = projectRegistry.getSourceFileOrThrow('file:///path/to/
 
 // Optional: provide a custom logger and other options
 const projectRegistryWithOptions = new ProjectRegistry({
-  logger: myCustomLogger,
-  overrideTsConfigPath: '/path/to/custom/tsconfig.json'
+  logger: myCustomLogger, // Useful for debugging
+  overrideTsConfigPath: '/path/to/custom/tsconfig.json' // Useful for testing
 });
 ```
 
@@ -40,8 +40,6 @@ const projectRegistryWithOptions = new ProjectRegistry({
 ```bash
 npm install ts-morph-extensions ts-morph
 ```
-
-Note: `ts-morph` is a peer dependency and must be installed alongside this package.
 
 ## Dependencies
 - `ts-morph` (peer dependency): For TypeScript project management
