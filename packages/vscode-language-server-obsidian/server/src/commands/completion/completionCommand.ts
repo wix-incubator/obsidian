@@ -3,9 +3,8 @@ import { Logger } from '../../services/logger';
 import { ProjectAdapter } from '../../services/projectAdapter';
 import { Node, SyntaxKind } from 'ts-morph';
 import { getParentGraphRecursive } from '../../utils/obsidian/graphs';
-import { hasDecorator } from 'ts-morph-extensions';
+import { hasDecorator, getAncestorProvider } from 'ts-morph-extensions';
 import { SourceFile } from '../../dto/sourceFile';
-import { getAncestorProvider } from 'ts-morph-extensions';
 import { providerToCompletionItem } from './providerToCompletionItem';
 
 export class CompletionCommand {
