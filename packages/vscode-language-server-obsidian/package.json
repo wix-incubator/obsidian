@@ -4,7 +4,7 @@
   "description": "Intellisense support for Obsidian dependency injection framework",
   "publisher": "guycarmeli",
   "icon": "obsidian.png",
-  "version": "0.3.2",
+  "version": "1.0.0",
   "license": "ISC",
   "main": "./client/dist/extension.js",
   "scripts": {
