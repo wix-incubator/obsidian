@@ -3,7 +3,8 @@
   "scripts": {
     "test": "yarn workspaces foreach --exclude swc-plugin-obsidian run test --colors && yarn workspace swc-plugin-obsidian test",
     "lint": "yarn workspaces foreach --exclude vscode-language-server-obsidian run lint",
-    "build": "yarn workspace react-obsidian build && yarn workspace ts-morph-extensions build && yarn workspace eslint-plugin-obsidian build"
+    "build": "yarn workspace react-obsidian build && yarn workspace ts-morph-extensions build && yarn workspace eslint-plugin-obsidian build",
+    "versionBump": "node scripts/versionBump.js"
   },
   "workspaces": [
     "packages/*"
