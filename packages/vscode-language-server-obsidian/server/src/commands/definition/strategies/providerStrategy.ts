@@ -2,7 +2,7 @@ import { GoToDefinitionStrategy } from "./goToDefinitionStrategy";
 import { getParentGraphRecursive } from "../../../utils/obsidian/graphs";
 import { Definition } from "vscode-languageserver/node";
 import { Node } from "ts-morph";
-import { ProjectAdapter } from "../../../services/project/projectAdapter";
+import { ProjectAdapter } from "../../../services/projectAdapter";
 
 export class ProviderStrategy implements GoToDefinitionStrategy {
   constructor (private project: ProjectAdapter) { }

@@ -5553,6 +5553,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@ts-morph/common@npm:~0.26.0":
+  version: 0.26.1
+  resolution: "@ts-morph/common@npm:0.26.1"
+  dependencies:
+    fast-glob: ^3.3.2
+    minimatch: ^9.0.4
+    path-browserify: ^1.0.1
+  checksum: 010fc76f6a3347bfcbeee43303d7390accc14fdfd9de65f6aa771e67180c8f1f65ad8e136287517287359a9d2512abcd635bd0102e7af937f6ab1f721f0aa10d
+  languageName: node
+  linkType: hard
+
 "@types/acorn@npm:^4.0.0":
   version: 4.0.6
   resolution: "@types/acorn@npm:4.0.6"
@@ -7928,6 +7939,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"code-block-writer@npm:^13.0.3":
+  version: 13.0.3
+  resolution: "code-block-writer@npm:13.0.3"
+  checksum: 8e234f0ec2db9625d5efb9f05bdae79da6559bb4d9df94a6aa79a89a7b5ae25093b70d309fc5122840c9c07995cb14b4dd3f98a30f8878e3a3372e177df79454
+  languageName: node
+  linkType: hard
+
 "collapse-white-space@npm:^2.0.0":
   version: 2.1.0
   resolution: "collapse-white-space@npm:2.1.0"
@@ -9745,9 +9763,14 @@ __metadata:
     eslint-plugin-import-newlines: ^1.1.5
     eslint-plugin-jest-formatting: ^3.1.0
     eslint-plugin-unused-imports: ^4.1.4
+    external-lib-a: "file:./tests/fixtures/external-lib-a"
+    external-lib-b: "file:./tests/fixtures/external-lib-b"
     jest: ^29.7.0
     jest-extended: ^4.0.2
     lodash: ^4.17.21
+    react-obsidian: "workspace:*"
+    ts-morph: ^25.0.1
+    ts-morph-extensions: ^2.24.0-alpha.5
     typescript: ^5.8.0
   peerDependencies:
     eslint: 8.x.x
@@ -10170,6 +10193,34 @@ __metadata:
   languageName: node
   linkType: hard
 
+"external-lib-a@file:../external-lib-a::locator=external-lib-b%40file%3A.%2Ftests%2Ffixtures%2Fexternal-lib-b%23.%2Ftests%2Ffixtures%2Fexternal-lib-b%3A%3Ahash%3D138200%26locator%3Deslint-plugin-obsidian%2540workspace%253Apackages%252Feslint-plugin-obsidian":
+  version: 1.0.0
+  resolution: "external-lib-a@file:../external-lib-a#../external-lib-a::hash=161e7b&locator=external-lib-b%40file%3A.%2Ftests%2Ffixtures%2Fexternal-lib-b%23.%2Ftests%2Ffixtures%2Fexternal-lib-b%3A%3Ahash%3D138200%26locator%3Deslint-plugin-obsidian%2540workspace%253Apackages%252Feslint-plugin-obsidian"
+  dependencies:
+    react-obsidian: "workspace:*"
+  checksum: 222623a87378cf3b597a212f03f87bc75e525760cc5a009d4edb5dcc3ef5bdd2b52f69d46cab091f6dc03ddf9ef0dc99837668be48ce145eb970af86339e8c9e
+  languageName: node
+  linkType: hard
+
+"external-lib-a@file:./tests/fixtures/external-lib-a::locator=eslint-plugin-obsidian%40workspace%3Apackages%2Feslint-plugin-obsidian":
+  version: 1.0.0
+  resolution: "external-lib-a@file:./tests/fixtures/external-lib-a#./tests/fixtures/external-lib-a::hash=161e7b&locator=eslint-plugin-obsidian%40workspace%3Apackages%2Feslint-plugin-obsidian"
+  dependencies:
+    react-obsidian: "workspace:*"
+  checksum: 222623a87378cf3b597a212f03f87bc75e525760cc5a009d4edb5dcc3ef5bdd2b52f69d46cab091f6dc03ddf9ef0dc99837668be48ce145eb970af86339e8c9e
+  languageName: node
+  linkType: hard
+
+"external-lib-b@file:./tests/fixtures/external-lib-b::locator=eslint-plugin-obsidian%40workspace%3Apackages%2Feslint-plugin-obsidian":
+  version: 1.0.0
+  resolution: "external-lib-b@file:./tests/fixtures/external-lib-b#./tests/fixtures/external-lib-b::hash=138200&locator=eslint-plugin-obsidian%40workspace%3Apackages%2Feslint-plugin-obsidian"
+  dependencies:
+    external-lib-a: "file:../external-lib-a"
+    react-obsidian: "workspace:*"
+  checksum: 41002b3a6ce50f3890e52edd52a8d44e9927904b74d1afea300ff657e313de3ec518b8371b8b4d99f9e0554a735048e724656ec07eae8b2c34d458eeece88e10
+  languageName: node
+  linkType: hard
+
 "fast-deep-equal@npm:^3.1.1, fast-deep-equal@npm:^3.1.3":
   version: 3.1.3
   resolution: "fast-deep-equal@npm:3.1.3"
@@ -10187,6 +10238,19 @@ __metadata:
     merge2: ^1.3.0
     micromatch: ^4.0.4
   checksum: 900e4979f4dbc3313840078419245621259f349950411ca2fa445a2f9a1a6d98c3b5e7e0660c5ccd563aa61abe133a21765c6c0dec8e57da1ba71d8000b05ec1
+  languageName: node
+  linkType: hard
+
+"fast-glob@npm:^3.3.2":
+  version: 3.3.3
+  resolution: "fast-glob@npm:3.3.3"
+  dependencies:
+    "@nodelib/fs.stat": ^2.0.2
+    "@nodelib/fs.walk": ^1.2.3
+    glob-parent: ^5.1.2
+    merge2: ^1.3.0
+    micromatch: ^4.0.8
+  checksum: 0704d7b85c0305fd2cef37777337dfa26230fdd072dce9fb5c82a4b03156f3ffb8ed3e636033e65d45d2a5805a4e475825369a27404c0307f2db0c8eb3366fbd
   languageName: node
   linkType: hard
 
@@ -12958,6 +13022,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"jsonc-parser@npm:^3.2.1":
+  version: 3.3.1
+  resolution: "jsonc-parser@npm:3.3.1"
+  checksum: 81ef19d98d9c6bd6e4a37a95e2753c51c21705cbeffd895e177f4b542cca9cda5fda12fb942a71a2e824a9132cf119dc2e642e9286386055e1365b5478f49a47
+  languageName: node
+  linkType: hard
+
 "jsonfile@npm:^6.0.1":
   version: 6.1.0
   resolution: "jsonfile@npm:6.1.0"
@@ -14115,7 +14186,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"micromatch@npm:^4.0.2, micromatch@npm:^4.0.4, micromatch@npm:^4.0.5":
+"micromatch@npm:^4.0.2, micromatch@npm:^4.0.4, micromatch@npm:^4.0.5, micromatch@npm:^4.0.8":
   version: 4.0.8
   resolution: "micromatch@npm:4.0.8"
   dependencies:
@@ -14975,6 +15046,13 @@ __metadata:
     no-case: ^3.0.4
     tslib: ^2.0.3
   checksum: ba98bfd595fc91ef3d30f4243b1aee2f6ec41c53b4546bfa3039487c367abaa182471dcfc830a1f9e1a0df00c14a370514fa2b3a1aacc68b15a460c31116873e
+  languageName: node
+  linkType: hard
+
+"path-browserify@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "path-browserify@npm:1.0.1"
+  checksum: c6d7fa376423fe35b95b2d67990060c3ee304fc815ff0a2dc1c6c3cfaff2bd0d572ee67e18f19d0ea3bbe32e8add2a05021132ac40509416459fffee35200699
   languageName: node
   linkType: hard
 
@@ -18377,6 +18455,26 @@ __metadata:
   bin:
     ts-jest: cli.js
   checksum: aad8f81ba57aea7c6725f8700307948a5cb50a6d329c1a38457f81294cc868709ab9b9510bb0713e7f417188538b722edb4f84d6159bbf377ae13bf58f4ad145
+  languageName: node
+  linkType: hard
+
+"ts-morph-extensions@^2.24.0-alpha.5, ts-morph-extensions@workspace:packages/ts-morph-extensions":
+  version: 0.0.0-use.local
+  resolution: "ts-morph-extensions@workspace:packages/ts-morph-extensions"
+  dependencies:
+    jsonc-parser: ^3.2.1
+    ts-morph: ^25.0.1
+    typescript: ^5.0.0
+  languageName: unknown
+  linkType: soft
+
+"ts-morph@npm:^25.0.1":
+  version: 25.0.1
+  resolution: "ts-morph@npm:25.0.1"
+  dependencies:
+    "@ts-morph/common": ~0.26.0
+    code-block-writer: ^13.0.3
+  checksum: 6370c653824ac5d4cc44571cb6b770d7b6e2a6c5d1910e538012f98f4e26c2e5d3f900d9cdd3c9f65301415e2cb4cd263774de97ec153ea99f4d9ce4b0a1dd37
   languageName: node
   linkType: hard
 

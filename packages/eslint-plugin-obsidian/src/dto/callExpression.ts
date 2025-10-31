@@ -13,10 +13,6 @@ export class CallExpression {
     return this.callee.name;
   }
 
-  get parent(): TSESTree.Node {
-    return this.node.parent!;
-  }
-
   get arguments(): Identifier[] {
     return this.node.arguments.map((arg) => new Identifier(arg));
   }

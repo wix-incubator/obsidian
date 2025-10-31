@@ -48,3 +48,8 @@ packages/swc-plugin-obsidian/target
 *.tsbuildinfo
 packages/vscode-language-server-obsidian/coverage/
 *.vsix
+packages/vscode-language-server-obsidian/.yalc/ts-morph-extensions/yalc.sig
+packages/vscode-language-server-obsidian/server/.yalc/
+packages/vscode-language-server-obsidian/.yalc/
+packages/vscode-language-server-obsidian/server/yalc.lock
+packages/vscode-language-server-obsidian/yalc.lock

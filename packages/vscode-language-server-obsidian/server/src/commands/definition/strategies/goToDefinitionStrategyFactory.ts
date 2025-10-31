@@ -2,10 +2,10 @@ import { GoToDefinitionStrategy } from "./goToDefinitionStrategy";
 import { ProviderStrategy } from "./providerStrategy";
 import { HookStrategy } from "./hookStrategy";
 import { Node } from "ts-morph";
-import { ProjectAdapter } from "../../../services/project/projectAdapter";
+import { ProjectAdapter } from "../../../services/projectAdapter";
 import { InjectedClassStrategy } from "./injectedClassStrategy";
 import { Logger } from "../../../services/logger";
-import { Identifier } from "../../../dto/identifier";
+import { Identifier } from "ts-morph-extensions";
 
 export class StrategyFactory {
 

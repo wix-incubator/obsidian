@@ -1,9 +1,10 @@
-import { Graph, Provides } from 'react-obsidian';
+// graphThatExtendsAnotherGraph.ts
+import { graph, provides } from 'react-obsidian';
 import { AbstractGraph } from './abstractGraph';
 
-@Graph()
-export abstract class GraphThatExtendsAnotherGraph extends AbstractGraph {
-  @Provides()
+@graph()
+export class GraphThatExtendsAnotherGraph extends AbstractGraph {
+  @provides()
   baz(): string {
     return 'baz';
   }

@@ -10,6 +10,14 @@ export class Method {
     return (this.node.key as TSESTree.Identifier).name;
   }
 
+  public requireParameter(name: string) {
+    return this.findParameter(name)!;
+  }
+
+  public findParameter(name: string) {
+    return this.parameters.find(param => param.name === name);
+  }
+
   get parameters() {
     return this.node.value.params.map((param) => new Parameter(param));
   }

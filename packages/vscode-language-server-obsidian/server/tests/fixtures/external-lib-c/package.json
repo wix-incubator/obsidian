@@ -1,0 +1,9 @@
+{
+  "name": "external-lib-c",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "dependencies": {
+    "react-obsidian": "file:../../../../react-obsidian",
+    "external-lib-d": "file:../external-lib-d"
+  }
+}

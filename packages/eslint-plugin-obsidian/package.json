@@ -2,11 +2,12 @@
   "name": "eslint-plugin-obsidian",
   "description": "ESLint rules for Obsidian",
   "main": "dist/index.js",
-  "version": "2.23.0",
+  "version": "2.24.0-alpha.5",
   "scripts": {
     "build": "npx tsc --project tsconfig.prod.json",
     "test": "npx jest",
-    "lint": "eslint src --ignore-pattern '*.d.ts' --ext .ts,.tsx,.js"
+    "lint": "eslint src --ignore-pattern '*.d.ts' --ext .ts,.tsx,.js",
+    "prepublishOnly": "yarn build"
   },
   "author": "Orly Dadashev",
   "files": [
@@ -22,7 +23,9 @@
   "dependencies": {
     "@typescript-eslint/parser": "^7.18.0",
     "@typescript-eslint/utils": "^7.18.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "ts-morph": "^25.0.1",
+    "ts-morph-extensions": "^2.24.0-alpha.5"
   },
   "devDependencies": {
     "@babel/core": "7.26.10",
@@ -48,8 +51,11 @@
     "eslint-plugin-import-newlines": "^1.1.5",
     "eslint-plugin-jest-formatting": "^3.1.0",
     "eslint-plugin-unused-imports": "^4.1.4",
+    "external-lib-a": "file:./tests/fixtures/external-lib-a",
+    "external-lib-b": "file:./tests/fixtures/external-lib-b",
     "jest": "^29.7.0",
     "jest-extended": "^4.0.2",
+    "react-obsidian": "workspace:*",
     "typescript": "^5.8.0"
   },
   "keywords": [
