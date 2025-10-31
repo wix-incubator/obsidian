@@ -45,7 +45,7 @@ export class Clazz {
     return this.node.body.body;
   }
 
-  public getDecoratedMethods(decoratorName: string): Method[] {
+  public getDecoratedMethodsIgnoreCase(decoratorName: string): Method[] {
     return this.getMethods()
       .filter(method => method.isDecoratedWithIgnoreCase(decoratorName));
   }
