@@ -9,7 +9,7 @@ type DetectionResult =
 export class CircularDependenciesDetector {
 
   detect(clazz: Clazz): DetectionResult {
-    const providers = clazz.getDecoratedMethods('Provides');
+    const providers = clazz.getDecoratedMethodsIgnoreCase('Provides');
     const visited = new Set<string>();
     for (const provider of providers) {
       const result = this.isCircular(

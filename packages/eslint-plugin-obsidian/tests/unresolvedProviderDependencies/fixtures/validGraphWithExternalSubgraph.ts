@@ -5,7 +5,7 @@ import { ExternalGraphB } from 'external-lib-b';
 @graph({ subgraphs: [ExternalGraphB] })
 export default class GraphA extends ObjectGraph {
   @provides()
-  foo(complexExternalDepB: string): string {
+  foo(complexExternalDepB: string, _externalDependencyA: string): string {
     return 'foo' + complexExternalDepB;
   }
 }
