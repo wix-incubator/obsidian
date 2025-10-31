@@ -7,9 +7,9 @@ export class ResolvedDependencyChecker {
 
   public check(clazz: Clazz, dependencies: string[]): DependencyCheckResult {
     const unresolvedDependency = clazz
-      .getDecoratedMethods('Provides')
+      .getDecoratedMethodsIgnoreCase('Provides')
       .flatMap((method) => method.parameters)
-      .find((provider) => !dependencies.includes(provider.name));
+      .find((dependency) => !dependencies.includes(dependency.name));
   return this.getResult(unresolvedDependency);
   }
 

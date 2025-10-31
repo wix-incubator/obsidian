@@ -5,7 +5,7 @@ export class Parameter {
   constructor(public readonly node: ParameterDeclaration) { }
 
   public get name() {
-    return this.node.getName();
+    return this.node.getName().replace(/^_/, '');
   }
 
   public isNotProvided(by: Provider[]): boolean {
