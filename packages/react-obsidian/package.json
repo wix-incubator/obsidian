@@ -21,7 +21,12 @@
     "hoist-non-react-statics": "3.x.x"
   },
   "peerDependencies": {
-    "react": "*"
+    "react": ">=16.8.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@babel/core": "7.26.10",

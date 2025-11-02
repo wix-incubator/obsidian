@@ -6,6 +6,7 @@ import { lifecycleBound } from './decorators/LifecycleBound';
 import { provides } from './decorators/provides/Provides';
 import { singleton } from './decorators/singleton/Singleton';
 import _Obsidian from './Obsidian';
+import { isReactAvailable, createReactRequiredError, createReactRequiredClass } from './utils/reactAvailability';
 
 export * from './types';
 
@@ -50,19 +51,57 @@ export const LateInject = lateInject;
  */
 export const LifecycleBound = lifecycleBound;
 
-
 export const Obsidian = new _Obsidian();
 
-export { injectComponent } from './injectors/components/InjectComponent';
-export { injectHook, injectHookWithArguments } from './injectors/hooks/InjectHook';
-
-export { useObserver } from './observable/useObserver';
-export { useObservers } from './observable/useObservers';
 export { Observable } from './observable/Observable';
 export { MediatorObservable } from './observable/mediator/MediatorObservable';
 export { OnNext, Unsubscribe } from './observable/types';
 
-export { Model } from './model/Model';
+export { mockGraphs } from '../testkit/mockGraphs';
 
-export { testKit } from '../testkit';
-export { mockModel, mockGraphs } from '../testkit/index';
+// ============================================================================
+// React-dependent exports (conditionally loaded)
+// ============================================================================
+const reactAvailable = isReactAvailable();
+
+import type { injectComponent as injectComponentType } from './injectors/components/InjectComponent';
+import type {
+  injectHook as injectHookType,
+  injectHookWithArguments as injectHookWithArgumentsType,
+} from './injectors/hooks/InjectHook';
+import type { useObserver as useObserverType } from './observable/useObserver';
+import type { useObservers as useObserversType } from './observable/useObservers';
+import type { Model as ModelType } from './model/Model';
+import type { mockModel as mockModelType } from '../testkit/index';
+
+export const injectComponent: typeof injectComponentType = reactAvailable
+  ? require('./injectors/components/InjectComponent').injectComponent
+  : createReactRequiredError('injectComponent');
+
+export const injectHook: typeof injectHookType = reactAvailable
+  ? require('./injectors/hooks/InjectHook').injectHook
+  : createReactRequiredError('injectHook');
+
+export const injectHookWithArguments: typeof injectHookWithArgumentsType = reactAvailable
+? require('./injectors/hooks/InjectHook').injectHookWithArguments
+  : createReactRequiredError('injectHookWithArguments');
+
+export const useObserver: typeof useObserverType = reactAvailable
+  ? require('./observable/useObserver').useObserver
+  : createReactRequiredError('useObserver');
+
+export const useObservers: typeof useObserversType = reactAvailable
+  ? require('./observable/useObservers').useObservers
+  : createReactRequiredError('useObservers');
+
+export const Model: typeof ModelType = reactAvailable
+  ? require('./model/Model').Model
+  : createReactRequiredClass('Model');
+
+export const testKit = reactAvailable
+  ? require('../testkit/index').testKit
+  : undefined;
+
+export const mockModel: typeof mockModelType | undefined = reactAvailable
+  ? require('../testkit/index').mockModel
+  : undefined;
