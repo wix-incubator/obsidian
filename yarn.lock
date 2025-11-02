@@ -16529,7 +16529,10 @@ __metadata:
     setimmediate: ^1.0.5
     typescript: ^5.7.3
   peerDependencies:
-    react: "*"
+    react: ">=16.8.0"
+  peerDependenciesMeta:
+    react:
+      optional: true
   languageName: unknown
   linkType: soft
 

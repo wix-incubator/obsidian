@@ -138,14 +138,14 @@ describe('Obsidian without React (Jest)', () => {
   it('testKit is undefined without React', () => {
     jest.isolateModules(() => {
       const { testKit } = require('../../src/index');
-      expect(testKit).toBeUndefined();
+      expect(() => testKit({})).toThrow('testKit requires React to be installed');
     });
   });
 
   it('mockModel is undefined without React', () => {
     jest.isolateModules(() => {
       const { mockModel } = require('../../src/index');
-      expect(mockModel).toBeUndefined();
+      expect(() => mockModel({})).toThrow('mockModel requires React to be installed');
     });
   });
 });

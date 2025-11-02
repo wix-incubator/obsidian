@@ -100,8 +100,8 @@ export const Model: typeof ModelType = reactAvailable
 
 export const testKit = reactAvailable
   ? require('../testkit/index').testKit
-  : undefined;
+  : createReactRequiredError('testKit');
 
-export const mockModel: typeof mockModelType | undefined = reactAvailable
+export const mockModel: typeof mockModelType = reactAvailable
   ? require('../testkit/index').mockModel
-  : undefined;
+  : createReactRequiredError('mockModel');
