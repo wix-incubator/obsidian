@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { execSync } = require('child_process');
 
 // Package paths to update
 const PACKAGE_PATHS = [
@@ -27,19 +28,21 @@ const PACKAGE_NAMES = [
  */
 function showHelp() {
   console.log(`
-Usage: node scripts/versionBump.js [--major|--minor|--patch] [--alpha]
+Usage: node scripts/versionBump.js [--major|--minor|--patch] [--alpha] [--no-update-lock-file]
 
 Options:
-  --major   Bump major version (e.g., 2.24.0 → 3.0.0)
-  --minor   Bump minor version (e.g., 2.24.0 → 2.25.0)
-  --patch   Bump patch version (e.g., 2.24.0 → 2.24.1)
-  --alpha   Add or increment alpha prerelease tag
+  --major                Bump major version (e.g., 2.24.0 → 3.0.0)
+  --minor                Bump minor version (e.g., 2.24.0 → 2.25.0)
+  --patch                Bump patch version (e.g., 2.24.0 → 2.24.1)
+  --alpha                Add or increment alpha prerelease tag
+  --no-update-lock-file  Skip updating yarn.lock file
 
 Examples:
   node scripts/versionBump.js --patch --alpha    # 2.24.0-alpha.5 → 2.24.0-alpha.6
   node scripts/versionBump.js --minor --alpha    # 2.24.0 → 2.25.0-alpha.0
   node scripts/versionBump.js --patch            # 2.24.0-alpha.5 → 2.24.1
   node scripts/versionBump.js --major            # 2.24.0 → 3.0.0
+  node scripts/versionBump.js --patch --no-update-lock-file  # Skip yarn.lock update
   `);
 }
 
@@ -59,7 +62,8 @@ function parseArgs() {
     major: args.includes('--major'),
     minor: args.includes('--minor'),
     patch: args.includes('--patch'),
-    alpha: args.includes('--alpha')
+    alpha: args.includes('--alpha'),
+    noUpdateLockFile: args.includes('--no-update-lock-file')
   };
 
   // Validate that exactly one of major, minor, or patch is provided
@@ -200,6 +204,22 @@ function updateCargoToml(filePath, newVersion) {
 }
 
 /**
+ * Update yarn.lock file by running yarn install
+ */
+function updateYarnLock() {
+  console.log('\nUpdating yarn.lock:');
+  try {
+    execSync('yarn install', {
+      stdio: 'inherit',
+      cwd: process.cwd()
+    });
+    console.log('  ✓ yarn.lock updated successfully');
+  } catch (error) {
+    throw new Error(`Failed to update yarn.lock: ${error.message}`);
+  }
+}
+
+/**
  * Main execution
  */
 function main() {
@@ -244,6 +264,13 @@ function main() {
     }
     if (!dependenciesUpdated) {
       console.log('  (No dependency updates needed)');
+    }
+
+    // Update yarn.lock unless --no-update-lock-file flag is set
+    if (!flags.noUpdateLockFile) {
+      updateYarnLock();
+    } else {
+      console.log('\n⚠️  Skipping yarn.lock update (--no-update-lock-file flag set)');
     }
 
     console.log('\n✅ Version bump completed successfully!');
