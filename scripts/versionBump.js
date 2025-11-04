@@ -28,21 +28,27 @@ const PACKAGE_NAMES = [
  */
 function showHelp() {
   console.log(`
-Usage: node scripts/versionBump.js [--major|--minor|--patch] [--alpha] [--no-update-lock-file]
+Usage: node scripts/versionBump.js [--major|--minor|--patch|--release] [--alpha] [--no-update-lock-file]
 
 Options:
   --major                Bump major version (e.g., 2.24.0 → 3.0.0)
   --minor                Bump minor version (e.g., 2.24.0 → 2.25.0)
   --patch                Bump patch version (e.g., 2.24.0 → 2.24.1)
+  --release              Graduate from alpha to release (e.g., 2.26.0-alpha.0 → 2.26.0)
   --alpha                Add or increment alpha prerelease tag
   --no-update-lock-file  Skip updating yarn.lock file
 
 Examples:
-  node scripts/versionBump.js --patch --alpha    # 2.24.0-alpha.5 → 2.24.0-alpha.6
-  node scripts/versionBump.js --minor --alpha    # 2.24.0 → 2.25.0-alpha.0
-  node scripts/versionBump.js --patch            # 2.24.0-alpha.5 → 2.24.1
-  node scripts/versionBump.js --major            # 2.24.0 → 3.0.0
+  node scripts/versionBump.js --alpha            # 2.24.0-alpha.5 → 2.24.0-alpha.6 (iterate alpha)
+  node scripts/versionBump.js --release          # 2.26.0-alpha.0 → 2.26.0 (graduate to stable)
+  node scripts/versionBump.js --minor --alpha    # 2.24.0 → 2.25.0-alpha.0 (start new alpha)
+  node scripts/versionBump.js --patch            # 2.24.0 → 2.24.1 (bump stable version)
+  node scripts/versionBump.js --major            # 2.24.0 → 3.0.0 (bump stable version)
   node scripts/versionBump.js --patch --no-update-lock-file  # Skip yarn.lock update
+
+Notes:
+  - When on an alpha version (e.g., 2.26.0-alpha.0), only --alpha or --release are allowed
+  - Use --major/--minor/--patch with --alpha to start a new alpha cycle from a stable version
   `);
 }
 
@@ -62,14 +68,22 @@ function parseArgs() {
     major: args.includes('--major'),
     minor: args.includes('--minor'),
     patch: args.includes('--patch'),
+    release: args.includes('--release'),
     alpha: args.includes('--alpha'),
     noUpdateLockFile: args.includes('--no-update-lock-file')
   };
 
-  // Validate that exactly one of major, minor, or patch is provided
-  const bumpTypes = [flags.major, flags.minor, flags.patch].filter(Boolean).length;
+  // Validate that exactly one of major, minor, patch, or release is provided
+  const bumpTypes = [flags.major, flags.minor, flags.patch, flags.release].filter(Boolean).length;
   if (bumpTypes !== 1) {
-    console.error('Error: You must specify exactly one of --major, --minor, or --patch');
+    console.error('Error: You must specify exactly one of --major, --minor, --patch, or --release');
+    showHelp();
+    process.exit(1);
+  }
+
+  // Validate that --release is not used with --alpha
+  if (flags.release && flags.alpha) {
+    console.error('Error: --release and --alpha cannot be used together');
     showHelp();
     process.exit(1);
   }
@@ -100,7 +114,23 @@ function parseVersion(versionString) {
 function calculateNewVersion(currentVersion, flags) {
   const version = parseVersion(currentVersion);
 
-  if (flags.alpha) {
+  // If current version is an alpha, only allow --alpha or --release
+  if (version.alpha !== null && !flags.alpha && !flags.release) {
+    throw new Error(
+      `Current version ${currentVersion} is an alpha release. ` +
+      `Only --alpha (to continue alpha iterations) or --release (to graduate to stable) are allowed. ` +
+      `Cannot use --major, --minor, or --patch on an alpha version.`
+    );
+  }
+
+  if (flags.release) {
+    // Release flag - graduate from alpha to release
+    if (version.alpha === null) {
+      throw new Error('Cannot use --release on a non-alpha version. Current version has no alpha tag.');
+    }
+    // Simply remove the alpha tag
+    return `${version.major}.${version.minor}.${version.patch}`;
+  } else if (flags.alpha) {
     // Alpha flag is set
     if (version.alpha !== null) {
       // Current version has alpha tag - increment alpha number
@@ -228,7 +258,7 @@ function main() {
 
     // Parse arguments
     const flags = parseArgs();
-    const bumpType = flags.major ? 'major' : flags.minor ? 'minor' : 'patch';
+    const bumpType = flags.major ? 'major' : flags.minor ? 'minor' : flags.patch ? 'patch' : 'release';
     console.log(`Bump type: ${bumpType}${flags.alpha ? ' (with alpha tag)' : ''}\n`);
 
     // Read current version

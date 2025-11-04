@@ -1,6 +1,6 @@
 {
   "name": "ts-morph-extensions",
-  "version": "2.25.0",
+  "version": "2.26.0",
   "description": "Extensions and utilities for working with ts-morph projects and TypeScript configurations",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -1,6 +1,6 @@
 {
   "name": "react-obsidian",
-  "version": "2.25.0",
+  "version": "2.26.0",
   "description": "Dependency injection framework for React and React Native applications",
   "scripts": {
     "prepack": "yarn lint && tsc --project tsconfig.prod.json",
