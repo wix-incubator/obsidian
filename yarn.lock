@@ -9770,7 +9770,7 @@ __metadata:
     lodash: ^4.17.21
     react-obsidian: "workspace:*"
     ts-morph: ^25.0.1
-    ts-morph-extensions: ^2.26.0
+    ts-morph-extensions: ^2.26.1
     typescript: ^5.8.0
   peerDependencies:
     eslint: 8.x.x
@@ -18461,7 +18461,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-morph-extensions@^2.26.0, ts-morph-extensions@workspace:packages/ts-morph-extensions":
+"ts-morph-extensions@^2.26.1, ts-morph-extensions@workspace:packages/ts-morph-extensions":
   version: 0.0.0-use.local
   resolution: "ts-morph-extensions@workspace:packages/ts-morph-extensions"
   dependencies:
