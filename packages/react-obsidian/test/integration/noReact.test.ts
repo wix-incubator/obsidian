@@ -109,7 +109,6 @@ describe('Obsidian without React (Jest)', () => {
         injectHookWithArguments,
         useObserver,
         useObservers,
-        Model,
       } = require('../../src/index');
 
       // All React-dependent features should throw clear errors
@@ -129,9 +128,6 @@ describe('Obsidian without React (Jest)', () => {
 
       expect(() => useObservers({}))
         .toThrow('useObservers requires React to be installed');
-
-      expect(() => new Model())
-        .toThrow('Model requires React to be installed');
     });
   });
 

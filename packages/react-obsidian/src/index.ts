@@ -6,7 +6,7 @@ import { lifecycleBound } from './decorators/LifecycleBound';
 import { provides } from './decorators/provides/Provides';
 import { singleton } from './decorators/singleton/Singleton';
 import _Obsidian from './Obsidian';
-import { isReactAvailable, createReactRequiredError, createReactRequiredClass } from './utils/reactAvailability';
+import { isReactAvailable, createReactRequiredError } from './utils/reactAvailability';
 
 export * from './types';
 
@@ -56,6 +56,7 @@ export const Obsidian = new _Obsidian();
 export { Observable } from './observable/Observable';
 export { MediatorObservable } from './observable/mediator/MediatorObservable';
 export { OnNext, Unsubscribe } from './observable/types';
+export { Model } from './model/Model';
 
 export { mockGraphs } from '../testkit/mockGraphs';
 
@@ -71,7 +72,6 @@ import type {
 } from './injectors/hooks/InjectHook';
 import type { useObserver as useObserverType } from './observable/useObserver';
 import type { useObservers as useObserversType } from './observable/useObservers';
-import type { Model as ModelType } from './model/Model';
 import type { mockModel as mockModelType } from '../testkit/index';
 
 export const injectComponent: typeof injectComponentType = reactAvailable
@@ -93,10 +93,6 @@ export const useObserver: typeof useObserverType = reactAvailable
 export const useObservers: typeof useObserversType = reactAvailable
   ? require('./observable/useObservers').useObservers
   : createReactRequiredError('useObservers');
-
-export const Model: typeof ModelType = reactAvailable
-  ? require('./model/Model').Model
-  : createReactRequiredClass('Model');
 
 export const testKit = reactAvailable
   ? require('../testkit/index').testKit

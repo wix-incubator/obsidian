@@ -1,5 +1,10 @@
-import { useColdObservables } from '../observable/cold/useColdObservers';
+type UseColdObservables = typeof import('../observable/cold/useColdObservers').useColdObservables;
 import { Observable } from '../observable/Observable';
+import { isReactAvailable } from '../utils/reactAvailability';
+
+const useColdObservables: UseColdObservables = isReactAvailable()
+  ? require('../observable/cold/useColdObservers').useColdObservables
+  : (_: never) => {};
 
 export abstract class Model {
   public use<T extends Model>(this: T) {
