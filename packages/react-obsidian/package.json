@@ -51,7 +51,7 @@
     "babel-plugin-parameter-decorator": "1.x.x",
     "cross-env": "^7.0.3",
     "eslint": "8.x.x",
-    "eslint-config-airbnb-typescript": "17.x.x",
+    "eslint-config-airbnb-typescript": "^18.0.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-import-newlines": "^1.1.5",
     "eslint-plugin-jest-formatting": "^3.1.0",
