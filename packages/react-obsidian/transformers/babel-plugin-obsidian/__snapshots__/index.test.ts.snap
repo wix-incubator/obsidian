@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Provider Arguments Transformer Testing with deprecated syntax Adds method name to provider arguments (@Provider() -> @Provider({name: "myProvidedDependency"}) 1`] = `
 "var _dec, _class;
