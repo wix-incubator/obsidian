@@ -8,6 +8,7 @@ import {
   Singleton,
 } from '../../src';
 import graphRegistry  from '../../src/graph/registry/GraphRegistry';
+import { restoreConsoleErrors, suppressConsoleErrors } from '../utils/console';
 
 describe('custom scoped lifecycle-bound graphs', () => {
   it('instantiates custom scoped graphs eagerly', () => {
@@ -38,9 +39,11 @@ describe('custom scoped lifecycle-bound graphs', () => {
   });
 
   it('throws when trying to use a scoped subgraph from an unscoped graph', async () => {
+    suppressConsoleErrors();
     expect(() => {
       render(<ComponentThatWronglyReliesOnCustomScopedGraph />);
     }).toThrow(/Cannot instantiate the scoped graph 'CustomScopeGraph' as a subgraph of 'UnscopedGraph' because the scopes do not match. undefined !== customScope/);
+    restoreConsoleErrors();
   });
 
   it('eagerly instantiates nested scoped graphs', () => {
@@ -99,3 +102,11 @@ const ComponentThatReliesOnNestedCustomScopedGraph = injectComponent(
   () => <>Hello</>,
   CustomScopedGraphWithNestedCustomScopeSubgraph,
 );
+
+function ErrorBoundary({ children }) {
+  try {
+    return children;
+  } catch (e) {
+    return null; // or something minimal
+  }
+}
