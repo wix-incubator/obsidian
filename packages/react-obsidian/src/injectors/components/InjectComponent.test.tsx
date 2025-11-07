@@ -37,7 +37,7 @@ describe('injectComponent', () => {
 
   it('Throws an error if the Graph is undefined', () => {
     const Graph = undefined as unknown as Constructable<ObjectGraph>;
-    expect(() => injectComponent(component, Graph)).toThrowError(
+    expect(() => injectComponent(component, Graph)).toThrow(
       `injectComponent was called with an undefined Graph.`
       + `This is probably not an issue with Obsidian.`
       + `It's typically caused by circular dependencies.`

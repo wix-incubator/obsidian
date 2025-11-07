@@ -85,9 +85,7 @@ describe('MediatorObservable', () => {
   it('should throw an error if a subscriber is already subscribed', () => {
     const subscriber = () => {};
     uut.subscribe(subscriber);
-    expect(() => uut.subscribe(subscriber)).toThrowError(
-      'Subscriber already subscribed',
-    );
+    expect(() => uut.subscribe(subscriber)).toThrow('Subscriber already subscribed');
   });
 
   it('should mediate between observers of different types', () => {
