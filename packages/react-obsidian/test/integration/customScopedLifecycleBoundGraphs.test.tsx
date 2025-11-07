@@ -102,11 +102,3 @@ const ComponentThatReliesOnNestedCustomScopedGraph = injectComponent(
   () => <>Hello</>,
   CustomScopedGraphWithNestedCustomScopeSubgraph,
 );
-
-function ErrorBoundary({ children }) {
-  try {
-    return children;
-  } catch (e) {
-    return null; // or something minimal
-  }
-}
