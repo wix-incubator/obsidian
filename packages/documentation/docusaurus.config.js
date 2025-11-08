@@ -54,6 +54,23 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      // Algolia DocSearch configuration
+      // To get your own credentials:
+      // 1. Apply at https://docsearch.algolia.com/apply/
+      // 2. Submit your documentation URL and email
+      // 3. Wait for approval (usually 1-2 weeks)
+      // 4. Replace the placeholder values below with your credentials
+      algolia: {
+        appId: 'YOUR_APP_ID',
+        apiKey: 'YOUR_SEARCH_API_KEY',
+        indexName: 'YOUR_INDEX_NAME',
+        // Optional: Contextual search helps scope results by version/language
+        contextualSearch: true,
+        // Optional: Additional search parameters
+        searchParameters: {},
+        // Optional: Path for the search page (default: /search)
+        // searchPagePath: 'search',
+      },
       navbar: {
         title: 'Obsidian',
         logo: {
