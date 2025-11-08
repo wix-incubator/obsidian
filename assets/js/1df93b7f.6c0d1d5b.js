@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocumentation=self.webpackChunkdocumentation||[]).push([[4583],{720:(n,t,e)=>{e.r(t),e.d(t,{default:()=>a});e(4041);var o=e(6090),u=e(1085);function a(){return(0,u.jsx)(o.rd,{to:"/obsidian/docs/documentation/"})}}}]);
