@@ -4,11 +4,14 @@ import { ObjectGraph } from '../graph/ObjectGraph';
 
 interface GraphParams {
   subgraphs: Constructable<ObjectGraph>[];
+  privateSubgraphs: Constructable<ObjectGraph>[];
 }
 
-export function graph<Class extends Constructor>({ subgraphs = [] }: Partial<GraphParams> = {}) {
+export function graph<Class extends Constructor>(
+  { subgraphs = [], privateSubgraphs = [] }: Partial<GraphParams> = {},
+) {
   return (Clazz: Class) => {
-    graphRegistry.register(Clazz, subgraphs);
+    graphRegistry.register(Clazz, subgraphs, privateSubgraphs);
     return Clazz;
   };
 }

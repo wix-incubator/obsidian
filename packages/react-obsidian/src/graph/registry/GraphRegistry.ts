@@ -15,13 +15,19 @@ export class GraphRegistry {
   private readonly instanceToInjectionToken = new Map<Graph, string>();
   private readonly nameToInstance = new Map<string, Graph>();
   private readonly graphToSubgraphs = new Map<Constructable<Graph>, Set<Constructable<Graph>>>();
+  private readonly graphToPrivateSubgraphs = new Map<Constructable<Graph>, Set<Constructable<Graph>>>();
   private readonly graphMiddlewares = new GraphMiddlewareChain();
   private readonly keyToGenerator = new Map<string,() => Constructable<Graph>>();
   private readonly keyToGraph = new Map<string, Constructable<Graph>>();
   private readonly onClearListeners = new Map<Graph, Set<() => void>>();
 
-  register(constructor: Constructable<Graph>, subgraphs: Constructable<Graph>[] = []) {
+  register(
+    constructor: Constructable<Graph>,
+    subgraphs: Constructable<Graph>[] = [],
+    privateSubgraphs: Constructable<Graph>[] = [],
+  ) {
     this.graphToSubgraphs.set(constructor, new Set(subgraphs));
+    this.graphToPrivateSubgraphs.set(constructor, new Set(privateSubgraphs));
   }
 
   registerGraphGenerator(key: string, generator: () => Constructable<Graph>) {
@@ -44,6 +50,12 @@ export class GraphRegistry {
     const Graph = this.instanceToConstructor.get(graph)!;
     const subgraphs = this.graphToSubgraphs.get(Graph) ?? new Set();
     return Array.from(subgraphs).map((G) => this.resolve(G));
+  }
+
+  getPrivateSubgraphs(graph: Graph): Graph[] {
+    const Graph = this.instanceToConstructor.get(graph)!;
+    const privateSubgraphs = this.graphToPrivateSubgraphs.get(Graph) ?? new Set();
+    return Array.from(privateSubgraphs).map((G) => this.resolve(G));
   }
 
   getGraphInstance(name: string): Graph {
@@ -110,11 +122,15 @@ export class GraphRegistry {
   private getSubgraphsConstructors(graph: Graph | Constructable<Graph>): Constructable<Graph>[] {
     const Graph = typeof graph === 'function' ? graph : this.instanceToConstructor.get(graph)!;
     const directSubgraphs = Array.from(this.graphToSubgraphs.get(Graph) ?? new Set<Constructable<Graph>>());
-    if (directSubgraphs.length === 0) return [];
+    const directPrivateSubgraphs = Array.from(
+      this.graphToPrivateSubgraphs.get(Graph) ?? new Set<Constructable<Graph>>(),
+    );
+    const allDirectSubgraphs = [...directSubgraphs, ...directPrivateSubgraphs];
+    if (allDirectSubgraphs.length === 0) return [];
     return [
-      ...directSubgraphs,
+      ...allDirectSubgraphs,
       ...new Set(
-        directSubgraphs
+        allDirectSubgraphs
           .map(subgraph => this.getSubgraphsConstructors(subgraph))
           .flat(),
       ),

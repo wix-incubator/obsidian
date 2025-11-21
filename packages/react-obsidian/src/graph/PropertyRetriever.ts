@@ -11,6 +11,7 @@ export default class PropertyRetriever {
     property: string,
     receiver?: unknown,
     maybeDetector?: CircularDependenciesDetector,
+    includePrivate: boolean = false,
   ): unknown | undefined {
     const mangledPropertyKey = providedPropertiesStore.getMangledProperty(this.graph, property);
     const circularDependenciesDetector = maybeDetector ?? new CircularDependenciesDetector(this.graph.name);
@@ -22,7 +23,7 @@ export default class PropertyRetriever {
     ) {
       const proxiedGraph = new Proxy(this.graph, {
         get(graph: Graph, dependencyName: string) {
-          return graph.retrieve(dependencyName, receiver, circularDependenciesDetector);
+          return graph.retrieve(dependencyName, receiver, circularDependenciesDetector, true);
         },
       });
       const resolved = Reflect.get(this.graph, mangledPropertyKey, receiver)(proxiedGraph);
@@ -38,18 +39,30 @@ export default class PropertyRetriever {
       );
     }
 
-    return this.getFromSubgraphs(property, circularDependenciesDetector, receiver);
+    return this.getFromSubgraphs(property, circularDependenciesDetector, receiver, includePrivate);
   }
 
   private getFromSubgraphs(
     property: string,
     circularDependenciesDetector: CircularDependenciesDetector,
     receiver: unknown,
+    includePrivate: boolean,
   ): unknown | undefined {
+    // First search public subgraphs
     for (const subgraph of graphRegistry.getSubgraphs(this.graph)) {
-      const result = subgraph.retrieve(property, receiver, circularDependenciesDetector);
+      const result = subgraph.retrieve(property, receiver, circularDependenciesDetector, includePrivate);
       if (result) return result;
     }
+
+    // If includePrivate is true, also search private subgraphs
+    if (includePrivate) {
+      for (const subgraph of graphRegistry.getPrivateSubgraphs(this.graph)) {
+        const result = subgraph.retrieve(property, receiver, circularDependenciesDetector, includePrivate);
+        if (result) return result;
+      }
+    }
+
     return undefined;
   }
 }
+

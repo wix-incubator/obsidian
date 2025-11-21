@@ -25,7 +25,7 @@ export class Graph {
   }
 
   private resolveProviderFromSubgraphs(name: string): Provider | undefined {
-    for (const subgraph of this.getSubgraphs()) {
+    for (const subgraph of this.getAllSubgraphs()) {
       const provider = subgraph.resolveProvider(name);
       if (provider) return provider;
     }
@@ -46,6 +46,16 @@ export class Graph {
       .filter(isDefined);
   }
 
+  public getPrivateSubgraphs(): Graph[] {
+    return this.getPrivateSubgraphsFromDecorator()
+      .map(graph => this.getGraphFromSubgraph(graph))
+      .filter(isDefined);
+  }
+
+  public getAllSubgraphs(): Graph[] {
+    return [...this.getSubgraphs(), ...this.getPrivateSubgraphs()];
+  }
+
   private getGraphFromSubgraph(graph: Expression) {
     const declaration = getDefinition(graph, SyntaxKind.ClassDeclaration);
     return declaration && new Graph(declaration as ClassDeclaration);
@@ -57,11 +67,17 @@ export class Graph {
     return Node.isArrayLiteralExpression(subgraphsArg) ? subgraphsArg.getElements() : [];
   }
 
+  private getPrivateSubgraphsFromDecorator() {
+    const graphDecorator = getDecorator(this.node, ['Graph', 'graph']);
+    const privateSubgraphsArg = graphDecorator?.getArgument(0, 'privateSubgraphs');
+    return Node.isArrayLiteralExpression(privateSubgraphsArg) ? privateSubgraphsArg.getElements() : [];
+  }
+
   public resolveProviders(dedupeSet = new DedupeSet()): Provider[] {
     const ownProviders = this.getProviders().filter(provider => dedupeSet.dedupe(provider.name));
-    const subgraphProviders = this.getSubgraphs().flatMap(subgraph => subgraph.resolveProviders(dedupeSet));
+    const allSubgraphProviders = this.getAllSubgraphs().flatMap(subgraph => subgraph.resolveProviders(dedupeSet));
     const baseGraphProviders = this.getBaseGraph()?.getProviders().filter(provider => dedupeSet.dedupe(provider.name)) || [];
-    return [...ownProviders, ...baseGraphProviders, ...subgraphProviders];
+    return [...ownProviders, ...baseGraphProviders, ...allSubgraphProviders];
   }
 
   private getBaseGraph(): Graph | undefined {
