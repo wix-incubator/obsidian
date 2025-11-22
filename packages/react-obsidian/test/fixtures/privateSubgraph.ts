@@ -6,15 +6,19 @@ export type HttpClient = {
       status: number;
     };
   };
-}
+};
+
+export type Config = {
+  baseUrl: string;
+};
 
 @graph()
 export class PrivateSubgraph extends ObjectGraph {
   @provides()
-  httpClient(baseUrl: string): HttpClient {
+  httpClient(config: Config): HttpClient {
     return {
       fetch: (url: string) => ({
-        url: `${baseUrl}${url}`,
+        url: `${config.baseUrl}${url}`,
         response: {
           status: 200,
         },
@@ -23,10 +27,9 @@ export class PrivateSubgraph extends ObjectGraph {
   }
 
   @provides()
-  config() {
+  config(): Config {
     return {
       baseUrl: 'https://api.example.com/',
     };
-  }  
+  }
 }
-
