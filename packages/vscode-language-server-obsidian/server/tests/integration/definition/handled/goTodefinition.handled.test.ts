@@ -17,6 +17,7 @@ import { createTestProjectAdapter } from "../../utils/createTestProjectAdapter";
 import { FakeLogger } from "../../fakes/fakeLogger";
 import dependencyInNestedSubgraph from "./dependencyInNestedSubgraph";
 import dependencyInExternalSubgraph from "./externalSubgraph";
+import dependencyInPrivateSubgraph from "./dependencyInPrivateSubgraph";
 
 const testCases: DefinitionTestCase[] = [
   injectedHook,
@@ -31,7 +32,8 @@ const testCases: DefinitionTestCase[] = [
   injectedExportDefaultGraph,
   dependencyInExportDefaultSubgraph,
   dependencyInNestedSubgraph,
-  dependencyInExternalSubgraph
+  dependencyInExternalSubgraph,
+  dependencyInPrivateSubgraph
 ];
 
 describe('GoToDefinition', () => {
