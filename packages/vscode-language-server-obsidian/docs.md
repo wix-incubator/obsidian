@@ -18,6 +18,6 @@ First, make sure you have the VSCode Extension Manager (vsce) installed globally
 npm install -g @vscode/vsce
 ```
 
-Use `vsce` to package and publish the extension. Run `vsce package --no-dependencies` to generate a `.vsix` file which can be installed in VSCode by running `code --install-extension <path-to-vsix-file>`.
+Use `vsce` to package and publish the extension. Run `vsce package --no-dependencies` to generate a `.vsix` file which can be installed in VSCode by running `code --install-extension <path-to-vsix-file>`. To install on Cursor, run `cursor --install-extension <path-to-vsix-file>`.
 
 Note: The `--no-dependencies` flag is required because this is a Yarn workspace monorepo. The extension bundles all required code via esbuild, so no separate dependency packaging is needed.
