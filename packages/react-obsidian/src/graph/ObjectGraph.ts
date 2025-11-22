@@ -28,13 +28,23 @@ export abstract class ObjectGraph<T = unknown> implements Graph {
     property: string,
     receiver?: unknown,
     detector?: CircularDependenciesDetector,
-    includePrivate: boolean = false,
   ): Dependency | undefined {
     return this.propertyRetriever.retrieve(
       property,
       receiver,
       detector,
-      includePrivate,
+    ) as Dependency | undefined;
+  }
+
+  retrieveAll<Dependency>(
+    property: string,
+    receiver?: unknown,
+    detector?: CircularDependenciesDetector,
+  ): Dependency | undefined {
+    return this.propertyRetriever.retrieveAll(
+      property,
+      receiver,
+      detector,
     ) as Dependency | undefined;
   }
 
