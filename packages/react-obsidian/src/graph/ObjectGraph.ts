@@ -1,7 +1,7 @@
 import { uniqueId } from '../utils/uniqueId';
 import { bindProviders } from './ProviderBinder';
 import { Graph } from './Graph';
-import PropertyRetriever from './PropertyRetriever';
+import PropertyRetriever from './properties/PropertyRetriever';
 import { Constructable } from '../types';
 import { CircularDependenciesDetector } from './CircularDependenciesDetector';
 import { Reflect } from '../utils/reflect';
@@ -29,7 +29,23 @@ export abstract class ObjectGraph<T = unknown> implements Graph {
     receiver?: unknown,
     detector?: CircularDependenciesDetector,
   ): Dependency | undefined {
-    return this.propertyRetriever.retrieve(property, receiver, detector) as Dependency | undefined;
+    return this.propertyRetriever.retrieve(
+      property,
+      receiver,
+      detector,
+    ) as Dependency | undefined;
+  }
+
+  retrieveAll<Dependency>(
+    property: string,
+    receiver?: unknown,
+    detector?: CircularDependenciesDetector,
+  ): Dependency | undefined {
+    return this.propertyRetriever.retrieveAll(
+      property,
+      receiver,
+      detector,
+    ) as Dependency | undefined;
   }
 
   onBind(_target: any) {
