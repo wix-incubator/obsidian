@@ -1,8 +1,8 @@
-import graphRegistry from './registry/GraphRegistry';
-import { Graph } from './Graph';
-import providedPropertiesStore from '../ProvidedPropertiesStore';
-import { CircularDependenciesDetector } from './CircularDependenciesDetector';
-import { Reflect } from '../utils/reflect';
+import graphRegistry from '../registry/GraphRegistry';
+import { Graph } from '../Graph';
+import providedPropertiesStore from '../../ProvidedPropertiesStore';
+import { CircularDependenciesDetector } from '../CircularDependenciesDetector';
+import { Reflect } from '../../utils/reflect';
 
 export default class PropertyRetriever {
   constructor (private graph: Graph) { }

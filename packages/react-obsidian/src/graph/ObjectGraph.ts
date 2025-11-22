@@ -1,7 +1,7 @@
 import { uniqueId } from '../utils/uniqueId';
 import { bindProviders } from './ProviderBinder';
 import { Graph } from './Graph';
-import PropertyRetriever from './PropertyRetriever';
+import PropertyRetriever from './properties/PropertyRetriever';
 import { Constructable } from '../types';
 import { CircularDependenciesDetector } from './CircularDependenciesDetector';
 import { Reflect } from '../utils/reflect';

@@ -1,5 +1,5 @@
-import { CircularDependencyGraph2 } from '../../test/fixtures/CircularDependencyGraph2';
-import { UniqueNumberGraph } from '../../test/fixtures/UniqueNumberGraph';
+import { CircularDependencyGraph2 } from '../../../test/fixtures/CircularDependencyGraph2';
+import { UniqueNumberGraph } from '../../../test/fixtures/UniqueNumberGraph';
 import PropertyRetriever from './PropertyRetriever';
 
 describe('PropertyRetriever', () => {

@@ -1,4 +1,4 @@
-import { CircularDependenciesDetector } from './CircularDependenciesDetector';
+import { CircularDependenciesDetector } from '../CircularDependenciesDetector';
 
 interface PropertyRetrieverDelegate {
   retrieve: (
