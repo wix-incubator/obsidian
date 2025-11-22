@@ -1,18 +1,26 @@
-import graphRegistry from '../registry/GraphRegistry';
 import { Graph } from '../Graph';
 import providedPropertiesStore from '../../ProvidedPropertiesStore';
 import { CircularDependenciesDetector } from '../CircularDependenciesDetector';
 import { Reflect } from '../../utils/reflect';
+import { RetrieveStrategy } from './retrieveStrategy';
+import { RetrieveFromPublicSubgraphs } from './retrieveFromPublicSubgraphs';
+import { RetrieveFromPublicAndPrivateSubgraphs } from './retrieveFromPublicAndPrivateSubgraphs';
 
 export default class PropertyRetriever {
-  constructor (private graph: Graph) { }
+  private readonly retrieveFromPublicSubgraphs: RetrieveStrategy;
+  private readonly retrieveFromPublicAndPrivateSubgraphs: RetrieveStrategy;
+
+  constructor (private graph: Graph) {
+    this.retrieveFromPublicSubgraphs = new RetrieveFromPublicSubgraphs(this.graph);
+    this.retrieveFromPublicAndPrivateSubgraphs = new RetrieveFromPublicAndPrivateSubgraphs(this.graph);
+  }
 
   retrieve(
     property: string,
     receiver?: unknown,
     maybeDetector?: CircularDependenciesDetector,
   ): unknown | undefined {
-    return this.retrieveInternal(property, receiver, maybeDetector, false);
+    return this.retrieveInternal(property, this.retrieveFromPublicSubgraphs, receiver, maybeDetector);
   }
 
   retrieveAll(
@@ -20,14 +28,14 @@ export default class PropertyRetriever {
     receiver?: unknown,
     maybeDetector?: CircularDependenciesDetector,
   ): unknown | undefined {
-    return this.retrieveInternal(property, receiver, maybeDetector, true);
+    return this.retrieveInternal(property, this.retrieveFromPublicAndPrivateSubgraphs, receiver, maybeDetector);
   }
 
   private retrieveInternal(
     property: string,
+    retrieveStrategy: RetrieveStrategy,
     receiver?: unknown,
     maybeDetector?: CircularDependenciesDetector,
-    includePrivate: boolean = false,
   ): unknown | undefined {
     const mangledPropertyKey = providedPropertiesStore.getMangledProperty(this.graph, property);
     const circularDependenciesDetector = maybeDetector ?? new CircularDependenciesDetector(this.graph.name);
@@ -55,40 +63,6 @@ export default class PropertyRetriever {
       );
     }
 
-    return includePrivate
-      ? this.getAllFromSubgraphs(property, circularDependenciesDetector, receiver)
-      : this.getFromSubgraphs(property, circularDependenciesDetector, receiver);
-  }
-
-  private getFromSubgraphs(
-    property: string,
-    circularDependenciesDetector: CircularDependenciesDetector,
-    receiver: unknown,
-  ): unknown | undefined {
-    for (const subgraph of graphRegistry.getSubgraphs(this.graph)) {
-      const result = subgraph.retrieve(property, receiver, circularDependenciesDetector);
-      if (result) return result;
-    }
-    return undefined;
-  }
-
-  private getAllFromSubgraphs(
-    property: string,
-    circularDependenciesDetector: CircularDependenciesDetector,
-    receiver: unknown,
-  ): unknown | undefined {
-    // First search public subgraphs
-    for (const subgraph of graphRegistry.getSubgraphs(this.graph)) {
-      const result = subgraph.retrieveAll(property, receiver, circularDependenciesDetector);
-      if (result) return result;
-    }
-
-    // Also search private subgraphs
-    for (const subgraph of graphRegistry.getPrivateSubgraphs(this.graph)) {
-      const result = subgraph.retrieveAll(property, receiver, circularDependenciesDetector);
-      if (result) return result;
-    }
-    return undefined;
+    return retrieveStrategy.retrieve(property, circularDependenciesDetector, receiver);
   }
 }
-
