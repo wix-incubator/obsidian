@@ -200,17 +200,20 @@ export class LoginGraph extends ObjectGraph {
 ### Private subgraphs
 Private subgraphs allow you to control the visibility of dependencies when composing graphs. Dependencies from private subgraphs can be used internally within the parent graph's provider methods, but are not exposed to external consumers of that graph.
 
-This is useful when you want to encapsulate implementation details and prevent consumers from depending on internal infrastructure that might change.
+This is useful when you want to encapsulate implementation details and prevent consumers from depending on internal infrastructure.
 
 #### Use case
 Consider an authentication graph that needs low-level infrastructure services like HTTP clients and configuration, but you don't want to expose these implementation details to consumers of the authentication graph.
 
+<Tabs>
+  <TabItem value="AuthGraph" label="AuthGraph">
+
 ```ts title="AuthGraph.ts"
-import {graph, ObjectGraph, provides} from 'react-obsidian';
+import {singleton, graph, ObjectGraph, provides} from 'react-obsidian';
 import {LoggingGraph} from './LoggingGraph';
 import {InfrastructureGraph} from './InfrastructureGraph';
 
-@graph({
+@singleton() @graph({
   subgraphs: [LoggingGraph],           // Public - exposed to consumers
   privateSubgraphs: [InfrastructureGraph]  // Private - internal use only
 })
@@ -222,28 +225,45 @@ export class AuthGraph extends ObjectGraph {
   }
 }
 ```
+  </TabItem>
+  <TabItem value="LoggingGraph" label="LoggingGraph">
+
+```ts title="LoggingGraph.ts"
+import {singleton, graph, ObjectGraph, provides} from 'react-obsidian';
+
+@singleton() @graph()
+export class LoggingGraph extends ObjectGraph {
+  @provides()
+  logger(): Logger {
+    return new Logger();
+  }
+}
+```
+  </TabItem>
+  <TabItem value="InfrastructureGraph" label="InfrastructureGraph">
+
+```ts title="InfrastructureGraph.ts"
+import {singleton, graph, ObjectGraph, provides} from 'react-obsidian';
+
+@singleton() @graph()
+export class InfrastructureGraph extends ObjectGraph {
+  @provides()
+  httpClient(): HttpClient {
+    return new HttpClient();
+  }
+}
+```
+  </TabItem>
+</Tabs>
 
 In this example:
 - The `AuthGraph` can use both `httpClient` (from `InfrastructureGraph`) and `logger` (from `LoggingGraph`) in its provider methods
 - Consumers of `AuthGraph` can access `logger` and `authService`, but **cannot** access `httpClient`
-- This encapsulation ensures that consumers depend on the public API, not implementation details
 
 #### Visibility rules
 - **Public subgraphs**: Dependencies are accessible both internally (within the graph's providers) and externally (to consumers via injection or `Obsidian.obtain()`)
 - **Private subgraphs**: Dependencies are accessible only internally (within the graph's providers)
 - **Transitive dependencies**: If a private subgraph has its own subgraphs, those transitive dependencies are also accessible internally
-
-#### Best practices
-Use private subgraphs when:
-- You want to hide implementation details from consumers
-- You need infrastructure services that might change or be replaced
-- You want to prevent coupling between consumer code and internal dependencies
-- You're building a reusable module with a well-defined public API
-
-Use public subgraphs when:
-- Dependencies should be part of the graph's public API
-- Consumers need direct access to the dependencies
-- You want to compose multiple graphs that all expose their dependencies
 
 ### Abstract graphs
 Abstract graphs are graphs that are not instantiated directly. Instead, they are used as a base for other graphs. Abstract graphs are useful when you want to define a set of dependencies that are shared between multiple graphs.
