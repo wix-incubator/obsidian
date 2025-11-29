@@ -27,6 +27,16 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+  headTags: [
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'algolia-site-verification',
+        content: 'BC322986BF62D3E0',
+      },
+    },
+  ],
+
   presets: [
     [
       'classic',
@@ -91,6 +101,12 @@ const config = {
             position: 'right',
           },
         ],
+      },
+      algolia: {
+        container: '#docsearch',
+        appId: 'XC2HBV2N8Q',
+        indexName: 'obsidian',
+        apiKey: 'b52141250392f5cc0957e046882dc267',
       },
       footer: {
         style: 'dark',
