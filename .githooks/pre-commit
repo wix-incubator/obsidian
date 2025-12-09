@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# Pre-commit hook to replace Wix private registry URLs with public npm registry
+# This ensures committed files reference the public registry while allowing
+# local development against the private registry.
+
+PRIVATE_REGISTRY="npm.dev.wixpress.com"
+PUBLIC_REGISTRY="registry.npmjs.org"
+
+# Files to check and potentially modify
+FILES_TO_CHECK=(
+    ".yarnrc.yml"
+    "packages/vscode-language-server-obsidian/server/.npmrc"
+    "yarn.lock"
+    "packages/vscode-language-server-obsidian/server/package-lock.json"
+)
+
+# Track if we modified any files
+MODIFIED=0
+
+for FILE in "${FILES_TO_CHECK[@]}"; do
+    # Check if this file is staged for commit
+    if git diff --cached --name-only | grep -q "^${FILE}$"; then
+        # Check if the file contains the private registry URL
+        if grep -q "$PRIVATE_REGISTRY" "$FILE"; then
+            echo "Pre-commit: Replacing private registry in $FILE"
+            
+            # Replace private registry with public registry
+            # Using sed with macOS-compatible syntax
+            if [[ "$OSTYPE" == "darwin"* ]]; then
+                sed -i '' "s|$PRIVATE_REGISTRY|$PUBLIC_REGISTRY|g" "$FILE"
+            else
+                sed -i "s|$PRIVATE_REGISTRY|$PUBLIC_REGISTRY|g" "$FILE"
+            fi
+            
+            # Re-stage the modified file
+            git add "$FILE"
+            MODIFIED=1
+        fi
+    fi
+done
+
+if [ $MODIFIED -eq 1 ]; then
+    echo "Pre-commit: Registry URLs updated to public registry for commit"
+fi
+
+exit 0
+
