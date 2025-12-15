@@ -6,6 +6,8 @@
 
 PRIVATE_REGISTRY="npm.dev.wixpress.com"
 PUBLIC_REGISTRY="registry.npmjs.org"
+# Artifactory path prefix used by the private registry (not used by public npm)
+ARTIFACTORY_PATH="/api/npm/npm-repos"
 
 # Files to check and potentially modify
 FILES_TO_CHECK=(
@@ -31,6 +33,22 @@ for FILE in "${FILES_TO_CHECK[@]}"; do
                 sed -i '' "s|$PRIVATE_REGISTRY|$PUBLIC_REGISTRY|g" "$FILE"
             else
                 sed -i "s|$PRIVATE_REGISTRY|$PUBLIC_REGISTRY|g" "$FILE"
+            fi
+            
+            # Re-stage the modified file
+            git add "$FILE"
+            MODIFIED=1
+        fi
+        
+        # Also remove Artifactory-specific path prefix from URLs
+        # This converts URLs like registry.npmjs.org/api/npm/npm-repos/pkg to registry.npmjs.org/pkg
+        if grep -q "$PUBLIC_REGISTRY$ARTIFACTORY_PATH" "$FILE"; then
+            echo "Pre-commit: Removing Artifactory path prefix in $FILE"
+            
+            if [[ "$OSTYPE" == "darwin"* ]]; then
+                sed -i '' "s|$PUBLIC_REGISTRY$ARTIFACTORY_PATH|$PUBLIC_REGISTRY|g" "$FILE"
+            else
+                sed -i "s|$PUBLIC_REGISTRY$ARTIFACTORY_PATH|$PUBLIC_REGISTRY|g" "$FILE"
             fi
             
             # Re-stage the modified file
