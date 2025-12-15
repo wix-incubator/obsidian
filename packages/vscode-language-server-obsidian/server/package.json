@@ -16,7 +16,7 @@
     "external-lib-d": "file:./tests/fixtures/external-lib-d",
     "jest-mock-extended": "^4.0.0-beta1",
     "jest-when": "^3.7.0",
-    "react-obsidian": "2.27.0-alpha.0",
+    "react-obsidian": "^2.27.0",
     "typescript": "^5.0.0"
   }
 }
