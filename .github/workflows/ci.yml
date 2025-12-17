@@ -9,7 +9,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     strategy:
       matrix:
@@ -19,6 +19,7 @@ jobs:
     env:
       NPM_EMAIL: ''
       NPM_TOKEN: ''
+      NPQ_PKG_MGR: yarn
 
     steps:
       - uses: actions/checkout@v4
@@ -29,8 +30,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Install npq
+        run: npm install -g npq
       - name: Install
-        run: yarn --frozen-lockfile
+        run: npq install
       - name: Build
         run: |
           yarn workspace react-obsidian run build

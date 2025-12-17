@@ -10,7 +10,9 @@ on:
 jobs:
   deploy:
     name: Deploy to GitHub Pages
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
+    env:
+      NPQ_PKG_MGR: yarn
     steps:
       - uses: actions/checkout@v4
       - name: Enable corepack
@@ -21,8 +23,10 @@ jobs:
           cache: yarn
           cache-dependency-path: yarn.lock
 
+      - name: Install npq
+        run: npm install -g npq
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npq install
       - name: Build documentation
         working-directory: packages/documentation
         run: yarn build
