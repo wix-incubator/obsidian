@@ -2,8 +2,8 @@
   "private": true,
   "scripts": {
     "prepare": "git config core.hooksPath .githooks",
-    "test": "yarn workspaces foreach --exclude swc-plugin-obsidian run test --colors && yarn workspace swc-plugin-obsidian test",
-    "lint": "yarn workspaces foreach --exclude vscode-language-server-obsidian run lint",
+    "test": "yarn workspaces foreach --all --exclude swc-plugin-obsidian run test --colors && yarn workspace swc-plugin-obsidian test",
+    "lint": "yarn workspaces foreach --all --exclude vscode-language-server-obsidian run lint",
     "build": "yarn workspace react-obsidian build && yarn workspace ts-morph-extensions build && yarn workspace eslint-plugin-obsidian build",
     "versionBump": "node scripts/versionBump.js"
   },
