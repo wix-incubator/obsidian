@@ -1,15 +1,16 @@
 #!/bin/bash
 
-# Pre-commit hook to replace Wix private registry URLs with public npm registry
-# This ensures committed files reference the public registry while allowing
-# local development against the private registry.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="$SCRIPT_DIR/config"
 
-PRIVATE_REGISTRY="npm.dev.wixpress.com"
-PUBLIC_REGISTRY="registry.npmjs.org"
-# Artifactory path prefix used by the private registry (not used by public npm)
-ARTIFACTORY_PATH="/api/npm/npm-repos"
+if [ ! -f "$CONFIG_FILE" ]; then
+    echo "Error: Missing $CONFIG_FILE"
+    echo "Copy .githooks/config.example to .githooks/config and configure it."
+    exit 1
+fi
 
-# Files to check and potentially modify
+source "$CONFIG_FILE"
+
 FILES_TO_CHECK=(
     ".yarnrc.yml"
     "packages/vscode-language-server-obsidian/server/.npmrc"
@@ -17,31 +18,23 @@ FILES_TO_CHECK=(
     "packages/vscode-language-server-obsidian/server/package-lock.json"
 )
 
-# Track if we modified any files
 MODIFIED=0
 
 for FILE in "${FILES_TO_CHECK[@]}"; do
-    # Check if this file is staged for commit
     if git diff --cached --name-only | grep -q "^${FILE}$"; then
-        # Check if the file contains the private registry URL
         if grep -q "$PRIVATE_REGISTRY" "$FILE"; then
             echo "Pre-commit: Replacing private registry in $FILE"
             
-            # Replace private registry with public registry
-            # Using sed with macOS-compatible syntax
             if [[ "$OSTYPE" == "darwin"* ]]; then
                 sed -i '' "s|$PRIVATE_REGISTRY|$PUBLIC_REGISTRY|g" "$FILE"
             else
                 sed -i "s|$PRIVATE_REGISTRY|$PUBLIC_REGISTRY|g" "$FILE"
             fi
             
-            # Re-stage the modified file
             git add "$FILE"
             MODIFIED=1
         fi
         
-        # Also remove Artifactory-specific path prefix from URLs
-        # This converts URLs like registry.npmjs.org/api/npm/npm-repos/pkg to registry.npmjs.org/pkg
         if grep -q "$PUBLIC_REGISTRY$ARTIFACTORY_PATH" "$FILE"; then
             echo "Pre-commit: Removing Artifactory path prefix in $FILE"
             
@@ -51,7 +44,6 @@ for FILE in "${FILES_TO_CHECK[@]}"; do
                 sed -i "s|$PUBLIC_REGISTRY$ARTIFACTORY_PATH|$PUBLIC_REGISTRY|g" "$FILE"
             fi
             
-            # Re-stage the modified file
             git add "$FILE"
             MODIFIED=1
         fi

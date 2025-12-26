@@ -1,0 +1,3 @@
+PUBLIC_REGISTRY="registry.npmjs.org"
+PRIVATE_REGISTRY=""
+ARTIFACTORY_PATH=""
