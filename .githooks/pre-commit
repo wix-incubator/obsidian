@@ -47,6 +47,21 @@ for FILE in "${FILES_TO_CHECK[@]}"; do
             git add "$FILE"
             MODIFIED=1
         fi
+        
+        if [[ "$FILE" == "yarn.lock" ]]; then
+            if grep -q "__archiveUrl=" "$FILE"; then
+                echo "Pre-commit: Stripping __archiveUrl from $FILE"
+                
+                if [[ "$OSTYPE" == "darwin"* ]]; then
+                    sed -i '' 's/::__archiveUrl=[^"]*//g' "$FILE"
+                else
+                    sed -i 's/::__archiveUrl=[^"]*//g' "$FILE"
+                fi
+                
+                git add "$FILE"
+                MODIFIED=1
+            fi
+        fi
     fi
 done
 
