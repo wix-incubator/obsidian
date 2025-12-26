@@ -10,7 +10,7 @@ on:
 jobs:
   test-deploy:
     name: Test deployment
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     env:
       NPQ_PKG_MGR: yarn
     steps:
