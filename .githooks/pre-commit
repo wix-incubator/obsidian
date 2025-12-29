@@ -1,0 +1,73 @@
+#!/bin/bash
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="$SCRIPT_DIR/config"
+
+if [ ! -f "$CONFIG_FILE" ]; then
+    echo "Error: Missing $CONFIG_FILE"
+    echo "Copy .githooks/config.example to .githooks/config and configure it."
+    exit 1
+fi
+
+source "$CONFIG_FILE"
+
+FILES_TO_CHECK=(
+    ".yarnrc.yml"
+    "packages/vscode-language-server-obsidian/server/.npmrc"
+    "yarn.lock"
+    "packages/vscode-language-server-obsidian/server/package-lock.json"
+)
+
+MODIFIED=0
+
+for FILE in "${FILES_TO_CHECK[@]}"; do
+    if git diff --cached --name-only | grep -q "^${FILE}$"; then
+        if grep -q "$PRIVATE_REGISTRY" "$FILE"; then
+            echo "Pre-commit: Replacing private registry in $FILE"
+            
+            if [[ "$OSTYPE" == "darwin"* ]]; then
+                sed -i '' "s|$PRIVATE_REGISTRY|$PUBLIC_REGISTRY|g" "$FILE"
+            else
+                sed -i "s|$PRIVATE_REGISTRY|$PUBLIC_REGISTRY|g" "$FILE"
+            fi
+            
+            git add "$FILE"
+            MODIFIED=1
+        fi
+        
+        if grep -q "$PUBLIC_REGISTRY$ARTIFACTORY_PATH" "$FILE"; then
+            echo "Pre-commit: Removing Artifactory path prefix in $FILE"
+            
+            if [[ "$OSTYPE" == "darwin"* ]]; then
+                sed -i '' "s|$PUBLIC_REGISTRY$ARTIFACTORY_PATH|$PUBLIC_REGISTRY|g" "$FILE"
+            else
+                sed -i "s|$PUBLIC_REGISTRY$ARTIFACTORY_PATH|$PUBLIC_REGISTRY|g" "$FILE"
+            fi
+            
+            git add "$FILE"
+            MODIFIED=1
+        fi
+        
+        if [[ "$FILE" == "yarn.lock" ]]; then
+            if grep -q "__archiveUrl=" "$FILE"; then
+                echo "Pre-commit: Stripping __archiveUrl from $FILE"
+                
+                if [[ "$OSTYPE" == "darwin"* ]]; then
+                    sed -i '' 's/::__archiveUrl=[^"]*//g' "$FILE"
+                else
+                    sed -i 's/::__archiveUrl=[^"]*//g' "$FILE"
+                fi
+                
+                git add "$FILE"
+                MODIFIED=1
+            fi
+        fi
+    fi
+done
+
+if [ $MODIFIED -eq 1 ]; then
+    echo "Pre-commit: Registry URLs updated to public registry for commit"
+fi
+
+exit 0
+

@@ -19,18 +19,21 @@ jobs:
     env:
       NPM_EMAIL: ''
       NPM_TOKEN: ''
+      NPQ_PKG_MGR: yarn
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
       - name: Enable corepack
         run: corepack enable
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: Install npq
+        run: npm install -g npq
       - name: Install
-        run: yarn --frozen-lockfile
+        run: npq install
       - name: Build
         run: |
           yarn workspace react-obsidian run build

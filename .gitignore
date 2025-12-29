@@ -53,3 +53,4 @@ packages/vscode-language-server-obsidian/server/.yalc/
 packages/vscode-language-server-obsidian/.yalc/
 packages/vscode-language-server-obsidian/server/yalc.lock
 packages/vscode-language-server-obsidian/yalc.lock
+.githooks/config
