@@ -27,6 +27,15 @@ const config = {
     defaultLocale: 'en',
     locales: ['en'],
   },
+  headTags: [
+    {
+      tagName: 'meta',
+      attributes: {
+        name: 'algolia-site-verification',
+        content: 'BC322986BF62D3E0',
+      },
+    },
+  ],
   presets: [
     [
       'classic',
