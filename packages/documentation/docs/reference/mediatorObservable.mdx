@@ -41,7 +41,7 @@ Starts observing the given source and calls the `onNext` callback when the sourc
 
 #### Arguments
 * `source` - The source `Observable` to observe.
-* `onNext` - The callback to be called when the source emits a new value. The `onNext` callback receives the new value of the source as an argument. __In order to update the value of the `MediatorObservable`, call the [value setter](observable#set-value) with the new value__.
+* `onNext` - The callback to be called when the source emits a new value. The `onNext` callback receives the new value of the source as an argument. __In order to update the value of the `MediatorObservable`, call the [value setter](../observable#set-value) with the new value__.
 
 #### Returns
 `addSource` returns the `MediatorObservable` instance, so it can be chained with other methods.
@@ -63,7 +63,7 @@ Similar to [addSource](#addsourcesource-onnext-this), but accepts an array of so
 
 #### Arguments
 * `sources` - An array of source `Observable`s to observe.
-* `onNext` - The callback to be called when any of the sources emits a new value. The `onNext` callback receives the current values of all sources as arguments. In order to update the value of the `MediatorObservable`, call the [value setter](observable#set-value) with the new value.
+* `onNext` - The callback to be called when any of the sources emits a new value. The `onNext` callback receives the current values of all sources as arguments. In order to update the value of the `MediatorObservable`, call the [value setter](../observable#set-value) with the new value.
 
 #### Returns
 `addSources` returns the `MediatorObservable` instance, so it can be chained with other methods.
@@ -81,7 +81,7 @@ Similar to [mapSource](#mapsourcesource-mapnext-this), but accepts an array of s
 
 ---
 ### async first&#60;T&#62;(): Promise&#60;T&#62;
-See [Observable.first()](observable#async-firstt-promiset).
+See [Observable.first()](../observable#async-firstt-promiset).
 
 ## Usage
 ### Observing multiple sources
