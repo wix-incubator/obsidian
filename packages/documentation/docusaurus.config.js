@@ -11,6 +11,7 @@ const config = {
   tagline: 'Dependency injection framework for React and React Native applications',
   url: 'https://wix-incubator.github.io',
   baseUrl: '/obsidian/',
+  trailingSlash: true,
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
