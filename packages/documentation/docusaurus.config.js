@@ -156,10 +156,10 @@ const config = {
         copyright: `Copyright © ${new Date().getFullYear()} Wix.com. Built with Docusaurus.`,
       },
       algolia: {
-        container: '#docsearch',
         appId: 'XC2HBV2N8Q',
         apiKey: 'b52141250392f5cc0957e046882dc267',
         indexName: 'Documentation Website',
+        contextualSearch: false,
       },
       prism: {
         theme: lightTheme,
