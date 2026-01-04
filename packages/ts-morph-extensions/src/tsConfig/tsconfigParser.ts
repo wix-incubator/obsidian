@@ -49,7 +49,7 @@ export class TsConfigParser {
       return config;
     }
 
-    const baseConfigPath = path.resolve(baseDir, config.extends);
+    const baseConfigPath = require.resolve(config.extends, { paths: [baseDir] });
     const baseConfigDir = path.dirname(baseConfigPath);
     const baseConfig = this.readJsonFile(baseConfigPath);
 
