@@ -18,8 +18,10 @@ export class CallExpression {
   }
 
   get generics() {
-    return this.node.typeArguments ?
-      new Generics(this.node.typeArguments) :
+    // Support both typeParameters (@typescript-eslint v7+) and typeArguments (v6 and earlier)
+    const typeParams = (this.node as any).typeParameters ?? this.node.typeArguments;
+    return typeParams ?
+      new Generics(typeParams) :
       undefined;
   }
 
