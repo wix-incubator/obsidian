@@ -19,6 +19,7 @@ export { injectable } from './decorators/injectable/Injectable';
 export { inject } from './decorators/inject/Inject';
 export { lateInject } from './decorators/lateInject/LateInject';
 export { lifecycleBound } from './decorators/LifecycleBound';
+export { memoize } from './decorators/memoize/Memoize';
 export { GraphMiddleware } from './graph/registry/GraphMiddleware';
 export { GraphResolveChain as ResolveChain } from './graph/registry/GraphResolveChain';
 
