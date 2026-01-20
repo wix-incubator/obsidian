@@ -239,7 +239,7 @@ describe('memoize decorator', () => {
 
       class UserService {
         @memoize({
-          isEqual: (newArgs, lastArgs) => newArgs[0].id === lastArgs[0].id,
+          isEqual: (newArgs: any[], lastArgs: any[]) => newArgs[0].id === lastArgs[0].id,
         })
         getDisplayName(user: { id: number; name: string }): string {
           callCount++;
