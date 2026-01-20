@@ -67,6 +67,29 @@ export const useCounterViewModel = (model: CounterModel) => {
 }
 ```
 
+:::tip Optimizing expensive computations
+Models often contain methods that perform expensive calculations. You can use the `@memoize` decorator to cache results based on the method's arguments. The cached value is returned on subsequent calls with the same arguments, avoiding redundant computations. This is particularly useful when calling such methods from hooks during re-renders, and lets you avoid cluttering your view model with `useMemo` hooks.
+
+```ts title="CounterModel.ts"
+import { Observable, memoize } from "react-obsidian";
+
+export class CounterModel {
+  public readonly count = new Observable(0);
+
+  public increment() {
+    this.count.value++;
+  }
+
+  // Result is cached per unique multiplier value
+  @memoize()
+  public computeFactorial(n: number): number {
+    if (n <= 1) return 1;
+    return n * this.computeFactorial(n - 1);
+  }
+}
+```
+:::
+
 ## Step 3: Create the View
  The view is responsible for rendering the UI. Let's refactor the original counter component to use the ViewModel. Our aim is to decouple the count logic from the view. It doesn't need to know how the count is incremented or where the count value comes from.
 
