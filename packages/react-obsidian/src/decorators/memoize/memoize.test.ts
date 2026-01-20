@@ -42,7 +42,7 @@ describe('memoize decorator', () => {
       expect(callCount).toBe(2);
     });
 
-    it('should cache results separately for each unique argument combination', () => {
+    it('should only cache the last result (single-value cache)', () => {
       let callCount = 0;
 
       class Calculator {
@@ -56,11 +56,16 @@ describe('memoize decorator', () => {
       const calc = new Calculator();
 
       expect(calc.multiply(2, 3)).toBe(6);
-      expect(calc.multiply(4, 5)).toBe(20);
-      expect(calc.multiply(2, 3)).toBe(6); // cached
-      expect(calc.multiply(4, 5)).toBe(20); // cached
+      expect(callCount).toBe(1);
 
+      expect(calc.multiply(4, 5)).toBe(20); // different args, recompute
       expect(callCount).toBe(2);
+
+      expect(calc.multiply(2, 3)).toBe(6); // previous args evicted, recompute
+      expect(callCount).toBe(3);
+
+      expect(calc.multiply(2, 3)).toBe(6); // same as last, cached
+      expect(callCount).toBe(3);
     });
 
     it('should work with no parameters', () => {
@@ -94,7 +99,7 @@ describe('memoize decorator', () => {
         constructor(private base: number) {}
 
         @memoize()
-        count(n: number): number {
+        add(n: number): number {
           callCount++;
           return this.base + n;
         }
@@ -103,10 +108,10 @@ describe('memoize decorator', () => {
       const counter1 = new Counter(10);
       const counter2 = new Counter(20);
 
-      expect(counter1.count(5)).toBe(15);
-      expect(counter2.count(5)).toBe(25);
-      expect(counter1.count(5)).toBe(15); // cached for counter1
-      expect(counter2.count(5)).toBe(25); // cached for counter2
+      expect(counter1.add(5)).toBe(15);
+      expect(counter2.add(5)).toBe(25);
+      expect(counter1.add(5)).toBe(15); // cached for counter1
+      expect(counter2.add(5)).toBe(25); // cached for counter2
 
       expect(callCount).toBe(2);
     });
@@ -170,8 +175,8 @@ describe('memoize decorator', () => {
     });
   });
 
-  describe('argument handling', () => {
-    it('should handle object arguments', () => {
+  describe('Object.is comparison', () => {
+    it('should use reference equality for objects (not deep equality)', () => {
       let callCount = 0;
 
       class Processor {
@@ -183,13 +188,111 @@ describe('memoize decorator', () => {
       }
 
       const processor = new Processor();
-      expect(processor.process({ value: 5 })).toBe(10);
-      expect(processor.process({ value: 5 })).toBe(10); // same object shape = cached
-      expect(processor.process({ value: 10 })).toBe(20); // different value = recompute
+      const obj = { value: 5 };
 
+      expect(processor.process(obj)).toBe(10);
+      expect(processor.process(obj)).toBe(10); // same reference, cached
+      expect(callCount).toBe(1);
+
+      expect(processor.process({ value: 5 })).toBe(10); // different reference, recompute
       expect(callCount).toBe(2);
     });
 
+    it('should handle NaN correctly (NaN === NaN with Object.is)', () => {
+      let callCount = 0;
+
+      class Calculator {
+        @memoize()
+        compute(value: number): string {
+          callCount++;
+          return `result: ${value}`;
+        }
+      }
+
+      const calc = new Calculator();
+      expect(calc.compute(NaN)).toBe('result: NaN');
+      expect(calc.compute(NaN)).toBe('result: NaN'); // Object.is(NaN, NaN) is true
+      expect(callCount).toBe(1);
+    });
+
+    it('should distinguish between 0 and -0', () => {
+      let callCount = 0;
+
+      class Calculator {
+        @memoize()
+        compute(value: number): string {
+          callCount++;
+          return Object.is(value, -0) ? 'negative zero' : 'zero or other';
+        }
+      }
+
+      const calc = new Calculator();
+      expect(calc.compute(0)).toBe('zero or other');
+      expect(calc.compute(-0)).toBe('negative zero'); // Object.is(0, -0) is false
+      expect(callCount).toBe(2);
+    });
+  });
+
+  describe('custom isEqual function', () => {
+    it('should use custom isEqual when provided', () => {
+      let callCount = 0;
+
+      class UserService {
+        @memoize({
+          isEqual: (newArgs, lastArgs) => newArgs[0].id === lastArgs[0].id,
+        })
+        getDisplayName(user: { id: number; name: string }): string {
+          callCount++;
+          return user.name.toUpperCase();
+        }
+      }
+
+      const service = new UserService();
+
+      expect(service.getDisplayName({ id: 1, name: 'Alice' })).toBe('ALICE');
+      expect(callCount).toBe(1);
+
+      // Same id, different name - should use cache due to custom isEqual
+      expect(service.getDisplayName({ id: 1, name: 'Alice Updated' })).toBe('ALICE');
+      expect(callCount).toBe(1);
+
+      // Different id - should recompute
+      expect(service.getDisplayName({ id: 2, name: 'Bob' })).toBe('BOB');
+      expect(callCount).toBe(2);
+    });
+
+    it('should support deep equality comparison via custom isEqual', () => {
+      let callCount = 0;
+
+      const deepEqual = (a: unknown, b: unknown): boolean =>
+        JSON.stringify(a) === JSON.stringify(b);
+
+      class DataProcessor {
+        @memoize({
+          isEqual: (newArgs, lastArgs) => deepEqual(newArgs, lastArgs),
+        })
+        process(data: { values: number[] }): number {
+          callCount++;
+          return data.values.reduce((sum, v) => sum + v, 0);
+        }
+      }
+
+      const processor = new DataProcessor();
+
+      expect(processor.process({ values: [1, 2, 3] })).toBe(6);
+      expect(callCount).toBe(1);
+
+      // Different object, same deep value - cached with deep equality
+      expect(processor.process({ values: [1, 2, 3] })).toBe(6);
+      expect(callCount).toBe(1);
+
+      // Different values - recompute
+      expect(processor.process({ values: [1, 2, 4] })).toBe(7);
+      expect(callCount).toBe(2);
+    });
+  });
+
+  describe('argument handling', () => {
     it('should handle multiple parameters of different types', () => {
       let callCount = 0;
 

@@ -1,21 +1,29 @@
 import { Reflect } from '../../utils/reflect';
+import type { IsEqualFn } from './areArgsEqual';
+
+type MemoizeCache = {
+  lastArgs: any[];
+  lastResult: any;
+};
 
 export function legacyDecorator(
   _target: object,
   propertyKey: string,
   descriptor: PropertyDescriptor,
+  isEqual: IsEqualFn,
 ): PropertyDescriptor {
   const originalMethod = descriptor.value;
+  const cacheKey = `memoized_${propertyKey}`;
 
   descriptor.value = function memoizedMethod(this: object, ...args: any[]) {
-    const cacheKey = `memoized_${propertyKey}_${JSON.stringify(args)}`;
+    const cache = Reflect.getMetadata(cacheKey, this) as MemoizeCache | undefined;
 
-    if (Reflect.hasMetadata(cacheKey, this)) {
-      return Reflect.getMetadata(cacheKey, this);
+    if (cache && isEqual(args, cache.lastArgs)) {
+      return cache.lastResult;
     }
 
     const result = originalMethod.apply(this, args);
-    Reflect.defineMetadata(cacheKey, result, this);
+    Reflect.defineMetadata(cacheKey, { lastArgs: args, lastResult: result }, this);
     return result;
   };
 
