@@ -16,7 +16,7 @@
     "LICENSE"
   ],
   "peerDependencies": {
-    "eslint": "8.x.x",
+    "eslint": "9.x.x",
     "eslint-plugin-obsidian": "*",
     "react-obsidian": "2.x.x"
   },
@@ -46,7 +46,7 @@
     "@typescript-eslint/types": "^7.18.0",
     "@typescript-eslint/typescript-estree": "^7.18.0",
     "cross-env": "^7.0.3",
-    "eslint": "8.x.x",
+    "eslint": "9.x.x",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-import-newlines": "^1.1.5",
     "eslint-plugin-jest-formatting": "^3.1.0",
