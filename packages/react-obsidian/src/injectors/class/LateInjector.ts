@@ -1,4 +1,4 @@
-import { isString } from 'lodash';
+import { isString } from '../../utils/isString';
 import { ObjectGraph } from '../../graph/ObjectGraph';
 import graphRegistry from '../../graph/registry/GraphRegistry';
 import InjectionMetadata from './InjectionMetadata';

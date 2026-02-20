@@ -55,7 +55,17 @@
       "no-restricted-syntax": "off",
       "import/no-named-as-default": "off",
       "@typescript-eslint/ban-types": ["off"],
-      "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+      "import/no-extraneous-dependencies": [
+        "error",
+        {
+          "devDependencies": [
+            "**/*.test.ts",
+            "**/*.test.tsx",
+            "**/*.spec.ts",
+            "**/*.spec.tsx"
+          ]
+        }
+      ],
       "max-classes-per-file": ["off"],
       "curly": ["error", "multi-line"],
       "@stylistic/semi": ["error", "always"],
