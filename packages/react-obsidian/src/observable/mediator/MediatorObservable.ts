@@ -32,20 +32,19 @@ export class MediatorObservable<T> extends Observable<T> {
   ) {
     const values = new Array(sources.length) as Args<S1, S2, S3, S4, S5>;
 
-    sources
-      .filter(notNull)
-      .forEach((source, index) => {
-        this.addSource(source as IObservable<any>, (next) => {
-          if (values[index] === next) return;
+    sources.forEach((source, index) => {
+      if (!notNull(source)) return;
+      this.addSource(source as IObservable<any>, (next) => {
+        if (values[index] === next) return;
 
-          if (values[index] === undefined) {
-            values[index] = next;
-          } else {
-            values[index] = next;
-            onNext(values);
-          }
-        });
+        if (values[index] === undefined) {
+          values[index] = next;
+        } else {
+          values[index] = next;
+          onNext(values);
+        }
       });
+    });
 
     onNext(values);
     return this;
@@ -57,20 +56,19 @@ export class MediatorObservable<T> extends Observable<T> {
   ) {
     const values = new Array(sources.length) as Args<S1, S2, S3, S4, S5>;
 
-    sources
-      .filter(notNull)
-      .forEach((source, index) => {
-        this.addSource(source as IObservable<any>, (next) => {
-          if (values[index] === next) return;
+    sources.forEach((source, index) => {
+      if (!notNull(source)) return;
+      this.addSource(source as IObservable<any>, (next) => {
+        if (values[index] === next) return;
 
-          if (values[index] === undefined) {
-            values[index] = next;
-          } else {
-            values[index] = next;
-            this.value = mapNext(values, this.value) as T;
-          }
-        });
+        if (values[index] === undefined) {
+          values[index] = next;
+        } else {
+          values[index] = next;
+          this.value = mapNext(values, this.value) as T;
+        }
       });
+    });
 
     this.value = mapNext(values, this.value);
     return this;

@@ -256,5 +256,18 @@ describe('MediatorObservable', () => {
 
       expect(onNext).toHaveBeenCalledTimes(2);
     });
+
+    it('should preserve original array positions when a null source is in the list', () => {
+      const strUut = new MediatorObservable<string>();
+      const strA = new Observable<string>('hello');
+      const strB = new Observable<string>('world');
+
+      // @ts-expect-error testing runtime behavior with null source
+      strUut.addSources([null, strA, strB], ([, a, b]) => {
+        strUut.value = `${a} ${b}`;
+      });
+
+      expect(strUut.value).toBe('hello world');
+    });
   });
 });
