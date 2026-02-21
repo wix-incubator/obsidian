@@ -1,4 +1,3 @@
-import { notNull } from '../../utils/notNull';
 import { Observable } from '../Observable';
 import {
   Mapper,
@@ -33,7 +32,7 @@ export class MediatorObservable<T> extends Observable<T> {
     const values = new Array(sources.length) as Args<S1, S2, S3, S4, S5>;
 
     sources.forEach((source, index) => {
-      if (!notNull(source)) return;
+      if (source == null) throw new Error(`addSources: source at index ${index} is null or undefined`);
       this.addSource(source as IObservable<any>, (next) => {
         if (values[index] === next) return;
 
@@ -57,7 +56,7 @@ export class MediatorObservable<T> extends Observable<T> {
     const values = new Array(sources.length) as Args<S1, S2, S3, S4, S5>;
 
     sources.forEach((source, index) => {
-      if (!notNull(source)) return;
+      if (source == null) throw new Error(`mapSources: source at index ${index} is null or undefined`);
       this.addSource(source as IObservable<any>, (next) => {
         if (values[index] === next) return;
 
