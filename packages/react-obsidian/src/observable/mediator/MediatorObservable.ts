@@ -30,22 +30,22 @@ export class MediatorObservable<T> extends Observable<T> {
     onNext: OnMultiNext<S1, S2, S3, S4, S5>,
   ) {
     const values = new Array(sources.length) as Args<S1, S2, S3, S4, S5>;
-    const initializedIndices = new Set<number>();
 
     sources.forEach((source, index) => {
       if (source == null) throw new Error(`addSources: source at index ${index} is null or undefined`);
       this.addSource(source as IObservable<any>, (next) => {
-        if (initializedIndices.has(index) && values[index] === next) return;
+        if (values[index] === next) return;
 
-        values[index] = next;
-        initializedIndices.add(index);
-
-        if (initializedIndices.size === sources.length) {
+        if (values[index] === undefined) {
+          values[index] = next;
+        } else {
+          values[index] = next;
           onNext(values);
         }
       });
     });
 
+    onNext(values);
     return this;
   }
 
@@ -54,22 +54,22 @@ export class MediatorObservable<T> extends Observable<T> {
     mapNext: MultiMapper<T, S1, S2, S3, S4, S5>,
   ) {
     const values = new Array(sources.length) as Args<S1, S2, S3, S4, S5>;
-    const initializedIndices = new Set<number>();
 
     sources.forEach((source, index) => {
       if (source == null) throw new Error(`mapSources: source at index ${index} is null or undefined`);
       this.addSource(source as IObservable<any>, (next) => {
-        if (initializedIndices.has(index) && values[index] === next) return;
+        if (values[index] === next) return;
 
-        values[index] = next;
-        initializedIndices.add(index);
-
-        if (initializedIndices.size === sources.length) {
+        if (values[index] === undefined) {
+          values[index] = next;
+        } else {
+          values[index] = next;
           this.value = mapNext(values, this.value) as T;
         }
       });
     });
 
+    this.value = mapNext(values, this.value);
     return this;
   }
 }
