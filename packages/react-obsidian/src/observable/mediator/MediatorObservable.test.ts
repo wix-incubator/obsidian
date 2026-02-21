@@ -256,5 +256,18 @@ describe('MediatorObservable', () => {
 
       expect(onNext).toHaveBeenCalledTimes(2);
     });
+
+    it('should throw when a null source is passed', () => {
+      const strUut = new MediatorObservable<string>();
+      const strA = new Observable<string>('hello');
+      const strB = new Observable<string>('world');
+
+      expect(() => {
+        // @ts-expect-error testing runtime behavior with null source
+        strUut.addSources([null, strA, strB], ([, a, b]) => {
+          strUut.value = `${a} ${b}`;
+        });
+      }).toThrow('addSources: source at index 0 is null or undefined');
+    });
   });
 });
