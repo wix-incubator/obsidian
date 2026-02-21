@@ -86,4 +86,20 @@ describe('makeObservable', () => {
     observable.value = 456;
     expect(await promise).toBe(123);
   });
+
+  it.each([
+    ['0', 0],
+    ['false', false],
+    ['empty string', ''],
+    ['null', null],
+  ])('should resolve immediately when current value is %s', async (_, value) => {
+    const obs = new Observable(value);
+
+    let resolved = false;
+    obs.first().then(() => { resolved = true; });
+
+    await Promise.resolve();
+
+    expect(resolved).toBe(true);
+  });
 });
