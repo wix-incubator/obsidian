@@ -18,7 +18,7 @@ export class Observable<T> implements IObservable<T> {
   }
 
   async first(): Promise<T> {
-    if (this.currentValue) return this.currentValue;
+    if (this.currentValue !== undefined) return this.currentValue;
     return new Promise((resolve) => {
       const unsubscribe = this.subscribe((value) => {
         unsubscribe();
