@@ -10112,6 +10112,8 @@ __metadata:
     ts-morph-extensions: "npm:^2.29.0"
     typescript: "npm:^5.8.0"
   peerDependencies:
+    "@typescript-eslint/parser": ">=7.0.0"
+    "@typescript-eslint/utils": ">=7.0.0"
     eslint: 8.x.x
     eslint-plugin-obsidian: "*"
     react-obsidian: 2.x.x
