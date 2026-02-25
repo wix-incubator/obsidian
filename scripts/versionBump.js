@@ -73,10 +73,15 @@ function parseArgs() {
     noUpdateLockFile: args.includes('--no-update-lock-file')
   };
 
-  // Validate that exactly one of major, minor, patch, or release is provided
   const bumpTypes = [flags.major, flags.minor, flags.patch, flags.release].filter(Boolean).length;
-  if (bumpTypes !== 1) {
-    console.error('Error: You must specify exactly one of --major, --minor, --patch, or --release');
+  // --alpha alone is valid (iterates an existing alpha version)
+  if (bumpTypes === 0 && !flags.alpha) {
+    console.error('Error: You must specify exactly one of --major, --minor, --patch, --release, or --alpha');
+    showHelp();
+    process.exit(1);
+  }
+  if (bumpTypes > 1) {
+    console.error('Error: You must specify at most one of --major, --minor, --patch, or --release');
     showHelp();
     process.exit(1);
   }
@@ -258,7 +263,9 @@ function main() {
 
     // Parse arguments
     const flags = parseArgs();
-    const bumpType = flags.major ? 'major' : flags.minor ? 'minor' : flags.patch ? 'patch' : 'release';
+    const bumpType = flags.alpha && !flags.major && !flags.minor && !flags.patch && !flags.release
+      ? 'alpha'
+      : flags.major ? 'major' : flags.minor ? 'minor' : flags.patch ? 'patch' : 'release';
     console.log(`Bump type: ${bumpType}${flags.alpha ? ' (with alpha tag)' : ''}\n`);
 
     // Read current version
