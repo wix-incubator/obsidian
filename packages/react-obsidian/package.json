@@ -50,7 +50,7 @@
     "@typescript-eslint/parser": "^7.18.0",
     "babel-plugin-parameter-decorator": "1.x.x",
     "cross-env": "^7.0.3",
-    "eslint": "8.x.x",
+    "eslint": "9.x.x",
     "eslint-config-airbnb-typescript": "^18.0.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-import-newlines": "^1.1.5",
