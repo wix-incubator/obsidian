@@ -2,7 +2,7 @@
   "name": "eslint-plugin-obsidian",
   "description": "ESLint rules for Obsidian",
   "main": "dist/index.js",
-  "version": "2.29.0",
+  "version": "2.30.0-alpha.0",
   "scripts": {
     "build": "npx tsc --project tsconfig.prod.json",
     "test": "npx jest --colors",
@@ -25,7 +25,7 @@
     "@typescript-eslint/utils": "^7.18.0",
     "lodash": "^4.17.21",
     "ts-morph": "^25.0.1",
-    "ts-morph-extensions": "^2.29.0"
+    "ts-morph-extensions": "^2.30.0-alpha.0"
   },
   "devDependencies": {
     "@babel/core": "7.26.10",
