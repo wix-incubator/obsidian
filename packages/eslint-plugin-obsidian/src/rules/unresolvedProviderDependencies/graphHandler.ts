@@ -17,7 +17,9 @@ export class GraphHandler {
     const graph = this.classAdapter.classToGraph(clazz.node, this.context.currentFilePath)!;
     const providers = graph.resolveProviders();
     for (const provider of graph.getProviders()) {
-      const unresolvedDep = provider.dependencies.find(dep => dep.isNotProvided(providers));
+      const unresolvedDep = provider.dependencies.find(dep => (
+        dep.isNotProvided(providers) && !provider.isDependencyPrefixedWithUnderscore(dep)
+      ));
       if (unresolvedDep) return { provider, unresolvedDep };
     }
   }

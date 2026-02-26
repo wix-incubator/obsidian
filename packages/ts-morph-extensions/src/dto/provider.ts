@@ -46,6 +46,10 @@ export class Provider {
     };
   }
 
+  public isDependencyPrefixedWithUnderscore(dependency: Parameter) {
+    return this.dependencies.some(dep => dep.node.getName() === `_${dependency.name}`);
+  }
+
   public get dependencies() {
     return this.node.getParameters().map(param => new Parameter(param));
   }
