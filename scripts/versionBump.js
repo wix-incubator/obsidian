@@ -4,17 +4,12 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
-// Package paths to update (version + dependencies)
+// Package paths to update
 const PACKAGE_PATHS = [
   'packages/react-obsidian/package.json',
   'packages/eslint-plugin-obsidian/package.json',
   'packages/ts-morph-extensions/package.json',
   'packages/swc-plugin-obsidian/package.json'
-];
-
-// Package paths where only inter-package dependencies are updated (version is not bumped)
-const DEPENDENCY_ONLY_PATHS = [
-  'packages/vscode-language-server-obsidian/server/package.json',
 ];
 
 const CARGO_PATH = 'packages/swc-plugin-obsidian/Cargo.toml';
@@ -297,7 +292,7 @@ function main() {
     // Update dependencies
     console.log('\nUpdating inter-package dependencies:');
     let dependenciesUpdated = false;
-    for (const packagePath of [...PACKAGE_PATHS, ...DEPENDENCY_ONLY_PATHS]) {
+    for (const packagePath of PACKAGE_PATHS) {
       const updated = updateDependencies(packagePath, currentVersion, newVersion);
       if (updated) {
         console.log(`  ✓ ${packagePath}`);
