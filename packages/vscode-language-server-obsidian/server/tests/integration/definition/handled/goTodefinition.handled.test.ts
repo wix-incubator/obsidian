@@ -35,7 +35,7 @@ const testCases: DefinitionTestCase[] = [
   dependencyInNestedSubgraph,
   dependencyInExternalSubgraph,
   dependencyInPrivateSubgraph,
-  // dependencyInAbstractBaseGraph
+  dependencyInAbstractBaseGraph
 ];
 
 describe('GoToDefinition', () => {
