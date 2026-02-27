@@ -203,11 +203,10 @@ function updateDependencies(filePath, oldVersion, newVersion) {
     if (pkg[depType]) {
       for (const packageName of PACKAGE_NAMES) {
         if (pkg[depType][packageName] && pkg[depType][packageName] !== 'workspace:*') {
-          // Replace the version portion, preserving any range prefix (^, ~, etc.)
+          // Update explicit version references
           const currentDep = pkg[depType][packageName];
-          const updatedDep = currentDep.replace(/\d+\.\d+\.\d+(?:-\w+\.\d+)?/, newVersion);
-          if (updatedDep !== currentDep) {
-            pkg[depType][packageName] = updatedDep;
+          if (currentDep.includes(oldVersion)) {
+            pkg[depType][packageName] = currentDep.replace(oldVersion, newVersion);
             updated = true;
           }
         }
