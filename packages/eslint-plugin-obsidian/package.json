@@ -2,7 +2,7 @@
   "name": "eslint-plugin-obsidian",
   "description": "ESLint rules for Obsidian",
   "main": "dist/index.js",
-  "version": "2.30.0-alpha.0",
+  "version": "2.30.0-alpha.1",
   "scripts": {
     "build": "npx tsc --project tsconfig.prod.json",
     "test": "npx jest --colors",
@@ -16,16 +16,16 @@
     "LICENSE"
   ],
   "peerDependencies": {
+    "@typescript-eslint/parser": ">=7.0.0",
+    "@typescript-eslint/utils": ">=7.0.0",
     "eslint": "8.x.x",
     "eslint-plugin-obsidian": "*",
     "react-obsidian": "2.x.x"
   },
   "dependencies": {
-    "@typescript-eslint/parser": "^7.18.0",
-    "@typescript-eslint/utils": "^7.18.0",
     "lodash": "^4.17.21",
     "ts-morph": "^25.0.1",
-    "ts-morph-extensions": "^2.30.0-alpha.0"
+    "ts-morph-extensions": "^2.30.0-alpha.1"
   },
   "devDependencies": {
     "@babel/core": "7.26.10",
@@ -42,9 +42,11 @@
     "@types/eslint": "8.4.9",
     "@types/node": "^22.13.1",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
     "@typescript-eslint/rule-tester": "^7.18.0",
     "@typescript-eslint/types": "^7.18.0",
     "@typescript-eslint/typescript-estree": "^7.18.0",
+    "@typescript-eslint/utils": "^7.18.0",
     "cross-env": "^7.0.3",
     "eslint": "8.x.x",
     "eslint-plugin-import": "^2.31.0",
