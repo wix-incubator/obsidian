@@ -13,7 +13,20 @@ export class Graph {
   public resolveProvider(name: string) {
     return this.hasProvider(name) ?
       this.requireProvider(name) :
-      this.resolveProviderFromSubgraphs(name);
+      this.getBaseGraph()?.resolveProviderOrAbstract(name) ?? this.resolveProviderFromSubgraphs(name);
+  }
+
+  private resolveProviderOrAbstract(name: string): Provider | undefined {
+    return this.findProvider(name)
+      ?? this.findAbstractProvider(name)
+      ?? this.getBaseGraph()?.resolveProviderOrAbstract(name);
+  }
+
+  private findAbstractProvider(name: string): Provider | undefined {
+    const method = this.node.getMethods()
+      .filter(m => m.isAbstract())
+      .find(m => m.getName().replace(/^_/, '') === name);
+    return method ? new Provider(method) : undefined;
   }
 
   public hasProvider(name: string): boolean {
