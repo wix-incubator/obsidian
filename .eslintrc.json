@@ -1,0 +1,10 @@
+{
+  "root": true,
+  "ignorePatterns": [
+    "packages/vscode-language-server-obsidian/**",
+    "packages/ts-morph-extensions/**",
+    "packages/documentation/**",
+    "packages/swc-plugin-obsidian/**",
+    "scripts/**"
+  ]
+}
