@@ -13,7 +13,20 @@ export class Graph {
   public resolveProvider(name: string) {
     return this.hasProvider(name) ?
       this.requireProvider(name) :
-      this.resolveProviderFromSubgraphs(name);
+      this.getBaseGraph()?.resolveProviderOrAbstract(name) ?? this.resolveProviderFromSubgraphs(name);
+  }
+
+  private resolveProviderOrAbstract(name: string): Provider | undefined {
+    return this.findProvider(name)
+      ?? this.findAbstractProvider(name)
+      ?? this.getBaseGraph()?.resolveProviderOrAbstract(name);
+  }
+
+  private findAbstractProvider(name: string): Provider | undefined {
+    const method = this.node.getMethods()
+      .filter(m => m.isAbstract())
+      .find(m => m.getName().replace(/^_/, '') === name);
+    return method ? new Provider(method) : undefined;
   }
 
   public hasProvider(name: string): boolean {
@@ -76,8 +89,21 @@ export class Graph {
   public resolveProviders(dedupeSet = new DedupeSet()): Provider[] {
     const ownProviders = this.getProviders().filter(provider => dedupeSet.dedupe(provider.name));
     const allSubgraphProviders = this.getAllSubgraphs().flatMap(subgraph => subgraph.resolveProviders(dedupeSet));
-    const baseGraphProviders = this.getBaseGraph()?.getProviders().filter(provider => dedupeSet.dedupe(provider.name)) || [];
+    const baseGraphProviders = this.getBaseGraph()?.resolveBaseGraphProviders(dedupeSet) || [];
     return [...ownProviders, ...baseGraphProviders, ...allSubgraphProviders];
+  }
+
+  private resolveBaseGraphProviders(dedupeSet: DedupeSet): Provider[] {
+    const decorated = this.getProviders().filter(p => dedupeSet.dedupe(p.name));
+    const abstracts = this.getAbstractProviders().filter(p => dedupeSet.dedupe(p.name));
+    const fromBase = this.getBaseGraph()?.resolveBaseGraphProviders(dedupeSet) || [];
+    return [...decorated, ...abstracts, ...fromBase];
+  }
+
+  private getAbstractProviders(): Provider[] {
+    return this.node.getMethods()
+      .filter(m => m.isAbstract())
+      .map(m => new Provider(m));
   }
 
   private getBaseGraph(): Graph | undefined {
