@@ -69,6 +69,8 @@ jobs:
         run: npm install -g npq
       - name: Install
         run: npq install
+      - name: Build
+        run: yarn workspace react-obsidian run build
       - name: Run coverage
         run: yarn workspace react-obsidian run test-coverage
       - name: Generate badge SVG
