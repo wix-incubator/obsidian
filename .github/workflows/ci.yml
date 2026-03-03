@@ -43,3 +43,48 @@ jobs:
         run: yarn lint
       - name: Test
         run: yarn test
+
+  coverage:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    needs: build
+
+    permissions:
+      contents: write
+
+    env:
+      NPM_EMAIL: ''
+      NPM_TOKEN: ''
+      NPQ_PKG_MGR: yarn
+
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+      - name: Enable corepack
+        run: corepack enable
+      - name: Use Node.js 22.13.1
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: 22.13.1
+      - name: Install npq
+        run: npm install -g npq
+      - name: Install
+        run: npq install
+      - name: Run coverage
+        run: yarn workspace react-obsidian run test-coverage
+      - name: Generate badge SVG
+        run: node .github/scripts/generate-coverage-badge.js
+      - name: Checkout gh-pages
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          ref: gh-pages
+          path: gh-pages
+      - name: Commit badge to gh-pages
+        run: |
+          mkdir -p gh-pages/badges
+          cp coverage-badge.svg "gh-pages/badges/coverage-jest coverage.svg"
+          cd gh-pages
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add "badges/coverage-jest coverage.svg"
+          git diff --staged --quiet || git commit -m "Update coverage badge"
+          git push
