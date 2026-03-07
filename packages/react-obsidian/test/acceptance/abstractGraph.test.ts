@@ -10,6 +10,15 @@ describe('abstract graph', () => {
     expect(new FooGraph()).toBeInstanceOf(FooGraph);
   });
 
+  it('should allow applying @graph decorator to an abstract class', () => {
+    expect(() => {
+      @Graph()
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars, unused-imports/no-unused-vars
+      // @ts-expect-error - dismiss type error for abstract class
+      abstract class _SomeAbstractGraph extends ObjectGraph {}
+    }).not.toThrow();
+  });
+
   it('should be able to provide a value', () => {
     expect(Obsidian.obtain(FooGraph).atomicDependency()).toBe('foo');
   });

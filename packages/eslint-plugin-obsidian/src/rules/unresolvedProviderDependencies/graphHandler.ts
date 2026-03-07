@@ -7,14 +7,20 @@ export class GraphHandler {
   constructor(private context: Context, private classAdapter: ClassAdapter) { }
 
   public handle(clazz: Clazz) {
-    if (clazz.isGraph) {
-      const unresolvedDependency = this.findUnresolvedDependency(clazz);
-      this.reportError(this.context, clazz, unresolvedDependency);
+    try {
+      if (clazz.isGraph) {
+        const unresolvedDependency = this.findUnresolvedDependency(clazz);
+        this.reportError(this.context, clazz, unresolvedDependency);
+      }
+    } catch (error) {
+      const className = clazz.node.id?.name ?? '<anonymous>';
+      console.error(`[obsidian/unresolved-provider-dependencies] Unexpected error while checking graph "${className}":`, error);
     }
   }
 
   private findUnresolvedDependency(clazz: Clazz) {
-    const graph = this.classAdapter.classToGraph(clazz.node, this.context.currentFilePath)!;
+    const graph = this.classAdapter.classToGraph(clazz.node, this.context.currentFilePath);
+    if (!graph) return;
     const providers = graph.resolveProviders();
     for (const provider of graph.getProviders()) {
       const unresolvedDep = provider.dependencies.find(dep => (
@@ -32,6 +38,7 @@ export class GraphHandler {
     if (providerToUnresolvedDependency) {
       const { provider, unresolvedDep } = providerToUnresolvedDependency;
       const parameter = clazz.requireMethodParameter(provider.name, unresolvedDep.name);
+      if (!parameter) return;
       context.reportError(parameter.node, 'unresolved-provider-dependencies', {dependencyName: unresolvedDep.name});
     }
   }

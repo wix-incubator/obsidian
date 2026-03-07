@@ -6,6 +6,8 @@ export type Constructable<T> = {
 
 export type Constructor = { new(...args: any[]): any };
 
+export type AbstractConstructor = abstract new (...args: any[]) => any;
+
 export type ServiceLocator<Clazz> = {
   [Key in keyof Clazz]: () => Clazz[Key] extends (...args: any[]) => infer R ? R : never;
 };

@@ -76,6 +76,11 @@ ruleTester.run(
         filename: 'validGraphWithUnderscorePrefixedParam.ts',
         skip: skipValid,
       },
+      {
+        code: loadFixture('validGraphWithAbstractBaseProvider.ts'),
+        filename: 'validGraphWithAbstractBaseProvider.ts',
+        skip: skipValid,
+      },
     ],
     invalid: [
       {
