@@ -20,7 +20,7 @@ export function isPackageAvailable(name: string): boolean {
   if (cache.has(name)) return cache.get(name)!;
   try {
     dynamicRequireFn?.(name);
-    cache.set(name, true);
+    cache.set(name, !!dynamicRequireFn);
   } catch {
     cache.set(name, false);
   }
