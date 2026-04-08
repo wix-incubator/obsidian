@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Constructable } from '../../types';
 import { ObjectGraph } from '../../graph/ObjectGraph';
 import graphRegistry from '../../graph/registry/GraphRegistry';
@@ -9,6 +9,7 @@ export default <P>(
   target: any,
   props?: Partial<P>,
   injectionToken?: string,
+  containerRef?: React.RefObject<any>,
 ) => {
 
   const [graph] = useState(() => {
@@ -18,7 +19,11 @@ export default <P>(
   });
   useEffect(() => {
     referenceCounter.retain(graph);
-    return () => referenceCounter.release(graph, (g) => graphRegistry.clear(g));
+    return () => {
+      const isCleanupCalledDueToActivityPause = containerRef?.current;
+      if (isCleanupCalledDueToActivityPause) return;
+      referenceCounter.release(graph, (g) => graphRegistry.clear(g));
+    };
   }, [graph]);
   return graph;
 };

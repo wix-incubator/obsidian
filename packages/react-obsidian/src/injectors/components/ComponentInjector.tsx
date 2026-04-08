@@ -1,8 +1,9 @@
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useRef } from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { ObjectGraph } from '../../graph/ObjectGraph';
 import PropsInjector from './PropsInjector';
 import useGraph from './useGraph';
+import useGraphContainer from './useGraphContainer';
 import { Constructable } from '../../types';
 import { genericMemo, isMemoizedComponent } from '../../utils/React';
 import { GraphContext } from './graphContext';
@@ -28,12 +29,16 @@ export default class ComponentInjector {
 
     return genericMemo((passedProps: P) => {
       const injectionToken = useInjectionToken(keyOrGraph);
-      const graph = useGraph<P>(keyOrGraph, Target, passedProps, injectionToken);
+      const containerRef = useRef(null);
+      const graph = useGraph<P>(keyOrGraph, Target, passedProps, injectionToken, containerRef);
+      const Container = useGraphContainer(graph);
       const proxiedProps = new PropsInjector(graph).inject(passedProps);
 
       return (
         <GraphContext.Provider value={{injectionToken}}>
-          {Target(proxiedProps as unknown as PropsWithChildren<P>)}
+          <Container ref={containerRef}>
+            {Target(proxiedProps as unknown as PropsWithChildren<P>)}
+          </Container>
         </GraphContext.Provider>
       );
     }, compare);
