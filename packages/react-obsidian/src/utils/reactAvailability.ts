@@ -1,19 +1,7 @@
-let reactAvailableCache: boolean | undefined;
+import { isPackageAvailable } from './packageAvailability';
 
 export function isReactAvailable(): boolean {
-  if (reactAvailableCache !== undefined) {
-    return reactAvailableCache;
-  }
-
-  try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports, global-require
-    require('react');
-    reactAvailableCache = true;
-  } catch {
-    reactAvailableCache = false;
-  }
-
-  return reactAvailableCache;
+  return isPackageAvailable('react');
 }
 
 /**
@@ -26,20 +14,5 @@ export function createReactRequiredError<T = any>(featureName: string): T {
       `${featureName} requires React to be installed. `
       + `Please install React: npm install react`,
     );
-  } as T;
-}
-
-/**
- * Creates a class constructor that throws an error when instantiated if React is not available.
- * Used for features like Model that need to be constructable.
- */
-export function createReactRequiredClass<T = any>(className: string): T {
-  return class ReactRequiredStub {
-    constructor() {
-      throw new Error(
-        `${className} requires React to be installed. `
-        + `Please install React: npm install react`,
-      );
-    }
   } as T;
 }

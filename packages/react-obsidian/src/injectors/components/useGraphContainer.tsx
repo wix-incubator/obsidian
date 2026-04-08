@@ -1,10 +1,10 @@
 import React, { forwardRef, PropsWithChildren } from 'react';
 import { ObjectGraph } from '../../graph/ObjectGraph';
 import { isReactNativeAvailable } from '../../utils/reactNativeAvailability';
+import { dynamicRequire } from '../../utils/packageAvailability';
 
 const isRN = isReactNativeAvailable();
-// eslint-disable-next-line @typescript-eslint/no-require-imports, global-require
-const Element: any = isRN ? require('react-native').View : 'div';
+const Element: any = isRN ? dynamicRequire('react-native').View : 'div';
 
 const RetainContainer = forwardRef<any, PropsWithChildren>((props, ref) => (
   <Element ref={ref} style={isRN ? undefined : { display: 'contents' }}>{props.children}</Element>
