@@ -1,4 +1,9 @@
-import { graph, ObjectGraph, provides, lifecycleBound } from '../../src';
+import {
+  graph,
+  ObjectGraph,
+  provides,
+  lifecycleBound,
+} from '../../src';
 
 @lifecycleBound({ inactiveBehavior: 'retain' }) @graph()
 export class RetainedLifecycleBoundGraph extends ObjectGraph<Record<string, any>> {
