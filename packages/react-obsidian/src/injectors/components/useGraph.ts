@@ -21,8 +21,11 @@ export default <P>(
     referenceCounter.retain(graph);
     return () => {
       const isCleanupCalledDueToActivityPause = containerRef?.current;
-      if (isCleanupCalledDueToActivityPause) return;
-      referenceCounter.release(graph, (g) => graphRegistry.clear(g));
+      referenceCounter.release(graph, (g) => {
+        if (!isCleanupCalledDueToActivityPause) {
+          graphRegistry.clear(g);
+        }
+      });
     };
   }, [graph]);
   return graph;
