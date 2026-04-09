@@ -1,5 +1,3 @@
-import { isPackageAvailable } from './packageAvailability';
-
 let cache: boolean | undefined;
 
 export function isReactNativeAvailable(): boolean {
@@ -8,6 +6,12 @@ export function isReactNativeAvailable(): boolean {
     cache = true;
     return cache;
   }
-  cache = isPackageAvailable('react-native');
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports, global-require
+    require('react-native');
+    cache = true;
+  } catch {
+    cache = false;
+  }
   return cache;
 }

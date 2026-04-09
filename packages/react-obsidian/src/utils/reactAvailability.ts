@@ -1,7 +1,15 @@
-import { isPackageAvailable } from './packageAvailability';
+let cache: boolean | undefined;
 
 export function isReactAvailable(): boolean {
-  return isPackageAvailable('react');
+  if (cache !== undefined) return cache;
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports, global-require
+    require('react');
+    cache = true;
+  } catch {
+    cache = false;
+  }
+  return cache;
 }
 
 /**

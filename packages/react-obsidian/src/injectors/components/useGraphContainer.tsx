@@ -10,7 +10,7 @@ const RetainContainer = forwardRef<any, PropsWithChildren>((props, ref) => (
   <Element ref={ref} style={isRN ? undefined : { display: 'contents' }}>{props.children}</Element>
 ));
 
-const PassthroughContainer = forwardRef<any, PropsWithChildren>((props) => (
+const PassthroughContainer = forwardRef<any, PropsWithChildren>((props, _ref) => (
   <>{props.children}</>
 ));
 
