@@ -3,7 +3,7 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
 import { ObjectGraph } from '../../graph/ObjectGraph';
 import PropsInjector from './PropsInjector';
 import useGraph from './useGraph';
-import useGraphContainer from './useGraphContainer';
+import Sentinel from './Sentinel';
 import { Constructable } from '../../types';
 import { genericMemo, isMemoizedComponent } from '../../utils/React';
 import { GraphContext } from './graphContext';
@@ -31,14 +31,12 @@ export default class ComponentInjector {
       const injectionToken = useInjectionToken(keyOrGraph);
       const containerRef = useRef(null);
       const graph = useGraph<P>(keyOrGraph, Target, passedProps, injectionToken, containerRef);
-      const Container = useGraphContainer(graph);
       const proxiedProps = new PropsInjector(graph).inject(passedProps);
 
       return (
         <GraphContext.Provider value={{injectionToken}}>
-          <Container ref={containerRef}>
-            {Target(proxiedProps as unknown as PropsWithChildren<P>)}
-          </Container>
+          {graph.inactiveBehavior === 'retain' && <Sentinel ref={containerRef} />}
+          {Target(proxiedProps as unknown as PropsWithChildren<P>)}
         </GraphContext.Provider>
       );
     }, compare);
