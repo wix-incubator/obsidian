@@ -4,10 +4,15 @@ import { isReactNativeAvailable } from '../../utils/reactNativeAvailability';
 
 const isRN = isReactNativeAvailable();
 // eslint-disable-next-line @typescript-eslint/no-require-imports, global-require
-const Element: any = isRN ? require('react-native').View : 'div';
+const Sentinel: any = isRN ? require('react-native').View : 'div';
+
+const sentinelStyle = { position: 'absolute' as const, width: 0, height: 0, overflow: 'hidden' as const };
 
 const RetainContainer = forwardRef<any, PropsWithChildren>((props, ref) => (
-  <Element ref={ref} style={isRN ? undefined : { display: 'contents' }}>{props.children}</Element>
+  <>
+    <Sentinel ref={ref} collapsable={false} style={sentinelStyle} />
+    {props.children}
+  </>
 ));
 
 const PassthroughContainer = forwardRef<any, PropsWithChildren>((props, _ref) => (
