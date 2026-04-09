@@ -1,6 +1,6 @@
 [package]
 name = "swc_plugin_obsidian"
-version = "2.31.0-alpha.4"
+version = "2.31.0-alpha.5"
 edition = "2021"
 
 [lib]
