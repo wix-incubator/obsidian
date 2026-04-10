@@ -18,9 +18,10 @@ export default <P>(
     return resolvedGraph;
   });
   useEffect(() => {
+    const sentinel = containerRef?.current;
     referenceCounter.retain(graph);
     return () => {
-      const isCleanupCalledDueToActivityPause = containerRef?.current;
+      const isCleanupCalledDueToActivityPause = graph.inactiveBehavior === 'retain' && sentinel?.isConnected;
       referenceCounter.release(graph, (g) => {
         if (!isCleanupCalledDueToActivityPause) {
           graphRegistry.clear(g);
