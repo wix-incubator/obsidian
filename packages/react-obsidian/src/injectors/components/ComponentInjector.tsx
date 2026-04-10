@@ -15,7 +15,7 @@ export default class ComponentInjector {
     keyOrGraph: string | Constructable<ObjectGraph>,
   ): React.FunctionComponent<Partial<P>> {
     const Wrapped = this.wrapComponent(Target, keyOrGraph);
-    hoistNonReactStatics(Wrapped, Target);
+    hoistNonReactStatics(Wrapped as any, Target as any);
     return Wrapped;
   }
 
@@ -36,7 +36,7 @@ export default class ComponentInjector {
       return (
         <GraphContext.Provider value={{injectionToken}}>
           {graph.inactiveBehavior === 'retain' && <Sentinel ref={containerRef} />}
-          {Target(proxiedProps as unknown as PropsWithChildren<P>)}
+          {Target(proxiedProps as unknown as PropsWithChildren<P>) as React.ReactNode}
         </GraphContext.Provider>
       );
     }, compare);
