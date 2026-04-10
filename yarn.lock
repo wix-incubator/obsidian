@@ -9327,14 +9327,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dequal@npm:^2.0.0":
-  version: 2.0.3
-  resolution: "dequal@npm:2.0.3"
-  checksum: 10/6ff05a7561f33603df87c45e389c9ac0a95e3c056be3da1a0c4702149e3a7f6fe5ffbb294478687ba51a9e95f3a60e8b6b9005993acd79c292c7d15f71964b6b
-  languageName: node
-  linkType: hard
-
-"dequal@npm:^2.0.3":
+"dequal@npm:^2.0.0, dequal@npm:^2.0.3":
   version: 2.0.3
   resolution: "dequal@npm:2.0.3"
   checksum: 10/6ff05a7561f33603df87c45e389c9ac0a95e3c056be3da1a0c4702149e3a7f6fe5ffbb294478687ba51a9e95f3a60e8b6b9005993acd79c292c7d15f71964b6b
@@ -10148,7 +10141,7 @@ __metadata:
     lodash: "npm:^4.17.21"
     react-obsidian: "workspace:*"
     ts-morph: "npm:^25.0.1"
-    ts-morph-extensions: "npm:^2.31.0-alpha.5"
+    ts-morph-extensions: "npm:^2.31.0-alpha.6"
     typescript: "npm:^5.8.0"
   peerDependencies:
     "@typescript-eslint/parser": ">=7.0.0"
@@ -18918,7 +18911,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-morph-extensions@npm:^2.31.0-alpha.5, ts-morph-extensions@workspace:packages/ts-morph-extensions":
+"ts-morph-extensions@npm:^2.31.0-alpha.6, ts-morph-extensions@workspace:packages/ts-morph-extensions":
   version: 0.0.0-use.local
   resolution: "ts-morph-extensions@workspace:packages/ts-morph-extensions"
   dependencies:
