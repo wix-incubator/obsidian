@@ -13,7 +13,11 @@ const config = {
   baseUrl: '/obsidian/',
   trailingSlash: true,
   onBrokenLinks: 'throw',
-  onBrokenMarkdownLinks: 'warn',
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+  },
   favicon: 'img/favicon.ico',
 
   // GitHub pages deployment config.
@@ -46,10 +50,7 @@ const config = {
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl: 'https://github.com/wix-incubator/obsidian/tree/master/packages/documentation/',
         },
-        blog: {
-          showReadingTime: true,
-          editUrl: 'https://github.com/wix-incubator/obsidian/tree/master/packages/documentation/',
-        },
+        blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
