@@ -1,4 +1,10 @@
-import { act, renderHook } from '@testing-library/react';
+import React, { Activity } from 'react';
+import {
+  act,
+  render,
+  renderHook,
+  screen,
+} from '@testing-library/react';
 import _ from 'lodash';
 import { Observable } from './Observable';
 import { useObserver } from './useObserver';
@@ -58,5 +64,38 @@ describe('useObserver', () => {
 
     rerender();
     expect(result.current.count).toBe(2);
+  });
+
+  it('should refresh the current value after Activity resume', () => {
+    const Component = () => {
+      const [count] = useObserver(observable);
+      return <span data-testid="count">{count}</span>;
+    };
+
+    const { rerender } = render(
+      <Activity mode="visible">
+        <Component />
+      </Activity>,
+    );
+
+    expect(screen.getByTestId('count')).toHaveTextContent('0');
+
+    rerender(
+      <Activity mode="hidden">
+        <Component />
+      </Activity>,
+    );
+
+    act(() => {
+      observable.value = 1;
+    });
+
+    rerender(
+      <Activity mode="visible">
+        <Component />
+      </Activity>,
+    );
+
+    expect(screen.getByTestId('count')).toHaveTextContent('1');
   });
 });

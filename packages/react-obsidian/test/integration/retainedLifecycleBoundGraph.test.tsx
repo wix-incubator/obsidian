@@ -1,17 +1,48 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { injectComponent, Obsidian } from '../../src';
+import React, { Activity } from 'react';
+import { act, render, screen } from '@testing-library/react';
+import {
+  DependenciesOf,
+  Model,
+  ObjectGraph,
+  Observable,
+  graph,
+  injectComponent,
+  lifecycleBound,
+  Obsidian,
+  provides,
+} from '../../src';
 import { RetainedLifecycleBoundGraph } from '../fixtures/RetainedLifecycleBoundGraph';
 
-// Activity is a React 19 export — cast needed because IDE resolves @types/react from monorepo root (v18)
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Activity = (React as any).Activity as React.FC<{ mode: 'visible' | 'hidden'; children: React.ReactNode }>;
+class ActivityThemeModel extends Model {
+  public readonly theme = new Observable('light');
+}
+
+let activityThemeModel = new ActivityThemeModel();
+
+@lifecycleBound({ inactiveBehavior: 'retain' }) @graph()
+class ActivityThemeGraph extends ObjectGraph {
+  @provides()
+  activityThemeModel(): ActivityThemeModel {
+    return activityThemeModel;
+  }
+}
+
+type InjectedActivityTheme = DependenciesOf<ActivityThemeGraph, 'activityThemeModel'>;
+
+const ActivityThemeComponent = injectComponent(
+  ({ activityThemeModel: themeModel }: InjectedActivityTheme) => {
+    const { theme } = themeModel.use();
+    return <div data-testid="theme">{theme}</div>;
+  },
+  ActivityThemeGraph,
+);
 
 describe('lifecycle-bound graph with inactiveBehavior: retain', () => {
   const PausedComponent = injectComponent(() => <div data-testid="component" />, RetainedLifecycleBoundGraph);
 
   beforeEach(() => {
     RetainedLifecycleBoundGraph.timesCreated = 0;
+    activityThemeModel = new ActivityThemeModel();
   });
 
   it('retains the graph in the registry when effects are cleaned up without unmounting', () => {
@@ -63,5 +94,33 @@ describe('lifecycle-bound graph with inactiveBehavior: retain', () => {
     render(<PausedComponent />);
 
     expect(RetainedLifecycleBoundGraph.timesCreated).toBe(1);
+  });
+
+  it('refreshes model.use values that changed while the Activity was hidden', () => {
+    const { rerender } = render(
+      <Activity mode="visible">
+        <ActivityThemeComponent />
+      </Activity>,
+    );
+
+    expect(screen.getByTestId('theme')).toHaveTextContent('light');
+
+    rerender(
+      <Activity mode="hidden">
+        <ActivityThemeComponent />
+      </Activity>,
+    );
+
+    act(() => {
+      activityThemeModel.theme.value = 'dark';
+    });
+
+    rerender(
+      <Activity mode="visible">
+        <ActivityThemeComponent />
+      </Activity>,
+    );
+
+    expect(screen.getByTestId('theme')).toHaveTextContent('dark');
   });
 });

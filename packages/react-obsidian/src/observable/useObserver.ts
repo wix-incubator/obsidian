@@ -4,6 +4,7 @@ import {
   useEffect,
   useMemo,
   useState,
+  type Dispatch,
 } from 'react';
 import { Observable } from './Observable';
 
@@ -20,10 +21,18 @@ export function useObserver<T>(observableOrGenerator: ObservableOrGenerator<T>):
   }, [observable]);
 
   useEffect(() => {
-    return observable.subscribe(setValue);
+    const unsubscribe = observable.subscribe(setValue);
+    reconcileStateWithObservableAfterResume<T>(setValue, observable);
+    return unsubscribe;
   }, [observable]);
 
   return [value, onNext];
+}
+
+function reconcileStateWithObservableAfterResume<T>(setValue: Dispatch<any>, observable: Observable<any>) {
+  setValue((currentValue: T) => (
+    Object.is(currentValue, observable.value) ? currentValue : observable.value
+  ));
 }
 
 function getOrGenerateObservable(observableOrGenerator: ObservableOrGenerator<any>) {

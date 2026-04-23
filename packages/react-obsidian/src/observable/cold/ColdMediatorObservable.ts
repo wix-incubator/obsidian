@@ -17,11 +17,15 @@ export class ColdMediatorObservable<T extends object> extends MediatorObservable
   }
 
   setValue(key: keyof T, value: any) {
-    if (this.handler.hasAccessedProperty(key)) {
+    if (this.shouldUpdateTrackedProperty(key, value)) {
       this.handler.suspendTracking();
       super.value = { ...this.value, [key]: value };
       this.handler.resumeTracking();
     }
+  }
+
+  private shouldUpdateTrackedProperty(key: keyof T, value: any) {
+    return this.handler.hasAccessedProperty(key) && !Object.is(this.value[key], value);
   }
 
   override addSource<S>(source: Observable<S>, onNext: OnNext<S>) {
