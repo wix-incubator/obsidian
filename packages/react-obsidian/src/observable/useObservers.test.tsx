@@ -1,4 +1,10 @@
-import { act, renderHook } from '@testing-library/react';
+import React, { Activity } from 'react';
+import {
+  act,
+  render,
+  renderHook,
+  screen,
+} from '@testing-library/react';
 import _ from 'lodash';
 import { Observable } from './Observable';
 import { useObservers } from './useObservers';
@@ -40,5 +46,44 @@ describe('useObservers', () => {
     [fooObservable, barObservable, bazObservable].forEach((observable) => {
       expect(_.get(observable, 'subscribers.size')).toBe(0);
     });
+  });
+
+  it('should refresh the latest values after Activity resume', () => {
+    const Component = () => {
+      const { foo, bar, baz } = useObservers({
+        foo: fooObservable,
+        bar: barObservable,
+        baz: bazObservable,
+      });
+
+      return <span data-testid="values">{`${foo}-${bar}-${String(baz)}`}</span>;
+    };
+
+    const { rerender } = render(
+      <Activity mode="visible">
+        <Component />
+      </Activity>,
+    );
+
+    expect(screen.getByTestId('values')).toHaveTextContent('0-bar-true');
+
+    rerender(
+      <Activity mode="hidden">
+        <Component />
+      </Activity>,
+    );
+
+    act(() => {
+      fooObservable.value = 1;
+      barObservable.value = 'baz';
+    });
+
+    rerender(
+      <Activity mode="visible">
+        <Component />
+      </Activity>,
+    );
+
+    expect(screen.getByTestId('values')).toHaveTextContent('1-baz-true');
   });
 });

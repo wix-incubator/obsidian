@@ -1,8 +1,9 @@
-import React, { PropsWithChildren } from 'react';
+import React, { PropsWithChildren, useRef } from 'react';
 import hoistNonReactStatics from 'hoist-non-react-statics';
 import { ObjectGraph } from '../../graph/ObjectGraph';
 import PropsInjector from './PropsInjector';
 import useGraph from './useGraph';
+import Sentinel from './Sentinel';
 import { Constructable } from '../../types';
 import { genericMemo, isMemoizedComponent } from '../../utils/React';
 import { GraphContext } from './graphContext';
@@ -14,7 +15,7 @@ export default class ComponentInjector {
     keyOrGraph: string | Constructable<ObjectGraph>,
   ): React.FunctionComponent<Partial<P>> {
     const Wrapped = this.wrapComponent(Target, keyOrGraph);
-    hoistNonReactStatics(Wrapped, Target);
+    hoistNonReactStatics(Wrapped as any, Target as any);
     return Wrapped;
   }
 
@@ -28,12 +29,14 @@ export default class ComponentInjector {
 
     return genericMemo((passedProps: P) => {
       const injectionToken = useInjectionToken(keyOrGraph);
-      const graph = useGraph<P>(keyOrGraph, Target, passedProps, injectionToken);
+      const containerRef = useRef(null);
+      const graph = useGraph<P>(keyOrGraph, Target, passedProps, injectionToken, containerRef);
       const proxiedProps = new PropsInjector(graph).inject(passedProps);
 
       return (
         <GraphContext.Provider value={{injectionToken}}>
-          {Target(proxiedProps as unknown as PropsWithChildren<P>)}
+          {graph.inactiveBehavior === 'retain' && <Sentinel ref={containerRef} />}
+          {Target(proxiedProps as unknown as PropsWithChildren<P>) as React.ReactNode}
         </GraphContext.Provider>
       );
     }, compare);

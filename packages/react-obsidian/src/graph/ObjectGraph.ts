@@ -10,6 +10,10 @@ import { getConstructorOrParentConstructor } from '../utils/object';
 export abstract class ObjectGraph<T = unknown> implements Graph {
   private propertyRetriever = new PropertyRetriever(this);
 
+  get inactiveBehavior(): 'unmount' | 'retain' {
+    return Reflect.getMetadata('inactiveBehavior', this.constructor) ?? 'unmount';
+  }
+
   get name(): string {
     const target = getConstructorOrParentConstructor(this.constructor, ObjectGraph.name);
     if (Reflect.hasMetadata('memoizedName', target)) {
