@@ -23,7 +23,7 @@
     "react-obsidian": "2.x.x"
   },
   "dependencies": {
-    "lodash": "^4.17.21",
+    "lodash": "^4.18.1",
     "ts-morph": "^25.0.1",
     "ts-morph-extensions": "^2.31.0"
   },

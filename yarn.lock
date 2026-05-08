@@ -10753,7 +10753,7 @@ __metadata:
     external-lib-b: "file:./tests/fixtures/external-lib-b"
     jest: "npm:30.2.0"
     jest-extended: "npm:^4.0.2"
-    lodash: "npm:^4.17.21"
+    lodash: "npm:^4.18.1"
     react-obsidian: "workspace:*"
     ts-morph: "npm:^25.0.1"
     ts-morph-extensions: "npm:^2.31.0"
@@ -14192,6 +14192,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lodash@npm:^4.18.1":
+  version: 4.18.1
+  resolution: "lodash@npm:4.18.1"
+  checksum: 10/306fea53dfd39dad1f03d45ba654a2405aebd35797b673077f401edb7df2543623dc44b9effbb98f69b32152295fff725a4cec99c684098947430600c6af0c3f
+  languageName: node
+  linkType: hard
+
 "longest-streak@npm:^3.0.0":
   version: 3.1.0
   resolution: "longest-streak@npm:3.1.0"
@@ -17528,7 +17535,7 @@ __metadata:
     jest-extended: "npm:^4.0.2"
     jest-mock-extended: "npm:^3.0.7"
     jest-when: "npm:^3.7.0"
-    lodash: "npm:^4.17.21"
+    lodash: "npm:^4.18.1"
     react: "npm:19.2.4"
     react-dom: "npm:19.2.4"
     setimmediate: "npm:^1.0.5"
