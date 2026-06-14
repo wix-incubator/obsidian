@@ -14,8 +14,8 @@ export class GraphRegistry {
   private readonly injectionTokenToInstance = new Map<string, Graph>();
   private readonly instanceToInjectionToken = new Map<Graph, string>();
   private readonly nameToInstance = new Map<string, Graph>();
-  private readonly graphToSubgraphs = new Map<Constructable<Graph>, Set<Constructable<Graph>>>();
-  private readonly graphToPrivateSubgraphs = new Map<Constructable<Graph>, Set<Constructable<Graph>>>();
+  private readonly graphToSubgraphs = new WeakMap<Constructable<Graph>, Set<Constructable<Graph>>>();
+  private readonly graphToPrivateSubgraphs = new WeakMap<Constructable<Graph>, Set<Constructable<Graph>>>();
   private readonly graphMiddlewares = new GraphMiddlewareChain();
   private readonly keyToGenerator = new Map<string,() => Constructable<Graph>>();
   private readonly keyToGraph = new Map<string, Constructable<Graph>>();
@@ -277,6 +277,7 @@ export class GraphRegistry {
     this.instanceToInjectionToken.clear();
     this.keyToGenerator.clear();
     this.keyToGraph.clear();
+    this.onClearListeners.clear();
   }
 }
 
