@@ -76,6 +76,20 @@ describe('GraphRegistry', () => {
     expect(() => uut.resolve('main')).toThrow();
   });
 
+  it('keeps graph registration metadata weakly', () => {
+    expect((uut as any).graphToSubgraphs).toBeInstanceOf(WeakMap);
+    expect((uut as any).graphToPrivateSubgraphs).toBeInstanceOf(WeakMap);
+  });
+
+  it('clears graph cleanup listeners on reset', () => {
+    const graph = uut.resolve(MainGraph);
+    (uut as any).registerOnClearListener(graph, jest.fn());
+
+    uut.clearAll();
+
+    expect((uut as any).onClearListeners.size).toBe(0);
+  });
+
   it('clears graph generator for a specific graph', () => {
     uut.registerGraphGenerator('main', () => MainGraph);
     const graph = uut.resolve('main');
