@@ -1,6 +1,7 @@
 import { mock } from 'jest-mock-extended';
 import SingletonGraph from '../../../test/fixtures/SingletonGraph';
 import MainGraph from '../../../test/fixtures/MainGraph';
+import Subgraph from '../../../test/fixtures/Subgraph';
 import { GraphRegistry } from './GraphRegistry';
 import { LifecycleBoundGraph } from '../../../test/fixtures/LifecycleBoundGraph';
 import { ScopedLifecycleBoundGraph } from '../../../test/fixtures/ScopedLifecycleBoundGraph';
@@ -32,6 +33,14 @@ describe('GraphRegistry', () => {
     uut.clear(first);
     const second = uut.resolve(LifecycleBoundGraph);
     expect(second).not.toBe(first);
+  });
+
+  it('resolves subgraphs of a graph that was cleared while its components are still mounted', () => {
+    uut.register(MainGraph, [Subgraph]);
+    const graph = uut.resolve(MainGraph);
+    uut.clear(graph);
+    expect(uut.getSubgraphs(graph)).toHaveLength(1);
+    expect(uut.getSubgraphs(graph)[0]).toBeInstanceOf(Subgraph);
   });
 
   it('recreates @Singleton graphs after reset', () => {
