@@ -47,13 +47,17 @@ export class GraphRegistry {
   }
 
   getSubgraphs(graph: Graph): Graph[] {
-    const Graph = this.instanceToConstructor.get(graph)!;
+    // Fall back to the instance's own constructor so that a graph that was
+    // cleared from the registry while components still hold it (e.g. an
+    // Activity pause misdetected as an unmount) can still resolve
+    // dependencies provided by its subgraphs.
+    const Graph = this.instanceToConstructor.get(graph) ?? (graph.constructor as any);
     const subgraphs = this.graphToSubgraphs.get(Graph) ?? new Set();
     return Array.from(subgraphs).map((G) => this.resolve(G));
   }
 
   getPrivateSubgraphs(graph: Graph): Graph[] {
-    const Graph = this.instanceToConstructor.get(graph)!;
+    const Graph = this.instanceToConstructor.get(graph) ?? (graph.constructor as any);
     const privateSubgraphs = this.graphToPrivateSubgraphs.get(Graph) ?? new Set();
     return Array.from(privateSubgraphs).map((G) => this.resolve(G));
   }
